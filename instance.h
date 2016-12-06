@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct _object{
 
     int value;
@@ -10,6 +13,6 @@ typedef struct _instance{
     int objectNumber;
     int dimensionNumber;
 
-    Object * objects;
+    Object ** objects;
 
 } Instance;
