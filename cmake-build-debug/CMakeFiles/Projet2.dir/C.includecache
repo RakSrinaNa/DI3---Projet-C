@@ -7,4 +7,22 @@
 #IncludeRegexTransform: 
 
 /Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/main.c
+stdio.h
+-
+stdlib.h
+-
+parser.h
+/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/parser.h
+
+/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/parser.c
+stdio.h
+-
+stdlib.h
+-
+
+/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/parser.h
+stdio.h
+-
+stdlib.h
+-
 

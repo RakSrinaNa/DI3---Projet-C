@@ -85,6 +85,12 @@
 		<Unit filename="/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/main.c">
 			<Option target="Projet2"/>
 		</Unit>
+		<Unit filename="/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/parser.c">
+			<Option target="Projet2"/>
+		</Unit>
+		<Unit filename="/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/parser.h">
+			<Option target="Projet2"/>
+		</Unit>
 		<Unit filename="/Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
