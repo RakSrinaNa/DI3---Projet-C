@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "parser.h"
 
 void readFile (char * fileName){
 
@@ -10,8 +11,8 @@ void readFile (char * fileName){
 
     char * line = readLine(file); // Read first line
 
-    instance.objectNumber = atoi(stringToTab(line)[0]); // Set number of objects
-    instance.dimensionNumber = atoi(stringToTab(line)[1]); // Set number of dimensions
+    instance.objectNumber = atoi((const char *) stringToTab(line)[0]); // Set number of objects
+    instance.dimensionNumber = atoi((const char *) stringToTab(line)[1]); // Set number of dimensions
 
     readLine(file); // Read empty line
 
@@ -26,8 +27,7 @@ int * stringToTab(char * string){
     int number = 0;
 
     while (*string != '\0'){
-
-
+		string++;
     }
 
 }
