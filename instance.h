@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct _object{
+typedef struct {
 
     int value;
     int * weights;
 
 } Object;
 
-typedef struct _instance{
+typedef struct {
 
     int objectNumber;
     int dimensionNumber;
