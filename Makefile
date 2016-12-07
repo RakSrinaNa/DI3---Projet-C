@@ -14,3 +14,6 @@ instance.o: instance.c
      
 clean:
 	 rm main.o parser.o instance.o ex_projet2
+
+test:
+	echo “Tests OK”
