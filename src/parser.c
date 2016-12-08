@@ -72,7 +72,8 @@ Instance * readInstance(FILE * file, Instance * instance)
 char * readLine(FILE * file)
 {
 	char * lineRead = NULL;
-	ssize_t sizeRead = 0;
+	size_t sizeLine = 0;
+    ssize_t sizeRead = 0;
 	do
 	{
 		if(lineRead != NULL) // If an empty line was read before, free it
@@ -80,7 +81,7 @@ char * readLine(FILE * file)
 			free(lineRead);
 			lineRead = NULL;
 		}
-		if(getline(&lineRead, &sizeRead, file) == -1) // Read a line, and return NULL if end of file
+		if((sizeRead = getline(&lineRead, &sizeLine, file)) == -1) // Read a line, and return NULL if end of file
 			return NULL;
 	} while(*lineRead == '\n'); // While we have a non empty line
 	char * newLineRead;
