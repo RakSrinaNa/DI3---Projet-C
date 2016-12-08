@@ -1,12 +1,7 @@
 #ifndef INSTANCE
 #define INSTANCE
 
-typedef struct _object{
-
-    int value;
-    int * weights;
-
-} Object;
+#include "object.h"
 
 typedef struct _instance{
 

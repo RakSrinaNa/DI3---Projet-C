@@ -3,6 +3,7 @@
 
 #include "parser.h"
 #include "instance.h"
+#include "object.h"
 #include "stringUtils.h"
 
 void readFile (char * fileName){
@@ -36,7 +37,7 @@ void readFile (char * fileName){
 
             Object * object = (Object *) malloc(sizeof(Object)); // Create an object
 
-            objectInitialize(instance, object);
+            objectInitialize(object, instance->dimensionNumber);
             object->value = lineNumber[j]; // Set the value of the object
             instanceSetObject(instance, object, j); // Put the object
 
@@ -62,6 +63,8 @@ void readFile (char * fileName){
         free(lineNumber);
         line = readLine(file);
         instance->maxWeights = getValuesFromLine(line, instance->objectNumber); // Turn it into array of integer
+
+        free(line);
 
         printf("Instance %d\n", i);
         free(instance);
