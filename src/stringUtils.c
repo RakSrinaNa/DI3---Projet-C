@@ -21,7 +21,7 @@ int * getValuesFromLine(char * line, int valuesNumber)
 
     do
     {
-        if(line[index] == '\t' || line[index] == ' ' || line[index] == '\0') // If we don't read a number
+        if(line[index] == '\t' || line[index] == ' ' || line[index] == '\0' || line[index] == '\n') // If we don't read a number
         {
             if(reading) // If we were reading, add the number to the array
             {
@@ -53,6 +53,7 @@ int * getValuesFromLine(char * line, int valuesNumber)
         }
         index++;
     } while(line[index - 1] != '\0'); // Read while we didn't reached the end of the string
-
+    for(int i = valuesLength; i < valuesNumber; i++) // Set missing values to 0
+        values[i] = 0;
     return values;
 }

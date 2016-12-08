@@ -12,6 +12,8 @@ Object * objectCreate()
         perror("ERROR MALLOC objectCreate object.c");
         exit(EXIT_FAILURE);
     }
+    object->value = 0;
+    object->weights = NULL;
     return object;
 }
 
@@ -22,6 +24,8 @@ void objectInitialize(Object * object, int dimensionsNumber)
         perror("ERROR MALLOC objectInitialize object.c");
         exit(EXIT_FAILURE);
     }
+    for(int i = 0; i < dimensionsNumber; i++)
+        object->weights[i] = 0;
 }
 
 void objectSetWeight(Object * object, int weightPos, int weight)

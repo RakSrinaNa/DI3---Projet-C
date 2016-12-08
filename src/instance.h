@@ -10,8 +10,8 @@
         int * maxWeights;
     } Instance;
 
+    Instance * instanceCreate(void);
     void instanceInitialize(Instance * instance);
-    void instanceSetObject(Instance * instance, Object * object, int index);
     Object * instanceGetObjectAt(Instance * instance, int index);
     void instanceDestroy(Instance * instance);
 
