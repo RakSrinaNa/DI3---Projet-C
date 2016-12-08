@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "stringUtilsUnit.h"
-#include "stringutils.h"
+#include "stringUtils.h"
 
 void stringUtilsTests(void)
 {
