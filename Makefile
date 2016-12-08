@@ -17,5 +17,5 @@ clean:
 clall:
 	-rm $(EXEC) && cd $(SRC_DIR) && $(MAKE) $@
 
-test:
-	echo “Tests OK”
+test: all
+	./$(EXEC) test

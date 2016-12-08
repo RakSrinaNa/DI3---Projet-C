@@ -1,6 +1,6 @@
 language: c
 compiler: gcc
-script: make
+script: make test
 notifications:
   email: true
   on_failure: always
