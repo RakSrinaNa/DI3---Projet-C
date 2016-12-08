@@ -1,2 +1,6 @@
 .idea
+bin
+make-build-debug
+obj
+
 *.orig
