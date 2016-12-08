@@ -1,4 +1,0 @@
-"/Users/mrcraftcod/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/163.9166.5/CLion 2016.3.1 EAP.app/Contents/bin/cmake/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/mrcraftcod/Dropbox/Documents/Univ/Polytech/DI3/S5/C/Projet2/cmake-build-debug
