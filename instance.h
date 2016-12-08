@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef INSTANCE
+#define INSTANCE
 
 typedef struct _object{
 
@@ -16,3 +16,5 @@ typedef struct _instance{
     Object ** objects;
 
 } Instance;
+
+#endif

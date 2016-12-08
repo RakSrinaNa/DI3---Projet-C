@@ -1,34 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "parser.h"
+#include "instance.h"
+#include "stringUtils.h"
 
 void readFile (char * fileName){
 
     FILE * file = fopen(fileName, "r");
-    Instance instance;
 
     int instanceNumber = atoi(readLine(file)); // Read number of instances
 
-    char * line = readLine(file); // Read first line
+    for (int i = 0; i < instanceNumber; i++){
 
-    instance.objectNumber = atoi((const char *) stringToTab(line)[0]); // Set number of objects
-    instance.dimensionNumber = atoi((const char *) stringToTab(line)[1]); // Set number of dimensions
+        Instance * instance;
 
-    readLine(file); // Read empty line
+        char * line = readLine(file); // Read first line
+        char * lineNumber = getValuesFromLine(line, 2); // Turn it into array of integer
 
+        instance->objectNumber = lineNumber[0]; // Set number of objects
+        instance->dimensionNumber = lineNumber[1]; // Set number of dimensions
+
+        instanceInitialize(instance); // Create the right number of objects
+
+        readLine(file); // Read empty line
+
+
+        free(line);
+        free(lineNumber);
+        line = readLine(file); // Read line of values
+        lineNumber = getValuesFromLine(line, instance->objectNumber); // Turn it into array of integer
+
+        for (int j = 0; j < instance.objectNumber; j++){
+
+            Object * object = (Object *) malloc(sizeof(Object)); // Create an object
+
+            objectInitialize(instance, object);
+            object->value = lineNumber[j]; // Set the value of the object
+            instanceSetObject(instance, object, j); // Put the object
+
+        }
+
+    }
 
     fclose(file);
-
-}
-
-int * stringToTab(char * string){
-
-    int * tab = malloc(sizeof(int));
-    int number = 0;
-
-    while (*string != '\0'){
-		string++;
-    }
 
 }
 
