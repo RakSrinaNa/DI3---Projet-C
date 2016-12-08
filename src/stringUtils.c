@@ -7,8 +7,8 @@ int * getValuesFromLine(char * line, int valuesNumber)
     int * values;
 	if((values  = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
 	{
-		printf("MALLOC ERROR getValuesFromLine stringUtils.c");
-		exit(1);
+		perror("MALLOC ERROR getValuesFromLine stringUtils.c");
+		exit(EXIT_FAILURE);
 	}
 
     int valuesLength = 0; // Number of values actually put in the array

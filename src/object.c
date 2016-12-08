@@ -9,8 +9,8 @@ Object * objectCreate()
     Object * object; // Create an object
     if((object = (Object *) malloc(sizeof(Object))) == NULL)
     {
-        printf("ERROR MALLOC objectCreate object.c");
-        exit(1);
+        perror("ERROR MALLOC objectCreate object.c");
+        exit(EXIT_FAILURE);
     }
     return object;
 }
@@ -19,8 +19,8 @@ void objectInitialize(Object * object, int dimensionsNumber)
 {
     if((object->weights = malloc(sizeof(int) * dimensionsNumber)) == NULL)
     {
-        printf("ERROR MALLOC objectInitialize object.c");
-        exit(1);
+        perror("ERROR MALLOC objectInitialize object.c");
+        exit(EXIT_FAILURE);
     }
 }
 

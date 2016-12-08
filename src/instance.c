@@ -8,8 +8,8 @@ void instanceInitialize(Instance * instance)
 {
     if((instance->objects = (Object **) malloc(sizeof(Object *) * instance->objectsNumber)) == NULL)
     {
-        printf("ERROR MALLOC instanceInitialize instance.c");
-        exit(1);
+        perror("ERROR MALLOC instanceInitialize instance.c");
+        exit(EXIT_FAILURE);
     }
     for(int i = 0; i < instance->objectsNumber; i++)
     {

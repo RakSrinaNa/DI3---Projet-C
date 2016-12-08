@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,16 +13,16 @@ Instance * readFile (char * fileName)
     FILE * file;
     if((file = fopen(fileName, "r")) == NULL)
     {
-        printf("ERROR FOPEN readFile parser.c");
-        exit(1);
+        perror("ERROR FOPEN readFile parser.c");
+        exit(EXIT_FAILURE);
     }
 
     int instancesNumber = atoi(readLine(file)); // Read number of instances
     Instance * instances;
     if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL)
     {
-        printf("ERROR MALLOC readFile parser.c");
-        exit(1);
+        perror("ERROR MALLOC readFile parser.c");
+        exit(EXIT_FAILURE);
     }
 
     for (int instanceIndex = 0; instanceIndex < instancesNumber; instanceIndex++)
@@ -70,7 +72,7 @@ Instance * readInstance(FILE * file, Instance * instance)
 char * readLine(FILE * file)
 {
 	char * lineRead = NULL;
-	size_t sizeRead = 0;
+	ssize_t sizeRead = 0;
 	do
 	{
 		if(lineRead != NULL) // If an empty line was read before, free it
@@ -84,8 +86,8 @@ char * readLine(FILE * file)
 	char * newLineRead;
 	if((newLineRead = (char *) realloc(lineRead, sizeRead - 1)) == NULL) // Reduce the malloc size by one
 	{
-        printf("ERROR REALLOC readLine parser.c");
-		exit(1);
+        perror("ERROR REALLOC readLine parser.c");
+		exit(EXIT_FAILURE);
 	}
 	newLineRead[sizeRead - 2] = '\0'; // Change the \n into a \0
 	return newLineRead;
