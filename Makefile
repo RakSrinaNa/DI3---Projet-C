@@ -1,5 +1,5 @@
 export CC=gcc
-export CFLAGS=-std=c99 -Wall -Werror -W -pedantic -O2
+export CFLAGS=-std=c99 -Wall -Werror -W -pedantic
 export LDFLAGS=
 SRC_DIR=src
 EXEC=ex_projet2
