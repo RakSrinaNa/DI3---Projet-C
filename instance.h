@@ -14,4 +14,8 @@ typedef struct _instance{
 
 } Instance;
 
+void instanceInitialize(Instance * instance);
+void instanceSetObject(Instance * instance, Object * object, int i);
+void instanceFinalize(Instance * instance);
+
 #endif
