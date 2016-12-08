@@ -2,11 +2,12 @@
 #include <stdlib.h>
 
 #include "instance.h"
+#include "object.h"
 
 
 void instanceInitialize(Instance * instance){
 
-    instance->objects = malloc(sizeof(Object *) * instance->objectNumber);
+    instance->objects = (Object *) malloc(sizeof(Object *) * instance->objectNumber);
 
 }
 
@@ -16,9 +17,15 @@ void instanceSetObject(Instance * instance, Object * object, int i){
 
 }
 
-void objectInitialize(Instance * instance, Object * object){
+void instanceFinalize(Instance * instance){
 
-    object->weights = malloc(sizeof(int) * instance->dimensionNumber);
+    for(int i = 0; i < instance->objectNumber; i++)
+        objectFinalize(instance->objects[i]);
+
+    free(instance->maxWeights);
+    free(instance->objects);
+    free(instance);
 
 }
+
 

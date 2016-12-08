@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-int * getValuesFomLine(char * line, int valuesNumber)
+int * getValuesFromLine(char * line, int valuesNumber)
 {
     int * values;
 	if((values  = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers

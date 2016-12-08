@@ -1,18 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef INSTANCE
+#define INSTANCE
 
-typedef struct {
+#include "object.h"
 
-    int value;
-    int * weights;
-
-} Object;
-
-typedef struct {
+typedef struct _instance{
 
     int objectNumber;
     int dimensionNumber;
 
     Object ** objects;
 
+    int * maxWeights;
+
 } Instance;
+
+#endif
