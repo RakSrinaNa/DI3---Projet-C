@@ -4,19 +4,26 @@
 
 int * getValuesFomLine(char * line, int valuesNumber)
 {
-    int * values = (int *) malloc(sizeof(int) * valuesNumber);
-    int valuesLength = 0;
+    int * values;
+	if((values  = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
+	{
+		printf("MALLOC ERROR getValuesFromLine stringUtils.c");
+		exit(1);
+	}
 
-    int index = 0;
-    int reading = 0;
+    int valuesLength = 0; // Number of values actually put in the array
 
-    char * start = line;
-    int length = 0;
+    int index = 0; // The reading index
+    int reading = 0; // Boolean to know if we are currently reading a number
+
+    char * start = line; // The beginning of our number we are reading
+    int length = 0; // The length of the number we are reading
+
     do
     {
-        if(line[index] == '\t' || line[index] == ' ' || line[index] == '\0')
+        if(line[index] == '\t' || line[index] == ' ' || line[index] == '\0') // If we don't read a number
         {
-            if(reading)
+            if(reading) // If we were reading, add the number to the array
             {
                 reading = 0;
 
@@ -29,15 +36,15 @@ int * getValuesFomLine(char * line, int valuesNumber)
 
                 length = 0;
 
-                if(valuesLength == valuesNumber)
+                if(valuesLength == valuesNumber) // If we read enough, stop
                 {
                     break;
                 }
             }
         }
-        else
+        else // If we read a number
         {
-            if(!reading)
+            if(!reading) // If we just started reading it, change start and reading values
             {
                 reading = 1;
                 start = line + index;
@@ -45,7 +52,7 @@ int * getValuesFomLine(char * line, int valuesNumber)
             length++;
         }
         index++;
-    } while(line[index - 1] != '\0');
+    } while(line[index - 1] != '\0'); // Read while we didn't reached the end of the string
 
     return values;
 }
