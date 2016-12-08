@@ -13,6 +13,7 @@
     Instance * instanceCreate(void);
     void instanceInitialize(Instance * instance);
     Object * instanceGetObjectAt(Instance * instance, int index);
+    void instanceSetObject(Instance * instance, Object * object, int index);
     void instanceDestroy(Instance * instance);
 
 #endif

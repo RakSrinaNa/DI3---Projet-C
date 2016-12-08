@@ -40,6 +40,11 @@ Object * instanceGetObjectAt(Instance * instance, int index)
     return instance->objects[index];
 }
 
+void instanceSetObject(Instance * instance, Object * object, int index)
+{
+    instance->objects[index] = object;
+}
+
 void instanceDestroy(Instance * instance)
 {
     for(int i = 0; i < instance->objectsNumber; i++) // Destroy each object of the instance
