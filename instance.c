@@ -6,7 +6,7 @@
 
 void instanceInitialize(Instance * instance){
 
-    instance->objects = malloc(sizeof(Object *) * instance->objectNumber);
+    instance->objects = (Object *) malloc(sizeof(Object *) * instance->objectNumber);
 
 }
 

@@ -15,6 +15,8 @@ typedef struct _instance{
 
     Object ** objects;
 
+    int * maxWeights;
+
 } Instance;
 
 #endif

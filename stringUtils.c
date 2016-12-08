@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-int * getValuesFomLine(char * line, int valuesNumber)
+int * getValuesFromLine(char * line, int valuesNumber)
 {
     int * values = (int *) malloc(sizeof(int) * valuesNumber);
     int valuesLength = 0;
