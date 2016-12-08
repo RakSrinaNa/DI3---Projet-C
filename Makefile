@@ -1,19 +1,21 @@
-all: ex_projet2
+export CC=gcc
+export CFLAGS=-std=c99 -Wall -Werror -W -pedantic -O2
+export LDFLAGS=
+SRC_DIR=src
+EXEC=ex_projet2
 
-ex_projet2: main.o parser.o instance.o
-	 gcc -std=c99 -Wall -Werror -o $@ $<
+all: clall $(EXEC) clean
 
-main.o: main.c
-	 gcc -std=c99 -Wall -Werror -c $<
+$(EXEC):
+	cd $(SRC_DIR) && $(MAKE) && cd .. && mv $(SRC_DIR)/$(EXEC) .
 
-parser.o: parser.c
-	 gcc -std=c99 -Wall -Werror -c $<
+.PHONY: clean
 
-instance.o: instance.c
-	 gcc -std=c99 -Wall -Werror -c $<
-     
 clean:
-	 rm main.o parser.o instance.o ex_projet2
+	cd $(SRC_DIR) && $(MAKE) $@
+
+clall:
+	-rm $(EXEC) && cd $(SRC_DIR) && $(MAKE) $@
 
 test:
 	echo “Tests OK”
