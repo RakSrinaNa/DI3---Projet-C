@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "parser.h"
+#include "instance.h"
 
 void readFile (char * fileName){
 
@@ -29,7 +30,7 @@ int * stringToTab(char * string){
     while (*string != '\0'){
 		string++;
     }
-
+    return tab;
 }
 
 char * readLine(FILE * file)
