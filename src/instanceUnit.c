@@ -14,21 +14,14 @@ void instanceTests()
     weights[2] = 3;
 
     Instance * instance = instanceCreate();
-    if(instance->objectsNumber != 0 || instance->dimensionsNumber != 0 || instance->objects != NULL || instance->maxWeights != NULL)
-    {
-        perror("ASSERT INSTANCE 1");
-        exit(EXIT_FAILURE);
-    }
-    instanceInitialize(instance);
+    instanceInitialize(instance, 0, 0);
     if(instance->objects != NULL || instance->maxWeights != NULL)
     {
         perror("ASSERT INSTANCE 2");
         exit(EXIT_FAILURE);
     }
-    instance->dimensionsNumber = 3;
-    instance->objectsNumber = 3;
+    instanceInitialize(instance, 3, 3);
     instance->maxWeights = weights;
-    instanceInitialize(instance);
     if(instance->objects == NULL || instanceGetObjectAt(instance, 2)->value != 0)
     {
         perror("ASSERT INSTANCE 3");

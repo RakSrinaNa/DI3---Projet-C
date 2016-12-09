@@ -21,7 +21,7 @@ void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCou
     instance->dimensionsNumber = dimensionsCount;
     instance->objects = NULL;
     instance->maxWeights = NULL;
-    if(instance->dimensionsNumber == 0)
+    if(instance->dimensionsNumber == 0 || instance->objectsNumber == 0)
         return;
     if((instance->objects = (Object *) malloc(sizeof(Object) * instance->objectsNumber)) == NULL)
     {
