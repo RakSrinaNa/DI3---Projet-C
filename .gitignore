@@ -5,3 +5,4 @@ obj
 
 *.orig
 ex_projet2
+cmake-build-debug

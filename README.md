@@ -8,6 +8,4 @@
 
 ## TODO
 
-Object -> Item
-stringUtils ==> parser
-Doc
+Documentation  
