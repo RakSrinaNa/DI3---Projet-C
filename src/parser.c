@@ -56,7 +56,7 @@ Instance * readInstance(FILE * file, Instance * instance)
         free(line);
 
         for (int i = 0; i < instance->itemsCount; i++)
-			itemSetWeight(instance_getItem(instance, i), dimension, lineNumbers[i]);
+			item_setWeight(instance_getItem(instance, i), dimension, lineNumbers[i]);
         free(lineNumbers);
     }
 

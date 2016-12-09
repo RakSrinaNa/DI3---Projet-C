@@ -9,7 +9,7 @@ void instance_initialize(Instance * instance, int itemsCount, int dimensionsCoun
 	instance->dimensionsNumber = dimensionsCount;
 	instance->items = NULL;
 	instance->maxWeights = NULL;
-	if(instance->dimensionsNumber == 0 || instance->itemsCount == 0)
+	if(instance->dimensionsNumber <= 0 || instance->itemsCount <= 0)
 		return;
 	if((instance->items = (Item *) malloc(sizeof(Item) * instance->itemsCount)) == NULL)
 	{
@@ -17,7 +17,7 @@ void instance_initialize(Instance * instance, int itemsCount, int dimensionsCoun
 		exit(EXIT_FAILURE);
 	}
 	for(int i = 0; i < instance->itemsCount; i++)
-		itemInitialize((instance->items) + i, instance->dimensionsNumber);
+		item_initialize((instance->items) + i, instance->dimensionsNumber);
 }
 
 Item * instance_getItem(Instance * instance, int index)
@@ -35,9 +35,8 @@ void instance_setMaxWeights(Instance * instance, int * weights)
 void instance_destroy(Instance * instance)
 {
 	for(int i = 0; i < instance->itemsCount; i++) // Destroy each object of the instance
-		itemDestroy(instance_getItem(instance, i));
+		item_destroy(instance_getItem(instance, i));
 	
-	if(instance->maxWeights != NULL)
-		free(instance->maxWeights);
+	free(instance->maxWeights);
 	free(instance->items);
 }

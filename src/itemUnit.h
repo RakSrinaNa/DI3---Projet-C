@@ -1,5 +1,5 @@
-#ifndef OBJECT_UNIT
-    #define OBJECT_UNIT
+#ifndef ITEM_UNIT
+    #define ITEM_UNIT
 
     void itemTests (void);
 
