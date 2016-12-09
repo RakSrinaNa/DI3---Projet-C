@@ -2,39 +2,39 @@
 #include <stdlib.h>
 
 #include "instance.h"
-#include "object.h"
+#include "item.h"
 
-void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCount)
+void instanceInitialize(Instance * instance, int itemsCount, int dimensionsCount)
 {
-    instance->objectsNumber = objectsCount;
+    instance->itemsCount = itemsCount;
     instance->dimensionsNumber = dimensionsCount;
-    instance->objects = NULL;
+    instance->items = NULL;
     instance->maxWeights = NULL;
-    if(instance->dimensionsNumber == 0 || instance->objectsNumber == 0)
+    if(instance->dimensionsNumber == 0 || instance->itemsCount == 0)
         return;
-    if((instance->objects = (Object *) malloc(sizeof(Object) * instance->objectsNumber)) == NULL)
+    if((instance->items = (Item *) malloc(sizeof(Item) * instance->itemsCount)) == NULL)
     {
-        perror("ERROR MALLOC instanceInitialize instance.c");
+        perror("ERROR MALLOC instanceInitialize");
         exit(EXIT_FAILURE);
     }
-    for(int i = 0; i < instance->objectsNumber; i++)
+    for(int i = 0; i < instance->itemsCount; i++)
     {
-        objectInitialize((instance->objects) + i, instance->dimensionsNumber);
+        itemInitialize((instance->items) + i, instance->dimensionsNumber);
     }
 }
 
-Object * instanceGetObjectAt(Instance * instance, int index)
+Item * instanceGetItemAt (Instance *instance, int index)
 {
-    if(index < 0 || index >= instance->objectsNumber)
+    if(index < 0 || index >= instance->itemsCount)
         return NULL;
-    return (instance->objects) + index;
+    return (instance->items) + index;
 }
 
 void instanceDestroy(Instance * instance)
 {
-    for(int i = 0; i < instance->objectsNumber; i++) // Destroy each object of the instance
-        objectDestroy(instanceGetObjectAt(instance, i));
+    for(int i = 0; i < instance->itemsCount; i++) // Destroy each object of the instance
+        itemDestroy(instanceGetItemAt(instance, i));
 
     free(instance->maxWeights);
-    free(instance->objects);
+    free(instance->items);
 }

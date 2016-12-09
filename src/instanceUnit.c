@@ -20,19 +20,19 @@ void instanceTests()
         exit(EXIT_FAILURE);
     }
     instanceInitialize(instance, 0, 0);
-    if(instance->objects != NULL || instance->maxWeights != NULL)
+    if(instance->items != NULL || instance->maxWeights != NULL)
     {
         perror("ASSERT INSTANCE 2");
         exit(EXIT_FAILURE);
     }
     instanceInitialize(instance, 3, 3);
     instance->maxWeights = weights;
-    if(instance->objects == NULL || instanceGetObjectAt(instance, 2)->value != 0)
+    if(instance->items == NULL || instanceGetItemAt(instance, 2)->value != 0)
     {
         perror("ASSERT INSTANCE 3");
         exit(EXIT_FAILURE);
     }
-    if(instanceGetObjectAt(instance, 3) != NULL)
+    if(instanceGetItemAt(instance, 3) != NULL)
     {
         perror("ASSERT INSTANCE 4");
         exit(EXIT_FAILURE);

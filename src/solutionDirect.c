@@ -5,10 +5,21 @@
 #include "solutionDirect.h"
 
 
-SolutionDirect *  solutionDirectCreate(Instance * instance){
-    SolutionDirect * solution = (SolutionDirect *)malloc(sizeof(SolutionDirect));
-    solution->itemsTaken = (int *)malloc(sizeof(int) * instance->objectsNumber);
-    for (int i = 0; i < instance->objectsNumber; i++)
+SolutionDirect *  solutionDirectCreate(Instance * instance)
+{
+    SolutionDirect * solution;
+    if((solution = (SolutionDirect *)malloc(sizeof(SolutionDirect))) == NULL)
+    {
+        perror("ERROR MALLOC solutionDirectCreate");
+        exit(EXIT_FAILURE);
+    }
+
+    if((solution->itemsTaken = (int *)malloc(sizeof(int) * instance->itemsCount)) == NULL)
+    {
+        perror("ERROR MALLOC solutionDirectCreate");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < instance->itemsCount; i++)
         solution->itemsTaken[i] = 0;
 
     solution->evaluate = solutionDirectEvaluate;
@@ -19,35 +30,39 @@ SolutionDirect *  solutionDirectCreate(Instance * instance){
     return solution;
 }
 
-void solutionDirectDestroy(SolutionDirect * solution){
+void solutionDirectDestroy(SolutionDirect * solution)
+{
     free(solution->itemsTaken);
     free(solution);
 }
 
-int solutionDirectEvaluate(Instance * instance, int * items){
+int solutionDirectEvaluate(Instance * instance, int * items)
+{
     int totalValue = 0;
 
-    for (int i = 0; i < instance->objectsNumber; i++)
+    for (int i = 0; i < instance->itemsCount; i++)
         if (items[i])
-            totalValue += instanceGetObjectAt(instance, i)->value;
+            totalValue += instanceGetItemAt(instance, i)->value;
 
     return totalValue;
 }
 
-int solutionDirectDoable(Instance * instance, int * items){
+int solutionDirectDoable(Instance * instance, int * items)
+{
     int * totalWeights = (int *)malloc(sizeof(int) * instance->dimensionsNumber);
     for (int i = 0; i < instance->dimensionsNumber; i++)
         totalWeights[i] = 0;
 
     // Count the total weight for each dimension in this solution
-    for (int i = 0; i < instance->objectsNumber; i++)
+    for (int i = 0; i < instance->itemsCount; i++)
         for (int j = 0; j < instance->dimensionsNumber; j++)
             if (items[i])
-                totalWeights[j] += instanceGetObjectAt(instance, i)->weights[j];
+                totalWeights[j] += instanceGetItemAt(instance, i)->weights[j];
 
     // Verifies that each dimension can contain the total weight associated
     for (int i = 0; i < instance->dimensionsNumber; i++)
-        if (totalWeights[i] > instance->maxWeights[i]){
+        if (totalWeights[i] > instance->maxWeights[i])
+        {
             free(totalWeights);
             return 0;
         }
@@ -56,22 +71,27 @@ int solutionDirectDoable(Instance * instance, int * items){
     return 1;
 }
 
-void solutionDirectPrint(Instance * instance, int * items){
-
+void solutionDirectPrint(Instance * instance, int * items)
+{
     printf("Total value in the bag : %d\n", solutionDirectEvaluate(instance, items));
     printf("Objects in the bag : ");
-    for (int i = 0; i < instance->objectsNumber; i++)
+    for (int i = 0; i < instance->itemsCount; i++)
         if(items[i])
             printf("%d\t", i);
     printf("\n");
-
 }
 
-void solutionDirectSaveToFile(char * fileName, Instance * instance, int * items){
-    FILE * file = fopen(fileName, "w+");
+void solutionDirectSaveToFile(char * fileName, Instance * instance, int * items)
+{
+    FILE * file;
+    if((file = fopen(fileName, "w+")) == NULL)
+    {
+        perror("ERROR FOPEN solutionDirectSaveToFile");
+        exit(EXIT_FAILURE);
+    }
 
     fprintf(file, "%d\n", solutionDirectEvaluate(instance, items));
-    for (int i = 0; i < instance->objectsNumber; i++)
+    for (int i = 0; i < instance->itemsCount; i++)
         fprintf(file, "%d\t\t", items[i]);
 
     fclose(file);

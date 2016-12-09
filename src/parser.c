@@ -36,32 +36,32 @@ Instance * readInstance(FILE * file, Instance * instance)
     char * line = readLine(file); // Read first line
     int * lineNumbers = getValuesFromLine(line, 2); // Turn it into array of integer
     free(line);
-    instanceInitialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of objects
+    instanceInitialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of items
     free(lineNumbers);
 
     readLine(file); // Read empty line
 
     line = readLine(file); // Read line of values
-    lineNumbers = getValuesFromLine(line, instance->objectsNumber); // Turn it into an array of integer
+    lineNumbers = getValuesFromLine(line, instance->itemsCount); // Turn it into an array of integer
     free(line);
 
-    for (int i = 0; i < instance->objectsNumber; i++) // Set the values of all objects
-        instanceGetObjectAt(instance, i)->value = lineNumbers[i]; // Set the value of the object
+    for (int i = 0; i < instance->itemsCount; i++) // Set the values of all items
+		instanceGetItemAt(instance, i)->value = lineNumbers[i]; // Set the value of the item
     free(lineNumbers);
 
-    for (int dimension = 0; dimension < instance->dimensionsNumber; dimension++) // Set all dimension values of all objects
+    for (int dimension = 0; dimension < instance->dimensionsNumber; dimension++) // Set all dimension values of all items
     {
         line = readLine(file); // Read line of the j dimension
-        lineNumbers = getValuesFromLine(line, instance->objectsNumber); // Turn it into array of integer
+        lineNumbers = getValuesFromLine(line, instance->itemsCount); // Turn it into array of integer
         free(line);
 
-        for (int i = 0; i < instance->objectsNumber; i++)
-            objectSetWeight(instanceGetObjectAt(instance, i), dimension, lineNumbers[i]);
+        for (int i = 0; i < instance->itemsCount; i++)
+			itemSetWeight(instanceGetItemAt(instance, i), dimension, lineNumbers[i]);
         free(lineNumbers);
     }
 
     line = readLine(file);
-    instance->maxWeights = getValuesFromLine(line, instance->objectsNumber); // Turn it into array of integer
+    instance->maxWeights = getValuesFromLine(line, instance->itemsCount); // Turn it into array of integer
     free(line);
     return instance;
 }
@@ -89,7 +89,7 @@ int * getValuesFromLine(char * line, int valuesNumber)
 	int * values;
 	if((values  = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
 	{
-		perror("MALLOC ERROR getValuesFromLine stringUtils.c");
+		perror("ERROR MALLOC getValuesFromLine parser.c");
 		exit(EXIT_FAILURE);
 	}
 

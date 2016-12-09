@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "objectUnit.h"
+#include "itemUnit.h"
 #include "parserUnit.h"
 #include "instanceUnit.h"
 
 int mainUnit()
 {
-    printf("Executing object tests...");
-    objectTests();
+    printf("Executing item tests...");
+	itemTests();
     printf("OK\n");
     printf("Executing instance tests...");
     instanceTests();
