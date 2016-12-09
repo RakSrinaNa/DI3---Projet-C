@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 #include "instance.h"
 #include "parser.h"
@@ -139,4 +140,4 @@ int * getValuesFromLine(char * line, int valuesNumber)
 	return values;
 }
 
-#undef _POSIX_C_SOURCE 200809L
+#undef _POSIX_C_SOURCE
