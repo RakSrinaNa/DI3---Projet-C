@@ -3,6 +3,7 @@
 #include "itemUnit.h"
 #include "parserUnit.h"
 #include "instanceUnit.h"
+#include "solutionDirectUnit.h"
 
 int mainUnit()
 {
@@ -14,6 +15,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing parser tests...");
 	parserTests();
+	printf("OK\n");
+	printf("Executing solutionDirect tests...");
+	solutionDirectTests();
 	printf("OK\n");
 	return 0;
 }

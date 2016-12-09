@@ -4,95 +4,84 @@
 #include "instance.h"
 #include "solutionDirect.h"
 
-
-SolutionDirect *  solutionDirectCreate(Instance * instance)
+SolutionDirect * solutionDirect_create(Instance * instance)
 {
-    SolutionDirect * solution;
-    if((solution = (SolutionDirect *)malloc(sizeof(SolutionDirect))) == NULL)
-    {
-        perror("ERROR MALLOC solutionDirectCreate");
-        exit(EXIT_FAILURE);
-    }
-
-    if((solution->itemsTaken = (int *)malloc(sizeof(int) * instance->itemsCount)) == NULL)
-    {
-        perror("ERROR MALLOC solutionDirectCreate");
-        exit(EXIT_FAILURE);
-    }
-    for (int i = 0; i < instance->itemsCount; i++)
-        solution->itemsTaken[i] = 0;
-
-    solution->evaluate = solutionDirectEvaluate;
-    solution->doable = solutionDirectDoable;
-    solution->print = solutionDirectPrint;
-    solution->saveToFile = solutionDirectSaveToFile;
-
-    return solution;
+	SolutionDirect * solution;
+	if((solution = (SolutionDirect *) malloc(sizeof(SolutionDirect))) == NULL)
+	{
+		perror("ERROR MALLOC solutionDirect_create");
+		exit(EXIT_FAILURE);
+	}
+	
+	if((solution->itemsTaken = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
+	{
+		perror("ERROR MALLOC solutionDirect_create");
+		exit(EXIT_FAILURE);
+	}
+	for(int i = 0; i < instance->itemsCount; i++)
+		solution->itemsTaken[i] = 0;
+	
+	solution->evaluate = solutionDirect_evaluate;
+	solution->doable = solutionDirect_doable;
+	solution->print = solutionDirect_print;
+	solution->saveToFile = solutionDirect_saveToFile;
+	
+	return solution;
 }
 
-void solutionDirectDestroy(SolutionDirect * solution)
+void solutionDirect_destroy(SolutionDirect * solution)
 {
-    free(solution->itemsTaken);
-    free(solution);
+	free(solution->itemsTaken);
+	free(solution);
 }
 
-int solutionDirectEvaluate(Instance * instance, int * items)
+int solutionDirect_evaluate(Instance * instance, int * items)
 {
-    int totalValue = 0;
-
-    for (int i = 0; i < instance->itemsCount; i++)
-        if (items[i])
-            totalValue += instance_getItem(instance, i)->value;
-
-    return totalValue;
+	int totalValue = 0;
+	
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(items[i] == 1)
+			totalValue += instance_getItem(instance, i)->value;
+	
+	return totalValue;
 }
 
-int solutionDirectDoable(Instance * instance, int * items)
+int solutionDirect_doable(Instance * instance, int * items)
 {
-    int * totalWeights = (int *)malloc(sizeof(int) * instance->dimensionsNumber);
-    for (int i = 0; i < instance->dimensionsNumber; i++)
-        totalWeights[i] = 0;
-
-    // Count the total weight for each dimension in this solution
-    for (int i = 0; i < instance->itemsCount; i++)
-        for (int j = 0; j < instance->dimensionsNumber; j++)
-            if (items[i])
-                totalWeights[j] += instance_getItem(instance, i)->weights[j];
-
-    // Verifies that each dimension can contain the total weight associated
-    for (int i = 0; i < instance->dimensionsNumber; i++)
-        if (totalWeights[i] > instance->maxWeights[i])
-        {
-            free(totalWeights);
-            return 0;
-        }
-
-    free(totalWeights);
-    return 1;
+	for(int dimension = 0; dimension < instance->dimensionsNumber; dimension++)
+	{
+		int totalWeight = 0;
+		for(int i = 0; i < instance->itemsCount; i++)
+			if(items[i] == 1)
+				totalWeight += item_getWeight(instance_getItem(instance, i), dimension);
+		if(totalWeight > instance_getMaxWeight(instance, dimension))
+			return 0;
+	}
+	return 1;
 }
 
-void solutionDirectPrint(Instance * instance, int * items)
+void solutionDirect_print(Instance * instance, int * items)
 {
-    printf("Total value in the bag : %d\n", solutionDirectEvaluate(instance, items));
-    printf("Objects in the bag : ");
-    for (int i = 0; i < instance->itemsCount; i++)
-        if(items[i])
-            printf("%d\t", i);
-    printf("\n");
+	printf("Total value in the bag : %d\n", solutionDirect_evaluate(instance, items));
+	printf("Objects in the bag : ");
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(items[i] == 1)
+			printf("%d\t", i);
+	printf("\n");
 }
 
-void solutionDirectSaveToFile(char * fileName, Instance * instance, int * items)
+void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items)
 {
-    FILE * file;
-    if((file = fopen(fileName, "w+")) == NULL)
-    {
-        perror("ERROR FOPEN solutionDirectSaveToFile");
-        exit(EXIT_FAILURE);
-    }
-
-    fprintf(file, "%d\n", solutionDirectEvaluate(instance, items));
-    for (int i = 0; i < instance->itemsCount; i++)
-        fprintf(file, "%d\t\t", items[i]);
-
-    fclose(file);
+	FILE * file;
+	if((file = fopen(fileName, "w+")) == NULL)
+	{
+		perror("ERROR FOPEN solutionDirect_saveToFile");
+		exit(EXIT_FAILURE);
+	}
+	
+	fprintf(file, "%d\n", solutionDirect_evaluate(instance, items));
+	for(int i = 0; i < instance->itemsCount; i++)
+		fprintf(file, "%d\t\t", items[i]);
+	
+	fclose(file);
 }
