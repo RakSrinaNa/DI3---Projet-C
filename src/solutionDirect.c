@@ -36,7 +36,7 @@ int solutionDirectEvaluate(Instance * instance, int * items){
 }
 
 int solutionDirectDoable(Instance * instance, int * items){
-    int * totalWeights = (int *)malloc(sizeof(int) * instance->dimensionNumber);
+    int * totalWeights = (int *)malloc(sizeof(int) * instance->dimensionsNumber);
     for (int i = 0; i < instance->dimensionsNumber; i++)
         totalWeights[i] = 0;
 
