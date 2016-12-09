@@ -36,7 +36,7 @@ Instance * readInstance(FILE * file, Instance * instance)
     char * line = readLine(file); // Read first line
     int * lineNumbers = getValuesFromLine(line, 2); // Turn it into array of integer
     free(line);
-    instanceInitialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of items
+	instance_initialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of items
     free(lineNumbers);
 
     readLine(file); // Read empty line
@@ -46,7 +46,7 @@ Instance * readInstance(FILE * file, Instance * instance)
     free(line);
 
     for (int i = 0; i < instance->itemsCount; i++) // Set the values of all items
-		instanceGetItemAt(instance, i)->value = lineNumbers[i]; // Set the value of the item
+		instance_getItem(instance, i)->value = lineNumbers[i]; // Set the value of the item
     free(lineNumbers);
 
     for (int dimension = 0; dimension < instance->dimensionsNumber; dimension++) // Set all dimension values of all items
@@ -56,7 +56,7 @@ Instance * readInstance(FILE * file, Instance * instance)
         free(line);
 
         for (int i = 0; i < instance->itemsCount; i++)
-			itemSetWeight(instanceGetItemAt(instance, i), dimension, lineNumbers[i]);
+			itemSetWeight(instance_getItem(instance, i), dimension, lineNumbers[i]);
         free(lineNumbers);
     }
 

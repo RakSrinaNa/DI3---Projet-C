@@ -42,7 +42,7 @@ int solutionDirectEvaluate(Instance * instance, int * items)
 
     for (int i = 0; i < instance->itemsCount; i++)
         if (items[i])
-            totalValue += instanceGetItemAt(instance, i)->value;
+            totalValue += instance_getItem(instance, i)->value;
 
     return totalValue;
 }
@@ -57,7 +57,7 @@ int solutionDirectDoable(Instance * instance, int * items)
     for (int i = 0; i < instance->itemsCount; i++)
         for (int j = 0; j < instance->dimensionsNumber; j++)
             if (items[i])
-                totalWeights[j] += instanceGetItemAt(instance, i)->weights[j];
+                totalWeights[j] += instance_getItem(instance, i)->weights[j];
 
     // Verifies that each dimension can contain the total weight associated
     for (int i = 0; i < instance->dimensionsNumber; i++)
