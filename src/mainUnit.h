@@ -1,6 +1,10 @@
 #ifndef MAIN_UNIT
-    #define MAIN_UNIT
+#define MAIN_UNIT
 
-    int mainUnit();
+/**
+ * Tests for the program.
+ * @return
+ */
+int mainUnit();
 
 #endif

@@ -1,6 +1,9 @@
 #ifndef ITEM_UNIT
-    #define ITEM_UNIT
+#define ITEM_UNIT
 
-    void itemTests (void);
+/**
+ * Tests for item.c
+ */
+void itemTests(void);
 
 #endif
