@@ -1,5 +1,5 @@
-#ifndef SOLUTION
-#define SOLUTION
+#ifndef SOLUTIONDIRECT
+#define SOLUTIONDIRECT
 
 typedef struct {
 
