@@ -3,6 +3,7 @@
 
 #include "instance.h"
 #include "object.h"
+#include "solutionDirect.h"
 
 
 SolutionDirect *  solutionDirectCreate(Instance * instance){
