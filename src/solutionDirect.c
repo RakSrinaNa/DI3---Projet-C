@@ -8,8 +8,9 @@
 
 SolutionDirect *  solutionDirectCreate(Instance * instance){
     SolutionDirect * solution = (SolutionDirect *)malloc(sizeof(SolutionDirect));
-    int tab[instance->objectsNumber] = {0};
-    solution->itemsTaken = tab;
+    solution->itemsTaken = (int *)malloc(sizeof(int) * instance->objectsNumber);
+    for (int i = 0; i < instance->objectsNumber; i++)
+        solution->itemsTaken[i] = 0;
 
     solution->evaluate = solutionDirectEvaluate;
     solution->doable = solutionDirectDoable;
@@ -20,6 +21,7 @@ SolutionDirect *  solutionDirectCreate(Instance * instance){
 }
 
 void solutionDirectDestroy(SolutionDirect * solution){
+    free(solution->itemsTaken);
     free(solution);
 }
 
@@ -34,7 +36,9 @@ int solutionDirectEvaluate(Instance * instance, int * items){
 }
 
 int solutionDirectDoable(Instance * instance, int * items){
-    int totalWeights[instance->dimensionsNumber] = {0};
+    int * totalWeights = (int *)malloc(sizeof(int) * instance->dimensionNumber);
+    for (int i = 0; i < instance->dimensionsNumber; i++)
+        totalWeights[i] = 0;
 
     // Count the total weight for each dimension in this solution
     for (int i = 0; i < instance->objectsNumber; i++)
@@ -44,9 +48,12 @@ int solutionDirectDoable(Instance * instance, int * items){
 
     // Verifies that each dimension can contain the total weight associated
     for (int i = 0; i < instance->dimensionsNumber; i++)
-        if (totalWeights[i] > instance->maxWeights[i])
+        if (totalWeights[i] > instance->maxWeights[i]){
+            free(totalWeights);
             return 0;
+        }
 
+    free(totalWeights);
     return 1;
 }
 
