@@ -4,17 +4,6 @@
 #include "instance.h"
 #include "object.h"
 
-Instance * instanceCreate()
-{
-    Instance * instance;
-    if((instance = (Instance *) malloc(sizeof(Instance))) == NULL)
-    {
-        perror("ERROR MALLOC instanceCreate instance.c");
-        exit(EXIT_FAILURE);
-    }
-    return instance;
-}
-
 void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCount)
 {
     instance->objectsNumber = objectsCount;
@@ -48,5 +37,4 @@ void instanceDestroy(Instance * instance)
 
     free(instance->maxWeights);
     free(instance->objects);
-    free(instance);
 }

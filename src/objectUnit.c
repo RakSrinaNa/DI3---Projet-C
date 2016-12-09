@@ -6,7 +6,12 @@
 
 void objectTests()
 {
-    Object * object = objectCreate();
+    Object * object;
+    if((object = (Object *) malloc(sizeof(Object))) == NULL)
+    {
+        perror("TEST MALLOC ERROR");
+        exit(EXIT_FAILURE);
+    }
     objectInitialize(object, 3);
     if(object->weights[0] != 0 || object->weights[1] != 0 || object->weights[2] != 0)
     {
@@ -20,4 +25,5 @@ void objectTests()
         exit(EXIT_FAILURE);
     }
     objectDestroy(object);
+    free(object);
 }

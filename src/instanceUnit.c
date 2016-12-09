@@ -13,7 +13,12 @@ void instanceTests()
     weights[1] = 2;
     weights[2] = 3;
 
-    Instance * instance = instanceCreate();
+    Instance * instance;
+    if((instance = (Instance *) malloc(sizeof(Instance))) == NULL)
+    {
+        perror("TEST MALLOC ERROR");
+        exit(EXIT_FAILURE);
+    }
     instanceInitialize(instance, 0, 0);
     if(instance->objects != NULL || instance->maxWeights != NULL)
     {
@@ -33,4 +38,5 @@ void instanceTests()
         exit(EXIT_FAILURE);
     }
     instanceDestroy(instance);
+    free(instance);
 }

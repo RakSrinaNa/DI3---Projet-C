@@ -11,20 +11,11 @@
     } Instance;
 
     /**
-     * Create an instance on the heap.
-     *
-     * Use instanceDestroy later to free it.
-     *
-     * @return A pointer to the newly created instance.
-     */
-    Instance * instanceCreate(void);
-
-    /**
      * Initialize an instance depending on its values objectsNumber and dimensionsNumber.
      *
      * This method should be called only once.
      *
-     * @param instancce A pointer to the instance to initialize.
+     * @param instance A pointer to the instance to initialize.
      */
     void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCount);
 
@@ -48,7 +39,7 @@
     void instanceSetObject(Instance * instance, Object * object, int index);
 
     /**
-     * Destroy an instance previously created with instanceCreate.
+     * Destroy an instance previously initialized.
      *
      * @param instance A pointer to the instance to destroy.
      */
