@@ -8,9 +8,8 @@
 
 SolutionDirect *  solutionDirectCreate(Instance * instance){
     SolutionDirect * solution = (SolutionDirect *)malloc(sizeof(SolutionDirect));
-    solution->itemsTaken = int[instance->objectsNumber];
-    for (int i = 0; i < instance->objectsNumber; i++)
-        solution->itemsTaken[i] = 0;
+    int tab[instance->objectsNumber] = {0};
+    solution->itemsTaken = tab;
 
     solution->evaluate = solutionDirectEvaluate;
     solution->doable = solutionDirectDoable;
@@ -35,12 +34,13 @@ int solutionDirectEvaluate(Instance * instance, int * items){
 }
 
 int solutionDirectDoable(Instance * instance, int * items){
-    int totalWeights[intsance->dimensionsNumber] = {0};
+    int totalWeights[instance->dimensionsNumber] = {0};
 
     // Count the total weight for each dimension in this solution
     for (int i = 0; i < instance->objectsNumber; i++)
         for (int j = 0; j < instance->dimensionsNumber; j++)
-            totalWeights[j] += instanceGetObjectAt(instance, i)->weights[j];
+            if (items[i])
+                totalWeights[j] += instanceGetObjectAt(instance, i)->weights[j];
 
     // Verifies that each dimension can contain the total weight associated
     for (int i = 0; i < instance->dimensionsNumber; i++)

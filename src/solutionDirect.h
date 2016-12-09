@@ -12,4 +12,12 @@ typedef struct {
 
 } SolutionDirect;
 
+
+SolutionDirect *  solutionDirectCreate(Instance * instance);
+void solutionDirectDestroy(SolutionDirect * solution);
+int solutionDirectEvaluate(Instance * instance, int * items);
+int solutionDirectDoable(Instance * instance, int * items);
+void solutionDirectPrint(Instance * instance, int * items);
+void solutionDirectSaveToFile(char * fileName, Instance * instance, int * items);
+
 #endif
