@@ -5,9 +5,7 @@
 #include <memory.h>
 
 #include "instance.h"
-#include "object.h"
 #include "parser.h"
-#include "stringUtils.h"
 
 Instance * readFile (char * fileName)
 {
