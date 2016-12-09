@@ -31,7 +31,7 @@ void instanceTests()
 		exit(EXIT_FAILURE);
 	}
 	instance_initialize(instance, 3, 3);
-	instance->maxWeights = weights;
+	instance_setMaxWeights(instance, weights);
 	if(instance->items == NULL || instance_getItem(instance, 2)->value != 0)
 	{
 		perror("ASSERT INSTANCE 4");
@@ -40,6 +40,11 @@ void instanceTests()
 	if(instance_getItem(instance, 3) != NULL)
 	{
 		perror("ASSERT INSTANCE 5");
+		exit(EXIT_FAILURE);
+	}
+	if(instance_getMaxWeight(instance, 0) != 1 || instance_getMaxWeight(instance, 2) != 3)
+	{
+		perror("ASSERT INSTANCE 6");
 		exit(EXIT_FAILURE);
 	}
 	instance_destroy(instance);

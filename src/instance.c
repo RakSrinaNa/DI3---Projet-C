@@ -27,6 +27,13 @@ Item * instance_getItem(Instance * instance, int index)
 	return (instance->items) + index;
 }
 
+int instance_getMaxWeight(Instance * instance, int index)
+{
+	if(index < 0 || index >= instance->dimensionsNumber || instance->maxWeights == NULL) // If not in range or maxWeights not initialized
+		return 0;
+	return instance->maxWeights[index];
+}
+
 void instance_setMaxWeights(Instance * instance, int * weights)
 {
 	instance->maxWeights = weights;

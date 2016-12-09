@@ -41,6 +41,15 @@ Item * instance_getItem(Instance * instance, int index);
 void instance_setMaxWeights(Instance * instance, int * weights);
 
 /**
+ * Get the maximum weight for a dimension.
+ *
+ * @param instance The instance concerned.
+ * @param index The index of the weight.
+ * @return The value of the weight. 0 if not present.
+ */
+int instance_getMaxWeight(Instance * instance, int index);
+
+/**
  * Destroy an instance previously initialized.
  *
  * @param instance A pointer to the instance to destroy.
