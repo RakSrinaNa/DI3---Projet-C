@@ -8,6 +8,5 @@
 
 ## TODO
 
-Object -> Item
-stringUtils ==> parser
-Doc
+Object -> Item  
+Doc  
