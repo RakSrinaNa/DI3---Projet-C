@@ -12,7 +12,6 @@ typedef struct {
 
 } SolutionDirect;
 
-
 SolutionDirect *  solutionDirectCreate(Instance * instance);
 void solutionDirectDestroy(SolutionDirect * solution);
 int solutionDirectEvaluate(Instance * instance, int * items);
