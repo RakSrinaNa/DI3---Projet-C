@@ -1,6 +1,6 @@
 #ifndef OBJECT_UNIT
     #define OBJECT_UNIT
 
-    void objectTests(void);
+    void itemTests (void);
 
 #endif

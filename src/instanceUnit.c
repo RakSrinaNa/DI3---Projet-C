@@ -13,26 +13,30 @@ void instanceTests()
     weights[1] = 2;
     weights[2] = 3;
 
-    Instance * instance = instanceCreate();
-    if(instance->objectsNumber != 0 || instance->dimensionsNumber != 0 || instance->objects != NULL || instance->maxWeights != NULL)
+    Instance * instance;
+    if((instance = (Instance *) malloc(sizeof(Instance))) == NULL)
     {
-        perror("ASSERT INSTANCE 1");
+        perror("TEST MALLOC ERROR");
         exit(EXIT_FAILURE);
     }
-    instanceInitialize(instance);
-    if(instance->objects != NULL || instance->maxWeights != NULL)
-    {
-        perror("ASSERT INSTANCE 1");
-        exit(EXIT_FAILURE);
-    }
-    instance->dimensionsNumber = 3;
-    instance->objectsNumber = 3;
-    instance->maxWeights = weights;
-    instanceInitialize(instance);
-    if(instance->objects == NULL || instanceGetObjectAt(instance, 2)->value != 0)
+    instanceInitialize(instance, 0, 0);
+    if(instance->items != NULL || instance->maxWeights != NULL)
     {
         perror("ASSERT INSTANCE 2");
         exit(EXIT_FAILURE);
     }
+    instanceInitialize(instance, 3, 3);
+    instance->maxWeights = weights;
+    if(instance->items == NULL || instanceGetItemAt(instance, 2)->value != 0)
+    {
+        perror("ASSERT INSTANCE 3");
+        exit(EXIT_FAILURE);
+    }
+    if(instanceGetItemAt(instance, 3) != NULL)
+    {
+        perror("ASSERT INSTANCE 4");
+        exit(EXIT_FAILURE);
+    }
     instanceDestroy(instance);
+    free(instance);
 }
