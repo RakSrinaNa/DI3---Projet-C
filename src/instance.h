@@ -26,7 +26,7 @@
      *
      * @param instancce A pointer to the instance to initialize.
      */
-    void instanceInitialize(Instance * instance);
+    void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCount);
 
     /**
      * Return the object at the given position in an instance.
