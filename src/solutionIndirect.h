@@ -1,0 +1,4 @@
+#ifndef SOLUTIONINDIRECT
+#define SOLUTIONINDIRECT
+
+#endif

@@ -1,4 +1,4 @@
-#define _GNU_SOURCE
+#define _POSIX_C_SOURCE 200809L
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,70 +7,68 @@
 #include "instance.h"
 #include "parser.h"
 
-Instance * readFile (char * fileName)
+Instance * parser_readFile(char * fileName)
 {
-    FILE * file;
-    if((file = fopen(fileName, "r")) == NULL)
-    {
-        perror("ERROR FOPEN readFile parser.c");
-        exit(EXIT_FAILURE);
-    }
-
-    int instancesNumber = atoi(readLine(file)); // Read number of instances
-    Instance * instances;
-    if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL)
-    {
-        perror("ERROR MALLOC readFile parser.c");
-        exit(EXIT_FAILURE);
-    }
-
-    for (int instanceIndex = 0; instanceIndex < instancesNumber; instanceIndex++)
-        readInstance(file, instances + instanceIndex);
-
-    fclose(file);
-    return instances;
+	FILE * file;
+	if((file = fopen(fileName, "r")) == NULL)
+	{
+		perror("ERROR FOPEN parser_readFile");
+		exit(EXIT_FAILURE);
+	}
+	
+	int instancesNumber = atoi(parser_readLine(file)); // Read number of instances
+	Instance * instances;
+	if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL) // Create instances
+	{
+		perror("ERROR MALLOC parser_readFile");
+		exit(EXIT_FAILURE);
+	}
+	
+	for(int instanceIndex = 0; instanceIndex < instancesNumber; instanceIndex++) // Read every instance
+		parser_readInstance(file, instances + instanceIndex);
+	
+	fclose(file);
+	return instances;
 }
 
-Instance * readInstance(FILE * file, Instance * instance)
+void parser_readInstance(FILE * file, Instance * instance)
 {
-    char * line = readLine(file); // Read first line
-    int * lineNumbers = getValuesFromLine(line, 2); // Turn it into array of integer
-    free(line);
-    instanceInitialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of items
-    free(lineNumbers);
-
-    readLine(file); // Read empty line
-
-    line = readLine(file); // Read line of values
-    lineNumbers = getValuesFromLine(line, instance->itemsCount); // Turn it into an array of integer
-    free(line);
-
-    for (int i = 0; i < instance->itemsCount; i++) // Set the values of all items
-		instanceGetItemAt(instance, i)->value = lineNumbers[i]; // Set the value of the item
-    free(lineNumbers);
-
-    for (int dimension = 0; dimension < instance->dimensionsNumber; dimension++) // Set all dimension values of all items
-    {
-        line = readLine(file); // Read line of the j dimension
-        lineNumbers = getValuesFromLine(line, instance->itemsCount); // Turn it into array of integer
-        free(line);
-
-        for (int i = 0; i < instance->itemsCount; i++)
-			itemSetWeight(instanceGetItemAt(instance, i), dimension, lineNumbers[i]);
-        free(lineNumbers);
-    }
-
-    line = readLine(file);
-    instance->maxWeights = getValuesFromLine(line, instance->itemsCount); // Turn it into array of integer
-    free(line);
-    return instance;
+	char * line = parser_readLine(file); // Read the number of items and dimensions
+	int * lineNumbers = parser_lineToIntArray(line, 2);
+	free(line);
+	instance_initialize(instance, lineNumbers[0], lineNumbers[1]); // Initialize the instance with the number of items and dimensions
+	free(lineNumbers);
+	
+	parser_readLine(file); // Read line to skip it, we don't use it for now
+	
+	line = parser_readLine(file); // Read line of values
+	lineNumbers = parser_lineToIntArray(line, instance->itemsCount);
+	free(line);
+	
+	for(int i = 0; i < instance->itemsCount; i++) // Set the values of all items
+		instance_getItem(instance, i)->value = lineNumbers[i];
+	free(lineNumbers);
+	
+	for(int dimension = 0; dimension < instance->dimensionsNumber; dimension++) // Set all dimension values of all items
+	{
+		line = parser_readLine(file); // Read line of the 'dimention'th dimension
+		lineNumbers = parser_lineToIntArray(line, instance->itemsCount);
+		free(line);
+		
+		for(int i = 0; i < instance->itemsCount; i++) // Set the weight for its associated item
+			item_setWeight(instance_getItem(instance, i), dimension, lineNumbers[i]);
+		free(lineNumbers);
+	}
+	
+	line = parser_readLine(file); // Read maximum weights
+	instance_setMaxWeights(instance, parser_lineToIntArray(line, instance->itemsCount));
+	free(line);
 }
 
-char * readLine(FILE * file)
+char * parser_readLine(FILE * file)
 {
 	char * lineRead = NULL;
 	size_t sizeLine = 0;
-    ssize_t sizeRead = 0;
 	do
 	{
 		if(lineRead != NULL) // If an empty line was read before, free it
@@ -78,29 +76,29 @@ char * readLine(FILE * file)
 			free(lineRead);
 			lineRead = NULL;
 		}
-		if((sizeRead = getline(&lineRead, &sizeLine, file)) == -1) // Read a line, and return NULL if end of file
+		if((getline(&lineRead, &sizeLine, file)) == -1) // Read a line, and return NULL if end of file
 			return NULL;
 	} while(*lineRead == '\n'); // While we have a non empty line
 	return lineRead;
 }
 
-int * getValuesFromLine(char * line, int valuesNumber)
+int * parser_lineToIntArray(char * line, int valuesNumber)
 {
 	int * values;
-	if((values  = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
+	if((values = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
 	{
-		perror("ERROR MALLOC getValuesFromLine parser.c");
+		perror("ERROR MALLOC parser_lineToIntArray parser.c");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	int valuesLength = 0; // Number of values actually put in the array
-
+	
 	int index = 0; // The reading index
 	int reading = 0; // Boolean to know if we are currently reading a number
-
+	
 	char * start = line; // The beginning of our number we are reading
 	int length = 0; // The length of the number we are reading
-
+	
 	do
 	{
 		if(line[index] == '\t' || line[index] == ' ' || line[index] == '\0' || line[index] == '\n') // If we don't read a number
@@ -108,20 +106,18 @@ int * getValuesFromLine(char * line, int valuesNumber)
 			if(reading) // If we were reading, add the number to the array
 			{
 				reading = 0;
-
+				
 				valuesLength++;
-
+				
 				char buffer[10] = {0};
 				memcpy(buffer, start, length);
 				buffer[length] = '\0';
 				values[valuesLength - 1] = atoi(buffer);
-
+				
 				length = 0;
-
+				
 				if(valuesLength == valuesNumber) // If we read enough, stop
-				{
 					break;
-				}
 			}
 		}
 		else // If we read a number
@@ -135,7 +131,10 @@ int * getValuesFromLine(char * line, int valuesNumber)
 		}
 		index++;
 	} while(line[index - 1] != '\0'); // Read while we didn't reached the end of the string
+	
 	for(int i = valuesLength; i < valuesNumber; i++) // Set missing values to 0
 		values[i] = 0;
 	return values;
 }
+
+#undef _POSIX_C_SOURCE

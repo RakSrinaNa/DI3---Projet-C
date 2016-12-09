@@ -1,6 +1,9 @@
 #ifndef INSTANCE_UNIT
-    #define INSTANCE_UNIT
+#define INSTANCE_UNIT
 
-    void instanceTests();
+/**
+ * Tests for instance.C
+ */
+void instanceTests();
 
 #endif
