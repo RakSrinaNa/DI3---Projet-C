@@ -1,6 +1,7 @@
 #ifndef PARSER
 #define PARSER
 
+#include "stdio.h"
 #include "instance.h"
 
 char * readLine(FILE * file);
