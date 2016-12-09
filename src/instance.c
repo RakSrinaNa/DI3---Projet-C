@@ -12,43 +12,39 @@ Instance * instanceCreate()
         perror("ERROR MALLOC instanceCreate instance.c");
         exit(EXIT_FAILURE);
     }
-    instance->objectsNumber = 0;
-    instance->dimensionsNumber = 0;
-    instance->objects = NULL;
-    instance->maxWeights = NULL;
     return instance;
 }
 
-void instanceInitialize(Instance * instance)
+void instanceInitialize(Instance * instance, int objectsCount, int dimensionsCount)
 {
+    instance->objectsNumber = objectsCount;
+    instance->dimensionsNumber = dimensionsCount;
+    instance->objects = NULL;
+    instance->maxWeights = NULL;
     if(instance->dimensionsNumber == 0)
         return;
-    if((instance->objects = (Object **) malloc(sizeof(Object *) * instance->objectsNumber)) == NULL)
+    if((instance->objects = (Object *) malloc(sizeof(Object) * instance->objectsNumber)) == NULL)
     {
         perror("ERROR MALLOC instanceInitialize instance.c");
         exit(EXIT_FAILURE);
     }
     for(int i = 0; i < instance->objectsNumber; i++)
     {
-        instanceSetObject(instance, objectCreate(), i);
-        objectInitialize(instance->objects[i], instance->dimensionsNumber);
+        objectInitialize((instance->objects) + i, instance->dimensionsNumber);
     }
 }
 
 Object * instanceGetObjectAt(Instance * instance, int index)
 {
-    return instance->objects[index];
-}
-
-void instanceSetObject(Instance * instance, Object * object, int index)
-{
-    instance->objects[index] = object;
+    if(index < 0 || index >= instance->objectsNumber)
+        return NULL;
+    return (instance->objects) + index;
 }
 
 void instanceDestroy(Instance * instance)
 {
     for(int i = 0; i < instance->objectsNumber; i++) // Destroy each object of the instance
-        objectDestroy(instance->objects[i]);
+        objectDestroy(instanceGetObjectAt(instance, i));
 
     free(instance->maxWeights);
     free(instance->objects);

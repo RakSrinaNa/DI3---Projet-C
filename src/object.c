@@ -12,13 +12,13 @@ Object * objectCreate()
         perror("ERROR MALLOC objectCreate object.c");
         exit(EXIT_FAILURE);
     }
-    object->value = 0;
-    object->weights = NULL;
     return object;
 }
 
 void objectInitialize(Object * object, int dimensionsNumber)
 {
+    object->value = 0;
+    object->weights = NULL;
     if((object->weights = malloc(sizeof(int) * dimensionsNumber)) == NULL)
     {
         perror("ERROR MALLOC objectInitialize object.c");

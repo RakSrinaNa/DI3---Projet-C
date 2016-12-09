@@ -37,9 +37,7 @@ Instance * readInstance(FILE * file, Instance * instance)
     char * line = readLine(file); // Read first line
     int * lineNumbers = getValuesFromLine(line, 2); // Turn it into array of integer
     free(line);
-    instance->objectsNumber = lineNumbers[0]; // Set number of objects
-    instance->dimensionsNumber = lineNumbers[1]; // Set number of dimensions
-    instanceInitialize(instance); // Create the right number of objects
+    instanceInitialize(instance, lineNumbers[0], lineNumbers[1]); // Create the right number of objects
     free(lineNumbers);
 
     readLine(file); // Read empty line

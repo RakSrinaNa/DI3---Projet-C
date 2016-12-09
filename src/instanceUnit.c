@@ -22,7 +22,7 @@ void instanceTests()
     instanceInitialize(instance);
     if(instance->objects != NULL || instance->maxWeights != NULL)
     {
-        perror("ASSERT INSTANCE 1");
+        perror("ASSERT INSTANCE 2");
         exit(EXIT_FAILURE);
     }
     instance->dimensionsNumber = 3;
@@ -31,7 +31,12 @@ void instanceTests()
     instanceInitialize(instance);
     if(instance->objects == NULL || instanceGetObjectAt(instance, 2)->value != 0)
     {
-        perror("ASSERT INSTANCE 2");
+        perror("ASSERT INSTANCE 3");
+        exit(EXIT_FAILURE);
+    }
+    if(instanceGetObjectAt(instance, 3) != NULL)
+    {
+        perror("ASSERT INSTANCE 4");
         exit(EXIT_FAILURE);
     }
     instanceDestroy(instance);
