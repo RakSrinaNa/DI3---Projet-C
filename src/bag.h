@@ -5,11 +5,10 @@
 
 typedef struct
 {
-    int * items;
-    int itemsCount;
-    int * weights;
-    int * maxWeights;
-
+	int * items;
+	int itemsCount;
+	int * weights;
+	int * maxWeights;
 } Bag;
 
 Bag * bag_create(Instance * instance);

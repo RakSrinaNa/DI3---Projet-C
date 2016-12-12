@@ -2,19 +2,18 @@
 #include <stdlib.h>
 
 #include "instance.h"
-#include "item.h"
 #include "solutionIndirect.h"
-#include "bag.h"
 
-SolutionIndirect * solutionIndirect_create(Instance * instance){
-
+SolutionIndirect * solutionIndirect_create(Instance * instance)
+{
+	
 	SolutionIndirect * solution;
 	if((solution = (SolutionIndirect *) malloc(sizeof(SolutionIndirect))) == NULL)
 	{
 		perror("ERROR MALLOC solutionIndirect_create");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	if((solution->itemsOrder = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC solutionIndirect_create");
@@ -22,85 +21,86 @@ SolutionIndirect * solutionIndirect_create(Instance * instance){
 	}
 	for(int i = 0; i < instance->itemsCount; i++)
 		solution->itemsOrder[i] = 0;
-
-    solution->bag = NULL;
-
+	
+	solution->bag = NULL;
+	
 	solution->evaluate = solutionIndirect_evaluate;
 	solution->doable = solutionIndirect_doable;
 	solution->print = solutionIndirect_print;
 	solution->saveToFile = solutionIndirect_saveToFile;
-
+	
 	return solution;
 }
 
-void solutionIndirect_destroy(SolutionIndirect * solution){
+void solutionIndirect_destroy(SolutionIndirect * solution)
+{
 	free(solution->itemsOrder);
 	bag_destroy(solution->bag);
 	free(solution);
 }
 
-void solutionIndirect_decode(Instance * instance, SolutionIndirect * solution){
-
-    Bag * bag = bag_create(instance);
-
-    for (int i = 0; i < instance->itemsCount; i++)
-        if(bag_canContain(instance, bag, solution->itemsOrder[i]))
-            bag_appendItem(instance, bag, solution->itemsOrder[i]);
-
-    solution->bag = bag;
-
+void solutionIndirect_decode(Instance * instance, SolutionIndirect * solution)
+{
+	
+	Bag * bag = bag_create(instance);
+	
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(bag_canContain(instance, bag, solution->itemsOrder[i]))
+			bag_appendItem(instance, bag, solution->itemsOrder[i]);
+	
+	solution->bag = bag;
 }
 
-int solutionIndirect_evaluate(Instance * instance, Bag * bag){
-
-    int totalValue = 0;
-
-    for(int i = 0; i < bag->itemsCount; i++)
-        totalValue += instance_getItem(instance, i)->value;
-
-    return totalValue;
-
+int solutionIndirect_evaluate(Instance * instance, Bag * bag)
+{
+	
+	int totalValue = 0;
+	
+	for(int i = 0; i < bag->itemsCount; i++)
+		totalValue += instance_getItem(instance, i)->value;
+	
+	return totalValue;
 }
 
-int solutionIndirect_doable(Instance * instance, Bag * bag){
-
-    for(int i = 0; i < instance->dimensionsNumber; i++)
-        if (bag->weights[i] > instance->maxWeights[i])
-            return 0;
-
-    return 1;
-
+int solutionIndirect_doable(Instance * instance, Bag * bag)
+{
+	
+	for(int i = 0; i < instance->dimensionsNumber; i++)
+		if(bag->weights[i] > instance->maxWeights[i])
+			return 0;
+	
+	return 1;
 }
 
-void solutionIndirect_print(Instance * instance, Bag * bag){
-
+void solutionIndirect_print(Instance * instance, Bag * bag)
+{
+	
 	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(instance, bag));
 	printf("Objects in the bag : ");
 	for(int i = 0; i < bag->itemsCount; i++)
-        printf("%d\t", bag->items[i]);
+		printf("%d\t", bag->items[i]);
 	printf("\n");
-
 }
 
-void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag){
-
+void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag)
+{
+	
 	FILE * file;
 	if((file = fopen(fileName, "w+")) == NULL)
 	{
 		perror("ERROR FOPEN solutionDirect_saveToFile");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	fprintf(file, "%d\n", solutionIndirect_evaluate(instance, bag));
-
+	
 	for(int i = 0; i < instance->itemsCount; i++)
 		fprintf(file, "%d\t\t", solution->itemsOrder[i]);
-
+	
 	fprintf(file, "\n");
-
-    for(int i = 0; i < bag->itemsCount; i++)
+	
+	for(int i = 0; i < bag->itemsCount; i++)
 		fprintf(file, "%d\t\t", bag->items[i]);
-
+	
 	fclose(file);
-
 }
