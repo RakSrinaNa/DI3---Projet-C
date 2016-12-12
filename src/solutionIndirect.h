@@ -11,13 +11,13 @@ typedef struct
 	Bag * bag;
 
 	// Functions
-	int (* evaluate)(Instance * instance, int * items);
+	int (* evaluate)(Instance * instance, Bag * bag);
 
-	int (* doable)(Instance * instance, int * items);
+	int (* doable)(Instance * instance, Bag * bag);
 
-	void (* print)(Instance * instance, int * items);
+	void (* print)(Instance * instance, Bag * bag);
 
-	void (* saveToFile)(char * fileName, Instance * instance, int * items);
+	void (* saveToFile)(char * fileName, Instance * instance, Bag * bag);
 } SolutionIndirect;
 
 SolutionIndirect * solutionIndirect_create(Instance * instance);

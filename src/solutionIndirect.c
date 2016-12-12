@@ -74,7 +74,7 @@ int solutionIndirect_doable(Instance * instance, Bag * bag){
 
 void solutionIndirect_print(Instance * instance, Bag * bag){
 
-	printf("Total value in the bag : %d\n", solutionInirect_evaluate(instance, bag));
+	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(instance, bag));
 	printf("Objects in the bag : ");
 	for(int i = 0; i < bag->itemsCount; i++)
         printf("%d\t", bag->items[i]);
