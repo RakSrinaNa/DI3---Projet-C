@@ -39,25 +39,53 @@
 			<Add option="-Wall" />
 			<Add option="-std=c99" />
 		</Compiler>
+		<Unit filename="src/bag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bag.h" />
 		<Unit filename="src/instance.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/instance.h" />
+		<Unit filename="src/instanceUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/instanceUnit.h" />
+		<Unit filename="src/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/item.h" />
+		<Unit filename="src/itemUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/itemUnit.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/object.c">
+		<Unit filename="src/mainUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/object.h" />
+		<Unit filename="src/mainUnit.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/parser.h" />
-		<Unit filename="src/stringUtils.c">
+		<Unit filename="src/parserUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/stringUtils.h" />
+		<Unit filename="src/parserUnit.h" />
+		<Unit filename="src/solutionDirect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solutionDirect.h" />
+		<Unit filename="src/solutionDirectUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solutionDirectUnit.h" />
+		<Unit filename="src/solutionIndirect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solutionIndirect.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
