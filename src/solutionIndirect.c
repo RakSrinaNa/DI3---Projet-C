@@ -77,12 +77,12 @@ void solutionIndirect_print(Instance * instance, Bag * bag){
 	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(instance, bag));
 	printf("Objects in the bag : ");
 	for(int i = 0; i < bag->itemsCount; i++)
-        printf("%d\t", bag->items[i]);
+        printf("%d\t", bag_getItem(i));
 	printf("\n");
 
 }
 
-void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag){
+void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution){
 
 	FILE * file;
 	if((file = fopen(fileName, "w+")) == NULL)
@@ -98,9 +98,14 @@ void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionI
 
 	fprintf(file, "\n");
 
-    for(int i = 0; i < bag->itemsCount; i++)
-		fprintf(file, "%d\t\t", bag->items[i]);
+    for(int i = 0; i < solutionIndirect_getBag(solution)->itemsCount; i++)
+		fprintf(file, "%d\t\t", bag_getItem(solutionIndirect_getBag(solution), i));
 
 	fclose(file);
 
+}
+
+Bag * solutionIndirect_getBag(SolutionIndirect * solution)
+{
+    return solution->bag;
 }

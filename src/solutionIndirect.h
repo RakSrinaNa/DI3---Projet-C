@@ -32,6 +32,8 @@ int solutionIndirect_doable(Instance * instance, Bag * bag);
 
 void solutionIndirect_print(Instance * instance, Bag * bag);
 
-void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag);
+void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution);
+
+Bag * solutionIndirect_getBag(SolutionIndirect * solution);
 
 #endif
