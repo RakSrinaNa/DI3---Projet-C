@@ -17,7 +17,7 @@ typedef struct
 
 	void (* print)(Instance * instance, Bag * bag);
 
-	void (* saveToFile)(char * fileName, Instance * instance, Bag * bag);
+	void (* saveToFile)(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag);
 } SolutionIndirect;
 
 SolutionIndirect * solutionIndirect_create(Instance * instance);
