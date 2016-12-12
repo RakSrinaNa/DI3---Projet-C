@@ -54,6 +54,6 @@ int bag_canContain(Instance * instance, Bag * bag, int itemIndex)
 int bag_getItem(Bag * bag, int index)
 {
 
-    return bag->items[i];
+    return bag->items[index];
 
 }

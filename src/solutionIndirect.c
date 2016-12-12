@@ -57,7 +57,7 @@ int solutionIndirect_evaluate(Instance * instance, Bag * bag)
 	int totalValue = 0;
 	
 	for(int i = 0; i < bag->itemsCount; i++)
-		totalValue += instance_getItem(instance, i)->value;
+		totalValue += bag_getItem(bag, i)->value;
 	
 	return totalValue;
 }
