@@ -51,7 +51,6 @@ void solutionIndirect_decode(Instance * instance, SolutionIndirect * solution)
 
 int solutionIndirect_evaluate(Instance * instance, Bag * bag)
 {
-	
 	int totalValue = 0;
 	
 	for(unsigned int i = 0; i < bag->itemsCount; i++)
