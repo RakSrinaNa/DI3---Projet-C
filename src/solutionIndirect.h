@@ -9,14 +9,14 @@ typedef struct _SolutionIndirect
 {
 	int * itemsOrder;
 	Bag * bag;
-
+	
 	// Functions
 	int (* evaluate)(Instance * instance, Bag * bag);
-
+	
 	int (* doable)(Instance * instance, Bag * bag);
-
+	
 	void (* print)(Instance * instance, Bag * bag);
-
+	
 	void (* saveToFile)(char * fileName, Instance * instance, struct _SolutionIndirect * solution, Bag * bag);
 } SolutionIndirect;
 
