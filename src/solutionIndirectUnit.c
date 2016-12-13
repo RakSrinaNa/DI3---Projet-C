@@ -62,6 +62,33 @@ void solutionIndirectTests(void)
 		exit(EXIT_FAILURE);
 	}
 	
+	char * filename = "testSolutionIndirect.txt";
+	solutionIndirect_saveToFile(filename, solution);
+	FILE * file;
+	if((file = fopen(filename, "r")) == NULL)
+	{
+		perror("ERROR FOPEN SOLUTIONINDIRECT UNIT");
+		exit(EXIT_FAILURE);
+	}
+	if(solutionIndirect_evaluate(solution) != atoi(parser_readLine(file)))
+	{
+		perror("ASSERT SOLUTIONDIRECT 3");
+		exit(EXIT_FAILURE);
+	}
+	int * itemOrder = parser_lineToIntArray(parser_readLine(file), solution->instance->itemsCount);
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(solutionIndirect_getItemIndex(solution, i) != itemOrder[i])
+		{
+			if(remove(filename) != 0)
+				perror("ERROR REMOVE SOLUTIONINDIRECT UNIT");
+			perror("ASSERT SOLUTIONINDIRECT 4");
+			exit(EXIT_FAILURE);
+		}
+	free(itemOrder); // Bag content (next line) should have already been verified in bagUnit
+	fclose(file);
+	if(remove(filename) != 0)
+		perror("ERROR REMOVE SOLUTIONINDIRECT UNIT");
+	
 	solutionIndirect_destroy(solution);
 	instance_destroy(instance);
 	free(instance);

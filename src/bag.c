@@ -73,11 +73,6 @@ int bag_getWeight(Bag * bag, int index)
 	return bag->weights[index];
 }
 
-Item * bag_getItem(Instance * instance, Bag * bag, int index)
-{
-	return instance_getItem(instance, bag_getItemIndex(bag, index));
-}
-
 void bag_addWeight(Bag * bag, int index, int amount)
 {
 	bag->weights[index] += amount;

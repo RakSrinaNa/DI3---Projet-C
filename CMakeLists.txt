@@ -21,6 +21,7 @@ set(SOURCE_FILES
         src/solutionDirectUnit.c src/solutionDirectUnit.h
 
         src/bag.c src/bag.h
+        src/bagUnit.c src/bagUnit.h
 
         src/solutionIndirect.c src/solutionIndirect.h
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h

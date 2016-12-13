@@ -55,16 +55,6 @@ int bag_canContain(Instance * instance, Bag * bag, int itemIndex);
 int bag_getItemIndex(Bag * bag, int index);
 
 /**
- * Get the item at the index position in the bag.
- *
- * @param instance A pointer to the instance associated with the bag.
- * @param bag A pointer to the bag where to get the item from.
- * @param index The index of the item.
- * @return A pointer to the wanted item, NULL if not present.
-*/
-Item * bag_getItem(Instance * instance, Bag * bag, int index);
-
-/**
  * Get the current weight of the bag for the 'index'th dimension.
  *
  * @param bag A pointer to the bag where to get the weight from.
