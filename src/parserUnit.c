@@ -24,7 +24,7 @@ void parserTests(void)
 		perror("ASSERT PARSER 3");
 		exit(EXIT_FAILURE);
 	}
-	if(instance_getMaxWeight(instance, 0) != 7 || instance_getMaxWeight(instance, 1) != 17)
+	if(instance_getMaxWeight(instance, 0) != 7 || instance_getMaxWeight(instance, 1) != 56)
 	{
 		perror("ASSERT PARSER 4");
 		exit(EXIT_FAILURE);

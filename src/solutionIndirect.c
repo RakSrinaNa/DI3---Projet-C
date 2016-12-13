@@ -6,7 +6,6 @@
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {
-	
 	SolutionIndirect * solution;
 	if((solution = (SolutionIndirect *) malloc(sizeof(SolutionIndirect))) == NULL)
 	{
@@ -23,6 +22,7 @@ SolutionIndirect * solutionIndirect_create(Instance * instance)
 		solution->itemsOrder[i] = 0;
 	
 	solution->bag = NULL;
+	solution->instance = instance;
 	
 	solution->evaluate = solutionIndirect_evaluate;
 	solution->doable = solutionIndirect_doable;
@@ -39,52 +39,49 @@ void solutionIndirect_destroy(SolutionIndirect * solution)
 	free(solution);
 }
 
-void solutionIndirect_decode(Instance * instance, SolutionIndirect * solution)
+void solutionIndirect_decode(SolutionIndirect * solution)
 {
+	if(solution->bag != NULL)
+		bag_destroy(solution->bag);
 	
-	Bag * bag = bag_create(instance);
+	Bag * bag = bag_create(solution->instance);
 	
-	for(int i = 0; i < instance->itemsCount; i++)
-		if(bag_canContain(instance, bag, solution->itemsOrder[i]))
-			bag_appendItem(instance, bag, solution->itemsOrder[i]);
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		if(bag_canContain(solution->instance, bag, solutionIndirect_getItemIndex(solution, i)))
+			bag_appendItem(solution->instance, bag, solutionIndirect_getItemIndex(solution, i));
 	
 	solution->bag = bag;
 }
 
-int solutionIndirect_evaluate(Instance * instance, Bag * bag)
+int solutionIndirect_evaluate(SolutionIndirect * solution)
 {
-	
 	int totalValue = 0;
 	
-	for(int i = 0; i < bag->itemsCount; i++)
-		totalValue += instance_getItem(instance, bag_getItemID(bag, i))->value;
+	for(int i = 0; i < solution->bag->itemsCount; i++)
+		totalValue += instance_item_getValue(solution->instance, bag_getItemIndex(solution->bag, i));
 	
 	return totalValue;
 }
 
-int solutionIndirect_doable(Instance * instance, Bag * bag)
+int solutionIndirect_doable(SolutionIndirect * solution)
 {
-	
-	for(int i = 0; i < instance->dimensionsNumber; i++)
-		if(bag->weights[i] > instance->maxWeights[i])
+	for(int i = 0; i < solution->instance->dimensionsNumber; i++)
+		if(bag_getWeight(solution->bag, i) > instance_getMaxWeight(solution->instance, i))
 			return 0;
 	
 	return 1;
 }
 
-void solutionIndirect_print(Instance * instance, Bag * bag)
+void solutionIndirect_print(SolutionIndirect * solution)
 {
-	
-	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(instance, bag));
+	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(solution));
 	printf("Objects in the bag : ");
-	for(int i = 0; i < bag->itemsCount; i++)
-        printf("%d\t", bag_getItemID(bag, i));
+	bag_print(solution->bag);
 	printf("\n");
 }
 
-void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag)
+void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution)
 {
-	
 	FILE * file;
 	if((file = fopen(fileName, "w+")) == NULL)
 	{
@@ -92,20 +89,19 @@ void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionI
 		exit(EXIT_FAILURE);
 	}
 	
-	fprintf(file, "%d\n", solutionIndirect_evaluate(instance, bag));
+	fprintf(file, "%d\n", solutionIndirect_evaluate(solution));
 	
-	for(int i = 0; i < instance->itemsCount; i++)
-		fprintf(file, "%d\t\t", solution->itemsOrder[i]);
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		fprintf(file, "%d\t\t", solutionIndirect_getItemIndex(solution, i));
 	
 	fprintf(file, "\n");
-
-    for(int i = 0; i < solutionIndirect_getBag(solution)->itemsCount; i++)
-		fprintf(file, "%d\t\t", bag_getItemID(solutionIndirect_getBag(solution), i));
-
+	
+	bag_saveItems(solution->bag, file);
+	
 	fclose(file);
 }
 
-Bag * solutionIndirect_getBag(SolutionIndirect * solution)
+int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index)
 {
-    return solution->bag;
+	return solution->itemsOrder[index];
 }

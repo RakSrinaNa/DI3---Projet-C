@@ -1,9 +1,11 @@
 #include <stdio.h>
 
 #include "itemUnit.h"
-#include "parserUnit.h"
 #include "instanceUnit.h"
+#include "parserUnit.h"
 #include "solutionDirectUnit.h"
+#include "bagUnit.h"
+#include "solutionIndirectUnit.h"
 
 int mainUnit()
 {
@@ -18,6 +20,12 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing solutionDirect tests...");
 	solutionDirectTests();
+	printf("OK\n");
+	printf("Executing bag tests...");
+	bagTests();
+	printf("OK\n");
+	printf("Executing solutionIndirect tests...");
+	solutionIndirectTests();
 	printf("OK\n");
 	return 0;
 }

@@ -44,7 +44,7 @@ void solutionDirectTests(void)
 	FILE * file;
 	if((file = fopen(filename, "r")) == NULL)
 	{
-		perror("ERROR MALLOC SOLUTIONDIRECT UNIT");
+		perror("ERROR FOPEN SOLUTIONDIRECT UNIT");
 		exit(EXIT_FAILURE);
 	}
 	if(score != atoi(parser_readLine(file)))
@@ -54,18 +54,13 @@ void solutionDirectTests(void)
 	}
 	int * itemsTaken = parser_lineToIntArray(parser_readLine(file), instance->itemsCount);
 	fclose(file);
+	if(remove(filename) != 0)
+		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(itemsTaken[i] != solution->itemsTaken[i])
 		{
-			if(remove(filename) != 0)
-				perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
 			perror("ASSERT SOLUTIONDIRECT 4");
 			exit(EXIT_FAILURE);
 		}
 	free(itemsTaken);
-	if(remove(filename) != 0)
-	{
-		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
-		exit(EXIT_FAILURE);
-	}
 }

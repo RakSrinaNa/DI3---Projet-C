@@ -56,4 +56,23 @@ int instance_getMaxWeight(Instance * instance, int index);
  */
 void instance_destroy(Instance * instance);
 
+/**
+ * Get the 'dimension'th weight of the 'index'th item in the instance
+ *
+ * @param instance A pointer to the instance.
+ * @param index The index of the item.
+ * @param dimension The index of the dimension.
+ * @return The wanted weight, -1 if item or dimension not in range.
+ */
+int instance_item_getWeight(Instance * instance, int index, int dimension);
+
+/**
+ * Get the value of the 'index'th item.
+ *
+ * @param instance A pointer to the instance.
+ * @param index The index of the item.
+ * @return The value of this item, -1 if not in range.
+ */
+int instance_item_getValue(Instance * instance, int index);
+
 #endif

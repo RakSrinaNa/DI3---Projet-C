@@ -37,4 +37,13 @@ void parser_readInstance(FILE * file, Instance * instance);
  */
 int * parser_lineToIntArray(char * line, int valuesNumber);
 
+/**
+ * Read a line from the file.
+ *
+ * @param linePtr A pointer to the string that will be read.
+ * @param file The file to read from.
+ * @return The length read.
+ */
+int getLine(char **linePtr, size_t *lineSize, FILE *file);
+
 #endif

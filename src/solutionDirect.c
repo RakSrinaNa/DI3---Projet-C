@@ -41,7 +41,7 @@ int solutionDirect_evaluate(Instance * instance, int * items)
 	
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(items[i] == 1)
-			totalValue += instance_getItem(instance, i)->value;
+			totalValue += instance_item_getValue(instance, i);
 	
 	return totalValue;
 }
@@ -53,7 +53,7 @@ int solutionDirect_doable(Instance * instance, int * items)
 		int totalWeight = 0;
 		for(int i = 0; i < instance->itemsCount; i++)
 			if(items[i] == 1)
-				totalWeight += item_getWeight(instance_getItem(instance, i), dimension);
+				totalWeight += instance_item_getWeight(instance, i, dimension);
 		if(totalWeight > instance_getMaxWeight(instance, dimension))
 			return 0;
 	}
