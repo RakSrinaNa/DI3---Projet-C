@@ -5,7 +5,9 @@
 #include "bag.h"
 #include "instance.h"
 
-typedef struct _SolutionIndirect
+typedef struct _SolutionIndirect SolutionIndirect;
+
+struct _SolutionIndirect
 {
 	int * itemsOrder;
 	Bag * bag;
@@ -17,8 +19,8 @@ typedef struct _SolutionIndirect
 	
 	void (* print)(Instance * instance, Bag * bag);
 	
-	void (* saveToFile)(char * fileName, Instance * instance, struct _SolutionIndirect * solution, Bag * bag);
-} SolutionIndirect;
+	void (* saveToFile)(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag);
+};
 
 SolutionIndirect * solutionIndirect_create(Instance * instance);
 
@@ -33,5 +35,7 @@ int solutionIndirect_doable(Instance * instance, Bag * bag);
 void solutionIndirect_print(Instance * instance, Bag * bag);
 
 void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag);
+
+Bag * solutionIndirect_getBag(SolutionIndirect * solution);
 
 #endif

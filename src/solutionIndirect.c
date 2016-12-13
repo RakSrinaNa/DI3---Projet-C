@@ -54,7 +54,7 @@ int solutionIndirect_evaluate(Instance * instance, Bag * bag)
 	int totalValue = 0;
 	
 	for(unsigned int i = 0; i < bag->itemsCount; i++)
-		totalValue += instance_getItem(instance, i)->value;
+		totalValue += instance_getItem(instance, bag_getItemID(bag, i))->value;
 	
 	return totalValue;
 }
@@ -73,7 +73,7 @@ void solutionIndirect_print(Instance * instance, Bag * bag)
 	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(instance, bag));
 	printf("Objects in the bag : ");
 	for(unsigned int i = 0; i < bag->itemsCount; i++)
-		printf("%d\t", bag->items[i]);
+        printf("%d\t", bag_getItemID(bag, i));
 	printf("\n");
 }
 
@@ -92,9 +92,14 @@ void solutionIndirect_saveToFile(char * fileName, Instance * instance, SolutionI
 		fprintf(file, "%d\t\t", solution->itemsOrder[i]);
 	
 	fprintf(file, "\n");
-	
-	for(unsigned int i = 0; i < bag->itemsCount; i++)
-		fprintf(file, "%d\t\t", bag->items[i]);
-	
+  
+  for(unsigned int i = 0; i < solutionIndirect_getBag(solution)->itemsCount; i++)
+		fprintf(file, "%d\t\t", bag_getItemID(solutionIndirect_getBag(solution), i));
+
 	fclose(file);
+}
+
+Bag * solutionIndirect_getBag(SolutionIndirect * solution)
+{
+    return solution->bag;
 }
