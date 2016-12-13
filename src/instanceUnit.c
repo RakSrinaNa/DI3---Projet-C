@@ -32,19 +32,24 @@ void instanceTests()
 	}
 	instance_initialize(instance, 3, 3);
 	instance_setMaxWeights(instance, weights);
-	if(instance->items == NULL || instance_getItem(instance, 2)->value != 0)
+	if(instance->items == NULL || instance_item_getValue(instance, 2) != 0)
 	{
 		perror("ASSERT INSTANCE 4");
 		exit(EXIT_FAILURE);
 	}
-	if(instance_getItem(instance, 3) != NULL)
+	if(instance_item_getValue(instance, 5) != -1)
 	{
 		perror("ASSERT INSTANCE 5");
 		exit(EXIT_FAILURE);
 	}
-	if(instance_getMaxWeight(instance, 0) != 1 || instance_getMaxWeight(instance, 2) != 3)
+	if(instance_getItem(instance, 3) != NULL)
 	{
 		perror("ASSERT INSTANCE 6");
+		exit(EXIT_FAILURE);
+	}
+	if(instance_getMaxWeight(instance, 0) != 1 || instance_getMaxWeight(instance, 2) != 3)
+	{
+		perror("ASSERT INSTANCE 7");
 		exit(EXIT_FAILURE);
 	}
 	instance_destroy(instance);
