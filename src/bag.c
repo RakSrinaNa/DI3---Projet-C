@@ -39,7 +39,7 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	int * newItems;
-	if((newItems = (int *) realloc(bag, (unsigned int)bag->itemsCount + 1)) == NULL)
+	if((newItems = (int *) realloc(bag, (unsigned int) bag->itemsCount + 1)) == NULL)
 	{
 		perror("MALLOC ERROR bag_appendItem");
 		exit(EXIT_FAILURE);
@@ -65,7 +65,7 @@ int bag_getItemIndex(Bag * bag, int index)
 {
 	if(index < 0 || index >= bag->itemsCount)
 		return -1;
-    return bag->items[index];
+	return bag->items[index];
 }
 
 int bag_getWeight(Bag * bag, int index)

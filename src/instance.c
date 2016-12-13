@@ -54,9 +54,10 @@ int instance_item_getWeight(Instance * instance, int index, int dimension)
 		return -1;
 	return item_getWeight(instance_getItem(instance, index), dimension);
 }
+
 int instance_item_getValue(Instance * instance, int index)
 {
 	if(index < 0 || index >= instance->itemsCount)
 		return -1;
-	return instance_getItem(instance, index) -> value;
+	return instance_getItem(instance, index)->value;
 }

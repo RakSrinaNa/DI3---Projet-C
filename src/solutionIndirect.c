@@ -95,9 +95,9 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution)
 		fprintf(file, "%d\t\t", solutionIndirect_getItemIndex(solution, i));
 	
 	fprintf(file, "\n");
-  
+	
 	bag_saveItems(solution->bag, file);
-
+	
 	fclose(file);
 }
 
