@@ -52,6 +52,12 @@ void instanceTests()
 		perror("ASSERT INSTANCE 7");
 		exit(EXIT_FAILURE);
 	}
+	item_setWeight(instance_getItem(instance, 0), 2, 2);
+	if(instance_item_getWeight(instance, 0, 2) != 2)
+	{
+		perror("ASSERT INSTANCE 8");
+		exit(EXIT_FAILURE);
+	}
 	instance_destroy(instance);
 	free(instance);
 }
