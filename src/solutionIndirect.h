@@ -14,13 +14,13 @@ struct _SolutionIndirect
 	Instance * instance;
 	
 	// Functions
-	int (* evaluate)(Instance * instance, Bag * bag);
+	int (* evaluate)(SolutionIndirect * solution);
 	
-	int (* doable)(Instance * instance, Bag * bag);
+	int (* doable)(SolutionIndirect * solution);
 	
-	void (* print)(Instance * instance, Bag * bag);
+	void (* print)(SolutionIndirect * solution);
 	
-	void (* saveToFile)(char * fileName, Instance * instance, SolutionIndirect * solution, Bag * bag);
+	void (* saveToFile)(char * fileName, SolutionIndirect * solution);
 };
 
 /**
