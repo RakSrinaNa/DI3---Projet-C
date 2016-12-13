@@ -1,6 +1,7 @@
 #ifndef BAG
 #define BAG
 
+#include <stdio.h>
 #include "instance.h"
 
 typedef struct

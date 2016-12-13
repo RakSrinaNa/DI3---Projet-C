@@ -39,14 +39,14 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	int * newItems;
-	if((newItems = (int *) realloc(bag, (unsigned int) bag->itemsCount + 1)) == NULL)
+	(bag->itemsCount)++;
+	if((newItems = (int *) realloc(bag->items, (unsigned int) bag->itemsCount)) == NULL)
 	{
-		perror("MALLOC ERROR bag_appendItem");
+		perror("REALLOC ERROR bag_appendItem");
 		exit(EXIT_FAILURE);
 	}
 	bag->items = newItems;
-	bag->items[bag->itemsCount] = itemIndex;
-	(bag->itemsCount)++;
+	bag->items[bag->itemsCount - 1] = itemIndex;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)
 		bag_addWeight(bag, i, instance_item_getWeight(instance, itemIndex, i));

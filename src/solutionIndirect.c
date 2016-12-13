@@ -42,7 +42,7 @@ void solutionIndirect_destroy(SolutionIndirect * solution)
 void solutionIndirect_decode(SolutionIndirect * solution)
 {
 	if(solution->bag != NULL)
-		free(solution->bag);
+		bag_destroy(solution->bag);
 	
 	Bag * bag = bag_create(solution->instance);
 	
