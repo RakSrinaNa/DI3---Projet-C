@@ -19,4 +19,6 @@ void bag_appendItem(Instance * instance, Bag * bag, int itemIndex);
 
 int bag_canContain(Instance * instance, Bag * bag, int itemIndex);
 
+int bag_getItemID(Bag * bag, int index);
+
 #endif

@@ -50,3 +50,10 @@ int bag_canContain(Instance * instance, Bag * bag, int itemIndex)
 	
 	return 1;
 }
+
+int bag_getItemID(Bag * bag, int index)
+{
+
+    return bag->items[index];
+
+}
