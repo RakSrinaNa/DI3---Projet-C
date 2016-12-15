@@ -85,3 +85,8 @@ void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items
 	
 	fclose(file);
 }
+
+void solutionDirect_takeItem(SolutionDirect * solution, int index)
+{
+	solution->itemsTaken[index] = 1;
+}

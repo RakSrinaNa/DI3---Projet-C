@@ -3,6 +3,7 @@
 
 #include "bag.h"
 #include "instance.h"
+#include "solutionDirect.h"
 
 Bag * bag_create(Instance * instance)
 {
@@ -105,4 +106,12 @@ int bag_getCriticDimension(Instance * instance, Bag * bag)
 		}
 	}
 	return worst;
+}
+
+SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag)
+{
+	SolutionDirect * solution = solutionDirect_create(instance);
+	for(int i = 0; i < bag->itemsCount; i++)
+		solutionDirect_takeItem(solution, bag_getItemIndex(bag, i));
+	return solution;
 }
