@@ -2,8 +2,6 @@
 #include <stdlib.h>
 
 #include "bag.h"
-#include "instance.h"
-#include "solutionDirect.h"
 
 Bag * bag_create(Instance * instance)
 {

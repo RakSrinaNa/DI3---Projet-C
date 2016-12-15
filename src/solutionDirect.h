@@ -3,12 +3,6 @@
 
 #include "instance.h"
 
-typedef union
-{
-    SolutionDirect * solutionDirect;
-    SolutionIndirect * solutionIndirect;
-} Solution;
-
 typedef struct
 {
 	int * itemsTaken;
