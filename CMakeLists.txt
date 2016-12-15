@@ -25,5 +25,9 @@ set(SOURCE_FILES
 
         src/solutionIndirect.c src/solutionIndirect.h
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h
-        )
+
+        src/heuristic.c src/heuristic.h
+
+        src/scheduler.c src/scheduler.h
+        src/schedulerUnit.c src/schedulerUnit.h)
 add_executable(ex_projet2 ${SOURCE_FILES})
