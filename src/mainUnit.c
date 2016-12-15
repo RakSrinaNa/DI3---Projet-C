@@ -6,6 +6,7 @@
 #include "solutionDirectUnit.h"
 #include "bagUnit.h"
 #include "solutionIndirectUnit.h"
+#include "schedulerUnit.h"
 
 int mainUnit()
 {
@@ -26,6 +27,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing solutionIndirect tests...");
 	solutionIndirectTests();
+	printf("OK\n");
+	printf("Executing scheduler tests...");
+	schedulerTests();
 	printf("OK\n");
 	return 0;
 }

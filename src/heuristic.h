@@ -1,4 +1,4 @@
+#ifndef HEURISTIC
+#define HEURISTIC
 
-#include "instance.h"
-#include "solutionDirect.h"
-#include "solutionIndirect.h"
+#endif
