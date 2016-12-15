@@ -61,7 +61,7 @@ int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, i
     int * list = (int *)malloc(sizeof(int) * sizeList);
 
     for(int i = 0; i < sizeList; i++)
-        list[i] = i;
+        list[i] = subList[i];
 
     for(int i = 0; i < sizeList-1; i++){
         for (int j = 0; j < sizeList-1-i; j++){
