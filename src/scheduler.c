@@ -35,7 +35,7 @@ int * scheduler_ratioAllDimensions(Instance * instance)
 
     for(int i = 0; i < instance->itemsCount-1; i++){
         for (int j = 0; j < instance->itemsCount-1-i; j++){
-            if (scheduler_getRatioAllDimensions(instance_getItem(instance, list[j]), instance->dimensionsNumber) < scheduler_getRatioAllDimensions(instance_getItem(instance, list[j+1]), instance->dimensionsNumber)){
+            if (scheduler_getRatioAllDimensions(instance, list[j]) < scheduler_getRatioAllDimensions(instance, list[j+1])){
                 int t = list[j];
                 list[j] = list[j+1];
                 list[j+1] = t;
@@ -46,11 +46,11 @@ int * scheduler_ratioAllDimensions(Instance * instance)
     return list;
 }
 
-double scheduler_getRatioAllDimensions(Item * item, int DCount)
+double scheduler_getRatioAllDimensions(Instance instance, int index)
 {
     double totalWeight;
-    for(int i = 0; i < DCount; i++)
-        totalWeight += item->weights[i];
+    for(int i = 0; i < instance->dimensionsNumber; i++)
+        totalWeight += instance_item_getWeight(instance, index, i);
 
-    return (item->value)/totalWeight;
+    return instance_item_getValue(instance, index)/totalWeight;
 }
