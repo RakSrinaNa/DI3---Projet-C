@@ -87,4 +87,13 @@ void bag_saveItems(Bag * bag, FILE * file);
  */
 void bag_print(Bag * bag);
 
+/**
+ * Returns the index of the most critical (with the less space remaining) dimension.
+ *
+ * @param instance A pointer to the instance the bag is associated with.
+ * @param bag A pointer to the bag containing the items.
+ * @return The most critical dimension, -1 if there was a problem.
+ */
+int bag_getCriticDimension(Instance * instance, Bag * bag);
+
 #endif
