@@ -49,7 +49,7 @@ int * scheduler_ratioAllDimensions(Instance * instance)
 
 double scheduler_getRatioAllDimensions(Instance * instance, int index)
 {
-    double totalWeight;
+    double totalWeight = 0;
     for(int i = 0; i < instance->dimensionsNumber; i++)
         totalWeight += instance_item_getWeight(instance, index, i);
 

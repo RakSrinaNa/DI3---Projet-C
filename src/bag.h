@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include "instance.h"
-#include "solutionIndirect.h"
 #include "solutionDirect.h"
 
 typedef struct
