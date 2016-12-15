@@ -5,6 +5,7 @@
 #include "item.h"
 #include "solutionDirect.h"
 #include "solutionIndirect.h"
+#include "scheduler.h"
 
 int * scheduler_itemValue(Instance * instance)
 {
@@ -46,7 +47,7 @@ int * scheduler_ratioAllDimensions(Instance * instance)
     return list;
 }
 
-double scheduler_getRatioAllDimensions(Instance instance, int index)
+double scheduler_getRatioAllDimensions(Instance * instance, int index)
 {
     double totalWeight;
     for(int i = 0; i < instance->dimensionsNumber; i++)
@@ -54,3 +55,7 @@ double scheduler_getRatioAllDimensions(Instance instance, int index)
 
     return instance_item_getValue(instance, index)/totalWeight;
 }
+
+int *
+
+
