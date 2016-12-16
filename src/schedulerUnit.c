@@ -29,6 +29,35 @@ void schedulerTests()
 	}
 	free(valueList);
 	
+	if(scheduler_getRatioAllDimensions(instance, 5) != 0.90625)
+	{
+		perror("ASSERT ERROR SCHEDULER 4");
+		exit(EXIT_FAILURE);
+	}
+	correctValueList[0] = 12;
+	correctValueList[1] = 6;
+	correctValueList[2] = 3;
+	correctValueList[3] = 9;
+	correctValueList[4] = 7;
+	correctValueList[5] = 0;
+	correctValueList[6] = 14;
+	correctValueList[7] = 5;
+	correctValueList[8] = 2;
+	correctValueList[9] = 1;
+	correctValueList[10] = 10;
+	correctValueList[11] = 8;
+	correctValueList[12] = 11;
+	correctValueList[13] = 4;
+	correctValueList[14] = 13;
+	valueList = scheduler_ratioAllDimensions(instance);
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(correctValueList[i] != valueList[i])
+		{
+			perror("ASSERT ERROR SCHEDULER 5");
+			exit(EXIT_FAILURE);
+		}
+	free(valueList);
+	
 	instance_destroy(instance);
 	free(instance);
 }
