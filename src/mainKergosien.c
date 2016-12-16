@@ -10,10 +10,10 @@
 #include "scheduler.h"
 #include "heuristic.h"
 
-void mainKergosion()
+void mainKergosien()
 {
 
-    Instances * instances = parser_readFile("..\\MKP-Instances\\_mknapcb1_res.txt");
+    Instance * instances = parser_readFile("..\\MKP-Instances\\_mknapcb1_res.txt");
 
     for(int i = 0; i < 30; i++)
     {
