@@ -27,10 +27,10 @@ typedef struct
  *
  * @param instance A pointer to the instance to run the heuristic on.
  * @param solutionType The solution type:
- *  - 1 -> Direct
- *  - Any other value -> Indirect
+ *  - 0 -> Indirect
+ *  - Any other value -> Direct
  * @param schedulerType The scheduler type:
- *  - 0 ->
+ *  - 0 -> Sort in random order
  *  - 1 -> Sort by item value.
  *  - 2 -> Sort by ratio with all dimensions.
  *  - 3 -> Sort by ratio with the most critic dimension.
@@ -47,14 +47,5 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
  * @return The list to use in the heuristic for this scheduler.
  */
 int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType);
-
-/**
- * Remove an item from the list.
- *
- * @param list A pointer to the list to remove from.
- * @param listCount A pointer to the size of the list.
- * @return The popped element.
- */
-int heuristic_removeFromList(int ** list, int * listCount);
 
 #endif

@@ -177,3 +177,4 @@ double scheduler_getRatio(Instance * instance, int index, int dim)
 	return (double) (instance_item_getValue(instance, index)) / instance_item_getWeight(instance, index, dim);
 }
 
+

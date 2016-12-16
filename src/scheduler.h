@@ -5,7 +5,17 @@
 
 int * scheduler_random(Instance * instance);
 
-void shuffle(int * list, int size);
+/**
+ * Remove an item from the list.
+ *
+ * @param list A pointer to the list to remove from.
+ * @param listCount A pointer to the size of the list.
+ * @param index The index of the item to remove.
+ * @return The popped element.
+ */
+int scheduler_removeFromList(int ** list, int * listCount, int index);
+
+void scheduler_appendToList(int ** list, int * listCount, int element);
 
 int * scheduler_itemValue(Instance * instance);
 
