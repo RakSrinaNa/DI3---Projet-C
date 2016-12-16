@@ -89,6 +89,30 @@ void schedulerTests()
 		}
 	free(valueList);
 	
+	correctValueList[0] = 12;
+	correctValueList[1] = 6;
+	correctValueList[2] = 2;
+	correctValueList[3] = 14;
+	correctValueList[4] = 3;
+	correctValueList[5] = 9;
+	correctValueList[6] = 8;
+	correctValueList[7] = 10;
+	correctValueList[8] = 4;
+	correctValueList[9] = 7;
+	correctValueList[10] = 0;
+	correctValueList[11] = 5;
+	correctValueList[12] = 1;
+	correctValueList[13] = 11;
+	correctValueList[14] = 13;
+	valueList = scheduler_ratioForDimension(instance, 1, NULL, instance->itemsCount);
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(correctValueList[i] != valueList[i])
+		{
+			perror("ASSERT ERROR SCHEDULER 7");
+			exit(EXIT_FAILURE);
+		}
+	free(valueList);
+	
 	instance_destroy(instance);
 	free(instance);
 }
