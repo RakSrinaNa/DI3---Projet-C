@@ -5,7 +5,7 @@
 void schedulerTests()
 {
 	Instance * instance = parser_readFile("MKP-Instances/theBestBag.txt");
-
+	
 	int correctValueList[15] = {3, 12, 7, 10, 4, 9, 14, 6, 11, 1, 13, 8, 2, 5, 0};
 	int * valueList = scheduler_itemValue(instance);
 	for(int i = 0; i < instance->itemsCount; i++)
@@ -28,7 +28,7 @@ void schedulerTests()
 		exit(EXIT_FAILURE);
 	}
 	free(valueList);
-
+	
 	if(scheduler_getRatioAllDimensions(instance, 5) != 0.90625)
 	{
 		perror("ASSERT ERROR SCHEDULER 4");
@@ -57,7 +57,7 @@ void schedulerTests()
 			exit(EXIT_FAILURE);
 		}
 	free(valueList);
-
+	
 	valueList = NULL;
 	if(scheduler_getRatio(instance, 0, 0) != 12.5 || scheduler_getRatio(instance, 1, 0) != 20 || scheduler_getRatio(instance, 5, 0) != 58 || scheduler_getRatio(instance, 12, 0) != 86 || scheduler_getRatio(instance, 0, 1) != 1 || scheduler_getRatio(instance, 2, 1) != 3)
 	{
@@ -83,12 +83,12 @@ void schedulerTests()
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(correctValueList[i] != valueList[i])
 		{
-		    printf("\n%d\n", i);
+			printf("\n%d\n", i);
 			perror("ASSERT ERROR SCHEDULER 6");
 			exit(EXIT_FAILURE);
 		}
 	free(valueList);
-
+	
 	correctValueList[0] = 12;
 	correctValueList[1] = 6;
 	correctValueList[2] = 2;
@@ -112,7 +112,36 @@ void schedulerTests()
 			exit(EXIT_FAILURE);
 		}
 	free(valueList);
-
+	
+	if(scheduler_getRatioAllDimensionsWeighted(instance, 12) != 344 || scheduler_getRatioAllDimensionsWeighted(instance, 3) != 27.5 || scheduler_getRatioAllDimensionsWeighted(instance, 7) != 21.25)
+	{
+		perror("ASSERT ERROR SCHEDULER 8");
+		exit(EXIT_FAILURE);
+	}
+	correctValueList[0] = 12;
+	correctValueList[1] = 6;
+	correctValueList[2] = 5;
+	correctValueList[3] = 1;
+	correctValueList[4] = 0;
+	correctValueList[5] = 3;
+	correctValueList[6] = 7;
+	correctValueList[7] = 9;
+	correctValueList[8] = 10;
+	correctValueList[9] = 14;
+	correctValueList[10] = 11;
+	correctValueList[11] = 2;
+	correctValueList[12] = 8;
+	correctValueList[13] = 4;
+	correctValueList[14] = 13;
+	valueList = scheduler_ratioAllDimensionsWeighted(instance);
+	for(int i = 0; i < instance->itemsCount; i++)
+		if(correctValueList[i] != valueList[i])
+		{
+			perror("ASSERT ERROR SCHEDULER 9");
+			exit(EXIT_FAILURE);
+		}
+	free(valueList);
+	
 	instance_destroy(instance);
 	free(instance);
 }
