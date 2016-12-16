@@ -11,16 +11,12 @@ Bag * bag_create(Instance * instance)
 		perror("MALLOC ERROR bag_create");
 		exit(EXIT_FAILURE);
 	}
-	if((bag->items = (int *) malloc(sizeof(int))) == NULL)
-	{
-		perror("MALLOC ERROR bag_create");
-		exit(EXIT_FAILURE);
-	}
 	if((bag->weights = (int *) malloc(sizeof(int) * instance->dimensionsNumber)) == NULL)
 	{
 		perror("MALLOC ERROR bag_create");
 		exit(EXIT_FAILURE);
 	}
+	bag->items = NULL;
 	bag->itemsCount = 0;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)
@@ -38,14 +34,12 @@ void bag_destroy(Bag * bag)
 
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
-	int * newItems;
 	(bag->itemsCount)++;
-	if((newItems = (int *) realloc(bag->items, (unsigned int) bag->itemsCount)) == NULL)
+	if((bag->items = (int *) realloc(bag->items, (unsigned int) bag->itemsCount)) == NULL)
 	{
 		perror("REALLOC ERROR bag_appendItem");
 		exit(EXIT_FAILURE);
 	}
-	bag->items = newItems;
 	bag->items[bag->itemsCount - 1] = itemIndex;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)
