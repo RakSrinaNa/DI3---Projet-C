@@ -18,6 +18,10 @@ int main(int argc, char * argv[])
 		{
 			mainUnit();
 		}
+		else if(strcmp(argv[1], "ker") == 0)
+        {
+            mainKergosien();
+        }
 	}
 	else
 	{
