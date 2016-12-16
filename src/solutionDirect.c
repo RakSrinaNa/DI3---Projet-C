@@ -12,7 +12,7 @@ SolutionDirect * solutionDirect_create(Instance * instance)
 		perror("ERROR MALLOC solutionDirect_create");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	if((solution->itemsTaken = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC solutionDirect_create");
@@ -20,12 +20,12 @@ SolutionDirect * solutionDirect_create(Instance * instance)
 	}
 	for(int i = 0; i < instance->itemsCount; i++)
 		solution->itemsTaken[i] = 0;
-	
+
 	solution->evaluate = solutionDirect_evaluate;
 	solution->doable = solutionDirect_doable;
 	solution->print = solutionDirect_print;
 	solution->saveToFile = solutionDirect_saveToFile;
-	
+
 	return solution;
 }
 
@@ -38,11 +38,11 @@ void solutionDirect_destroy(SolutionDirect * solution)
 int solutionDirect_evaluate(Instance * instance, int * items)
 {
 	int totalValue = 0;
-	
+
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(items[i] == 1)
 			totalValue += instance_item_getValue(instance, i);
-	
+
 	return totalValue;
 }
 
@@ -58,6 +58,11 @@ int solutionDirect_doable(Instance * instance, int * items)
 			return 0;
 	}
 	return 1;
+}
+
+void solutionDirect_takeItem(SolutionDirect * solution, int index)
+{
+	solution->itemsTaken[index] = 1;
 }
 
 void solutionDirect_print(Instance * instance, int * items)
@@ -78,15 +83,24 @@ void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items
 		perror("ERROR FOPEN solutionDirect_saveToFile");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	fprintf(file, "%d\n", solutionDirect_evaluate(instance, items));
 	for(int i = 0; i < instance->itemsCount; i++)
 		fprintf(file, "%d\t\t", items[i]);
-	
+
 	fclose(file);
 }
 
-void solutionDirect_takeItem(SolutionDirect * solution, int index)
+void solutionDirect_saveToFileResultAndTime(char * fileName, Instance * instance, Solution * solution)
 {
-	solution->itemsTaken[index] = 1;
+	FILE * file;
+	if((file = fopen(fileName, "w+")) == NULL)
+	{
+		perror("ERROR FOPEN solutionDirect_saveToFile");
+		exit(EXIT_FAILURE);
+	}
+
+	fprintf(file, "%d\t%ld\n", solutionDirect_evaluate(instance, solution->solutions->items), solution->solveTime);
+
+	fclose(file);
 }
