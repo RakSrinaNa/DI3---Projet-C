@@ -7,8 +7,9 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         src/main.c
-        src/mainUnit.c src/mainUnit.h
         src/mainKergosien.c src/mainKergosien.h
+        src/mainUnit.c src/mainUnit.h
+        src/unit.c src/unit.h
 
         src/instance.c src/instance.h
         src/instanceUnit.c src/instanceUnit.h

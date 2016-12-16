@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "unit.h"
 #include "bagUnit.h"
 #include "bag.h"
 #include "parser.h"
@@ -9,59 +10,29 @@ void bagTests()
 	Bag * bag = bag_create(instance);
 	
 	if(bag->itemsCount != 0)
-	{
-		perror("ASSERT BAG 1");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 1");
 	if(bag_getWeight(bag, 0) != 0 || bag_getWeight(bag, 1) != 0)
-	{
-		perror("ASSERT BAG 2");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 2");
 	if(bag_canContain(instance, bag, 2) != 0 || bag_canContain(instance, bag, 5) != 0 || bag_canContain(instance, bag, 4) != 0)
-	{
-		perror("ASSERT BAG 3");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 3");
 	if(bag_canContain(instance, bag, 0) != 1 || bag_canContain(instance, bag, 12) != 1)
-	{
-		perror("ASSERT BAG 4");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 4");
 	bag_addWeight(bag, 1, 100);
 	if(bag_getWeight(bag, 1) != 100)
-	{
-		perror("ASSERT BAG 5");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 5");
 	bag_addWeight(bag, 1, -100);
 	if(bag_getWeight(bag, 1) != 0)
-	{
-		perror("ASSERT BAG 6");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 6");
 	bag_appendItem(instance, bag, 12);
 	if(bag->itemsCount != 1 || bag_getItemIndex(bag, 0) != 12)
-	{
-		perror("ASSERT BAG 7");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 7");
 	if(bag_getWeight(bag, 0) != 1 || bag_getWeight(bag, 1) != 6)
-	{
-		perror("ASSERT BAG 8");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 8");
 	bag_appendItem(instance, bag, 1);
 	if(bag->itemsCount != 2 || bag_getItemIndex(bag, 1) != 1)
-	{
-		perror("ASSERT BAG 9");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 9");
 	if(bag_getWeight(bag, 0) != 5 || bag_getWeight(bag, 1) != 94)
-	{
-		perror("ASSERT BAG 10");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT BAG 10");
 	
 	char * filename = "testBag.txt";
 	FILE * file;
@@ -78,10 +49,7 @@ void bagTests()
 		perror("ERROR REMOVE BAG UNIT");
 	for(int i = 0; i < bag->itemsCount; i++)
 		if(bagItems[i] != bag_getItemIndex(bag, i))
-		{
-			perror("ASSERT BAG 11");
-			exit(EXIT_FAILURE);
-		}
+			unit_error("ASSERT BAG 11");
 	free(bagItems);
 	bag_destroy(bag);
 	instance_destroy(instance);
