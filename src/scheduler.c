@@ -134,12 +134,12 @@ double scheduler_getRatioAllDimensions(Instance * instance, int index)
 	return instance_item_getValue(instance, index) / totalWeight;
 }
 
-int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, int * subList, int sizeList)
+int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subList, int sizeList)
 {
 	int * list;
 	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
-		perror("ERROR MALLOC scheduler_ratioCriticDimension");
+		perror("ERROR MALLOC scheduler_ratioForDimension");
 		exit(EXIT_FAILURE);
 	}
 
@@ -147,7 +147,7 @@ int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, i
 	{
 		if((subList = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 		{
-			perror("ERROR MALLOC scheduler_ratioCriticDimension");
+			perror("ERROR MALLOC scheduler_ratioForDimension");
 			exit(EXIT_FAILURE);
 		}
 
@@ -162,7 +162,7 @@ int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, i
 	{
 		for(int j = 0; j < sizeList - 1 - i; j++)
 		{
-			if(scheduler_getRatio(instance, list[j], criticDimension) < scheduler_getRatio(instance, list[j + 1], criticDimension))
+			if(scheduler_getRatio(instance, list[j], dimension) < scheduler_getRatio(instance, list[j + 1], dimension))
 			{
 				int temp = list[j];
 				list[j] = list[j + 1];
