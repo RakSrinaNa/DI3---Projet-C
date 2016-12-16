@@ -3,6 +3,10 @@
 
 #include "instance.h"
 
+int * scheduler_random(Instance * instance);
+
+void shuffle(int * list, int size);
+
 int * scheduler_itemValue(Instance * instance);
 
 int * scheduler_ratioAllDimensions(Instance * instance);

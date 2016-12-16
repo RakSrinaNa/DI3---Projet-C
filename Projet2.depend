@@ -160,3 +160,156 @@
 	"bag.h"
 	"instance.h"
 
+1481880910 source:c:\users\21402028t\desktop\di3---projet2\src\bag.c
+	<stdio.h>
+	<stdlib.h>
+	"bag.h"
+
+1481880910 c:\users\21402028t\desktop\di3---projet2\src\bag.h
+	<stdio.h>
+	"instance.h"
+	"solutionDirect.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\instance.h
+	"item.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\item.h
+
+1481880910 c:\users\21402028t\desktop\di3---projet2\src\solutiondirect.h
+	"instance.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\bagunit.c
+	<stdlib.h>
+	"bagUnit.h"
+	"bag.h"
+	"parser.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\bagunit.h
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\parser.h
+	"stdio.h"
+	"instance.h"
+
+1481881033 source:c:\users\21402028t\desktop\di3---projet2\src\heuristic.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+	"solutionDirect.h"
+	"solutionIndirect.h"
+	"scheduler.h"
+	"heuristic.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\solutionindirect.h
+	"solutionIndirect.h"
+	"bag.h"
+	"instance.h"
+
+1481880910 c:\users\21402028t\desktop\di3---projet2\src\scheduler.h
+	"instance.h"
+
+1481880910 c:\users\21402028t\desktop\di3---projet2\src\heuristic.h
+	"instance.h"
+	"bag.h"
+	"solutionIndirect.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\instance.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\instanceunit.c
+	<stdlib.h>
+	<stdio.h>
+	"instanceUnit.h"
+	"instance.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\instanceunit.h
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\item.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\itemunit.c
+	<stdlib.h>
+	<stdio.h>
+	"itemUnit.h"
+	"item.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\itemunit.h
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\main.c
+	<string.h>
+	"mainUnit.h"
+	"parser.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\mainunit.h
+
+1481880910 source:c:\users\21402028t\desktop\di3---projet2\src\mainunit.c
+	<stdio.h>
+	"itemUnit.h"
+	"instanceUnit.h"
+	"parserUnit.h"
+	"solutionDirectUnit.h"
+	"bagUnit.h"
+	"solutionIndirectUnit.h"
+	"schedulerUnit.h"
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\parserunit.h
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\solutiondirectunit.h
+
+1481880878 c:\users\21402028t\desktop\di3---projet2\src\solutionindirectunit.h
+
+1481880910 c:\users\21402028t\desktop\di3---projet2\src\schedulerunit.h
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\parser.c
+	<stdio.h>
+	<stdlib.h>
+	<memory.h>
+	"instance.h"
+	"parser.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\parserunit.c
+	<stdlib.h>
+	<stdio.h>
+	"parserUnit.h"
+	"parser.h"
+
+1481880910 source:c:\users\21402028t\desktop\di3---projet2\src\scheduler.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+	"scheduler.h"
+
+1481880910 source:c:\users\21402028t\desktop\di3---projet2\src\solutiondirect.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+	"solutionDirect.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\solutiondirectunit.c
+	<stdlib.h>
+	"solutionDirectUnit.h"
+	"solutionDirect.h"
+	"parser.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\solutionindirect.c
+	<stdio.h>
+	<stdlib.h>
+	"instance.h"
+	"solutionIndirect.h"
+
+1481880878 source:c:\users\21402028t\desktop\di3---projet2\src\solutionindirectunit.c
+	<stdlib.h>
+	"solutionIndirectUnit.h"
+	"solutionIndirect.h"
+	"parser.h"
+	"instance.h"
+	"bag.h"
+
+1481880910 source:c:\users\21402028t\desktop\di3---projet2\src\schedulerunit.c
+	<stdlib.h>
+	"scheduler.h"
+	"parser.h"
+
