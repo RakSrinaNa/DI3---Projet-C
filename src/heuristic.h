@@ -20,6 +20,7 @@ typedef struct
 {
 	SolutionType type;
 	Solutions solutions;
+	long solveTime;
 } Solution;
 
 /**

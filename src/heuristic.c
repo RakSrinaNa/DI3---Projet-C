@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #include "instance.h"
 #include "solutionDirect.h"
@@ -10,8 +11,11 @@
 Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
-	int * list = heuristic_getList(instance, bag, schedulerType);
 	int listCount = instance->itemsCount;
+
+	struct timeval timeStart, timeEnd;
+	gettimeofday(&timeStart, NULL);
+	int * list = heuristic_getList(instance, bag, schedulerType);
 
 	while(list != NULL)
 	{
@@ -23,6 +27,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 				list = scheduler_ratioCriticDimension(instance, bag_getCriticDimension(instance, bag), list, listCount);
 		}
 	}
+	gettimeofday(&timeEnd, NULL);
 	free(list);
 
 	Solution * solution;
@@ -31,6 +36,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		perror("ERROR MALLOC heuristic");
 		exit(EXIT_FAILURE);
 	}
+	solution->solveTime = timeEnd.tv_usec - timeStart.tv_usec;
 	if(solutionType)
 	{
 		solution->type = DIRECT;
