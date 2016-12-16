@@ -27,4 +27,8 @@ int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, i
 
 double scheduler_getRatio(Instance * instance, int index, int dim);
 
+int * scheduler_ratioAllDimensionsWeighted(Instance * instance);
+
+double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index);
+
 #endif
