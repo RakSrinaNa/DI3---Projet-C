@@ -176,7 +176,46 @@ int * scheduler_ratioCriticDimension(Instance * instance, int criticDimension, i
 
 double scheduler_getRatio(Instance * instance, int index, int dim)
 {
+    int weight = instance_item_getWeight(instance, index, dim);
+    if (weight == 0)
+        return 999999;
 	return (double) (instance_item_getValue(instance, index)) / instance_item_getWeight(instance, index, dim);
 }
 
+int * scheduler_ratioAllDimensionsWeighted(Instance * instance)
+{
+	int * list;
+	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
+	{
+		perror("ERROR MALLOC scheduler_ratioAllDimensions");
+		exit(EXIT_FAILURE);
+	}
 
+	for(int i = 0; i < instance->itemsCount; i++)
+		list[i] = i;
+
+	for(int i = 0; i < instance->itemsCount - 1; i++)
+	{
+		for(int j = 0; j < instance->itemsCount - 1 - i; j++)
+		{
+			if(scheduler_getRatioAllDimensionsWeighted(instance, list[j]) < scheduler_getRatioAllDimensionsWeighted(instance, list[j + 1]))
+			{
+				int temp = list[j];
+				list[j] = list[j + 1];
+				list[j + 1] = temp;
+			}
+		}
+	}
+
+	return list;
+}
+
+double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index)
+{
+    double totalWeight = 0;
+	for(int i = 0; i < instance->dimensionsNumber; i++)
+		totalWeight += instance_item_getWeight(instance, index, i) / instance_getMaxWeight(instance, index);
+	if(totalWeight == 0)
+		return 9999999;
+	return instance_item_getValue(instance, index) / totalWeight;
+}
