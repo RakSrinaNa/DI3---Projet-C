@@ -74,4 +74,6 @@ void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items
  */
 void solutionDirect_takeItem(SolutionDirect * solution, int index);
 
+void solutionDirect_saveToFileResultAndTime(char * fileName, Instance * instance, Solution * solution);
+
 #endif
