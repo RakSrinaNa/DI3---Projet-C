@@ -35,7 +35,7 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	(bag->itemsCount)++;
-	if((bag->items = (int *) realloc(bag->items, (unsigned int) bag->itemsCount)) == NULL)
+	if((bag->items = (int *) realloc(bag->items, sizeof(int) * bag->itemsCount)) == NULL)
 	{
 		perror("REALLOC ERROR bag_appendItem");
 		exit(EXIT_FAILURE);
