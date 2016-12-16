@@ -4,4 +4,4 @@ script: make test
 notifications:
   email: true
   on_failure: always
-  on_success: always
+  on_success: change
