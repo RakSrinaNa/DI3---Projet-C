@@ -32,14 +32,14 @@ int scheduler_removeFromList(int ** list, int * listCount, int index)
 {
 	int element = (*list)[index];
 
-	for(int i = index; i < (*listCount) - 1; i++)
+	for(int i = index; i < *listCount - 1; i++)
 		(*list)[i] = (*list)[i + 1];
 
 	(*listCount)--;
 
 	if(*listCount == 0)
-		(*list) = NULL;
-	else if(((*list) = (int *) realloc(list, (*listCount) * sizeof(int))) == NULL)
+		*list = NULL;
+	else if((*list = (int *) realloc(*list, *listCount * sizeof(int))) == NULL)
 	{
 		perror("ERROR REALLOC heuristic_removeFromList");
 		exit(EXIT_FAILURE);
@@ -58,7 +58,7 @@ void scheduler_appendToList(int ** list, int * listCount, int element)
             exit(EXIT_FAILURE);
         }
     }
-	else if(((*list) = (int *) realloc(list, (1+(*listCount)) * sizeof(int))) == NULL)
+	else if((*list = (int *) realloc(*list, (1 + *listCount) * sizeof(int))) == NULL)
 	{
 		perror("ERROR REALLOC heuristic_removeFromList");
 		exit(EXIT_FAILURE);
