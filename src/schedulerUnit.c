@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "scheduler.h"
 #include "parser.h"
-#include "instance.h"
 
 void schedulerTests()
 {

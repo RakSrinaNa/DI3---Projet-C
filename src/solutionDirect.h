@@ -2,18 +2,19 @@
 #define SOLUTIONDIRECT
 
 #include "instance.h"
+#include "heuristic.h"
 
 typedef struct
 {
 	int * itemsTaken;
-
+	
 	// Functions
 	int (* evaluate)(Instance * instance, int * items);
-
+	
 	int (* doable)(Instance * instance, int * items);
-
+	
 	void (* print)(Instance * instance, int * items);
-
+	
 	void (* saveToFile)(char * fileName, Instance * instance, int * items);
 } SolutionDirect;
 
@@ -73,7 +74,5 @@ void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items
  * @param index The index of the item to take.
  */
 void solutionDirect_takeItem(SolutionDirect * solution, int index);
-
-void solutionDirect_saveToFileResultAndTime(char * fileName, Instance * instance, Solution * solution);
 
 #endif

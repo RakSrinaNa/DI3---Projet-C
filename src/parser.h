@@ -44,6 +44,6 @@ int * parser_lineToIntArray(char * line, int valuesNumber);
  * @param file The file to read from.
  * @return The length read.
  */
-int getLine(char **linePtr, size_t *lineSize, FILE *file);
+int getLine(char ** linePtr, size_t * lineSize, FILE * file);
 
 #endif

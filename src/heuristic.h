@@ -4,6 +4,7 @@
 #include "instance.h"
 #include "bag.h"
 #include "solutionIndirect.h"
+#include "solutionDirect.h"
 
 typedef enum
 {

@@ -4,19 +4,17 @@
 
 #include "instance.h"
 #include "solutionDirect.h"
-#include "solutionIndirect.h"
 #include "scheduler.h"
-#include "heuristic.h"
 
 Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
-
+	
 	struct timeval timeStart, timeEnd;
 	gettimeofday(&timeStart, NULL);
 	int * list = heuristic_getList(instance, bag, schedulerType);
-
+	
 	while(list != NULL)
 	{
 		int itemIndex = scheduler_removeFromList(&list, &listCount, 0);
@@ -29,7 +27,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	}
 	gettimeofday(&timeEnd, NULL);
 	free(list);
-
+	
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
 	{
@@ -40,17 +38,17 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	if(solutionType)
 	{
 		solution->type = DIRECT;
-        solution->solutions.direct = bag_toSolutionDirect(instance, bag);
-        bag_destroy(bag);
+		solution->solutions.direct = bag_toSolutionDirect(instance, bag);
+		bag_destroy(bag);
 	}
 	else
-    {
-        solution->type = INDIRECT;
-        solution->solutions.indirect = solutionIndirect_create(instance);
+	{
+		solution->type = INDIRECT;
+		solution->solutions.indirect = solutionIndirect_create(instance);
 		solution->solutions.indirect->bag = bag;
-    }
-
-
+	}
+	
+	
 	return solution;
 }
 
@@ -60,21 +58,41 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
 	{
 		case 0:
 			return scheduler_random(instance);
-
+		
 		case 1:
 			return scheduler_itemValue(instance);
-
+		
 		case 2:
 			return scheduler_ratioAllDimensions(instance);
-
+		
 		case 3:
 			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->dimensionsNumber);
-
+		
 		default:
 			break;
 	}
-
+	
 	perror("ERROR HEURISTIC getList - Worst schedulerType EVER");
 	exit(EXIT_FAILURE);
 }
 
+void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution)
+{
+	FILE * file;
+	if((file = fopen(fileName, "w+")) == NULL)
+	{
+		perror("ERROR FOPEN heuristic_saveSolutionToFile");
+		exit(EXIT_FAILURE);
+	}
+	switch(solution->type)
+	{
+		case DIRECT:
+			fprintf(file, "%d\t%ld\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), solution->solveTime);
+			break;
+		case INDIRECT:
+			fprintf(file, "%d\t%ld\n", solutionIndirect_evaluate(solution->solutions.indirect), solution->solveTime);
+			break;
+	}
+	
+	fclose(file);
+}

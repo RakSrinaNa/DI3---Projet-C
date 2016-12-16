@@ -143,28 +143,28 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 	size_t size = 0; // The size of the buffer
 	int charRead; // The char read
 	
-	if (linePtr == NULL || file == NULL || lineSize == NULL)
+	if(linePtr == NULL || file == NULL || lineSize == NULL)
 		return -1;
 	
 	bufferPtr = *linePtr;
 	size = *lineSize;
 	charRead = fgetc(file);
-	if (charRead == EOF)
+	if(charRead == EOF)
 		return -1;
-	if (bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
+	if(bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
 	{
 		bufferPtr = malloc(50);
-		if (bufferPtr == NULL)
+		if(bufferPtr == NULL)
 			return -1;
 		size = 50;
 	}
 	while(charRead != EOF) // While we didn't reach the end of the file
 	{
-		if (writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
+		if(writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
 		{
 			size += 50;
 			char * newBufferPtr = realloc(bufferPtr, size);
-			if (newBufferPtr == NULL) // If realloc fails
+			if(newBufferPtr == NULL) // If realloc fails
 			{
 				bufferPtr[writingHead] = '\0';
 				*linePtr = bufferPtr;
@@ -174,7 +174,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 			bufferPtr = newBufferPtr;
 		}
 		bufferPtr[writingHead++] = (char) charRead; // Write the char read into out buffer
-		if (charRead == '\n') // If it's the end of the line, get out of the while
+		if(charRead == '\n') // If it's the end of the line, get out of the while
 			break;
 		charRead = fgetc(file); // Read next char
 	}

@@ -2,8 +2,6 @@
 #include "solutionIndirectUnit.h"
 #include "solutionIndirect.h"
 #include "parser.h"
-#include "instance.h"
-#include "bag.h"
 
 void solutionIndirectTests(void)
 {
