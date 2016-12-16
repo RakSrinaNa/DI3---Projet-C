@@ -5,6 +5,7 @@
 #include "instance.h"
 #include "solutionDirect.h"
 #include "scheduler.h"
+#include "heuristic.h"
 
 Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 {

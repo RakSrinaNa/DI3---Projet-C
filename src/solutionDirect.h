@@ -2,7 +2,6 @@
 #define SOLUTIONDIRECT
 
 #include "instance.h"
-#include "heuristic.h"
 
 typedef struct
 {
