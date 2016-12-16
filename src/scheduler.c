@@ -51,11 +51,13 @@ int scheduler_removeFromList(int ** list, int * listCount, int index)
 void scheduler_appendToList(int ** list, int * listCount, int element)
 {
 	if(*list == NULL)
-		if((list = (int *) malloc(sizeof(int))) == NULL)
+    {
+        if((*list = (int *) malloc(sizeof(int))) == NULL)
         {
             perror("ERROR MALLOC scheduler_itemValue");
             exit(EXIT_FAILURE);
         }
+    }
 	else if(((*list) = (int *) realloc(list, (1+(*listCount)) * sizeof(int))) == NULL)
 	{
 		perror("ERROR REALLOC heuristic_removeFromList");
@@ -128,7 +130,7 @@ double scheduler_getRatioAllDimensions(Instance * instance, int index)
 	for(int i = 0; i < instance->dimensionsNumber; i++)
 		totalWeight += instance_item_getWeight(instance, index, i);
 	if(totalWeight == 0)
-		return 9999999D;
+		return 9999999;
 	return instance_item_getValue(instance, index) / totalWeight;
 }
 
