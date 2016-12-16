@@ -5,7 +5,7 @@
 
 #include "instance.h"
 #include "parser.h"
-#include "solutionIndirect.h"*
+#include "solutionIndirect.h"
 #include "solutionDirect.h"
 #include "scheduler.h"
 #include "heuristic.h"
