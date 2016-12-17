@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "unit.h"
 #include "instanceUnit.h"
 #include "instance.h"
 
@@ -21,43 +22,22 @@ void instanceTests()
 	}
 	instance_initialize(instance, 0, 0);
 	if(instance->items != NULL || instance->maxWeights != NULL)
-	{
-		perror("ASSERT INSTANCE 2");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 2");
 	if(instance_getItem(instance, 2) != NULL)
-	{
-		perror("ASSERT INSTANCE 3");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 3");
 	instance_initialize(instance, 3, 3);
 	instance_setMaxWeights(instance, weights);
 	if(instance->items == NULL || instance_item_getValue(instance, 2) != 0)
-	{
-		perror("ASSERT INSTANCE 4");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 4");
 	if(instance_item_getValue(instance, 5) != -1)
-	{
-		perror("ASSERT INSTANCE 5");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 5");
 	if(instance_getItem(instance, 3) != NULL)
-	{
-		perror("ASSERT INSTANCE 6");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 6");
 	if(instance_getMaxWeight(instance, 0) != 1 || instance_getMaxWeight(instance, 2) != 3)
-	{
-		perror("ASSERT INSTANCE 7");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 7");
 	item_setWeight(instance_getItem(instance, 0), 2, 2);
 	if(instance_item_getWeight(instance, 0, 2) != 2)
-	{
-		perror("ASSERT INSTANCE 8");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT INSTANCE 8");
 	instance_destroy(instance);
 	free(instance);
 }

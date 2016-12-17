@@ -136,7 +136,7 @@ double scheduler_getRatioAllDimensions(Instance * instance, int index)
 int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subList, int sizeList)
 {
 	int * list;
-	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
+	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
 	{
 		perror("ERROR MALLOC scheduler_ratioForDimension");
 		exit(EXIT_FAILURE);
@@ -144,14 +144,14 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subL
 	
 	if(subList == NULL)
 	{
-		if((subList = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
+		if((subList = (int *) malloc(sizeof(int) * sizeList)) == NULL)
 		{
 			perror("ERROR MALLOC scheduler_ratioForDimension");
 			exit(EXIT_FAILURE);
 		}
 		
-		for(int i = 0; i < instance->itemsCount; i++)
-			list[i] = i;
+		for(int i = 0; i < sizeList; i++)
+			subList[i] = i;
 	}
 	
 	for(int i = 0; i < sizeList; i++)
@@ -213,7 +213,7 @@ double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index)
 {
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
-		totalWeight += instance_item_getWeight(instance, index, i) / instance_getMaxWeight(instance, index);
+		totalWeight += (double) instance_item_getWeight(instance, index, i) / instance_getMaxWeight(instance, i);
 	if(totalWeight == 0)
 		return 9999999;
 	return instance_item_getValue(instance, index) / totalWeight;

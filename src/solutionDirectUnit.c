@@ -1,8 +1,10 @@
 #include <stdlib.h>
 
+#include "unit.h"
 #include "solutionDirectUnit.h"
 #include "solutionDirect.h"
 #include "parser.h"
+#include "instance.h"
 
 void solutionDirectTests(void)
 {
@@ -13,15 +15,9 @@ void solutionDirectTests(void)
 	solution->itemsTaken[5] = 1;
 	solution->itemsTaken[7] = 1;
 	if(solutionDirect_evaluate(instance, solution->itemsTaken) != 333)
-	{
-		perror("ASSERT SOLUTIONDIRECT 1");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT SOLUTIONDIRECT 1");
 	if(solutionDirect_doable(instance, solution->itemsTaken) != 0)
-	{
-		perror("ASSERT SOLUTIONDIRECT 2");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT SOLUTIONDIRECT 2");
 	solution->itemsTaken[1] = 0;
 	solution->itemsTaken[3] = 0;
 	solution->itemsTaken[5] = 0;
@@ -30,15 +26,9 @@ void solutionDirectTests(void)
 	solution->itemsTaken[12] = 1;
 	int score = solutionDirect_evaluate(instance, solution->itemsTaken);
 	if(score != 167)
-	{
-		perror("ASSERT SOLUTIONDIRECT 1");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT SOLUTIONDIRECT 1");
 	if(solutionDirect_doable(instance, solution->itemsTaken) != 1)
-	{
-		perror("ASSERT SOLUTIONDIRECT 2");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT SOLUTIONDIRECT 2");
 	char * filename = "testSolutionDirect.txt";
 	solutionDirect_saveToFile(filename, instance, solution->itemsTaken);
 	FILE * file;
@@ -48,19 +38,12 @@ void solutionDirectTests(void)
 		exit(EXIT_FAILURE);
 	}
 	if(score != atoi(parser_readLine(file)))
-	{
-		perror("ASSERT SOLUTIONDIRECT 3");
-		exit(EXIT_FAILURE);
-	}
+		unit_error("ASSERT SOLUTIONDIRECT 3");
 	int * itemsTaken = parser_lineToIntArray(parser_readLine(file), instance->itemsCount);
 	fclose(file);
 	if(remove(filename) != 0)
 		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
-	for(int i = 0; i < instance->itemsCount; i++)
-		if(itemsTaken[i] != solution->itemsTaken[i])
-		{
-			perror("ASSERT SOLUTIONDIRECT 4");
-			exit(EXIT_FAILURE);
-		}
+	if(!unit_arrayEquals(itemsTaken, solution->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT SOLUTIONDIRECT 4");
 	free(itemsTaken);
 }
