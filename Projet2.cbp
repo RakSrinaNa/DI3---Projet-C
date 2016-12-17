@@ -70,6 +70,10 @@
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/mainKergosien.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/mainKergosien.h" />
 		<Unit filename="src/mainUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -86,6 +90,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/scheduler.h" />
+		<Unit filename="src/schedulerUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/schedulerUnit.h" />
 		<Unit filename="src/solutionDirect.c">
 			<Option compilerVar="CC" />
 		</Unit>

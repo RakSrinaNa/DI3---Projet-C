@@ -50,4 +50,8 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
  */
 int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType);
 
+void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution);
+
+void heuristic_solutionDestroy(Solution * solution);
+
 #endif

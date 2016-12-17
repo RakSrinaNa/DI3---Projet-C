@@ -28,5 +28,6 @@ int main(int argc, char * argv[])
 	{
 		parser_readFile("MKP-Instances/_mknapcb1_res.txt");
 	}
+
 	return 0;
 }

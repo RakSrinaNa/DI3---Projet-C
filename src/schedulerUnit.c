@@ -83,7 +83,6 @@ void schedulerTests()
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(correctValueList[i] != valueList[i])
 		{
-		    printf("\n%d\n", i);
 			perror("ASSERT ERROR SCHEDULER 6");
 			exit(EXIT_FAILURE);
 		}

@@ -98,7 +98,7 @@
 
 1481550198 f:\polytech\projettutore\di3---projet2\src\itemunit.h
 
-1481903004 source:f:\polytech\projettutore\di3---projet2\src\main.c
+1481932000 source:f:\polytech\projettutore\di3---projet2\src\main.c
 	<string.h>
 	"mainUnit.h"
 	"mainKergosien.h"
@@ -324,7 +324,7 @@
 
 1481794476 f:\polytech\projettutore\di3---projet2\src\bagunit.h
 
-1481903002 source:f:\polytech\projettutore\di3---projet2\src\heuristic.c
+1482008814 source:f:\polytech\projettutore\di3---projet2\src\heuristic.c
 	<stdio.h>
 	<stdlib.h>
 	<sys/time.h>
@@ -336,7 +336,7 @@
 1481901674 f:\polytech\projettutore\di3---projet2\src\scheduler.h
 	"instance.h"
 
-1481902836 f:\polytech\projettutore\di3---projet2\src\heuristic.h
+1482008656 f:\polytech\projettutore\di3---projet2\src\heuristic.h
 	"instance.h"
 	"bag.h"
 	"solutionIndirect.h"
@@ -358,9 +358,9 @@
 	"solutionIndirect.h"
 	"parser.h"
 
-1481903368 f:\polytech\projettutore\di3---projet2\src\mainkergosien.h
+1482008486 f:\polytech\projettutore\di3---projet2\src\mainkergosien.h
 
-1481903384 source:f:\polytech\projettutore\di3---projet2\src\mainkergosien.c
+1482008988 source:f:\polytech\projettutore\di3---projet2\src\mainkergosien.c
 	<stdio.h>
 	<stdlib.h>
 	<memory.h>
@@ -371,8 +371,9 @@
 	"solutionDirect.h"
 	"scheduler.h"
 	"heuristic.h"
+	"mainKergosien.h"
 
-1481902836 source:f:\polytech\projettutore\di3---projet2\src\schedulerunit.c
+1481903856 source:f:\polytech\projettutore\di3---projet2\src\schedulerunit.c
 	<stdlib.h>
 	"scheduler.h"
 	"parser.h"
