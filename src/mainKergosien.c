@@ -16,7 +16,7 @@ void mainKergosien()
 		{
 			Solution * solution = heuristic(instance, 1, j);
 			char str[50];
-			sprintf(str, "test1_direct_scheduler_%d", j);
+			sprintf(str, "test1_direct_scheduler_%d.txt", j);
 			heuristic_saveSolutionToFile(str, instance, solution);
 			heuristic_solutionDestroy(solution);
 		}
