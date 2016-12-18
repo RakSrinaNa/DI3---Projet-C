@@ -137,23 +137,14 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subL
 		exit(EXIT_FAILURE);
 	}
 	
-	if(subList == NULL)
-	{
-		if((subList = (int *) malloc(sizeof(int) * sizeList)) == NULL)
-		{
-			perror("ERROR MALLOC scheduler_ratioForDimension");
-			exit(EXIT_FAILURE);
-		}
-		
+	if(subList != NULL)
 		for(int i = 0; i < sizeList; i++)
-			subList[i] = i;
-	}
-	
-	for(int i = 0; i < sizeList; i++)
-		list[i] = subList[i];
+			list[i] = i;
+	else
+		for(int i = 0; i < sizeList; i++)
+			list[i] = i;
 	
 	for(int i = 0; i < sizeList - 1; i++)
-	{
 		for(int j = 0; j < sizeList - 1 - i; j++)
 		{
 			if(scheduler_getRatio(instance, list[j], dimension) < scheduler_getRatio(instance, list[j + 1], dimension))
@@ -163,8 +154,6 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subL
 				list[j + 1] = temp;
 			}
 		}
-	}
-	free(subList);
 	return list;
 }
 
