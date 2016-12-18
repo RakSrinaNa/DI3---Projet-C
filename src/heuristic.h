@@ -50,8 +50,20 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
  */
 int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType);
 
+/**
+ * Save a Solution to a file.
+ *
+ * @param fileName The file where to write.
+ * @param instance A pointer to the instance linked to the solution.
+ * @param solution A pointer to the solution.
+ */
 void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution);
 
+/**
+ * Destroy a solution.
+ *
+ * @param solution A pointer to the solution to destroy.
+ */
 void heuristic_solutionDestroy(Solution * solution);
 
 #endif

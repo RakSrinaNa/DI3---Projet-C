@@ -103,10 +103,10 @@ void heuristic_solutionDestroy(Solution * solution)
 	switch(solution->type)
 	{
 		case DIRECT:
-			solutionDirect_destroy((solution->solutions.direct));
+			solutionDirect_destroy(solution->solutions.direct);
 			break;
 		case INDIRECT:
-			solutionIndirect_destroy((solution->solutions.indirect));
+			solutionIndirect_destroy(solution->solutions.indirect);
 			break;
 	}
 	free(solution);
