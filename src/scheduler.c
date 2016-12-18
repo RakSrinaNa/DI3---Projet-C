@@ -22,30 +22,34 @@ int * scheduler_random(Instance * instance)
 	while(listTempo != NULL)
 		scheduler_appendToList(&list, &listCount, scheduler_removeFromList(&listTempo, &listTempoCount, rand() % listTempoCount));
 	
-	free(listTempo);
-	
 	return list;
 }
 
-int scheduler_removeFromList(int ** list, int * listCount, int index)
+int scheduler_removeFromList(int ** listPtr, int * listCount, int index)
 {
-	int element = (*list)[index];
+	int * list = *listPtr;
+	int element = list[index];
 	
 	for(int i = index; i < *listCount - 1; i++)
-		(*list)[i] = (*list)[i + 1];
+		list[i] = list[i + 1];
 	
 	(*listCount)--;
 	
 	if(*listCount == 0)
 	{
-		free(*list);
-		*list = NULL;
+		free(list);
+		*listPtr = NULL;
 	}
-	else if((*list = (int *) realloc(*list, *listCount * sizeof(int))) == NULL)
+	else
 	{
-		perror("ERROR REALLOC heuristic_removeFromList");
-		exit(EXIT_FAILURE);
+		if((list = (int *) realloc(list, *listCount * sizeof(int))) == NULL)
+		{
+			perror("ERROR REALLOC heuristic_removeFromList");
+			exit(EXIT_FAILURE);
+		}
+		*listPtr = list;
 	}
+	
 	
 	return element;
 }
