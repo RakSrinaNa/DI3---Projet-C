@@ -37,7 +37,10 @@ int scheduler_removeFromList(int ** list, int * listCount, int index)
 	(*listCount)--;
 	
 	if(*listCount == 0)
+	{
+		free(*list);
 		*list = NULL;
+	}
 	else if((*list = (int *) realloc(*list, *listCount * sizeof(int))) == NULL)
 	{
 		perror("ERROR REALLOC heuristic_removeFromList");
