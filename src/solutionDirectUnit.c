@@ -4,7 +4,6 @@
 #include "solutionDirectUnit.h"
 #include "solutionDirect.h"
 #include "parser.h"
-#include "instance.h"
 
 void solutionDirectTests(void)
 {

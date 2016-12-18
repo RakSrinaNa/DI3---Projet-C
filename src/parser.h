@@ -4,7 +4,8 @@
 #include "stdio.h"
 #include "instance.h"
 
-typedef struct {
+typedef struct
+{
 	char * filename;
 	long offset;
 	int instanceCount;
