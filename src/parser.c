@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <unistd.h>
 
 #include "instance.h"
 #include "parser.h"
