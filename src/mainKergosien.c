@@ -14,6 +14,7 @@ void mainKergosien()
     Instance * instances = parser_readFile("./MKP-Instances/_mknapcb1_res.txt");
 
     for(int i = 0; i < 30; i++)
+    {
         for(int j = 0; j < 4; j++)
         {
             Solution * solution = heuristic(&(instances[i]), 1, j);
@@ -21,8 +22,9 @@ void mainKergosien()
             sprintf(str, "test1_direct_scheduler_%d", j);
             heuristic_saveSolutionToFile(str, &(instances[i]), solution);
             heuristic_solutionDestroy(solution);
-            instance_destroy(&(instances[i]));
         }
+        instance_destroy(&(instances[i]));
+    }
 
     free(instances);
 

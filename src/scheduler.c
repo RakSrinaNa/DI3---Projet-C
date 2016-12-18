@@ -49,22 +49,14 @@ int scheduler_removeFromList(int ** list, int * listCount, int index)
 
 void scheduler_appendToList(int ** list, int * listCount, int element)
 {
-	if(*list == NULL)
-	{
-		if((*list = (int *) malloc(sizeof(int))) == NULL)
-		{
-			perror("ERROR MALLOC scheduler_itemValue");
-			exit(EXIT_FAILURE);
-		}
-	}
-	else if((*list = (int *) realloc(*list, (1 + *listCount) * sizeof(int))) == NULL)
+	(*listCount)++;
+	if((*list = (int *) realloc(*list, *listCount * sizeof(int))) == NULL)
 	{
 		perror("ERROR REALLOC heuristic_removeFromList");
 		exit(EXIT_FAILURE);
 	}
 	
-	(*list)[*listCount] = element;
-	(*listCount)++;
+	(*list)[*listCount - 1] = element;
 }
 
 int * scheduler_itemValue(Instance * instance)
