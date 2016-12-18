@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="ker" />
+				<Option parameters="test" />
 				<Compiler>
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
@@ -24,6 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="ker" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-pedantic" />
@@ -111,6 +112,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/solutionIndirectUnit.h" />
+		<Unit filename="src/unit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
