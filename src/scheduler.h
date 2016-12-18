@@ -23,7 +23,7 @@ int * scheduler_ratioAllDimensions(Instance * instance);
 
 double scheduler_getRatioAllDimensions(Instance * instance, int index);
 
-int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subList, int sizeList);
+int * scheduler_ratioForDimension(Instance * instance, int dimension, int * itemsInList, int sizeList);
 
 double scheduler_getRatio(Instance * instance, int index, int dim);
 

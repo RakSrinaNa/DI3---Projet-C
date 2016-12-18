@@ -128,7 +128,7 @@ double scheduler_getRatioAllDimensions(Instance * instance, int index)
 	return instance_item_getValue(instance, index) / totalWeight;
 }
 
-int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subList, int sizeList)
+int * scheduler_ratioForDimension(Instance * instance, int dimension, int * itemsInList, int sizeList)
 {
 	int * list;
 	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
@@ -137,9 +137,9 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * subL
 		exit(EXIT_FAILURE);
 	}
 	
-	if(subList != NULL)
+	if(itemsInList != NULL)
 		for(int i = 0; i < sizeList; i++)
-			list[i] = i;
+			list[i] = itemsInList[i];
 	else
 		for(int i = 0; i < sizeList; i++)
 			list[i] = i;
