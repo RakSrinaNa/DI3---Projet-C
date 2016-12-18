@@ -1,16 +1,74 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <unistd.h>
 
 #include "instance.h"
 #include "parser.h"
 
-Instance * parser_readFile(char * fileName)
+Parser * parser_create(char * filename)
+{
+	Parser * parser;
+	if((parser = (Parser *) malloc(sizeof(Parser))) == NULL)
+	{
+		perror("ERROR MALLOC parser_create");
+		exit(EXIT_FAILURE);
+	}
+	parser->filename = strdup(filename);
+	parser->offset = 0;
+	parser->instanceRead = 0;
+	FILE * file;
+	if((file = fopen(parser->filename, "r")) == NULL)
+	{
+		perror("ERROR FOPEN parser_create");
+		exit(EXIT_FAILURE);
+	}
+	
+	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
+	parser->offset = ftell(file);
+	fclose(file);
+	
+	return parser;
+}
+
+void parser_destroy(Parser * parser)
+{
+	free(parser->filename);
+	free(parser);
+}
+
+Instance * parser_getNextInstance(Parser * parser)
+{
+	if(parser->instanceRead >= parser->instanceCount)
+		return NULL;
+	Instance * instance;
+	if((instance = (Instance *) malloc(sizeof(Instance))) == NULL) // Create instance
+	{
+		perror("ERROR MALLOC parser_getNextInstance");
+		exit(EXIT_FAILURE);
+	}
+	
+	FILE * file;
+	if((file = fopen(parser->filename, "r")) == NULL)
+	{
+		perror("ERROR FOPEN parser_getNextInstance");
+		exit(EXIT_FAILURE);
+	}
+	fseek(file, parser->offset, SEEK_SET);
+	parser_readInstance(file, instance);
+	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
+	parser->offset = ftell(file);
+	fclose(file);
+	parser->instanceRead++;
+	return instance;
+}
+
+Instance * parser_readAllFile(char * fileName)
 {
 	FILE * file;
 	if((file = fopen(fileName, "r")) == NULL)
 	{
-		perror("ERROR FOPEN parser_readFile");
+		perror("ERROR FOPEN parser_readAllFile");
 		exit(EXIT_FAILURE);
 	}
 	
@@ -18,7 +76,7 @@ Instance * parser_readFile(char * fileName)
 	Instance * instances;
 	if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL) // Create instances
 	{
-		perror("ERROR MALLOC parser_readFile");
+		perror("ERROR MALLOC parser_readAllFile");
 		exit(EXIT_FAILURE);
 	}
 	

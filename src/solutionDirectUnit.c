@@ -8,7 +8,7 @@
 
 void solutionDirectTests(void)
 {
-	Instance * instance = parser_readFile("MKP-Instances/theBestBag.txt");
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 	SolutionDirect * solution = solutionDirect_create(instance);
 	solution->itemsTaken[1] = 1;
 	solution->itemsTaken[3] = 1;

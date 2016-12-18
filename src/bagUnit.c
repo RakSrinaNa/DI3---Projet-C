@@ -6,7 +6,7 @@
 
 void bagTests()
 {
-	Instance * instance = parser_readFile("MKP-Instances/theBestBag.txt");
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 	Bag * bag = bag_create(instance);
 	
 	if(bag->itemsCount != 0)

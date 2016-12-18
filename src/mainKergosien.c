@@ -11,23 +11,23 @@
 
 void mainKergosien()
 {
-    Instance * instances = parser_readFile("./MKP-Instances/_mknapcb1_res.txt");
-
-    for(int i = 0; i < 30; i++)
+    Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
+    
+    Instance * instance;
+    while((instance = parser_getNextInstance(parser)) != NULL)
     {
         for(int j = 0; j < 4; j++)
         {
-            Solution * solution = heuristic(&(instances[i]), 1, j);
+            Solution * solution = heuristic(instance, 1, j);
             char str[50];
             sprintf(str, "test1_direct_scheduler_%d", j);
-            heuristic_saveSolutionToFile(str, &(instances[i]), solution);
+            heuristic_saveSolutionToFile(str, instance, solution);
             heuristic_solutionDestroy(solution);
         }
-        instance_destroy(&(instances[i]));
+        instance_destroy(instance);
     }
 
-    free(instances);
-
+    parser_destroy(parser);
 }
 
 char * stringConcat(char * s1, char * s2)

@@ -8,7 +8,7 @@
 
 void schedulerTests()
 {
-	Instance * instance = parser_readFile("MKP-Instances/theBestBag.txt");
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 
 	int correctValueList[15] = {3, 12, 7, 10, 4, 9, 14, 6, 11, 1, 13, 8, 2, 5, 0};
 	int * valueList = scheduler_itemValue(instance);

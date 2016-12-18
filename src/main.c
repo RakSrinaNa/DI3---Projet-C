@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
 		char * filename = argv[1];
 		//int codeType = atoi(argv[2]);
 		//int codeMethod = atoi(argv[3]);
-		parser_readFile(filename);
+		parser_readAllFile(filename);
 	}
 	else if(argc == 2) // Used to start tests
 	{
@@ -26,7 +26,7 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
-		parser_readFile("MKP-Instances/_mknapcb1_res.txt");
+		parser_readAllFile("MKP-Instances/_mknapcb1_res.txt");
 	}
 
 	return 0;

@@ -150,14 +150,12 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * item
 	
 	for(int i = 0; i < sizeList - 1; i++)
 		for(int j = 0; j < sizeList - 1 - i; j++)
-		{
 			if(scheduler_getRatio(instance, list[j], dimension) < scheduler_getRatio(instance, list[j + 1], dimension))
 			{
 				int temp = list[j];
 				list[j] = list[j + 1];
 				list[j + 1] = temp;
 			}
-		}
 	return list;
 }
 

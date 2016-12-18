@@ -4,6 +4,19 @@
 #include "stdio.h"
 #include "instance.h"
 
+typedef struct {
+	char * filename;
+	long offset;
+	int instanceCount;
+	int instanceRead;
+} Parser;
+
+Parser * parser_create(char * filename);
+
+void parser_destroy(Parser * parser);
+
+Instance * parser_getNextInstance(Parser * parser);
+
 /**
  * Read a non empty line from a file.
  *
@@ -18,7 +31,7 @@ char * parser_readLine(FILE * file);
  * @param fileName The path to the file to open.
  * @return An array on the heap of the instances.
  */
-Instance * parser_readFile(char * fileName);
+Instance * parser_readAllFile(char * fileName);
 
 /**
  * Read an instance from the file.

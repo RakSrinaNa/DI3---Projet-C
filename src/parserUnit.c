@@ -8,7 +8,7 @@
 void parserTests(void)
 {
 	parserTestLineToIntArray();
-	Instance * instance = parser_readFile("MKP-Instances/theBestBag.txt");
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 	
 	if(instance->dimensionsNumber != 2 || instance->itemsCount != 15)
 		unit_error("ASSERT PARSER 1");
