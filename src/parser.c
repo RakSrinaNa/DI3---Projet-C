@@ -13,7 +13,7 @@ Parser * parser_create(char * filename)
 		perror("ERROR MALLOC parser_create");
 		exit(EXIT_FAILURE);
 	}
-	parser->filename = strdup(filename);
+	parser->filename = filename;
 	parser->offset = 0;
 	parser->instanceRead = 0;
 	FILE * file;
@@ -32,7 +32,6 @@ Parser * parser_create(char * filename)
 
 void parser_destroy(Parser * parser)
 {
-	free(parser->filename);
 	free(parser);
 }
 
