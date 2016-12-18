@@ -11,16 +11,18 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
-
+	
 	struct timeval timeStart, timeEnd;
 	gettimeofday(&timeStart, NULL);
 	int * list = heuristic_getList(instance, bag, schedulerType);
-
+	int i = 0, j = 0;
 	while(list != NULL)
 	{
+		i++;
 		int itemIndex = scheduler_removeFromList(&list, &listCount, 0);
 		if(bag_canContain(instance, bag, itemIndex))
 		{
+			j++;
 			bag_appendItem(instance, bag, itemIndex);
 			if(schedulerType == 3 && listCount > 0)
 				list = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), list, listCount);
