@@ -209,7 +209,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 		return -1;
 	if(bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
 	{
-		bufferPtr = malloc(50);
+		bufferPtr = (char *) malloc(50 * sizeof(char));
 		if(bufferPtr == NULL)
 			return -1;
 		size = 50;

@@ -24,7 +24,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		{
 			j++;
 			bag_appendItem(instance, bag, itemIndex);
-			if(schedulerType == 3 && listCount > 0)
+			if(list != NULL && schedulerType == 3 && listCount > 0)
 				list = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), list, listCount);
 		}
 	}
