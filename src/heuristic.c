@@ -25,11 +25,14 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 			j++;
 			bag_appendItem(instance, bag, itemIndex);
 			if(list != NULL && schedulerType == 3 && listCount > 0)
+			{
+				int * listToFree = list;
 				list = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), list, listCount);
+				free(listToFree);
+			}
 		}
 	}
 	gettimeofday(&timeEnd, NULL);
-	free(list);
 	
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
