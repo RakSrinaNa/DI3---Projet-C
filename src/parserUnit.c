@@ -40,9 +40,7 @@ void parserTests(void)
 		unit_error("ASSERT PARSER 8");
 
 	parser_destroy(parser);
-	instance_destroy(instance);
 	free(instance);
-	printf("a");
 }
 
 void parserTestLineToIntArray()
