@@ -30,6 +30,15 @@ void heuristicTests()
     free(correctList);
     free(list);
 
+    Solution * solution = heuristic(instance, 0, 0);
+    if(solution->type != INDIRECT)
+        unit_error("ASSERT HEURISTIC 4");
+    heuristic_solutionDestroy(solution);
+    solution = heuristic(instance, 1, 0);
+    if(solution->type != DIRECT)
+        unit_error("ASSERT HEURISTIC 5");
+    heuristic_solutionDestroy(solution);
+
     instance_destroy(instance);
     free(instance);
 }
