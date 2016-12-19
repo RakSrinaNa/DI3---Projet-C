@@ -58,7 +58,11 @@ Instance * parser_getNextInstance(Parser * parser)
 	fsetpos(file, &(parser->offset));
 	parser_readInstance(file, instance);
 	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
-	parser->offset = ftell(file);
+    if(fgetpos(file, &(parser->offset)) != 0)
+    {
+        perror("ERROR FGETPOS parser_getNextInstance");
+        exit(EXIT_FAILURE);
+    }
 	fclose(file);
 	parser->instanceRead++;
 	return instance;
