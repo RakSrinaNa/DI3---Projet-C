@@ -12,10 +12,27 @@ typedef struct
 	int instanceRead;
 } Parser;
 
+/**
+ * Create a parser structure to read instances one by one.
+ *
+ * @param filename The path of the file associated to the parser.
+ * @return A Parser on the heap.
+ */
 Parser * parser_create(char * filename);
 
+/**
+ * Destroys a Parser previously created with parser_create.
+ *
+ * @param parser A pointer to the parser to destroy.
+ */
 void parser_destroy(Parser * parser);
 
+/**
+ * Read the next instance inside a Parser.
+ *
+ * @param parser A pointer to the pointer to read from.
+ * @return A pointer to the read instance. NULL if no more to read.
+ */
 Instance * parser_getNextInstance(Parser * parser);
 
 /**
