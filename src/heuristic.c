@@ -72,7 +72,7 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
 			return scheduler_ratioAllDimensions(instance);
 		
 		case 3:
-			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->dimensionsNumber);
+			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
 		
 		default:
 			break;
