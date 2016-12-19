@@ -17,14 +17,18 @@ Parser * parser_create(char * filename)
 	parser->offset = 0;
 	parser->instanceRead = 0;
 	FILE * file;
-	if((file = fopen(parser->filename, "r")) == NULL)
+	if((file = fopen(parser->filename, "rb")) == NULL)
 	{
 		perror("ERROR FOPEN parser_create");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
-	parser->offset = ftell(file);
+	if(fgetpos(file, &(parser->offset)) != 0)
+    {
+        perror("ERROR FGETPOS parser_create");
+        exit(EXIT_FAILURE);
+    }
 	fclose(file);
 	
 	return parser;
@@ -47,12 +51,12 @@ Instance * parser_getNextInstance(Parser * parser)
 	}
 	
 	FILE * file;
-	if((file = fopen(parser->filename, "r")) == NULL)
+	if((file = fopen(parser->filename, "rb")) == NULL)
 	{
 		perror("ERROR FOPEN parser_getNextInstance");
 		exit(EXIT_FAILURE);
 	}
-	fseek(file, parser->offset, SEEK_SET);
+	fsetpos(file, &(parser->offset));
 	parser_readInstance(file, instance);
 	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
 	parser->offset = ftell(file);
@@ -164,7 +168,7 @@ int * parser_lineToIntArray(char * line, int valuesNumber)
 				valuesLength++;
 				
 				char buffer[10] = {0};
-				memcpy(buffer, start, length);
+				memcpy(buffer, start, (unsigned int)length);
 				buffer[length] = '\0';
 				values[valuesLength - 1] = atoi(buffer);
 				

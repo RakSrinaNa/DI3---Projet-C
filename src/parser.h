@@ -7,7 +7,7 @@
 typedef struct
 {
 	char * filename;
-	long offset;
+	fpos_t offset;
 	int instanceCount;
 	int instanceRead;
 } Parser;
