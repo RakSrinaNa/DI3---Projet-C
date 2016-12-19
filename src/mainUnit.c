@@ -7,6 +7,7 @@
 #include "bagUnit.h"
 #include "solutionIndirectUnit.h"
 #include "schedulerUnit.h"
+#include "heuristicUnit.h"
 
 int mainUnit()
 {
@@ -28,8 +29,11 @@ int mainUnit()
 	printf("Executing solutionIndirect tests...");
 	solutionIndirectTests();
 	printf("OK\n");
-	printf("Executing scheduler tests...");
-	schedulerTests();
-	printf("OK\n");
+    printf("Executing scheduler tests...");
+    schedulerTests();
+    printf("OK\n");
+    printf("Executing heuristic tests...");
+    heuristicTests();
+    printf("OK\n");
 	return 0;
 }

@@ -30,6 +30,7 @@ set(SOURCE_FILES
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h
 
         src/heuristic.c src/heuristic.h
+        src/heuristicUnit.c src/heuristicUnit.h
 
         src/scheduler.c src/scheduler.h
         src/schedulerUnit.c src/schedulerUnit.h)
