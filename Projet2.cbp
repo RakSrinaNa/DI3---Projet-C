@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="test" />
 				<Compiler>
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
@@ -23,6 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="ker" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-pedantic" />
@@ -43,6 +45,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/bag.h" />
+		<Unit filename="src/bagUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bagUnit.h" />
+		<Unit filename="src/heuristic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/heuristic.h" />
 		<Unit filename="src/instance.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -62,6 +72,10 @@
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/mainKergosien.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/mainKergosien.h" />
 		<Unit filename="src/mainUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -74,6 +88,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/parserUnit.h" />
+		<Unit filename="src/scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scheduler.h" />
+		<Unit filename="src/schedulerUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/schedulerUnit.h" />
 		<Unit filename="src/solutionDirect.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -86,6 +108,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/solutionIndirect.h" />
+		<Unit filename="src/solutionIndirectUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solutionIndirectUnit.h" />
+		<Unit filename="src/unit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

@@ -66,4 +66,12 @@ void solutionDirect_print(Instance * instance, int * items);
  */
 void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items);
 
+/**
+ * Mark an item as being taken.
+ *
+ * @param solution A pointer to the SolutionDirect.
+ * @param index The index of the item to take.
+ */
+void solutionDirect_takeItem(SolutionDirect * solution, int index);
+
 #endif

@@ -72,6 +72,11 @@ int solutionIndirect_doable(SolutionIndirect * solution)
 	return 1;
 }
 
+int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index)
+{
+	return solution->itemsOrder[index];
+}
+
 void solutionIndirect_print(SolutionIndirect * solution)
 {
 	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(solution));
@@ -99,9 +104,4 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution)
 	bag_saveItems(solution->bag, file);
 	
 	fclose(file);
-}
-
-int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index)
-{
-	return solution->itemsOrder[index];
 }

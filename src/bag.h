@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "instance.h"
+#include "solutionDirect.h"
 
 typedef struct
 {
@@ -86,5 +87,23 @@ void bag_saveItems(Bag * bag, FILE * file);
  * @param bag A pointer to the bag to print.
  */
 void bag_print(Bag * bag);
+
+/**
+ * Returns the index of the most critical (with the less space remaining) dimension.
+ *
+ * @param instance A pointer to the instance the bag is associated with.
+ * @param bag A pointer to the bag containing the items.
+ * @return The most critical dimension, -1 if there was a problem.
+ */
+int bag_getCriticDimension(Instance * instance, Bag * bag);
+
+/**
+ * Convert a bag into a SolutionDirect.
+ *
+ * @param instance A pointer to the instance of the items.
+ * @param bag A pointer to the bag to convert.
+ * @return A pointer to the solution direct.
+ */
+SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag);
 
 #endif

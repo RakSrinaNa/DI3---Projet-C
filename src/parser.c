@@ -1,16 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <memory.h>
+#include <string.h>
 
 #include "instance.h"
 #include "parser.h"
 
-Instance * parser_readFile(char * fileName)
+Parser * parser_create(char * filename)
+{
+	Parser * parser;
+	if((parser = (Parser *) malloc(sizeof(Parser))) == NULL)
+	{
+		perror("ERROR MALLOC parser_create");
+		exit(EXIT_FAILURE);
+	}
+	parser->filename = filename;
+	parser->instanceRead = 0;
+	FILE * file;
+	if((file = fopen(parser->filename, "rb")) == NULL)
+	{
+		perror("ERROR FOPEN parser_create");
+		exit(EXIT_FAILURE);
+	}
+
+	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
+	if(fgetpos(file, &(parser->offset)) != 0)
+    {
+        perror("ERROR FGETPOS parser_create");
+        exit(EXIT_FAILURE);
+    }
+	fclose(file);
+	
+	return parser;
+}
+
+void parser_destroy(Parser * parser)
+{
+	free(parser);
+}
+
+Instance * parser_getNextInstance(Parser * parser)
+{
+	if(parser->instanceRead >= parser->instanceCount)
+		return NULL;
+	Instance * instance;
+	if((instance = (Instance *) malloc(sizeof(Instance))) == NULL) // Create instance
+	{
+		perror("ERROR MALLOC parser_getNextInstance");
+		exit(EXIT_FAILURE);
+	}
+	
+	FILE * file;
+	if((file = fopen(parser->filename, "rb")) == NULL)
+	{
+		perror("ERROR FOPEN parser_getNextInstance");
+		exit(EXIT_FAILURE);
+	}
+	fsetpos(file, &(parser->offset));
+	parser_readInstance(file, instance);
+    if(fgetpos(file, &(parser->offset)) != 0)
+    {
+        perror("ERROR FGETPOS parser_getNextInstance");
+        exit(EXIT_FAILURE);
+    }
+	fclose(file);
+	parser->instanceRead++;
+	return instance;
+}
+
+Instance * parser_readAllFile(char * fileName)
 {
 	FILE * file;
 	if((file = fopen(fileName, "r")) == NULL)
 	{
-		perror("ERROR FOPEN parser_readFile");
+		perror("ERROR FOPEN parser_readAllFile");
 		exit(EXIT_FAILURE);
 	}
 	
@@ -18,7 +80,7 @@ Instance * parser_readFile(char * fileName)
 	Instance * instances;
 	if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL) // Create instances
 	{
-		perror("ERROR MALLOC parser_readFile");
+		perror("ERROR MALLOC parser_readAllFile");
 		exit(EXIT_FAILURE);
 	}
 	
@@ -108,7 +170,7 @@ int * parser_lineToIntArray(char * line, int valuesNumber)
 				valuesLength++;
 				
 				char buffer[10] = {0};
-				memcpy(buffer, start, length);
+				memcpy(buffer, start, (unsigned int)length);
 				buffer[length] = '\0';
 				values[valuesLength - 1] = atoi(buffer);
 				
@@ -143,28 +205,28 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 	size_t size = 0; // The size of the buffer
 	int charRead; // The char read
 	
-	if (linePtr == NULL || file == NULL || lineSize == NULL)
+	if(linePtr == NULL || file == NULL || lineSize == NULL)
 		return -1;
 	
 	bufferPtr = *linePtr;
 	size = *lineSize;
 	charRead = fgetc(file);
-	if (charRead == EOF)
+	if(charRead == EOF)
 		return -1;
-	if (bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
+	if(bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
 	{
-		bufferPtr = malloc(50);
-		if (bufferPtr == NULL)
+		bufferPtr = (char *) malloc(50 * sizeof(char));
+		if(bufferPtr == NULL)
 			return -1;
 		size = 50;
 	}
 	while(charRead != EOF) // While we didn't reach the end of the file
 	{
-		if (writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
+		if(writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
 		{
 			size += 50;
 			char * newBufferPtr = realloc(bufferPtr, size);
-			if (newBufferPtr == NULL) // If realloc fails
+			if(newBufferPtr == NULL) // If realloc fails
 			{
 				bufferPtr[writingHead] = '\0';
 				*linePtr = bufferPtr;
@@ -174,7 +236,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 			bufferPtr = newBufferPtr;
 		}
 		bufferPtr[writingHead++] = (char) charRead; // Write the char read into out buffer
-		if (charRead == '\n') // If it's the end of the line, get out of the while
+		if(charRead == '\n') // If it's the end of the line, get out of the while
 			break;
 		charRead = fgetc(file); // Read next char
 	}

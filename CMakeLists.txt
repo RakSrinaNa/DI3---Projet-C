@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.6)
 project(ex_projet2)
 
-add_definitions(-std=c99 -Wall -Werror -W -pedantic)
+add_definitions(-std=c99 -Wall -Werror -W -pedantic -static -g)
 set_property(TARGET PROPERTY C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
-        src/main.c src/mainUnit.c
+        src/main.c
+        src/mainKergosien.c src/mainKergosien.h
+        src/mainUnit.c src/mainUnit.h
+        src/unit.c src/unit.h
 
         src/instance.c src/instance.h
         src/instanceUnit.c src/instanceUnit.h
@@ -25,5 +28,10 @@ set(SOURCE_FILES
 
         src/solutionIndirect.c src/solutionIndirect.h
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h
-        )
+
+        src/heuristic.c src/heuristic.h
+        src/heuristicUnit.c src/heuristicUnit.h
+
+        src/scheduler.c src/scheduler.h
+        src/schedulerUnit.c src/schedulerUnit.h)
 add_executable(ex_projet2 ${SOURCE_FILES})

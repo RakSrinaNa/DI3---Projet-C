@@ -60,6 +60,11 @@ int solutionDirect_doable(Instance * instance, int * items)
 	return 1;
 }
 
+void solutionDirect_takeItem(SolutionDirect * solution, int index)
+{
+	solution->itemsTaken[index] = 1;
+}
+
 void solutionDirect_print(Instance * instance, int * items)
 {
 	printf("Total value in the bag : %d\n", solutionDirect_evaluate(instance, items));
