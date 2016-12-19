@@ -18,6 +18,10 @@ void solutionDirectTests(void)
 	if(solutionDirect_doable(instance, solution->itemsTaken) != 0)
 		unit_error("ASSERT SOLUTIONDIRECT 2");
 	solution->itemsTaken[1] = 0;
+    solutionDirect_takeItem(solution, 1);
+    if(solution->itemsTaken[1] != 1)
+        unit_error("ASSERT SOLUTIONDIRECT 3");
+    solution->itemsTaken[1] = 0;
 	solution->itemsTaken[3] = 0;
 	solution->itemsTaken[5] = 0;
 	solution->itemsTaken[7] = 0;
@@ -25,9 +29,9 @@ void solutionDirectTests(void)
 	solution->itemsTaken[12] = 1;
 	int score = solutionDirect_evaluate(instance, solution->itemsTaken);
 	if(score != 167)
-		unit_error("ASSERT SOLUTIONDIRECT 1");
+		unit_error("ASSERT SOLUTIONDIRECT 4");
 	if(solutionDirect_doable(instance, solution->itemsTaken) != 1)
-		unit_error("ASSERT SOLUTIONDIRECT 2");
+		unit_error("ASSERT SOLUTIONDIRECT 5");
 	char * filename = "testSolutionDirect.txt";
 	solutionDirect_saveToFile(filename, instance, solution->itemsTaken);
 	FILE * file;
@@ -37,12 +41,12 @@ void solutionDirectTests(void)
 		exit(EXIT_FAILURE);
 	}
 	if(score != atoi(parser_readLine(file)))
-		unit_error("ASSERT SOLUTIONDIRECT 3");
+		unit_error("ASSERT SOLUTIONDIRECT 6");
 	int * itemsTaken = parser_lineToIntArray(parser_readLine(file), instance->itemsCount);
 	fclose(file);
 	if(remove(filename) != 0)
 		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
 	if(!unit_arrayEquals(itemsTaken, solution->itemsTaken, instance->itemsCount))
-		unit_error("ASSERT SOLUTIONDIRECT 4");
+		unit_error("ASSERT SOLUTIONDIRECT 7");
 	free(itemsTaken);
 }
