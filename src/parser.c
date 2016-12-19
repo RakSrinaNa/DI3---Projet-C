@@ -14,7 +14,6 @@ Parser * parser_create(char * filename)
 		exit(EXIT_FAILURE);
 	}
 	parser->filename = filename;
-	parser->offset = 0;
 	parser->instanceRead = 0;
 	FILE * file;
 	if((file = fopen(parser->filename, "rb")) == NULL)
