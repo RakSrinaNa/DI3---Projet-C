@@ -3,6 +3,8 @@
 #include "bagUnit.h"
 #include "bag.h"
 #include "parser.h"
+#include "solutionDirect.h"
+#include "instance.h"
 
 void bagTests()
 {
@@ -28,11 +30,13 @@ void bagTests()
 		unit_error("ASSERT BAG 7");
 	if(bag_getWeight(bag, 0) != 1 || bag_getWeight(bag, 1) != 6)
 		unit_error("ASSERT BAG 8");
+	if(bag_getCriticDimension(instance, bag) != 0)
+		unit_error("ASSERT BAG 9");
 	bag_appendItem(instance, bag, 1);
 	if(bag->itemsCount != 2 || bag_getItemIndex(bag, 1) != 1)
-		unit_error("ASSERT BAG 9");
-	if(bag_getWeight(bag, 0) != 5 || bag_getWeight(bag, 1) != 94)
 		unit_error("ASSERT BAG 10");
+	if(bag_getWeight(bag, 0) != 5 || bag_getWeight(bag, 1) != 94)
+		unit_error("ASSERT BAG 11");
 	
 	char * filename = "testBag.txt";
 	FILE * file;
@@ -49,8 +53,15 @@ void bagTests()
 		perror("ERROR REMOVE BAG UNIT");
 	for(int i = 0; i < bag->itemsCount; i++)
 		if(bagItems[i] != bag_getItemIndex(bag, i))
-			unit_error("ASSERT BAG 11");
+			unit_error("ASSERT BAG 12");
 	free(bagItems);
+
+	SolutionDirect * solutionDirect = bag_toSolutionDirect(instance, bag);
+	int itemsTaken[15] = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
+	if(!unit_arrayEquals(itemsTaken, solutionDirect->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT BAG 13");
+	solutionDirect_destroy(solutionDirect);
+
 	bag_destroy(bag);
 	instance_destroy(instance);
 	free(instance);
