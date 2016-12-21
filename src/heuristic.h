@@ -66,4 +66,6 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
  */
 void heuristic_solutionDestroy(Solution * solution);
 
+double convertToSecond(long timeInUS);
+
 #endif

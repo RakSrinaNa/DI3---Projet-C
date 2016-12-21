@@ -11,7 +11,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
-	
+
 	struct timeval timeStart, timeEnd;
 	gettimeofday(&timeStart, NULL);
 	int * list = heuristic_getList(instance, bag, schedulerType);
@@ -33,7 +33,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		}
 	}
 	gettimeofday(&timeEnd, NULL);
-	
+
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
 	{
@@ -53,54 +53,9 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		solution->solutions.indirect = solutionIndirect_create(instance);
 		solution->solutions.indirect->bag = bag;
 	}
-	
-	
+
+
 	return solution;
-}
-
-int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
-{
-	switch(schedulerType)
-	{
-		case 0:
-			return scheduler_random(instance);
-		
-		case 1:
-			return scheduler_itemValue(instance);
-		
-		case 2:
-			return scheduler_ratioAllDimensions(instance);
-		
-		case 3:
-			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
-		
-		default:
-			break;
-	}
-	
-	perror("ERROR HEURISTIC getList - Worst schedulerType EVER");
-	exit(EXIT_FAILURE);
-}
-
-void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution)
-{
-	FILE * file;
-	if((file = fopen(fileName, "w+")) == NULL)
-	{
-		perror("ERROR FOPEN heuristic_saveSolutionToFile");
-		exit(EXIT_FAILURE);
-	}
-	switch(solution->type)
-	{
-		case DIRECT:
-			fprintf(file, "%d\t%ld\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), solution->solveTime);
-			break;
-		case INDIRECT:
-			fprintf(file, "%d\t%ld\n", solutionIndirect_evaluate(solution->solutions.indirect), solution->solveTime);
-			break;
-	}
-	
-	fclose(file);
 }
 
 void heuristic_solutionDestroy(Solution * solution)
@@ -115,4 +70,57 @@ void heuristic_solutionDestroy(Solution * solution)
 			break;
 	}
 	free(solution);
+}
+
+int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
+{
+	switch(schedulerType)
+	{
+		case 0:
+			return scheduler_random(instance);
+
+		case 1:
+			return scheduler_itemValue(instance);
+
+		case 2:
+			return scheduler_ratioAllDimensions(instance);
+
+		case 3:
+			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
+
+        case 4:
+            return scheduler_ratioAllDimensionsWeighted(instance);
+
+		default:
+			break;
+	}
+
+	perror("ERROR HEURISTIC getList - Worst schedulerType EVER");
+	exit(EXIT_FAILURE);
+}
+
+void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution)
+{
+	FILE * file;
+	if((file = fopen(fileName, "a+")) == NULL)
+	{
+		perror("ERROR FOPEN heuristic_saveSolutionToFile");
+		exit(EXIT_FAILURE);
+	}
+	switch(solution->type)
+	{
+		case DIRECT:
+			fprintf(file, "%d\t%f\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), convertToSecond(solution->solveTime));
+			break;
+		case INDIRECT:
+			fprintf(file, "%d\t%f\n", solutionIndirect_evaluate(solution->solutions.indirect), convertToSecond(solution->solveTime));
+			break;
+	}
+
+	fclose(file);
+}
+
+double convertToSecond(long timeInUS)
+{
+    return ((double)(timeInUS)) / 1000000;
 }

@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="test" />
+				<Option parameters="ker" />
 				<Compiler>
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
@@ -53,6 +53,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/heuristic.h" />
+		<Unit filename="src/heuristicUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/heuristicUnit.h" />
 		<Unit filename="src/instance.c">
 			<Option compilerVar="CC" />
 		</Unit>
