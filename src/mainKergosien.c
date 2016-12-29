@@ -17,7 +17,7 @@ void mainKergosien()
     struct dirent * file;
     while((file = readdir(dir)) != NULL)
     {
-        if(strcoll(file->d_name, "mknap") == NULL)
+        if(strcoll(file->d_name, "mknap") == 0)
             continue;
 
         i++;
