@@ -34,11 +34,13 @@ void mainKergosien()
                 char outputFile[100];
                 Solution * solution = heuristic(instance, 1, j);
                 sprintf(outputFile, "Solutions/test1_direct_file_%d_scheduler_%d.txt", i, j);
+                printf("Solution written into %s\n", outputFile);
                 heuristic_saveSolutionToFile(outputFile, instance, solution);
                 heuristic_solutionDestroy(solution);
 
                 solution = heuristic(instance, 0, j);
                 sprintf(outputFile, "Solutions/test1_indirect_file_%d_scheduler_%d.txt", i, j);
+                printf("Solution written into %s\n", outputFile);
                 heuristic_saveSolutionToFile(outputFile, instance, solution);
                 heuristic_solutionDestroy(solution);
             }
