@@ -102,7 +102,7 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
 void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution)
 {
 	FILE * file;
-	if((file = fopen(fileName, "a+")) == NULL)
+	if((file = fopen(fileName, "w+")) == NULL)
 	{
 		perror("ERROR FOPEN heuristic_saveSolutionToFile");
 		exit(EXIT_FAILURE);
