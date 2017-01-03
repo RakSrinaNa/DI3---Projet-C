@@ -67,13 +67,28 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
  */
 void heuristic_solutionDestroy(Solution * solution);
 
-//TODO
+/**
+ * Convert the time from microseconds to seconds.
+ *
+ * @param timeInUS The tie in microseconds.
+ * @return The time in seconds.
+ */
 double convertToSecond(long timeInUS);
 
-//TODO
+/**
+ * Evaluate a solution.
+ *
+ * @param solution A pointer to the solution.
+ * @return The score for the solution.
+ */
 int heuristic_evaluate(Solution * solution);
 
-//TODO
+/**
+ * Tells if a solution is doable.
+ *
+ * @param solution A pointer to the solution.
+ * @return 1 if doable, 0 else.
+ */
 int heuristic_doable(Solution * solution);
 
 #endif
