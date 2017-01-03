@@ -66,7 +66,7 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 
 }
 
-Solution ** metaheuristic_getNeightbours(Solution * currentSolution, int searchOperator, int * neightboursCount)
+Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
     if(currentSolution.type == DIRECT)
         switch (searchOperator)
@@ -83,9 +83,9 @@ Solution ** metaheuristic_getNeightbours(Solution * currentSolution, int searchO
 
 }
 
-Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neightboursCount)
+Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
-    Solution ** neightbourSolutions = NULL;
+    Solution ** neighbourSolutions = NULL;
 
     for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
     {

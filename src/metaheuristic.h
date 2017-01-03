@@ -11,6 +11,9 @@
 Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int operatorSearch);
 
 //TODO
-Solution ** metaheuristic_getNeightbours(Solution * currentSolution, int searchOperator, int * neightboursCount);
+Solution ** metaheuristic_getNeighbours(Solution *currentSolution, int searchOperator, int *neighboursCount);
+
+//TODO
+Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount);
 
 #endif
