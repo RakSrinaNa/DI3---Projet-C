@@ -116,10 +116,6 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 
 long double heuristic_getTimeDiff(clock_t start, clock_t end)
 {
-    clock_t t0 = clock();
-/* Work. */
-    clock_t t1 = clock();
-    printf("%Lf", (long double)(t1 - t0));
     return (long double)((end - start) / CLOCKS_PER_SEC);
 }
 
