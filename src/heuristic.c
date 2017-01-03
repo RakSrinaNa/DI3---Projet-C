@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include <time.h>
 
 #include "instance.h"
 #include "solutionDirect.h"
@@ -12,8 +12,8 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
 
-	struct timeval timeStart, timeEnd;
-    gettimeofday(&timeStart, NULL);
+    clock_t timeStart, timeEnd;
+    timeStart = clock();
 	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0, j = 0;
 	while(list != NULL)
@@ -32,7 +32,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 			}
 		}
 	}
-    gettimeofday(&timeEnd, NULL);
+    timeEnd = clock();
 
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
@@ -69,7 +69,6 @@ void heuristic_solutionDestroy(Solution * solution)
 			solutionIndirect_destroy(solution->solutions.indirect);
 			break;
 	}
-    free(solution->solveTime);
 	free(solution);
 }
 
@@ -111,20 +110,17 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 		perror("ERROR FOPEN heuristic_saveSolutionToFile");
 		exit(EXIT_FAILURE);
 	}
-    fprintf(file, "%d\t%ld.%06ld\n", heuristic_evaluate(solution), (long int)(solution->solveTime->tv_sec), (long int)(solution->solveTime->tv_usec));
+    fprintf(file, "%d\t%Lf\n", heuristic_evaluate(solution), solution->solveTime);
 	fclose(file);
 }
 
-struct timeval * heuristic_getTimeDiff(struct timeval start, struct timeval end)
+long double heuristic_getTimeDiff(clock_t start, clock_t end)
 {
-    struct timeval * result;
-    if((result = (struct timeval *) malloc(sizeof(struct timeval))) == NULL)
-    {
-        perror("MALLOC ERROR heuristic_getTimeDiff");
-        exit(EXIT_FAILURE);
-    }
-    timersub(&end, &start, result);
-    return result;
+    clock_t t0 = clock();
+/* Work. */
+    clock_t t1 = clock();
+    printf("%Lf", (long double)(t1 - t0));
+    return (long double)((end - start) / CLOCKS_PER_SEC);
 }
 
 int heuristic_evaluate(Solution * solution)
