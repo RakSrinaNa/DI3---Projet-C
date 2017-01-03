@@ -111,14 +111,14 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
 	{
 		case DIRECT:
 			fprintf(file, "%d\t%f\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), convertToSecond(solution->solveTime));
-			for(int i = 0; i < instance->itemsCount; i++)
+			/*for(int i = 0; i < instance->itemsCount; i++)
                 if(solution->solutions.direct->itemsTaken[i])
-                    fprintf(file, "%d\t", i);
+                    fprintf(file, "%d\t", i);*/
 			break;
 		case INDIRECT:
 			fprintf(file, "%d\t%f\n", solutionIndirect_evaluate(solution->solutions.indirect), convertToSecond(solution->solveTime));
-                for(int i = 0; i < solution->solutions.indirect->bag->itemsCount; i++)
-                    fprintf(file, "%d\t", solutionIndirect_getItemIndex(solution->solutions.indirect, i));
+                /*for(int i = 0; i < solution->solutions.indirect->bag->itemsCount; i++)
+                    fprintf(file, "%d\t", solutionIndirect_getItemIndex(solution->solutions.indirect, i));*/
 			break;
 	}
     fprintf(file, "\n\n");
