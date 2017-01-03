@@ -66,6 +66,13 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
  */
 void heuristic_solutionDestroy(Solution * solution);
 
+//TODO
 double convertToSecond(long timeInUS);
+
+//TODO
+int heuristic_evaluate(Solution * solution);
+
+//TODO
+int heuristic_doable(Solution * solution);
 
 #endif
