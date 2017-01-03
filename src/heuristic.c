@@ -102,7 +102,7 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int *
 	exit(EXIT_FAILURE);
 }
 
-void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution * solution)
+void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 {
 	FILE * file;
 	if((file = fopen(fileName, "w+")) == NULL)
@@ -110,22 +110,7 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
 		perror("ERROR FOPEN heuristic_saveSolutionToFile");
 		exit(EXIT_FAILURE);
 	}
-	switch(solution->type)
-	{
-		case DIRECT:
-			fprintf(file, "%d\t%f\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), solution->solveTime);
-			/*for(int i = 0; i < instance->itemsCount; i++)
-                if(solution->solutions.direct->itemsTaken[i])
-                    fprintf(file, "%d\t", i);*/
-			break;
-		case INDIRECT:
-			fprintf(file, "%d\t%f\n", solutionIndirect_evaluate(solution->solutions.indirect), solution->solveTime);
-                /*for(int i = 0; i < solution->solutions.indirect->bag->itemsCount; i++)
-                    fprintf(file, "%d\t", solutionIndirect_getItemIndex(solution->solutions.indirect, i));*/
-			break;
-	}
-    fprintf(file, "\n\n");
-
+    fprintf(file, "%d\t%f\n", heuristic_evaluate(solution), solution->solveTime);
 	fclose(file);
 }
 
