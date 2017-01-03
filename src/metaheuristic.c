@@ -81,11 +81,16 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
                 return metaheuristic_swapItem(currentSolution, searchOperator, neightboursCount);
         }
 
+    return NULL;
 }
 
 Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
+
+    // TEMP TO FIX COMPILATION ERRORS
+    searchOperator = searchOperator;
+    neighboursCount = neighboursCount;
 
     for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
     {
@@ -94,13 +99,6 @@ Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neigh
 
         }
     }
-
-
-
-
-
-
-
 
     return neightbourSolutions;
 }
