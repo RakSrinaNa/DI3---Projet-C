@@ -22,31 +22,31 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 
     while(!stop)
     {
-        Solution * bestNeightbourSolution = NULL;
-        int fBestNeightbour = 0;
-        int bestNeightbourIndex = -1;
+        Solution * bestNeighbourSolution = NULL;
+        int fBestNeighbour = 0;
+        int bestNeighbourIndex = -1;
 
-        int neightboursCount = 0;
-        Solution ** allNeightbours = metaheuristic_getNeightbours(currentSolution, searchOperator, &neightboursCount);
+        int neighboursCount = 0;
+        Solution ** allNeighbours = metaheuristic_getNeighbours(currentSolution, searchOperator, &neighboursCount);
 
-        for(int i = 0; i < neightboursCount; i++)
+        for(int i = 0; i < neighboursCount; i++)
         {
-            if(heuristic_evaluate(allNeightbours[i]) > fBestNeightbour)
+            if(heuristic_evaluate(allNeighbours[i]) > fBestNeighbour)
             {
-                bestNeightbourSolution = allNeightbours[i];
-                bestNeightbourIndex = i;
-                fBestNeightbour = heuristic_evaluate(allNeightbours[i]);
+                bestNeighbourSolution = allNeighbours[i];
+                bestNeighbourIndex = i;
+                fBestNeighbour = heuristic_evaluate(allNeighbours[i]);
             }
         }
 
         free(currentSolution);
-        for(int i = 0; i < neightboursCount; i++)
-            if(i != bestNeightbourIndex)
-                free(allNeightbours[i]);
-        free(allNeightbours);
+        for(int i = 0; i < neighboursCount; i++)
+            if(i != bestNeighbourIndex)
+                free(allNeighbours[i]);
+        free(allNeighbours);
 
-        fCurrent = fBestNeightbour;
-        currentSolution = bestNeightbourSolution;
+        fCurrent = fBestNeighbour;
+        currentSolution = bestNeighbourSolution;
 
         if(fCurrent > fBest)
         {
@@ -68,23 +68,29 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 
 Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
-    if(currentSolution.type == DIRECT)
+    if(currentSolution->type == DIRECT)
         switch (searchOperator)
         {
             case 0:
-                return ;
+                return NULL;
+
+            default:
+                break;
         }
     else
         switch (searchOperator)
         {
             case 0:
-                return metaheuristic_swapItem(currentSolution, searchOperator, neightboursCount);
+                return metaheuristic_swapItem(currentSolution, searchOperator, neighboursCount);
+
+            default:
+                break;
         }
 
     return NULL;
 }
 
-Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
+Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
 
@@ -100,6 +106,6 @@ Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neigh
         }
     }
 
-    return neightbourSolutions;
+    return neighbourSolutions;
 }
 
