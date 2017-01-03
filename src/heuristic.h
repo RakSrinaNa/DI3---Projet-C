@@ -19,6 +19,7 @@ typedef union
 
 typedef struct
 {
+	Instance * instance;
 	SolutionType type;
 	Solutions solutions;
 	long solveTime;

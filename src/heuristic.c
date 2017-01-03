@@ -53,7 +53,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		solution->solutions.indirect = solutionIndirect_create(instance);
 		solution->solutions.indirect->bag = bag;
 	}
-
+    solution->instance = instance;
 
 	return solution;
 }
@@ -136,7 +136,7 @@ int heuristic_evaluate(Solution * solution)
 	switch(solution->type)
 	{
 		case DIRECT:
-			return solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken);
+			return solutionDirect_evaluate(solution->instance, solution->solutions.direct->itemsTaken);
 		case INDIRECT:
 			return solutionIndirect_evaluate(solution->solutions.indirect);
 	}
@@ -148,7 +148,7 @@ int heuristic_doable(Solution * solution)
 	switch(solution->type)
 	{
 		case DIRECT:
-			return solutionDirect_doable(instance, solution->solutions.direct->itemsTaken);
+			return solutionDirect_doable(solution->instance, solution->solutions.direct->itemsTaken);
 		case INDIRECT:
 			return solutionIndirect_doable(solution->solutions.indirect);
 	}

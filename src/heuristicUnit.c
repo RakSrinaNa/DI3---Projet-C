@@ -33,7 +33,7 @@ void heuristicTests()
     free(list);
 
     Solution * solution = heuristic(instance, 0, 0);
-    if(solution->type != INDIRECT)
+    if(solution->type != INDIRECT || solution->instance != instance)
         unit_error("ASSERT HEURISTIC 4");
     heuristic_solutionDestroy(solution);
     solution = heuristic(instance, 1, 0);
