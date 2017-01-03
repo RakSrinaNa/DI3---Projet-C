@@ -68,6 +68,40 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 
 Solution ** metaheuristic_getNeightbours(Solution * currentSolution, int searchOperator, int * neightboursCount)
 {
+    if(currentSolution.type == DIRECT)
+        switch (searchOperator)
+        {
+            case 0:
+                return ;
+        }
+    else
+        switch (searchOperator)
+        {
+            case 0:
+                return metaheuristic_swapItem(currentSolution, searchOperator, neightboursCount);
+        }
 
+}
+
+Solution ** swapItem(Solution * currentSolution, int searchOperator, int * neightboursCount)
+{
+    Solution ** neightbourSolutions = NULL;
+
+    for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
+    {
+        for(int j = i+1; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
+        {
+
+        }
+    }
+
+
+
+
+
+
+
+
+    return neightbourSolutions;
 }
 
