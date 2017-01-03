@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include "instance.h"
 #include "solutionDirect.h"
@@ -12,8 +12,8 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
 
-	struct timespec timeStart, timeEnd;
-    clock_gettime(CLOCK_REALTIME, &timeStart);
+	struct timeval timeStart, timeEnd;
+    gettimeofday(&timeStart, NULL);
 	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0, j = 0;
 	while(list != NULL)
@@ -32,7 +32,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 			}
 		}
 	}
-    clock_gettime(CLOCK_REALTIME, &timeEnd);
+    gettimeofday(&timeEnd, NULL);
 
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
@@ -40,7 +40,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		perror("ERROR MALLOC heuristic");
 		exit(EXIT_FAILURE);
 	}
-	solution->solveTime = heuristic_getTimeDiffAsSec(timeStart, timeEnd);
+	solution->solveTime = heuristic_getTimeDiff(timeEnd, timeStart);
 	if(solutionType)
 	{
 		solution->type = DIRECT;
@@ -69,6 +69,7 @@ void heuristic_solutionDestroy(Solution * solution)
 			solutionIndirect_destroy(solution->solutions.indirect);
 			break;
 	}
+    free(solution->solveTime);
 	free(solution);
 }
 
@@ -110,15 +111,20 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 		perror("ERROR FOPEN heuristic_saveSolutionToFile");
 		exit(EXIT_FAILURE);
 	}
-    fprintf(file, "%d\t%f\n", heuristic_evaluate(solution), solution->solveTime);
+    fprintf(file, "%d\t%ld.%06ld\n", heuristic_evaluate(solution), (long int)(solution->solveTime->tv_sec), (long int)(solution->solveTime->tv_usec));
 	fclose(file);
 }
 
-double heuristic_getTimeDiffAsSec(struct timespec start, struct timespec end)
+struct timeval * heuristic_getTimeDiff(struct timeval start, struct timeval end)
 {
-    double start_sec = start.tv_sec + start.tv_nsec / 1000000000.0;
-    double end_sec = end.tv_sec + end.tv_nsec / 1000000000.0;
-    return end_sec - start_sec;
+    struct timeval * result;
+    if((result = (struct timeval *) malloc(sizeof(struct timeval))) == NULL)
+    {
+        perror("MALLOC ERROR heuristic_getTimeDiff");
+        exit(EXIT_FAILURE);
+    }
+    timersub(&end, &start, result);
+    return result;
 }
 
 int heuristic_evaluate(Solution * solution)

@@ -1,7 +1,7 @@
 #ifndef HEURISTIC
 #define HEURISTIC
 
-#include <time.h>
+#include <sys/time.h>
 
 #include "instance.h"
 #include "bag.h"
@@ -24,7 +24,7 @@ typedef struct
 	Instance * instance;
 	SolutionType type;
 	Solutions solutions;
-	double solveTime;
+	struct timeval * solveTime;
 } Solution;
 
 /**
@@ -73,13 +73,13 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution);
 void heuristic_solutionDestroy(Solution * solution);
 
 /**
- * Get the difference between two timespec in seconds.
+ * Get the difference between two times in seconds.
  *
  * @param start The starting time.
  * @param end The ending time.
  * @return The elapsed time in seconds.
  */
-double heuristic_getTimeDiffAsSec(struct timespec start, struct timespec end);
+struct timeval * heuristic_getTimeDiff(struct timeval start, struct timeval end);
 
 /**
  * Evaluate a solution.
