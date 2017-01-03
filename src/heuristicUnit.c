@@ -1,12 +1,8 @@
 #include <stdlib.h>
-#include "heuristicUnit.h"
 #include "heuristic.h"
-#include "parser.h"
 #include "unit.h"
-#include "instance.h"
+#include "parser.h"
 #include "scheduler.h"
-#include "solutionDirect.h"
-#include "bag.h"
 
 void heuristicTests()
 {
@@ -14,19 +10,19 @@ void heuristicTests()
     Bag * bag = bag_create(instance);
 
     int * correctList = scheduler_itemValue(instance);
-    int * list = heuristic_getList(instance, bag, 1);
+    int * list = heuristic_getList(instance, bag, 1, NULL, instance->itemsCount);
     if(!unit_arrayEquals(correctList, list, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 1");
     free(correctList);
     free(list);
     correctList = scheduler_ratioAllDimensions(instance);
-    list = heuristic_getList(instance, bag, 2);
+    list = heuristic_getList(instance, bag, 2, NULL, instance->itemsCount);
     if(!unit_arrayEquals(correctList, list, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 2");
     free(correctList);
     free(list);
     correctList = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
-    list = heuristic_getList(instance, bag, 3);
+    list = heuristic_getList(instance, bag, 3, NULL, instance->itemsCount);
     if(!unit_arrayEquals(correctList, list, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 3");
     free(correctList);

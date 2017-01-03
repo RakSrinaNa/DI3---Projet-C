@@ -2,6 +2,7 @@
 #define SCHEDULER
 
 #include "instance.h"
+#include "bag.h"
 
 /**
  * Creates a list of items indexes of an instance. This list is randomly ordered.
@@ -89,5 +90,11 @@ int * scheduler_ratioAllDimensionsWeighted(Instance * instance);
  * @return Its ratio (value/(sum of (maxWeight - weight))).
  */
 double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index);
+
+//TODO
+int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInList, int sizeList);
+
+//TODO
+double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int index);
 
 #endif

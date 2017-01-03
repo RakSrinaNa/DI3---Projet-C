@@ -12,9 +12,9 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
 
-	struct timeval timeStart, timeEnd;
-	gettimeofday(&timeStart, NULL);
-	int * list = heuristic_getList(instance, bag, schedulerType);
+	struct timespec timeStart, timeEnd;
+    clock_gettime(CLOCK_REALTIME, &timeStart);
+	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0, j = 0;
 	while(list != NULL)
 	{
@@ -24,15 +24,15 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		{
 			j++;
 			bag_appendItem(instance, bag, itemIndex);
-			if(list != NULL && schedulerType >= 3 && listCount > 0)
+			if(list != NULL && (schedulerType == 3 || schedulerType == 5) && listCount > 0)
 			{
 				int * listToFree = list;
-				list = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), list, listCount);
+				list = heuristic_getList(instance, bag, schedulerType, list, listCount);
 				free(listToFree);
 			}
 		}
 	}
-	gettimeofday(&timeEnd, NULL);
+    clock_gettime(CLOCK_REALTIME, &timeEnd);
 
 	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
@@ -40,7 +40,7 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		perror("ERROR MALLOC heuristic");
 		exit(EXIT_FAILURE);
 	}
-	solution->solveTime = timeEnd.tv_usec - timeStart.tv_usec;
+	solution->solveTime = heuristic_getTimeDiffAsSec(timeStart, timeEnd);
 	if(solutionType)
 	{
 		solution->type = DIRECT;
@@ -72,7 +72,7 @@ void heuristic_solutionDestroy(Solution * solution)
 	free(solution);
 }
 
-int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
+int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int * oldList, int listCount)
 {
 	switch(schedulerType)
 	{
@@ -86,10 +86,13 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType)
 			return scheduler_ratioAllDimensions(instance);
 
 		case 3:
-			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
+			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), oldList, listCount);
 
         case 4:
             return scheduler_ratioAllDimensionsWeighted(instance);
+
+		case 5:
+			return scheduler_weNeedToFindAName(instance, bag, oldList, listCount);
 
 		default:
 			break;
@@ -110,13 +113,13 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
 	switch(solution->type)
 	{
 		case DIRECT:
-			fprintf(file, "%d\t%f\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), convertToSecond(solution->solveTime));
+			fprintf(file, "%d\t%f\n", solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken), solution->solveTime);
 			/*for(int i = 0; i < instance->itemsCount; i++)
                 if(solution->solutions.direct->itemsTaken[i])
                     fprintf(file, "%d\t", i);*/
 			break;
 		case INDIRECT:
-			fprintf(file, "%d\t%f\n", solutionIndirect_evaluate(solution->solutions.indirect), convertToSecond(solution->solveTime));
+			fprintf(file, "%d\t%f\n", solutionIndirect_evaluate(solution->solutions.indirect), solution->solveTime);
                 /*for(int i = 0; i < solution->solutions.indirect->bag->itemsCount; i++)
                     fprintf(file, "%d\t", solutionIndirect_getItemIndex(solution->solutions.indirect, i));*/
 			break;
@@ -126,9 +129,11 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
 	fclose(file);
 }
 
-double convertToSecond(long timeInUS)
+double heuristic_getTimeDiffAsSec(struct timespec start, struct timespec end)
 {
-    return ((double)(timeInUS)) / 1000000;
+    double start_sec = start.tv_sec + start.tv_nsec / 1000000000.0;
+    double end_sec = end.tv_sec + end.tv_nsec / 1000000000.0;
+    return end_sec - start_sec;
 }
 
 int heuristic_evaluate(Solution * solution)

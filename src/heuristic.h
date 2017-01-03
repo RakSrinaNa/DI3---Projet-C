@@ -1,6 +1,8 @@
 #ifndef HEURISTIC
 #define HEURISTIC
 
+#include <time.h>
+
 #include "instance.h"
 #include "bag.h"
 #include "solutionIndirect.h"
@@ -22,7 +24,7 @@ typedef struct
 	Instance * instance;
 	SolutionType type;
 	Solutions solutions;
-	long solveTime;
+	double solveTime;
 } Solution;
 
 /**
@@ -49,9 +51,11 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
  * @param instance A pointer to the instance where the items are from.
  * @param bag A pointer to the bag associated to the solution.
  * @param schedulerType The type of the scheduler.
+ * @param oldList The old list to replace, use NULL if creating a new one (should be useful for schedulerType 3 & 4).
+ * @param listCount The size of the list to create.
  * @return The list to use in the heuristic for this scheduler.
  */
-int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType);
+int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int * oldList, int listCount);
 
 /**
  * Save a Solution to a file.
@@ -70,12 +74,13 @@ void heuristic_saveSolutionToFile(char * fileName, Instance * instance, Solution
 void heuristic_solutionDestroy(Solution * solution);
 
 /**
- * Convert the time from microseconds to seconds.
+ * Get the difference between two timespec in seconds.
  *
- * @param timeInUS The tie in microseconds.
- * @return The time in seconds.
+ * @param start The starting time.
+ * @param end The ending time.
+ * @return The elapsed time in seconds.
  */
-double convertToSecond(long timeInUS);
+double heuristic_getTimeDiffAsSec(struct timespec start, struct timespec end);
 
 /**
  * Evaluate a solution.

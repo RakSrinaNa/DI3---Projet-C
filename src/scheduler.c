@@ -3,6 +3,7 @@
 
 #include "instance.h"
 #include "scheduler.h"
+#include "bag.h"
 
 int * scheduler_random(Instance * instance)
 {
@@ -199,6 +200,43 @@ double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index)
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
 		totalWeight += (double) instance_item_getWeight(instance, index, i) / instance_getMaxWeight(instance, i);
+	if(totalWeight == 0)
+		return 9999999;
+	return instance_item_getValue(instance, index) / totalWeight;
+}
+
+int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInList, int sizeList)
+{
+	int * list;
+	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
+	{
+		perror("ERROR MALLOC scheduler_weNeedToFindAName");
+		exit(EXIT_FAILURE);
+	}
+
+	if(itemsInList != NULL)
+		for(int i = 0; i < sizeList; i++)
+			list[i] = itemsInList[i];
+	else
+		for(int i = 0; i < sizeList; i++)
+			list[i] = i;
+
+	for(int i = 0; i < sizeList - 1; i++)
+		for(int j = 0; j < sizeList - 1 - i; j++)
+			if(scheduler_weNeedToFindANameRatio(instance, bag, list[j]) < scheduler_weNeedToFindANameRatio(instance, bag, list[j + 1]))
+			{
+				int temp = list[j];
+				list[j] = list[j + 1];
+				list[j + 1] = temp;
+			}
+	return list;
+}
+
+double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int index)
+{
+	double totalWeight = 0;
+	for(int i = 0; i < instance->dimensionsNumber; i++)
+		totalWeight += (double) instance_item_getWeight(instance, index, i) * ((double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i));
 	if(totalWeight == 0)
 		return 9999999;
 	return instance_item_getValue(instance, index) / totalWeight;
