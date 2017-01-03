@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 #include "instance.h"
 #include "scheduler.h"
@@ -236,7 +235,11 @@ double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int inde
 {
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
-		totalWeight += (double) instance_item_getWeight(instance, index, i) * exp(3 * (double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i));
+    {
+        double coef = (double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i);
+        coef = 1 << (int)(3 * coef);
+		totalWeight += (double) instance_item_getWeight(instance, index, i) * coef;
+    }
 	if(totalWeight == 0)
 		return scheduler_getRatioAllDimensionsWeighted(instance, index);
 	return instance_item_getValue(instance, index) / totalWeight;
