@@ -4,6 +4,7 @@
 #include "instance.h"
 #include "scheduler.h"
 #include "bag.h"
+#include <math.h>
 
 int * scheduler_random(Instance * instance)
 {
@@ -236,8 +237,8 @@ double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int inde
 {
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
-		totalWeight += (double) instance_item_getWeight(instance, index, i) * ((double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i));
+		totalWeight += (double) instance_item_getWeight(instance, index, i) * exp(3 * (double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i));
 	if(totalWeight == 0)
-		return 9999999;
+		return scheduler_getRatioAllDimensionsWeighted(instance, index);
 	return instance_item_getValue(instance, index) / totalWeight;
 }
