@@ -37,6 +37,8 @@ typedef struct
  *  - 1 -> Sort by item value.
  *  - 2 -> Sort by ratio with all dimensions.
  *  - 3 -> Sort by ratio with the most critic dimension.
+ *  - 4 -> Sort by ratio with the sum of each dimension weighting by its remaining space.
+ *  - 5 -> //TODO desc
  * @return A pointer to a solution.
  */
 Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
