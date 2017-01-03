@@ -1,4 +1,6 @@
-//TODO
+#ifndef METAHEURISTIC
+#define METAHEURISTIC
+
 #include "instance.h"
 #include "solutionDirect.h"
 #include "scheduler.h"
@@ -10,3 +12,5 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 
 //TODO
 Solution ** metaheuristic_getNeightbours(Solution * currentSolution, int searchOperator, int * neightboursCount);
+
+#endif
