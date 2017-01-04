@@ -117,7 +117,6 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 long double heuristic_getTimeDiff(struct timeb start, struct timeb end)
 {
     return end.time - start.time + (end.millitm - start.millitm) / 1000.0f;
-
 }
 
 int heuristic_evaluate(Solution * solution)
