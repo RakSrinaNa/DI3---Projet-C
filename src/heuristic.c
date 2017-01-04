@@ -83,16 +83,16 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int *
 			return scheduler_itemValue(instance);
 
 		case 2:
-			return scheduler_ratioAllDimensions(instance);
+			return scheduler_allDimensions(instance);
 
 		case 3:
-			return scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), oldList, listCount);
+			return scheduler_forDimension(instance, bag_getCriticDimension(instance, bag), oldList, listCount);
 
         case 4:
-            return scheduler_ratioAllDimensionsWeighted(instance);
+            return scheduler_allDimensionsWeighted(instance);
 
 		case 5:
-			return scheduler_weNeedToFindAName(instance, bag, oldList, listCount);
+			return scheduler_exponential(instance, bag, oldList, listCount);
 
 		default:
 			break;

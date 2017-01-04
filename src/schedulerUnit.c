@@ -38,7 +38,7 @@ void schedulerTests()
 		unit_error("ASSERT ERROR SCHEDULER 3");
 	free(valueList);
 	
-	if(scheduler_getRatioAllDimensions(instance, 5) != 0.90625)
+	if(scheduler_allDimensions_score(instance, 5) != 0.90625)
 		unit_error("ASSERT ERROR SCHEDULER 4");
 	correctValueList[0] = 12;
 	correctValueList[1] = 6;
@@ -55,13 +55,13 @@ void schedulerTests()
 	correctValueList[12] = 11;
 	correctValueList[13] = 4;
 	correctValueList[14] = 13;
-	valueList = scheduler_ratioAllDimensions(instance);
+	valueList = scheduler_allDimensions(instance);
 	if(!unit_arrayEquals(correctValueList, valueList, instance->itemsCount))
 		unit_error("ASSERT ERROR SCHEDULER 5");
 	free(valueList);
 	
 	valueList = NULL;
-	if(scheduler_getRatio(instance, 0, 0) != 12.5 || scheduler_getRatio(instance, 1, 0) != 20 || scheduler_getRatio(instance, 5, 0) != 58 || scheduler_getRatio(instance, 12, 0) != 86 || scheduler_getRatio(instance, 0, 1) != 1 || scheduler_getRatio(instance, 2, 1) != 3)
+	if(scheduler_forDimension_score(instance, 0, 0) != 12.5 || scheduler_forDimension_score(instance, 1, 0) != 20 || scheduler_forDimension_score(instance, 5, 0) != 58 || scheduler_forDimension_score(instance, 12, 0) != 86 || scheduler_forDimension_score(instance, 0, 1) != 1 || scheduler_forDimension_score(instance, 2, 1) != 3)
 		unit_error("ASSERT ERROR SCHEDULER 5");
 	correctValueList[0] = 12;
 	correctValueList[1] = 5;
@@ -78,7 +78,7 @@ void schedulerTests()
 	correctValueList[12] = 8;
 	correctValueList[13] = 4;
 	correctValueList[14] = 13;
-	valueList = scheduler_ratioForDimension(instance, 0, NULL, instance->itemsCount);
+	valueList = scheduler_forDimension(instance, 0, NULL, instance->itemsCount);
 	
 	if(!unit_arrayEquals(correctValueList, valueList, instance->itemsCount))
 		unit_error("ASSERT ERROR SCHEDULER 6");
@@ -99,12 +99,12 @@ void schedulerTests()
 	correctValueList[12] = 1;
 	correctValueList[13] = 11;
 	correctValueList[14] = 13;
-	valueList = scheduler_ratioForDimension(instance, 1, NULL, instance->itemsCount);
+	valueList = scheduler_forDimension(instance, 1, NULL, instance->itemsCount);
 	if(!unit_arrayEquals(correctValueList, valueList, instance->itemsCount))
 		unit_error("ASSERT ERROR SCHEDULER 7");
 	free(valueList);
 	
-	if(scheduler_getRatioAllDimensionsWeighted(instance, 12) != 344 || scheduler_getRatioAllDimensionsWeighted(instance, 3) != 27.5 || scheduler_getRatioAllDimensionsWeighted(instance, 7) != 21.25)
+	if(scheduler_allDimensionsWeighted_score(instance, 12) != 344 || scheduler_allDimensionsWeighted_score(instance, 3) != 27.5 || scheduler_allDimensionsWeighted_score(instance, 7) != 21.25)
 		unit_error("ASSERT ERROR SCHEDULER 8");
 	correctValueList[0] = 12;
 	correctValueList[1] = 6;
@@ -121,7 +121,7 @@ void schedulerTests()
 	correctValueList[12] = 8;
 	correctValueList[13] = 4;
 	correctValueList[14] = 13;
-	valueList = scheduler_ratioAllDimensionsWeighted(instance);
+	valueList = scheduler_allDimensionsWeighted(instance);
 	if(!unit_arrayEquals(correctValueList, valueList, instance->itemsCount))
 		unit_error("ASSERT ERROR SCHEDULER 9");
 	free(valueList);

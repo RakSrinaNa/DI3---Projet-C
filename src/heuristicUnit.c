@@ -15,13 +15,13 @@ void heuristicTests()
         unit_error("ASSERT HEURISTIC 1");
     free(correctList);
     free(list);
-    correctList = scheduler_ratioAllDimensions(instance);
+    correctList = scheduler_allDimensions(instance);
     list = heuristic_getList(instance, bag, 2, NULL, instance->itemsCount);
     if(!unit_arrayEquals(correctList, list, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 2");
     free(correctList);
     free(list);
-    correctList = scheduler_ratioForDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
+    correctList = scheduler_forDimension(instance, bag_getCriticDimension(instance, bag), NULL, instance->itemsCount);
     list = heuristic_getList(instance, bag, 3, NULL, instance->itemsCount);
     if(!unit_arrayEquals(correctList, list, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 3");
