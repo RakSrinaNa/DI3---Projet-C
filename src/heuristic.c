@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/timeb.h>
 
 #include "instance.h"
 #include "solutionDirect.h"
@@ -12,9 +12,9 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
 
-    clock_t timeStart, timeEnd;
-    timeStart = clock();
-	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
+    struct timeb timeStart, timeEnd;
+    ftime(&timeStart);
+    int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0, j = 0;
 	while(list != NULL)
 	{
@@ -32,15 +32,15 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 			}
 		}
 	}
-    timeEnd = clock();
+    ftime(&timeEnd);
 
-	Solution * solution;
+    Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
 	{
 		perror("ERROR MALLOC heuristic");
 		exit(EXIT_FAILURE);
 	}
-	solution->solveTime = heuristic_getTimeDiff(timeEnd, timeStart);
+	solution->solveTime = heuristic_getTimeDiff(timeStart, timeEnd);
 	if(solutionType)
 	{
 		solution->type = DIRECT;
@@ -114,9 +114,10 @@ void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
 	fclose(file);
 }
 
-long double heuristic_getTimeDiff(clock_t start, clock_t end)
+long double heuristic_getTimeDiff(struct timeb start, struct timeb end)
 {
-    return (long double)((end - start) / CLOCKS_PER_SEC);
+    return end.time - start.time + (end.millitm - start.millitm) / 1000.0f;
+
 }
 
 int heuristic_evaluate(Solution * solution)

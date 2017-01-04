@@ -232,13 +232,12 @@ int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInL
 	return list;
 }
 
-// Value / (remaining space if added)
 double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int index)
 {
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
     {
-        totalWeight += exp(4 * (double) bag_getWeight(bag, i) / instance_getMaxWeight(instance, i)) * instance_item_getWeight(instance, index, i);
+        totalWeight += exp(20 * (double) bag_getWeight(bag, i) / instance_getMaxWeight(instance, i)) * instance_item_getWeight(instance, index, i);
     }
 	if(totalWeight == 0)
 		return scheduler_getRatioAllDimensionsWeighted(instance, index);

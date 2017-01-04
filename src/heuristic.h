@@ -1,7 +1,7 @@
 #ifndef HEURISTIC
 #define HEURISTIC
 
-#include <time.h>
+#include <sys/timeb.h>
 
 #include "instance.h"
 #include "bag.h"
@@ -79,7 +79,7 @@ void heuristic_solutionDestroy(Solution * solution);
  * @param end The ending time.
  * @return The elapsed time in seconds.
  */
-long double heuristic_getTimeDiff(clock_t start, clock_t end);
+long double heuristic_getTimeDiff(struct timeb start, struct timeb end);
 
 /**
  * Evaluate a solution.
