@@ -68,56 +68,52 @@ void scheduler_appendToList(int ** list, int * listCount, int element)
 int * scheduler_itemValue(Instance * instance)
 {
 	int * list;
+    double * values;
 	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC scheduler_itemValue");
 		exit(EXIT_FAILURE);
 	}
+    if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
 
-	for(int i = 0; i < instance->itemsCount; i++)
-		list[i] = i;
+    for(int i = 0; i < instance->itemsCount; i++)
+    {
+        list[i] = i;
+        values[i] = instance_item_getValue(instance, list[i]);
+    }
 
-	for(int i = 0; i < instance->itemsCount - 1; i++)
-	{
-		for(int j = 0; j < instance->itemsCount - 1 - i; j++)
-		{
-			if(instance_item_getValue(instance, list[j]) < instance_item_getValue(instance, list[j + 1]))
-			{
-				int temp = list[j];
-				list[j] = list[j + 1];
-				list[j + 1] = temp;
-			}
-		}
-	}
-
+    scheduler_sortArray(list, values, instance->itemsCount);
+    free(values);
 	return list;
 }
 
 int * scheduler_ratioAllDimensions(Instance * instance)
 {
 	int * list;
+    double * values;
 	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC scheduler_ratioAllDimensions");
 		exit(EXIT_FAILURE);
 	}
+    if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
 
-	for(int i = 0; i < instance->itemsCount; i++)
-		list[i] = i;
+    for(int i = 0; i < instance->itemsCount; i++)
+    {
+        list[i] = i;
+        values[i] = scheduler_getRatioAllDimensions(instance, list[i]);
+    }
 
-	for(int i = 0; i < instance->itemsCount - 1; i++)
-	{
-		for(int j = 0; j < instance->itemsCount - 1 - i; j++)
-		{
-			if(scheduler_getRatioAllDimensions(instance, list[j]) < scheduler_getRatioAllDimensions(instance, list[j + 1]))
-			{
-				int temp = list[j];
-				list[j] = list[j + 1];
-				list[j + 1] = temp;
-			}
-		}
-	}
-
+    scheduler_sortArray(list, values, instance->itemsCount);
+    free(values);
 	return list;
 }
 
@@ -134,11 +130,17 @@ double scheduler_getRatioAllDimensions(Instance * instance, int index)
 int * scheduler_ratioForDimension(Instance * instance, int dimension, int * itemsInList, int sizeList)
 {
 	int * list;
+    double * values;
 	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
 	{
 		perror("ERROR MALLOC scheduler_ratioForDimension");
 		exit(EXIT_FAILURE);
 	}
+    if((values = (double *) malloc(sizeof(double) * sizeList)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
 
 	if(itemsInList != NULL)
 		for(int i = 0; i < sizeList; i++)
@@ -147,14 +149,11 @@ int * scheduler_ratioForDimension(Instance * instance, int dimension, int * item
 		for(int i = 0; i < sizeList; i++)
 			list[i] = i;
 
-	for(int i = 0; i < sizeList - 1; i++)
-		for(int j = 0; j < sizeList - 1 - i; j++)
-			if(scheduler_getRatio(instance, list[j], dimension) < scheduler_getRatio(instance, list[j + 1], dimension))
-			{
-				int temp = list[j];
-				list[j] = list[j + 1];
-				list[j + 1] = temp;
-			}
+    for(int i = 0; i < sizeList; i++)
+        values[i] = scheduler_getRatio(instance, list[i], dimension);
+
+    scheduler_sortArray(list, values, sizeList);
+    free(values);
 	return list;
 }
 
@@ -169,28 +168,26 @@ double scheduler_getRatio(Instance * instance, int index, int dim)
 int * scheduler_ratioAllDimensionsWeighted(Instance * instance)
 {
 	int * list;
+    double * values;
 	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC scheduler_ratioAllDimensions");
 		exit(EXIT_FAILURE);
 	}
+    if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
 
 	for(int i = 0; i < instance->itemsCount; i++)
+    {
 		list[i] = i;
+        values[i] = scheduler_getRatioAllDimensionsWeighted(instance, list[i]);
+    }
 
-	for(int i = 0; i < instance->itemsCount - 1; i++)
-	{
-		for(int j = 0; j < instance->itemsCount - 1 - i; j++)
-		{
-			if(scheduler_getRatioAllDimensionsWeighted(instance, list[j]) < scheduler_getRatioAllDimensionsWeighted(instance, list[j + 1]))
-			{
-				int temp = list[j];
-				list[j] = list[j + 1];
-				list[j + 1] = temp;
-			}
-		}
-	}
-
+    scheduler_sortArray(list, values, instance->itemsCount);
+    free(values);
 	return list;
 }
 
@@ -207,11 +204,17 @@ double scheduler_getRatioAllDimensionsWeighted(Instance * instance, int index)
 int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInList, int sizeList)
 {
 	int * list;
-	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_weNeedToFindAName");
-		exit(EXIT_FAILURE);
-	}
+	double * values;
+    if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
+    if((values = (double *) malloc(sizeof(double) * sizeList)) == NULL)
+    {
+        perror("ERROR MALLOC scheduler_weNeedToFindAName");
+        exit(EXIT_FAILURE);
+    }
 
 	if(itemsInList != NULL)
 		for(int i = 0; i < sizeList; i++)
@@ -220,27 +223,39 @@ int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInL
 		for(int i = 0; i < sizeList; i++)
 			list[i] = i;
 
-	for(int i = 0; i < sizeList - 1; i++)
-		for(int j = 0; j < sizeList - 1 - i; j++)
-			if(scheduler_weNeedToFindANameRatio(instance, bag, list[j]) < scheduler_weNeedToFindANameRatio(instance, bag, list[j + 1]))
-			{
-				int temp = list[j];
-				list[j] = list[j + 1];
-				list[j + 1] = temp;
-			}
+    for(int i = 0; i < sizeList; i++)
+        values[i] = scheduler_weNeedToFindANameRatio(instance, bag, list[i]);
+
+	scheduler_sortArray(list, values, sizeList);
+    free(values);
 	return list;
 }
 
+// Value / (remaining space if added)
 double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int index)
 {
 	double totalWeight = 0;
 	for(int i = 0; i < instance->dimensionsNumber; i++)
     {
-        double coef = (double)bag_getWeight(bag, i) / instance_getMaxWeight(instance, i);
-        coef = 1 << (int)(3 * coef);
-		totalWeight += (double) instance_item_getWeight(instance, index, i) * coef;
+        totalWeight += (double) (bag_getWeight(bag, i) + instance_item_getWeight(instance, index, i)) / instance_getMaxWeight(instance, i);
     }
 	if(totalWeight == 0)
 		return scheduler_getRatioAllDimensionsWeighted(instance, index);
-	return instance_item_getValue(instance, index) / totalWeight;
+	return instance_item_getValue(instance, index) * totalWeight;
+}
+
+void scheduler_sortArray(int * indexes, double * values, int sizeList)
+{
+    for(int i = 0; i < sizeList - 1; i++)
+        for(int j = 0; j < sizeList - 1 - i; j++)
+            if(values[j] < values[j + 1])
+            {
+                double temp = values[j];
+                values[j] = values[j + 1];
+                values[j + 1] = temp;
+
+                int temp2 = indexes[j];
+                indexes[j] = indexes[j + 1];
+                indexes[j + 1] = temp2;
+            }
 }

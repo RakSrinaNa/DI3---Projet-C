@@ -97,4 +97,7 @@ int * scheduler_weNeedToFindAName(Instance * instance, Bag * bag, int * itemsInL
 //TODO
 double scheduler_weNeedToFindANameRatio(Instance * instance, Bag * bag, int index);
 
+//TODO
+void scheduler_sortArray(int * indexes, double * values, int sizeList);
+
 #endif
