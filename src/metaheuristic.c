@@ -10,7 +10,7 @@
 
 Solution * metaheuristic_localSearch(Instance *instance, SolutionType solutionType, int searchOperator)
 {
-    Solution * currentSolution = heuristic(instance, solutionType, 2);
+    Solution * currentSolution = heuristic(instance, solutionType, 5);
     Solution * bestSolution = currentSolution;
 
     int fBest = solution_evaluate(bestSolution);
@@ -179,3 +179,41 @@ Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighb
     }
     return neighbourSolutions;
 }
+
+
+
+
+
+
+
+
+
+Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionType, int searchOperatorint, int iterationMax, int tabouMax, int aspi)
+{
+    Solution * currentSolution = heuristic(instance, solutionType, 5);
+    Solution * bestSolution = currentSolution;
+
+    int fBest = solution_evaluate(currentSolution);
+
+    int i = 0;
+
+    while(i < iterationMax)
+    {
+        int fBestVoisin = 0;
+        int mouvementsCount = 0;
+        Tabou ** tabou = NULL;
+        Tabou ** mouvementsPossible = metaheuristic_getMouvements();
+
+        for(int j = 0; j < mouvementsCount; j++)
+        {
+            if(!metaheuristic_isTabou(tabou, mouvementsPossible[j]) || aspi)
+            {
+
+            }
+        }
+
+
+    }
+
+}
+

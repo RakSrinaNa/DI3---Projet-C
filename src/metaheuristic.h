@@ -22,4 +22,7 @@ Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCo
 //TODO
 Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighboursCount);
 
+//TODO
+Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspi);
+
 #endif
