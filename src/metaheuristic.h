@@ -23,6 +23,6 @@ Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCo
 Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighboursCount);
 
 //TODO
-Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspi);
+Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionType, int searchOperatorint, int iterationMax, int tabouMax, int aspi)
 
 #endif

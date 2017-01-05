@@ -152,7 +152,7 @@ Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighb
     {
         if(currentSolution->solutions.direct->itemsTaken[i])
         {
-            Solution * neighbourSolution = heuristic_solutionCopy(currentSolution);
+            Solution * neighbourSolution = solution_duplicate(currentSolution);
             neighbourSolution->solutions.direct->itemsTaken[i] = 0;
 
             for(int j = 0; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
@@ -162,14 +162,14 @@ Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighb
                 {
                     neighbourSolution->solutions.direct->itemsTaken[i] = 1;
 
-                    if(heuristic_doable(neighbourSolution))
+                    if(solution_doable(neighbourSolution))
                     {
                         (*neighboursCount)++;
                         neighbourSolutions = (Solution **)realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
                         neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
                     }
                     else
-                        heuristic_solutionDestroy(neighbourSolution);
+                       solution_destroy(neighbourSolution);
                 }
 
             }
@@ -201,19 +201,57 @@ Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionTy
     {
         int fBestVoisin = 0;
         int mouvementsCount = 0;
-        Tabou ** tabou = NULL;
-        Tabou ** mouvementsPossible = metaheuristic_getMouvements();
+
+        Mouvement ** tabou = NULL;
+        Mouvement ** mouvementsPossible = metaheuristic_getMouvements();
+
+        Solution * bestNeighbourSolution = NULL;
+
+        Mouvement * usefullMouvement = NULL;
 
         for(int j = 0; j < mouvementsCount; j++)
         {
             if(!metaheuristic_isTabou(tabou, mouvementsPossible[j]) || aspi)
             {
+                Solution * neighbourSolution = metaheuristic_getNeighbourFromMouvement(currentSolution, mouvementsPossible[j]);
 
+                if(!metaheuristic_isTabou(tabou, mouvementsPossible[j]))
+                {
+                    if(solution_evaluate(neighbourSolution) > fBestVoisin)
+                    {
+                        bestNeighbourSolution = neighbourSolution;
+                        fBestVoisin = solution_evaluate(neighbourSolution);
+                        usefullMouvement = mouvementsPossible[j];
+                    }
+                }
+                else
+                {
+                    if(solution_evaluate(neighbourSolution) > fBest)
+                    {
+                        bestNeighbourSolution = neighbourSolution;
+                        fBestVoisin = solution_evaluate(neighbourSolution);
+                        usefullMouvement = mouvementsPossible[j];
+                    }
+                }
             }
         }
 
+        int fCurrent = fBestVoisin;
+
+        currentSolution = bestNeighbourSolution;
+        mouvement_append(tabou, tabouMax, usefullMouvement);
+
+        if(fCurrent > fBest)
+        {
+            fBest = fCurrent;
+            bestSolution = currentSolution;
+            i = 0
+        }
+        i++;
 
     }
+
+    return bestSolution;
 
 }
 
