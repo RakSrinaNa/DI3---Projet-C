@@ -45,7 +45,7 @@ int * scheduler_itemValue(Instance * instance);
  * @param instance A pointer to the instance containing the items.
  * @return The list of items.
  */
-int * scheduler_allDimensions(Instance *instance);
+int * scheduler_allDimensions(Instance * instance);
 
 /**
  * Get the ratio of an item over all the dimensions.
@@ -54,7 +54,7 @@ int * scheduler_allDimensions(Instance *instance);
  * @param index The index of the item.
  * @return Its ratio (value/(sum of weights)).
  */
-double scheduler_allDimensions_score(Instance *instance, int index);
+double scheduler_allDimensions_score(Instance * instance, int index);
 
 /**
  * Creates a list of items indexes of an instance. This list is ordered by the ratio of the value and the specified weight (decreasing).
@@ -62,7 +62,7 @@ double scheduler_allDimensions_score(Instance *instance, int index);
  * @param instance A pointer to the instance containing the items.
  * @return The list of items.
  */
-int * scheduler_forDimension(Instance *instance, int dimension, int *itemsInList, int sizeList);
+int * scheduler_forDimension(Instance * instance, int dimension, int * itemsInList, int sizeList);
 
 /**
  * Get the ratio of an item over the specified dimension.
@@ -72,7 +72,7 @@ int * scheduler_forDimension(Instance *instance, int dimension, int *itemsInList
  * @param dim The index of the dimension.
  * @return Its ratio.
  */
-double scheduler_forDimension_score(Instance *instance, int index, int dim);
+double scheduler_forDimension_score(Instance * instance, int index, int dim);
 
 /**
  * Creates a list of items indexes of an instance. This list is ordered by the ratio of the value and the sum of its weighted weights (decreasing).
@@ -80,7 +80,7 @@ double scheduler_forDimension_score(Instance *instance, int index, int dim);
  * @param instance A pointer to the instance containing the items.
  * @return The list of items.
  */
-int * scheduler_allDimensionsWeighted(Instance *instance);
+int * scheduler_allDimensionsWeighted(Instance * instance);
 
 /**
  * Get the ratio of an item over all the weighted dimensions.
@@ -89,13 +89,13 @@ int * scheduler_allDimensionsWeighted(Instance *instance);
  * @param index The index of the item.
  * @return Its ratio (value/(sum of (maxWeight - weight))).
  */
-double scheduler_allDimensionsWeighted_score(Instance *instance, int index);
+double scheduler_allDimensionsWeighted_score(Instance * instance, int index);
 
 //TODO
-int * scheduler_exponential(Instance *instance, Bag *bag, int *itemsInList, int sizeList);
+int * scheduler_exponential(Instance * instance, Bag * bag, int * itemsInList, int sizeList);
 
 //TODO
-double scheduler_exponential_score(Instance *instance, Bag *bag, int index);
+double scheduler_exponential_score(Instance * instance, Bag * bag, int index);
 
 //TODO
 void scheduler_sortArray(int * indexes, double * scores, int sizeList);

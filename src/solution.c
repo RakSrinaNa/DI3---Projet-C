@@ -1,10 +1,7 @@
 #include "heuristic.h"
-#include <sys/timeb.h>
 #include <stdlib.h>
-#include "solution.h"
-#include "solutionIndirect.h"
 
-void solution_saveToFile(char *fileName, Solution *solution)
+void solution_saveToFile(char * fileName, Solution * solution)
 {
 	FILE * file;
 	if((file = fopen(fileName, "w+")) == NULL)
@@ -12,16 +9,16 @@ void solution_saveToFile(char *fileName, Solution *solution)
 		perror("ERROR FOPEN solution_saveToFile");
 		exit(EXIT_FAILURE);
 	}
-    fprintf(file, "%d\t%Lf\n", solution_evaluate(solution), solution->solveTime);
+	fprintf(file, "%d\t%Lf\n", solution_evaluate(solution), solution->solveTime);
 	fclose(file);
 }
 
 long double solution_getTimeDiff(struct timeb start, struct timeb end)
 {
-    return end.time - start.time + (end.millitm - start.millitm) / 1000.0f;
+	return end.time - start.time + (end.millitm - start.millitm) / 1000.0f;
 }
 
-int solution_evaluate(Solution *solution)
+int solution_evaluate(Solution * solution)
 {
 	switch(solution->type)
 	{
@@ -33,7 +30,7 @@ int solution_evaluate(Solution *solution)
 	return -1;
 }
 
-int solution_doable(Solution *solution)
+int solution_doable(Solution * solution)
 {
 	switch(solution->type)
 	{
@@ -61,11 +58,11 @@ Solution * solution_duplicate(Solution * solution)
 		case DIRECT:
 			newSolution->solutions.direct = solutionDirect_duplicate(solution->solutions.direct);
 			break;
-
+		
 		case INDIRECT:
 			newSolution->solutions.indirect = solutionIndirect_duplicate(solution->solutions.indirect);
 			break;
-
+		
 		default:
 			perror("Unknown solutionType solution_duplicate");
 			exit(EXIT_FAILURE);
@@ -73,7 +70,7 @@ Solution * solution_duplicate(Solution * solution)
 	return NULL;
 }
 
-void solution_destroy(Solution *solution)
+void solution_destroy(Solution * solution)
 {
 	switch(solution->type)
 	{

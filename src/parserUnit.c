@@ -3,8 +3,6 @@
 #include "unit.h"
 #include "parserUnit.h"
 #include "parser.h"
-#include "instance.h"
-#include "item.h"
 
 void parserTests(void)
 {
@@ -19,7 +17,7 @@ void parserTests(void)
 		unit_error("ASSERT PARSER 3");
 	if(instance_getMaxWeight(instance, 0) != 7 || instance_getMaxWeight(instance, 1) != 56)
 		unit_error("ASSERT PARSER 4");
-
+	
 	Parser * parser = parser_create("MKP-Instances/theBestBag.txt");
 	if(parser->instanceCount != 1)
 		unit_error("ASSERT PARSER 5");
@@ -33,12 +31,12 @@ void parserTests(void)
 		if(item->value != item1->value || !unit_arrayEquals(item->weights, item1->weights, instance->dimensionsNumber))
 			unit_error("ASSERT PARSER 7");
 	}
-
+	
 	instance_destroy(instance);
-
+	
 	if(parser_getNextInstance(parser) != NULL)
 		unit_error("ASSERT PARSER 8");
-
+	
 	parser_destroy(parser);
 	free(instance);
 }

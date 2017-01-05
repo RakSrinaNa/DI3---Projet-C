@@ -28,7 +28,7 @@ typedef struct
  * @param fileName The file where to write.
  * @param solution A pointer to the solution.
  */
-void solution_saveToFile(char *fileName, Solution *solution);
+void solution_saveToFile(char * fileName, Solution * solution);
 
 /**
  * Get the difference between two times in seconds.
@@ -45,7 +45,7 @@ long double solution_getTimeDiff(struct timeb start, struct timeb end);
  * @param solution A pointer to the solution.
  * @return The score for the solution.
  */
-int solution_evaluate(Solution *solution);
+int solution_evaluate(Solution * solution);
 
 /**
  * Tells if a solution is doable.
@@ -53,7 +53,7 @@ int solution_evaluate(Solution *solution);
  * @param solution A pointer to the solution.
  * @return 1 if doable, 0 else.
  */
-int solution_doable(Solution *solution);
+int solution_doable(Solution * solution);
 
 /**
  * Duplicate a Solution on the heap.
@@ -61,7 +61,7 @@ int solution_doable(Solution *solution);
  * @param solution A pointer to the solution to duplicate.
  * @return A pointer to the duplicated solution.
  */
-Solution * solution_duplicate(Solution *solution);
+Solution * solution_duplicate(Solution * solution);
 
 /**
  * Destroy a solution.

@@ -3,17 +3,16 @@
 #include <sys/timeb.h>
 
 #include "heuristic.h"
-#include "solutionIndirect.h"
 #include "scheduler.h"
 
-Solution * heuristic(Instance *instance, SolutionType solutionType, int schedulerType)
+Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
-
-    struct timeb timeStart, timeEnd;
-    ftime(&timeStart);
-    int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
+	
+	struct timeb timeStart, timeEnd;
+	ftime(&timeStart);
+	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0, j = 0;
 	while(list != NULL)
 	{
@@ -31,9 +30,9 @@ Solution * heuristic(Instance *instance, SolutionType solutionType, int schedule
 			}
 		}
 	}
-    ftime(&timeEnd);
-
-    Solution * solution;
+	ftime(&timeEnd);
+	
+	Solution * solution;
 	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
 	{
 		perror("ERROR MALLOC heuristic");
@@ -47,18 +46,18 @@ Solution * heuristic(Instance *instance, SolutionType solutionType, int schedule
 			solution->solutions.direct = bag_toSolutionDirect(instance, bag);
 			bag_destroy(bag);
 			break;
-
+		
 		case INDIRECT:
 			solution->solutions.indirect = solutionIndirect_create(instance);
 			solution->solutions.indirect->bag = bag;
 			break;
-
+		
 		default:
 			perror("Unknown solutionType heuristic");
 			exit(EXIT_FAILURE);
 	}
-    solution->instance = instance;
-
+	solution->instance = instance;
+	
 	return solution;
 }
 
@@ -68,26 +67,26 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int *
 	{
 		case 0:
 			return scheduler_random(instance);
-
+		
 		case 1:
 			return scheduler_itemValue(instance);
-
+		
 		case 2:
 			return scheduler_allDimensions(instance);
-
+		
 		case 3:
 			return scheduler_forDimension(instance, bag_getCriticDimension(instance, bag), oldList, listCount);
-
-        case 4:
-            return scheduler_allDimensionsWeighted(instance);
-
+		
+		case 4:
+			return scheduler_allDimensionsWeighted(instance);
+		
 		case 5:
 			return scheduler_exponential(instance, bag, oldList, listCount);
-
+		
 		default:
 			break;
 	}
-
+	
 	perror("ERROR HEURISTIC getList - Worst schedulerType EVER");
 	exit(EXIT_FAILURE);
 }

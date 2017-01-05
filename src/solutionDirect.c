@@ -12,9 +12,9 @@ SolutionDirect * solutionDirect_create(Instance * instance)
 		perror("ERROR MALLOC solutionDirect_create");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	solution->instance = instance;
-
+	
 	if((solution->itemsTaken = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
 	{
 		perror("ERROR MALLOC solutionDirect_create");
@@ -22,7 +22,7 @@ SolutionDirect * solutionDirect_create(Instance * instance)
 	}
 	for(int i = 0; i < instance->itemsCount; i++)
 		solution->itemsTaken[i] = 0;
-
+	
 	return solution;
 }
 
@@ -92,10 +92,10 @@ void solutionDirect_saveToFile(char * fileName, SolutionDirect * solution)
 SolutionDirect * solutionDirect_duplicate(SolutionDirect * solutionDirect)
 {
 	SolutionDirect * newSolution = solutionDirect_create(solutionDirect->instance);
-	for(int i =0; i < solutionDirect->instance->itemsCount; i++)
+	for(int i = 0; i < solutionDirect->instance->itemsCount; i++)
 		if(solutionDirect_isItemTaken(solutionDirect, i) == 1)
 			solutionDirect_takeItem(solutionDirect, i);
-
+	
 	return newSolution;
 }
 

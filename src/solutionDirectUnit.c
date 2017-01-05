@@ -18,10 +18,10 @@ void solutionDirectTests(void)
 	if(solutionDirect_doable(instance, solution->itemsTaken) != 0)
 		unit_error("ASSERT SOLUTIONDIRECT 2");
 	solution->itemsTaken[1] = 0;
-    solutionDirect_takeItem(solution, 1);
-    if(solution->itemsTaken[1] != 1)
-        unit_error("ASSERT SOLUTIONDIRECT 3");
-    solution->itemsTaken[1] = 0;
+	solutionDirect_takeItem(solution, 1);
+	if(solution->itemsTaken[1] != 1)
+		unit_error("ASSERT SOLUTIONDIRECT 3");
+	solution->itemsTaken[1] = 0;
 	solution->itemsTaken[3] = 0;
 	solution->itemsTaken[5] = 0;
 	solution->itemsTaken[7] = 0;

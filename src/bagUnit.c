@@ -3,8 +3,6 @@
 #include "bagUnit.h"
 #include "bag.h"
 #include "parser.h"
-#include "solutionDirect.h"
-#include "instance.h"
 
 void bagTests()
 {
@@ -55,13 +53,13 @@ void bagTests()
 		if(bagItems[i] != bag_getItemIndex(bag, i))
 			unit_error("ASSERT BAG 12");
 	free(bagItems);
-
+	
 	SolutionDirect * solutionDirect = bag_toSolutionDirect(instance, bag);
 	int itemsTaken[15] = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
 	if(!unit_arrayEquals(itemsTaken, solutionDirect->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT BAG 13");
 	solutionDirect_destroy(solutionDirect);
-
+	
 	bag_destroy(bag);
 	instance_destroy(instance);
 	free(instance);

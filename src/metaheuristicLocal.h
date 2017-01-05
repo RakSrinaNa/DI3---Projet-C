@@ -8,18 +8,18 @@
 #include "metaheuristicLocal.h"
 
 //TODO
-Solution * metaheuristicLocal_search(Instance *instance, SolutionType solutionType, int operatorSearch);
+Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int operatorSearch);
 
 //TODO
-Solution ** metaheuristicLocal_getNeighbours(Solution *currentSolution, int searchOperator, int *neighboursCount);
+Solution ** metaheuristicLocal_getNeighbours(Solution * currentSolution, int searchOperator, int * neighboursCount);
 
 //TODO
-Solution ** metaheuristicLocal_swapItem(Solution *currentSolution, int *neighboursCount);
+Solution ** metaheuristicLocal_swapItem(Solution * currentSolution, int * neighboursCount);
 
 //TODO
-Solution ** metaheuristicLocal_addItem(Solution *currentSolution, int *neighboursCount);
+Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighboursCount);
 
 //TODO
-Solution ** metaheuristicLocal_intervertItem(Solution *currentSolution, int *neighboursCount);
+Solution ** metaheuristicLocal_intervertItem(Solution * currentSolution, int * neighboursCount);
 
 #endif

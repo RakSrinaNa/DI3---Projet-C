@@ -3,7 +3,6 @@
 
 #include "instance.h"
 #include "solutionIndirect.h"
-#include "bag.h"
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {

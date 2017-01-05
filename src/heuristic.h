@@ -19,7 +19,7 @@
  *  - 5 -> Sort by ratio with the weight ties the exponential of 3 times the ratio of the completion of the bag.
  * @return A pointer to a solution.
  */
-Solution * heuristic(Instance *instance, SolutionType solutionType, int schedulerType);
+Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType);
 
 /**
  * Get the initial list for a scheduler type.

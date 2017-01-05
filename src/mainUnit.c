@@ -29,11 +29,11 @@ int mainUnit()
 	printf("Executing solutionIndirect tests...");
 	solutionIndirectTests();
 	printf("OK\n");
-    printf("Executing scheduler tests...");
-    schedulerTests();
-    printf("OK\n");
-    printf("Executing heuristic tests...");
-    heuristicTests();
-    printf("OK\n");
+	printf("Executing scheduler tests...");
+	schedulerTests();
+	printf("OK\n");
+	printf("Executing heuristic tests...");
+	heuristicTests();
+	printf("OK\n");
 	return 0;
 }
