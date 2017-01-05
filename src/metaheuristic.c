@@ -90,7 +90,7 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
     return NULL;
 }
 
-Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
+Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
 
@@ -105,7 +105,7 @@ Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperato
             neighbourSolution->solutions.indirect->itemsOrder[j] = tempo;
 
             solutionIndirect_decode(neighbourSolution->solutions.indirect);
-            if(solutionIndirect_doable(neighbourSolution->solutions.indirect))
+            if(heuristic_doable(neighbourSolution))
             {
                 (*neighboursCount)++;
                 neighbourSolutions = (Solution **)realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
@@ -118,4 +118,30 @@ Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperato
 
     return neighbourSolutions;
 }
+
+Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCount)
+{
+    Solution ** neighbourSolutions = NULL;
+
+    for(int i = 0; i < currentSolution->solutions.direct->instance->itemsCount; i++)
+    {
+        if(currentSolution->solutions.direct->itemsTaken[i] == 0)
+        {
+            Solution * neighbourSolution = heuristic_solutionCopy(currentSolution);
+
+            neighbourSolution->solutions.direct->itemsTaken[i] = 1;
+
+            if(heuristic_doable(neighbourSolution))
+            {
+                (*neighboursCount)++;
+                neighbourSolutions = (Solution **)realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+                neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
+            }
+            else
+                heuristic_solutionDestroy(neighbourSolution);
+        }
+    }
+    return neighbourSolutions;
+}
+
 

@@ -14,6 +14,9 @@ Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int 
 Solution ** metaheuristic_getNeighbours(Solution *currentSolution, int searchOperator, int *neighboursCount);
 
 //TODO
-Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount);
+Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursCount);
+
+//TODO
+Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCount);
 
 #endif
