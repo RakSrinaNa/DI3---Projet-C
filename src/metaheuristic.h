@@ -8,7 +8,7 @@
 #include "metaheuristic.h"
 
 //TODO
-Solution * metaheuristic_localSearch(Instance * instance, int solutionType, int operatorSearch);
+Solution * metaheuristic_localSearch(Instance *instance, SolutionType solutionType, int operatorSearch);
 
 //TODO
 Solution ** metaheuristic_getNeighbours(Solution *currentSolution, int searchOperator, int *neighboursCount);
