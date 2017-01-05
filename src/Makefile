@@ -10,7 +10,7 @@ $(EXEC): $(OBJ)
 main.o: parser.h
 
 %.o: %.c FORCE
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(CFLAGS) -lm
 
 .PHONY: clean
 
