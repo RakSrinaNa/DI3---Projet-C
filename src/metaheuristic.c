@@ -7,6 +7,7 @@
 #include "scheduler.h"
 #include "heuristic.h"
 #include "metaheuristic.h"
+#include "methaheuristicTabou.h"
 
 Solution * metaheuristic_localSearch(Instance *instance, SolutionType solutionType, int searchOperator)
 {
@@ -245,7 +246,7 @@ Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionTy
         {
             fBest = fCurrent;
             bestSolution = currentSolution;
-            i = 0
+            i = 0;
         }
         i++;
 
