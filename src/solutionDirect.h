@@ -3,19 +3,13 @@
 
 #include "instance.h"
 
-typedef struct
+typedef struct _SolutionDirect SolutionDirect;
+
+struct _SolutionDirect
 {
+	Instance * instance;
 	int * itemsTaken;
-	
-	// Functions
-	int (* evaluate)(Instance * instance, int * items);
-	
-	int (* doable)(Instance * instance, int * items);
-	
-	void (* print)(Instance * instance, int * items);
-	
-	void (* saveToFile)(char * fileName, Instance * instance, int * items);
-} SolutionDirect;
+};
 
 /**
  * Create a direct solution on the heap.
@@ -38,13 +32,12 @@ void solutionDirect_destroy(SolutionDirect * solution);
  * @param items The items taken in the bag (array of booleans).
  * @return The score.
  */
-int solutionDirect_evaluate(Instance * instance, int * items);
+int solutionDirect_evaluate(SolutionDirect * solution);
 
 /**
  * Tells if the solution is possible or not.
  *
- * @param instance A pointer to the instance associated with the solution.
- * @param items The items taken in the bag (array of booleans).
+ * @param solution A pointer to the solution.
  * @return Boolean representing if the solution is possible.
  */
 int solutionDirect_doable(Instance * instance, int * items);
@@ -52,19 +45,17 @@ int solutionDirect_doable(Instance * instance, int * items);
 /**
  * Prints the solution to the screen.
  *
- * @param instance A pointer to the instance associated with the solution.
- * @param items The items taken in the bag (array of booleans).
+ * @param solution A pointer to the solution.
  */
-void solutionDirect_print(Instance * instance, int * items);
+void solutionDirect_print(SolutionDirect * solution);
 
 /**
  * Save the solution to a file
  *
  * @param fileName The path to the file to write to.
- * @param instance A pointer to the instance associated with the solution.
- * @param items The items taken in the bag (array of booleans).
+ * @param solution A pointer to the solution.
  */
-void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items);
+void solutionDirect_saveToFile(char * fileName, SolutionDirect * solution);
 
 /**
  * Mark an item as being taken.
@@ -73,5 +64,11 @@ void solutionDirect_saveToFile(char * fileName, Instance * instance, int * items
  * @param index The index of the item to take.
  */
 void solutionDirect_takeItem(SolutionDirect * solution, int index);
+
+//TODO
+SolutionDirect * solutionDirect_duplicate(SolutionDirect * solutionDirect);
+
+//TODO
+int solutionDirect_isItemTaken(SolutionDirect * solution, int index);
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "instance.h"
 #include "solutionIndirect.h"
+#include "bag.h"
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {
@@ -23,11 +24,6 @@ SolutionIndirect * solutionIndirect_create(Instance * instance)
 	
 	solution->bag = NULL;
 	solution->instance = instance;
-	
-	solution->evaluate = solutionIndirect_evaluate;
-	solution->doable = solutionIndirect_doable;
-	solution->print = solutionIndirect_print;
-	solution->saveToFile = solutionIndirect_saveToFile;
 	
 	return solution;
 }
@@ -104,4 +100,13 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution)
 	bag_saveItems(solution->bag, file);
 	
 	fclose(file);
+}
+
+SolutionIndirect * solutionIndirect_duplicate(SolutionIndirect * solution)
+{
+	SolutionIndirect * newSolution = solutionIndirect_create(solution->instance);
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		newSolution->itemsOrder[i] = solution->itemsOrder[i];
+	newSolution->bag = bag_duplicate(solution->bag, solution->instance);
+	return newSolution;
 }

@@ -107,3 +107,11 @@ SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag)
 		solutionDirect_takeItem(solution, bag_getItemIndex(bag, i));
 	return solution;
 }
+
+Bag * bag_duplicate(Bag * bag, Instance * instance)
+{
+	Bag * newBag = bag_create(instance);
+	for(int i = 0; i < bag->itemsCount; i++)
+		bag_appendItem(instance, newBag, bag_getItemIndex(bag, i));
+	return newBag;
+}

@@ -112,7 +112,7 @@ Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursC
                 neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
             }
             else
-                heuristic_solutionDestroy(neighbourSolution);
+                solution_destroy(neighbourSolution);
         }
     }
 
@@ -138,7 +138,7 @@ Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCo
                 neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
             }
             else
-                heuristic_solutionDestroy(neighbourSolution);
+                solution_destroy(neighbourSolution);
         }
     }
     return neighbourSolutions;

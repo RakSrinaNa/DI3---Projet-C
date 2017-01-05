@@ -12,15 +12,6 @@ struct _SolutionIndirect
 	int * itemsOrder;
 	Bag * bag;
 	Instance * instance;
-	
-	// Functions
-	int (* evaluate)(SolutionIndirect * solution);
-	
-	int (* doable)(SolutionIndirect * solution);
-	
-	void (* print)(SolutionIndirect * solution);
-	
-	void (* saveToFile)(char * fileName, SolutionIndirect * solution);
 };
 
 /**
@@ -83,5 +74,8 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution);
  * @return The index of the item.
  */
 int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index);
+
+//TODO
+SolutionIndirect * solutionIndirect_duplicate(SolutionIndirect * solution);
 
 #endif
