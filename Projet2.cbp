@@ -84,6 +84,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/mainUnit.h" />
+		<Unit filename="src/metaheuristic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/metaheuristic.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>

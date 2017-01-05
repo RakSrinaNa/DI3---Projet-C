@@ -90,32 +90,32 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
     return NULL;
 }
 
-Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neightboursCount)
+Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
 {
-    Solution ** neightbourSolutions = NULL;
+    Solution ** neighbourSolutions = NULL;
 
     for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
     {
         for(int j = i+1; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
         {
-            Solution * neightbourSolution = heuristic_solutionCopy(currentSolution);
+            Solution * neighbourSolution = heuristic_solutionCopy(currentSolution);
 
-            int tempo = solutionIndirect_getItemIndex(neightbourSolution->solutions.indirect, i);
-            neightbourSolution->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(neightbourSolution->solutions.indirect, j);
-            neightbourSolution->solutions.indirect->itemsOrder[j] = tempo;
+            int tempo = solutionIndirect_getItemIndex(neighbourSolution->solutions.indirect, i);
+            neighbourSolution->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(neighbourSolution->solutions.indirect, j);
+            neighbourSolution->solutions.indirect->itemsOrder[j] = tempo;
 
-            solutionIndirect_decode(neightbourSolution->solutions.indirect);
-            if(solutionIndirect_doable(neightbourSolution->solutions.indirect))
+            solutionIndirect_decode(neighbourSolution->solutions.indirect);
+            if(solutionIndirect_doable(neighbourSolution->solutions.indirect))
             {
-                (*neightboursCount)++;
-                neightbourSolutions = (Solution **)realloc(neightbourSolutions, sizeof(Solution *) * *neightboursCount);
-                neightbourSolutions[*neightboursCount - 1] = neightbourSolution;
+                (*neighboursCount)++;
+                neighbourSolutions = (Solution **)realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+                neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
             }
             else
-                heuristic_solutionDestroy(neightbourSolution);
+                heuristic_solutionDestroy(neighbourSolution);
         }
     }
 
-    return neightbourSolutions;
+    return neighbourSolutions;
 }
 
