@@ -144,4 +144,38 @@ Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCo
     return neighbourSolutions;
 }
 
+Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighboursCount)
+{
+    Solution ** neighbourSolutions = NULL;
 
+    for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
+    {
+        if(currentSolution->solutions.direct->itemsTaken[i])
+        {
+            Solution * neighbourSolution = heuristic_solutionCopy(currentSolution);
+            neighbourSolution->solutions.direct->itemsTaken[i] = 0;
+
+            for(int j = 0; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
+            {
+
+                if(currentSolution->solutions.direct->itemsTaken[i] == 0)
+                {
+                    neighbourSolution->solutions.direct->itemsTaken[i] = 1;
+
+                    if(heuristic_doable(neighbourSolution))
+                    {
+                        (*neighboursCount)++;
+                        neighbourSolutions = (Solution **)realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+                        neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
+                    }
+                    else
+                        heuristic_solutionDestroy(neighbourSolution);
+                }
+
+            }
+
+        }
+
+    }
+    return neighbourSolutions;
+}

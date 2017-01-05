@@ -19,4 +19,7 @@ Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursC
 //TODO
 Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCount);
 
+//TODO
+Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighboursCount);
+
 #endif
