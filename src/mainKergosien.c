@@ -5,6 +5,7 @@
 #include "instance.h"
 #include "parser.h"
 #include "heuristic.h"
+#include "solution.h"
 
 void mainKergosien()
 {
@@ -38,7 +39,7 @@ void mainKergosien()
                 if(1) {
                     solution = heuristic(instance, 1, j);
                     sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
-                    heuristic_saveSolutionToFile(outputFile, solution);
+                    solution_saveToFile(outputFile, solution);
                     printf("Solution written into %s\n", outputFile);
                     heuristic_solutionDestroy(solution);
                 }
@@ -46,7 +47,7 @@ void mainKergosien()
                 if(0) {
                     solution = heuristic(instance, 0, j);
                     sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
-                    heuristic_saveSolutionToFile(outputFile, solution);
+                    solution_saveToFile(outputFile, solution);
                     printf("Solution written into %s\n", outputFile);
                     heuristic_solutionDestroy(solution);
                 }

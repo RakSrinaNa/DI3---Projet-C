@@ -35,6 +35,8 @@ set(SOURCE_FILES
         src/scheduler.c src/scheduler.h
         src/schedulerUnit.c src/schedulerUnit.h
 
-        #src/metaheuristic.c src/metaheuristic.h
+        src/metaheuristic.c src/metaheuristic.h
+
+        src/solution.c src/solution.h
         )
 add_executable(ex_projet2 ${SOURCE_FILES})

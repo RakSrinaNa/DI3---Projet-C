@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <sys/timeb.h>
 
-#include "instance.h"
-#include "solutionDirect.h"
-#include "scheduler.h"
 #include "heuristic.h"
+#include "solutionIndirect.h"
+#include "scheduler.h"
 
-Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
+Solution * heuristic(Instance *instance, SolutionType solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
@@ -40,18 +39,23 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType)
 		perror("ERROR MALLOC heuristic");
 		exit(EXIT_FAILURE);
 	}
-	solution->solveTime = heuristic_getTimeDiff(timeStart, timeEnd);
-	if(solutionType)
+	solution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
+	solution->type = solutionType;
+	switch(solutionType)
 	{
-		solution->type = DIRECT;
-		solution->solutions.direct = bag_toSolutionDirect(instance, bag);
-		bag_destroy(bag);
-	}
-	else
-	{
-		solution->type = INDIRECT;
-		solution->solutions.indirect = solutionIndirect_create(instance);
-		solution->solutions.indirect->bag = bag;
+		case DIRECT:
+			solution->solutions.direct = bag_toSolutionDirect(instance, bag);
+			bag_destroy(bag);
+			break;
+
+		case INDIRECT:
+			solution->solutions.indirect = solutionIndirect_create(instance);
+			solution->solutions.indirect->bag = bag;
+			break;
+
+		default:
+			perror("Unknown solutionType heuristic");
+			exit(EXIT_FAILURE);
 	}
     solution->instance = instance;
 
@@ -102,43 +106,3 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int *
 	exit(EXIT_FAILURE);
 }
 
-void heuristic_saveSolutionToFile(char * fileName, Solution * solution)
-{
-	FILE * file;
-	if((file = fopen(fileName, "w+")) == NULL)
-	{
-		perror("ERROR FOPEN heuristic_saveSolutionToFile");
-		exit(EXIT_FAILURE);
-	}
-    fprintf(file, "%d\t%Lf\n", heuristic_evaluate(solution), solution->solveTime);
-	fclose(file);
-}
-
-long double heuristic_getTimeDiff(struct timeb start, struct timeb end)
-{
-    return end.time - start.time + (end.millitm - start.millitm) / 1000.0f;
-}
-
-int heuristic_evaluate(Solution * solution)
-{
-	switch(solution->type)
-	{
-		case DIRECT:
-			return solutionDirect_evaluate(solution->instance, solution->solutions.direct->itemsTaken);
-		case INDIRECT:
-			return solutionIndirect_evaluate(solution->solutions.indirect);
-	}
-	return -1;
-}
-
-int heuristic_doable(Solution * solution)
-{
-	switch(solution->type)
-	{
-		case DIRECT:
-			return solutionDirect_doable(solution->instance, solution->solutions.direct->itemsTaken);
-		case INDIRECT:
-			return solutionIndirect_doable(solution->solutions.indirect);
-	}
-	return -1;
-}

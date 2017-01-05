@@ -3,6 +3,7 @@
 #include "unit.h"
 #include "parser.h"
 #include "scheduler.h"
+#include "solution.h"
 
 void heuristicTests()
 {

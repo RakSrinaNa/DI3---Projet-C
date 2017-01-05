@@ -1,31 +1,9 @@
 #ifndef HEURISTIC
 #define HEURISTIC
 
-#include <sys/timeb.h>
-
 #include "instance.h"
 #include "bag.h"
-#include "solutionIndirect.h"
-#include "solutionDirect.h"
-
-typedef enum
-{
-	DIRECT, INDIRECT
-} SolutionType;
-
-typedef union
-{
-	SolutionDirect * direct;
-	SolutionIndirect * indirect;
-} Solutions;
-
-typedef struct
-{
-	Instance * instance;
-	SolutionType type;
-	Solutions solutions;
-	long double solveTime;
-} Solution;
+#include "solution.h"
 
 /**
  * Starts the heuristic function depending on the solutionType and schedulerType.
@@ -40,10 +18,10 @@ typedef struct
  *  - 2 -> Sort by ratio with all dimensions.
  *  - 3 -> Sort by ratio with the most critic dimension.
  *  - 4 -> Sort by ratio with the sum of each dimension weighting by its remaining space.
- *  - 5 -> //TODO desc
+ *  - 5 -> Sort by ratio with the weight ties the exponential of 3 times the ratio of the completion of the bag.
  * @return A pointer to a solution.
  */
-Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
+Solution * heuristic(Instance *instance, SolutionType solutionType, int schedulerType);
 
 /**
  * Get the initial list for a scheduler type.
@@ -58,43 +36,10 @@ Solution * heuristic(Instance * instance, int solutionType, int schedulerType);
 int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int * oldList, int listCount);
 
 /**
- * Save a Solution to a file.
- *
- * @param fileName The file where to write.
- * @param solution A pointer to the solution.
- */
-void heuristic_saveSolutionToFile(char * fileName, Solution * solution);
-
-/**
  * Destroy a solution.
  *
  * @param solution A pointer to the solution to destroy.
  */
 void heuristic_solutionDestroy(Solution * solution);
-
-/**
- * Get the difference between two times in seconds.
- *
- * @param start The starting time.
- * @param end The ending time.
- * @return The elapsed time in seconds.
- */
-long double heuristic_getTimeDiff(struct timeb start, struct timeb end);
-
-/**
- * Evaluate a solution.
- *
- * @param solution A pointer to the solution.
- * @return The score for the solution.
- */
-int heuristic_evaluate(Solution * solution);
-
-/**
- * Tells if a solution is doable.
- *
- * @param solution A pointer to the solution.
- * @return 1 if doable, 0 else.
- */
-int heuristic_doable(Solution * solution);
 
 #endif
