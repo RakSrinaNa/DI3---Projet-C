@@ -29,14 +29,16 @@ set(SOURCE_FILES
         src/solutionIndirect.c src/solutionIndirect.h
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h
 
+        src/solution.c src/solution.h
+
         src/heuristic.c src/heuristic.h
         src/heuristicUnit.c src/heuristicUnit.h
 
         src/scheduler.c src/scheduler.h
         src/schedulerUnit.c src/schedulerUnit.h
 
-        src/metaheuristic.c src/metaheuristic.h
+        src/metaheuristicLocal.c src/metaheuristicLocal.h
 
-        src/solution.c src/solution.h
-        src/methaheuristicTabou.c src/methaheuristicTabou.h)
+        src/methaheuristicTabou.c src/methaheuristicTabou.h
+        )
 add_executable(ex_projet2 ${SOURCE_FILES})

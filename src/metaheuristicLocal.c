@@ -6,37 +6,36 @@
 #include "solutionDirect.h"
 #include "scheduler.h"
 #include "heuristic.h"
-#include "metaheuristic.h"
-#include "methaheuristicTabou.h"
+#include "metaheuristicLocal.h"
 
-Solution * metaheuristic_localSearch(Instance *instance, SolutionType solutionType, int searchOperator)
+Solution * metaheuristicLocal_search(Instance *instance, SolutionType solutionType, int searchOperator)
 {
     Solution * currentSolution = heuristic(instance, solutionType, 5);
     Solution * bestSolution = currentSolution;
 
-    int fBest = solution_evaluate(bestSolution);
-    int fCurrent = solution_evaluate(currentSolution);
+    int scoreBest = solution_evaluate(bestSolution);
+    int scoreCurrent = solution_evaluate(currentSolution);
 
     int stop = 0;
 
-    int fPrec = fCurrent;
+    int scorePrevious = scoreCurrent;
 
     while(!stop)
     {
         Solution * bestNeighbourSolution = NULL;
-        int fBestNeighbour = 0;
+        int scoreBestNeighbour = 0;
         int bestNeighbourIndex = -1;
 
         int neighboursCount = 0;
-        Solution ** allNeighbours = metaheuristic_getNeighbours(currentSolution, searchOperator, &neighboursCount);
+        Solution ** allNeighbours = metaheuristicLocal_getNeighbours(currentSolution, searchOperator, &neighboursCount);
 
         for(int i = 0; i < neighboursCount; i++)
         {
-            if(solution_evaluate(allNeighbours[i]) > fBestNeighbour)
+            if(solution_evaluate(allNeighbours[i]) > scoreBestNeighbour)
             {
                 bestNeighbourSolution = allNeighbours[i];
                 bestNeighbourIndex = i;
-                fBestNeighbour = solution_evaluate(allNeighbours[i]);
+                scoreBestNeighbour = solution_evaluate(allNeighbours[i]);
             }
         }
 
@@ -46,28 +45,28 @@ Solution * metaheuristic_localSearch(Instance *instance, SolutionType solutionTy
                 free(allNeighbours[i]);
         free(allNeighbours);
 
-        fCurrent = fBestNeighbour;
+        scoreCurrent = scoreBestNeighbour;
         currentSolution = bestNeighbourSolution;
 
-        if(fCurrent > fBest)
+        if(scoreCurrent > scoreBest)
         {
-            fBest = fCurrent;
+            scoreBest = scoreCurrent;
             bestSolution = currentSolution;
         }
         else
         {
-            if(fCurrent < fPrec)
+            if(scoreCurrent < scorePrevious)
                 stop = 1;
         }
 
-        fPrec = fCurrent;
+        scorePrevious = scoreCurrent;
     }
 
     return bestSolution;
 
 }
 
-Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOperator, int * neighboursCount)
+Solution ** metaheuristicLocal_getNeighbours(Solution *currentSolution, int searchOperator, int *neighboursCount)
 {
     switch(currentSolution->type) {
         case DIRECT:
@@ -81,7 +80,7 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
         default:
             switch (searchOperator) {
                 case 0:
-                    return metaheuristic_swapItem(currentSolution, neighboursCount);
+                    return metaheuristicLocal_swapItem(currentSolution, neighboursCount);
 
                 default:
                     break;
@@ -91,7 +90,7 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
     return NULL;
 }
 
-Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursCount)
+Solution ** metaheuristicLocal_swapItem(Solution *currentSolution, int *neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
 
@@ -120,7 +119,7 @@ Solution ** metaheuristic_swapItem(Solution * currentSolution, int * neighboursC
     return neighbourSolutions;
 }
 
-Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCount)
+Solution ** metaheuristicLocal_addItem(Solution *currentSolution, int *neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
 
@@ -145,7 +144,7 @@ Solution ** metaheuristic_addItem(Solution * currentSolution, int * neighboursCo
     return neighbourSolutions;
 }
 
-Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighboursCount)
+Solution ** metaheuristicLocal_intervertItem(Solution *currentSolution, int *neighboursCount)
 {
     Solution ** neighbourSolutions = NULL;
 
@@ -180,79 +179,3 @@ Solution ** metaheuristic_intervertItem(Solution * currentSolution, int * neighb
     }
     return neighbourSolutions;
 }
-
-
-
-
-
-
-
-
-
-Solution * metaheuristic_tabouSearch(Instance *instance, SolutionType solutionType, int searchOperatorint, int iterationMax, int tabouMax, int aspi)
-{
-    Solution * currentSolution = heuristic(instance, solutionType, 5);
-    Solution * bestSolution = currentSolution;
-
-    int fBest = solution_evaluate(currentSolution);
-
-    int i = 0;
-
-    while(i < iterationMax)
-    {
-        int fBestVoisin = 0;
-        int mouvementsCount = 0;
-
-        Mouvement ** tabou = NULL;
-        Mouvement ** mouvementsPossible = metaheuristic_getMouvements();
-
-        Solution * bestNeighbourSolution = NULL;
-
-        Mouvement * usefullMouvement = NULL;
-
-        for(int j = 0; j < mouvementsCount; j++)
-        {
-            if(!metaheuristic_isTabou(tabou, mouvementsPossible[j]) || aspi)
-            {
-                Solution * neighbourSolution = metaheuristic_getNeighbourFromMouvement(currentSolution, mouvementsPossible[j]);
-
-                if(!metaheuristic_isTabou(tabou, mouvementsPossible[j]))
-                {
-                    if(solution_evaluate(neighbourSolution) > fBestVoisin)
-                    {
-                        bestNeighbourSolution = neighbourSolution;
-                        fBestVoisin = solution_evaluate(neighbourSolution);
-                        usefullMouvement = mouvementsPossible[j];
-                    }
-                }
-                else
-                {
-                    if(solution_evaluate(neighbourSolution) > fBest)
-                    {
-                        bestNeighbourSolution = neighbourSolution;
-                        fBestVoisin = solution_evaluate(neighbourSolution);
-                        usefullMouvement = mouvementsPossible[j];
-                    }
-                }
-            }
-        }
-
-        int fCurrent = fBestVoisin;
-
-        currentSolution = bestNeighbourSolution;
-        mouvement_append(tabou, tabouMax, usefullMouvement);
-
-        if(fCurrent > fBest)
-        {
-            fBest = fCurrent;
-            bestSolution = currentSolution;
-            i = 0;
-        }
-        i++;
-
-    }
-
-    return bestSolution;
-
-}
-
