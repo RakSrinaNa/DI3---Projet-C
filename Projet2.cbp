@@ -84,10 +84,15 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/mainUnit.h" />
-		<Unit filename="src/metaheuristic.c">
+		<Unit filename="src/metaheuristic.h" />
+		<Unit filename="src/metaheuristicLocal.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/metaheuristic.h" />
+		<Unit filename="src/metaheuristicLocal.h" />
+		<Unit filename="src/methaheuristicTabou.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/methaheuristicTabou.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -104,6 +109,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/schedulerUnit.h" />
+		<Unit filename="src/solution.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solution.h" />
 		<Unit filename="src/solutionDirect.c">
 			<Option compilerVar="CC" />
 		</Unit>
