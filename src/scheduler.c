@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <tgmath.h>
 
 #include "instance.h"
 #include "scheduler.h"
