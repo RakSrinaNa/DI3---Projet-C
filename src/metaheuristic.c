@@ -90,22 +90,32 @@ Solution ** metaheuristic_getNeighbours(Solution * currentSolution, int searchOp
     return NULL;
 }
 
-Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neighboursCount)
+Solution ** metaheuristic_swapItem(Solution * currentSolution, int searchOperator, int * neightboursCount)
 {
-    Solution ** neighbourSolutions = NULL;
-
-    // TEMP TO FIX COMPILATION ERRORS
-    searchOperator = searchOperator;
-    neighboursCount = neighboursCount;
+    Solution ** neightbourSolutions = NULL;
 
     for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
     {
         for(int j = i+1; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
         {
+            Solution * neightbourSolution = heuristic_solutionCopy(currentSolution);
 
+            int tempo = solutionIndirect_getItemIndex(neightbourSolution->solutions.indirect, i);
+            neightbourSolution->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(neightbourSolution->solutions.indirect, j);
+            neightbourSolution->solutions.indirect->itemsOrder[j] = tempo;
+
+            solutionIndirect_decode(neightbourSolution->solutions.indirect);
+            if(solutionIndirect_doable(neightbourSolution->solutions.indirect))
+            {
+                (*neightboursCount)++;
+                neightbourSolutions = (Solution **)realloc(neightbourSolutions, sizeof(Solution *) * *neightboursCount);
+                neightbourSolutions[*neightboursCount - 1] = neightbourSolution;
+            }
+            else
+                heuristic_solutionDestroy(neightbourSolution);
         }
     }
 
-    return neighbourSolutions;
+    return neightbourSolutions;
 }
 
