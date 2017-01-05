@@ -55,7 +55,19 @@ int solution_evaluate(Solution *solution);
  */
 int solution_doable(Solution *solution);
 
-//TODO
+/**
+ * Duplicate a Solution on the heap.
+ *
+ * @param solution A pointer to the solution to duplicate.
+ * @return A pointer to the duplicated solution.
+ */
 Solution * solution_duplicate(Solution *solution);
+
+/**
+ * Destroy a solution.
+ *
+ * @param solution A pointer to the solution to destroy.
+ */
+void solution_destroy(Solution * solution);
 
 #endif

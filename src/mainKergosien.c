@@ -41,7 +41,7 @@ void mainKergosien()
                     sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
                     solution_saveToFile(outputFile, solution);
                     printf("Solution written into %s\n", outputFile);
-                    heuristic_solutionDestroy(solution);
+                    solution_destroy(solution);
                 }
 
                 if(0) {
@@ -49,7 +49,7 @@ void mainKergosien()
                     sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
                     solution_saveToFile(outputFile, solution);
                     printf("Solution written into %s\n", outputFile);
-                    heuristic_solutionDestroy(solution);
+                    solution_destroy(solution);
                 }
             }
             instance_destroy(instance);

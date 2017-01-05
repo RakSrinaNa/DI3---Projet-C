@@ -106,4 +106,7 @@ int bag_getCriticDimension(Instance * instance, Bag * bag);
  */
 SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag);
 
+//TODO
+Bag * bag_duplicate(Bag * bag, Instance * instance);
+
 #endif

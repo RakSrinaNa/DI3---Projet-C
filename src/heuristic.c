@@ -62,20 +62,6 @@ Solution * heuristic(Instance *instance, SolutionType solutionType, int schedule
 	return solution;
 }
 
-void heuristic_solutionDestroy(Solution * solution)
-{
-	switch(solution->type)
-	{
-		case DIRECT:
-			solutionDirect_destroy(solution->solutions.direct);
-			break;
-		case INDIRECT:
-			solutionIndirect_destroy(solution->solutions.indirect);
-			break;
-	}
-	free(solution);
-}
-
 int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int * oldList, int listCount)
 {
 	switch(schedulerType)
@@ -105,4 +91,3 @@ int * heuristic_getList(Instance * instance, Bag * bag, int schedulerType, int *
 	perror("ERROR HEURISTIC getList - Worst schedulerType EVER");
 	exit(EXIT_FAILURE);
 }
-

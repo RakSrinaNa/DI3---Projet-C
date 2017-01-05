@@ -29,46 +29,46 @@ void heuristicTests()
     free(correctList);
     free(list);
 
-    Solution * solution = heuristic(instance, 0, 0);
+    Solution * solution = heuristic(instance, INDIRECT, 0);
     if(solution->type != INDIRECT || solution->instance != instance)
         unit_error("ASSERT HEURISTIC 4");
-    heuristic_solutionDestroy(solution);
-    solution = heuristic(instance, 1, 0);
+    solution_destroy(solution);
+    solution = heuristic(instance, DIRECT, 0);
     if(solution->type != DIRECT)
         unit_error("ASSERT HEURISTIC 5");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
     int correctTaken[15] = {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0};
     int correctBag[2] = {12, 6};
-    solution = heuristic(instance, 0, 1);
-    if(solutionIndirect_evaluate(solution->solutions.indirect) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
+    solution = heuristic(instance, INDIRECT, 1);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
         unit_error("ASSERT HEURISTIC 6");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
-    solution = heuristic(instance, 1, 1);
-    if(solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+    solution = heuristic(instance, DIRECT, 1);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 7");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
-    solution = heuristic(instance, 0, 2);
-    if(solutionIndirect_evaluate(solution->solutions.indirect) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
+    solution = heuristic(instance, INDIRECT, 2);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
         unit_error("ASSERT HEURISTIC 8");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
-    solution = heuristic(instance, 1, 2);
-    if(solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+    solution = heuristic(instance, DIRECT, 2);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 9");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
-    solution = heuristic(instance, 0, 3);
-    if(solutionIndirect_evaluate(solution->solutions.indirect) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
+    solution = heuristic(instance, INDIRECT, 3);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
         unit_error("ASSERT HEURISTIC 10");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
-    solution = heuristic(instance, 1, 3);
-    if(solutionDirect_evaluate(instance, solution->solutions.direct->itemsTaken) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+    solution = heuristic(instance, DIRECT, 3);
+    if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
         unit_error("ASSERT HEURISTIC 11");
-    heuristic_solutionDestroy(solution);
+    solution_destroy(solution);
 
     instance_destroy(instance);
     free(instance);

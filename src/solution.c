@@ -26,7 +26,7 @@ int solution_evaluate(Solution *solution)
 	switch(solution->type)
 	{
 		case DIRECT:
-			return solutionDirect_evaluate(solution->instance, solution->solutions.direct->itemsTaken);
+			return solutionDirect_evaluate(solution->solutions.direct);
 		case INDIRECT:
 			return solutionIndirect_evaluate(solution->solutions.indirect);
 	}
@@ -45,7 +45,44 @@ int solution_doable(Solution *solution)
 	return -1;
 }
 
-Solution * solution_duplicate(Solution *solution)
+Solution * solution_duplicate(Solution * solution)
 {
-	return NULL; //TODO Victor
+	Solution * newSolution;
+	if((newSolution = (Solution *) malloc(sizeof(Solution))) == NULL)
+	{
+		perror("MALLOC ERROR solution_duplicate");
+		exit(EXIT_FAILURE);
+	}
+	newSolution->instance = solution->instance;
+	newSolution->type = solution->type;
+	newSolution->solveTime = solution->solveTime;
+	switch(solution->type)
+	{
+		case DIRECT:
+			newSolution->solutions.direct = solutionDirect_duplicate(solution->solutions.direct);
+			break;
+
+		case INDIRECT:
+			newSolution->solutions.indirect = solutionIndirect_duplicate(solution->solutions.indirect);
+			break;
+
+		default:
+			perror("Unknown solutionType solution_duplicate");
+			exit(EXIT_FAILURE);
+	}
+	return NULL;
+}
+
+void solution_destroy(Solution *solution)
+{
+	switch(solution->type)
+	{
+		case DIRECT:
+			solutionDirect_destroy(solution->solutions.direct);
+			break;
+		case INDIRECT:
+			solutionIndirect_destroy(solution->solutions.indirect);
+			break;
+	}
+	free(solution);
 }
