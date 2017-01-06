@@ -71,7 +71,7 @@ Solution ** metaheuristicLocal_getNeighbours(Solution * currentSolution, int sea
 			switch(searchOperator)
 			{
 				case 0:
-					return NULL;
+					return metaheuristicLocal_addItem(currentSolution, neighboursCount);
 				
 				default:
 					break;

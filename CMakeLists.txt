@@ -39,6 +39,6 @@ set(SOURCE_FILES
 
         src/metaheuristicLocal.c src/metaheuristicLocal.h
 
-        src/methaheuristicTabou.c src/methaheuristicTabou.h
+        src/metaheuristicTabou.c src/metaheuristicTabou.h
         )
 add_executable(ex_projet2 ${SOURCE_FILES})
