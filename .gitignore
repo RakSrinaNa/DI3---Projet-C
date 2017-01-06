@@ -2,6 +2,9 @@
 bin
 make-build-debug
 obj
+__MACOSX
+*~
+.DS_Store
 
 *.orig
 ex_projet2
