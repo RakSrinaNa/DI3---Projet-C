@@ -1,10 +1,12 @@
 #include <stdbool.h>
+#include <stdlib.h>
 #include "metaheuristicLocal.h"
 #include "methaheuristicTabou.h"
 
 #define UNUSED(x) (void)(x)
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
-int mouvement_equals(Movement * m1, Movement * m2)
+int movement_equals(Movement * m1, Movement * m2)
 {
 	if((m1->a == m2->a && m1->b == m2->b) || (m1->a == m2->b && m1->b == m2->a))
 		return 1;
@@ -40,7 +42,7 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 			{
 				Solution * neighbourSolution = metaheuristicTabou_getNeighbourFromMovement(currentSolution, movementsPossible[j]);
 
-				if(!metaheuristicTabou_isTabou(tabou, movementsPossible[j]))
+				if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]))
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBestNeighbor)
 					{
@@ -94,8 +96,8 @@ Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Move
 
 int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
 {
-	for(int i = 0; i < min(max, *tabouChanges); i++)
-        if(mouvement_equals(tabou[i], movement))
+	for(int i = 0; i < MIN(max, *tabouChanges); i++)
+        if(movement_equals(tabou[i], movement))
             return true;
 	return false;
 }
@@ -103,7 +105,7 @@ int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, M
 void movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
 {
     if(*tabouChanges < max)
-        if((tabou = (Movement *)realloc(tabou, sizeof(Movement *) * (*tabouChanges + 1))) == NULL)
+        if((tabou = (Movement **)realloc(tabou, sizeof(Movement *) * (*tabouChanges + 1))) == NULL)
         {
             perror("ERROR MALLOC metaheuristicTabou");
             exit(EXIT_FAILURE);
