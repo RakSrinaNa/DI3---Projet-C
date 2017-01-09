@@ -17,38 +17,38 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 {
 	Solution * currentSolution = heuristic(instance, solutionType, 5);
 	Solution * bestSolution = currentSolution;
-	
+
 	int scoreBest = solution_evaluate(currentSolution);
-	
+
+    Movement ** tabou = NULL;
+    int tabouChanges = 0;
+
 	int i = 0;
-	
+
 	while(i < iterationMax)
 	{
 		int scoreBestNeighbor = 0;
 		int movementsCount = 0;
-		
-		Movement ** tabou = NULL;
-		int tabouChanges = 0;
-		
-		Movement ** movementsPossible = metaheuristicTabou_getMovements();
-		
+
+		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution);
+
 		Solution * bestNeighbourSolution = NULL;
-		
+
 		Movement * usefulMovement = NULL;
-		
+
 		for(int j = 0; j < movementsCount; j++)
 		{
 			if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]) || aspiration)
 			{
 				Solution * neighbourSolution = metaheuristicTabou_getNeighbourFromMovement(currentSolution, movementsPossible[j]);
-				
+
 				if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]))
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBestNeighbor)
 					{
 						bestNeighbourSolution = neighbourSolution;
 						scoreBestNeighbor = solution_evaluate(neighbourSolution);
-						usefulMovement = movementsPossible[j];
+						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
 				}
 				else
@@ -57,17 +57,17 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 					{
 						bestNeighbourSolution = neighbourSolution;
 						scoreBestNeighbor = solution_evaluate(neighbourSolution);
-						usefulMovement = movementsPossible[j];
+						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
 				}
 			}
 		}
-		
+
 		int scoreCurrent = scoreBestNeighbor;
-		
+
 		currentSolution = bestNeighbourSolution;
 		movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
-		
+
 		if(scoreCurrent > scoreBest)
 		{
 			scoreBest = scoreCurrent;
@@ -75,23 +75,50 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 			i = 0;
 		}
 		i++;
+
+        //Clean the house
+        movement_tabouDestroy(movementsPossible);
+
 	}
-	
+
+    //Clean the house
+    movement_tabouDestroy(tabou);
+
 	return bestSolution;
 }
 
-Movement ** metaheuristicTabou_getMovements()
+Movement ** metaheuristicTabou_getMovements(Solution * solution)
 {
-	//TODO
-	return NULL;
+	Movement ** movements = NULL;
+	int pos = 0;
+
+	for(int i = 0; i < solution->instance.itemsCount; i++)
+        for(int j = i+1; j < solution->instance.itemsCount; j++)
+        {
+            if(movements = (Movement **)realloc(sizeof(Movement *) * pos++))
+            {
+                perror("ERROR REALLOC metaheuristicTabou_getMovement");
+                exit(EXIT_FAILURE);
+            }
+            Movement * movement;
+            if(movement = (Movement *)realloc(sizeof(Movement)))
+            {
+                perror("ERROR MALLOC metaheuristicTabou_getMovement");
+                exit(EXIT_FAILURE);
+            }
+            movement->a = solutionIndirect_getItemIndex(i);
+            movement->b = solutionIndirect_getItemIndex(j);
+            movements[pos - 1] = movement;
+        }
+
+	return movements;
 }
 
 Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Movement * movement)
 {
-	//TODO
-	UNUSED(solution);
-	UNUSED(movement);
-	return NULL;
+	Solution * newSolution = solution_duplicate(solution);
+    movement_applyMovement(newSolution, movement);
+	return newSolution;
 }
 
 int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
@@ -110,7 +137,40 @@ void movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Moveme
 			perror("ERROR MALLOC metaheuristicTabou");
 			exit(EXIT_FAILURE);
 		}
-	
+
 	tabou[(*tabouChanges) % max] = movement;
 	(*tabouChanges)++;
+}
+
+void movement_applyMovement(Solution * solution, Movement * movement)
+{
+    for(int i = 0; i < solution->instance->itemsCount; i++)
+    {
+        if(solution->solutions.indirect->itemsOrder[i] == movement->a)
+            solution->solutions.indirect->itemsOrder[i] == b;
+        else if(solution->solutions.indirect->itemsOrder[i] == movement->b)
+            solution->solutions.indirect->itemsOrder[i] == a;
+    }
+    solutionIndirect_decode(solution->solutions.indirect);
+}
+
+void movement_tabouDestroy(Movement ** tabou, int * tabouCount)
+{
+    for(int i = 0; i < (*tabouCount); i++)
+        free(tabou[i]);
+    free(tabou);
+}
+
+Movement * movement_duplicate(Movement * movement)
+{
+    Movement * newMovement;
+    if((newMovement = (Movement *)malloc(sizeof(Movement))) == NULL)
+    {
+        perror("ERROR MALLOC movement_duplicate");
+        exit(EXIT_FAILURE);
+    }
+    newMovement->a = movement->a;
+    newMovement->b = movement->b;
+
+    return newMovement;
 }

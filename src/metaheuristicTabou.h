@@ -26,6 +26,15 @@ int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, M
 Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Movement * movement);
 
 //TODO
-Movement ** metaheuristicTabou_getMovements();
+Movement ** metaheuristicTabou_getMovements(Solution * solution);
+
+//TODO
+void movement_applyMovement(Solution * solution, Movement * movement);
+
+//TODO
+void movement_tabouDestroy(Movement ** tabou, int * tabouCount);
+
+//TODO
+Movement * movement_duplicate(Movement * movement);
 
 #endif

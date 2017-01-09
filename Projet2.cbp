@@ -89,10 +89,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/metaheuristicLocal.h" />
-		<Unit filename="src/methaheuristicTabou.c">
+		<Unit filename="src/metaheuristicTabou.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/methaheuristicTabou.h" />
+		<Unit filename="src/metaheuristicTabou.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>
