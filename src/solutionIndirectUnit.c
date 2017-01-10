@@ -4,6 +4,7 @@
 #include "solutionIndirectUnit.h"
 #include "solutionIndirect.h"
 #include "parser.h"
+#include "utils.h"
 
 void solutionIndirectTests(void)
 {
@@ -11,11 +12,7 @@ void solutionIndirectTests(void)
 	SolutionIndirect * solution = solutionIndirect_create(instance);
 	
 	int * order;
-	if((order = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("TEST MALLOC ERROR");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(order, int, instance->itemsCount, NULL);
 	order[0] = 0;
 	order[1] = 1;
 	order[2] = 2;

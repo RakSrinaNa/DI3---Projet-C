@@ -3,21 +3,13 @@
 
 #include "instance.h"
 #include "solutionIndirect.h"
+#include "utils.h"
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {
 	SolutionIndirect * solution;
-	if((solution = (SolutionIndirect *) malloc(sizeof(SolutionIndirect))) == NULL)
-	{
-		perror("ERROR MALLOC solutionIndirect_create");
-		exit(EXIT_FAILURE);
-	}
-	
-	if((solution->itemsOrder = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC solutionIndirect_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(solution, SolutionIndirect, 1, "solutionIndirect_create");
+	MMALLOC(solution->itemsOrder, int, instance->itemsCount, "solutionIndirect_create");
 	for(int i = 0; i < instance->itemsCount; i++)
 		solution->itemsOrder[i] = 0;
 	

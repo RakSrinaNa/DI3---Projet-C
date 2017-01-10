@@ -16,6 +16,7 @@ struct _SolutionIndirect
 
 /**
  * Create a SolutionIndirect on  the heap.
+ *
  * @param instance The instance associated to the solution.
  * @return A pointer to the newly created solution.
  */
@@ -75,7 +76,12 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution);
  */
 int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index);
 
-//TODO
+/**
+ * Duplicates a SolutionIndirect on the heap.
+ *
+ * @param solution A pointer to the solution to duplicate.
+ * @return A pointer to the duplicated solution.
+ */
 SolutionIndirect * solutionIndirect_duplicate(SolutionIndirect * solution);
 
 #endif

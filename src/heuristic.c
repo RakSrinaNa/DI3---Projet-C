@@ -4,6 +4,7 @@
 
 #include "heuristic.h"
 #include "scheduler.h"
+#include "utils.h"
 
 Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType)
 {
@@ -33,11 +34,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 	ftime(&timeEnd);
 	
 	Solution * solution;
-	if((solution = (Solution *) malloc(sizeof(Solution))) == NULL)
-	{
-		perror("ERROR MALLOC heuristic");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(solution, Solution, 1, "heuristic");
 	solution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
 	solution->type = solutionType;
 	switch(solutionType)

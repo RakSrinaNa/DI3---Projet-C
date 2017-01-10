@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "instance.h"
+#include "utils.h"
 
 void item_initialize(Item * item, int dimensionsNumber)
 {
@@ -9,11 +10,9 @@ void item_initialize(Item * item, int dimensionsNumber)
 	item->weights = NULL;
 	if(dimensionsNumber <= 0)
 		return;
-	if((item->weights = malloc(sizeof(int) * dimensionsNumber)) == NULL)
-	{
-		perror("ERROR MALLOC item_initialize");
-		exit(EXIT_FAILURE);
-	}
+	
+	MMALLOC(item->weights, int, dimensionsNumber, "item_initialize");
+	
 	for(int i = 0; i < dimensionsNumber; i++)
 		item->weights[i] = 0;
 }

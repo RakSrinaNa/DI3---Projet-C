@@ -72,6 +72,7 @@ int * parser_lineToIntArray(char * line, int valuesNumber);
  * Read a line from the file.
  *
  * @param linePtr A pointer to the string that will be read.
+ * @param lineSize A pointer to a size_t defining the size of linePtr.
  * @param file The file to read from.
  * @return The length read.
  */

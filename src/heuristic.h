@@ -16,7 +16,7 @@
  *  - 2 -> Sort by ratio with all dimensions.
  *  - 3 -> Sort by ratio with the most critic dimension.
  *  - 4 -> Sort by ratio with the sum of each dimension weighting by its remaining space.
- *  - 5 -> Sort by ratio with the weight ties the exponential of 3 times the ratio of the completion of the bag.
+ *  - 5 -> Sort by ratio with the weight ties the exponential of 20 times the ratio of the completion of the bag.
  * @return A pointer to a solution.
  */
 Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType);

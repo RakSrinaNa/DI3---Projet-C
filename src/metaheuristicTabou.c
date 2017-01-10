@@ -1,12 +1,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <sys/param.h>
+
+#include "utils.h"
 #include "metaheuristicLocal.h"
 #include "metaheuristicTabou.h"
 #include "solution.h"
 #include "instance.h"
 
-#define UNUSED(x) (void)(x)
-#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 int movement_equals(Movement * m1, Movement * m2)
 {
@@ -79,7 +80,7 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 		i++;
 
         //Clean the house
-        movement_tabouDestroy(movementsPossible, 0); // TODO TABOU COUNT
+        movement_tabouDestroy(movementsPossible, MIN(tabouMax, tabouChanges)); // TODO TABOU COUNT
 
 	}
 
@@ -156,9 +157,9 @@ void movement_applyMovement(Solution * solution, Movement * movement)
     solutionIndirect_decode(solution->solutions.indirect);
 }
 
-void movement_tabouDestroy(Movement ** tabou, int * tabouCount)
+void movement_tabouDestroy(Movement ** tabou, int tabouCount)
 {
-    for(int i = 0; i < (*tabouCount); i++)
+    for(int i = 0; i < tabouCount; i++)
         free(tabou[i]);
     free(tabou);
 }

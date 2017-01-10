@@ -4,6 +4,7 @@
 
 #include "instance.h"
 #include "scheduler.h"
+#include "utils.h"
 
 int * scheduler_random(Instance * instance)
 {
@@ -11,11 +12,7 @@ int * scheduler_random(Instance * instance)
 	int listCount = 0;
 	int * listTempo;
 	int listTempoCount = instance->itemsCount;
-	if((listTempo = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_random");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(listTempo, int, instance->itemsCount, "scheduler_random");
 	
 	for(int i = 0; i < instance->itemsCount; i++)
 		listTempo[i] = i;
@@ -43,11 +40,7 @@ int scheduler_removeFromList(int ** listPtr, int * listCount, int index)
 	}
 	else
 	{
-		if((list = (int *) realloc(list, *listCount * sizeof(int))) == NULL)
-		{
-			perror("ERROR REALLOC heuristic_removeFromList");
-			exit(EXIT_FAILURE);
-		}
+		RREALLOC(list, int, *listCount, "heuristic_removeFromList");
 		*listPtr = list;
 	}
 	
@@ -57,12 +50,7 @@ int scheduler_removeFromList(int ** listPtr, int * listCount, int index)
 void scheduler_appendToList(int ** list, int * listCount, int element)
 {
 	(*listCount)++;
-	if((*list = (int *) realloc(*list, *listCount * sizeof(int))) == NULL)
-	{
-		perror("ERROR REALLOC heuristic_removeFromList");
-		exit(EXIT_FAILURE);
-	}
-	
+	RREALLOC(*list, int, *listCount, "scheduler_removeFromList");
 	(*list)[*listCount - 1] = element;
 }
 
@@ -70,16 +58,8 @@ int * scheduler_itemValue(Instance * instance)
 {
 	int * list;
 	double * values;
-	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_itemValue");
-		exit(EXIT_FAILURE);
-	}
-	if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(list, int, instance->itemsCount, "scheduler_itemValue");
+	MMALLOC(values, double, instance->itemsCount, "scheduler_itemValue");
 	
 	for(int i = 0; i < instance->itemsCount; i++)
 	{
@@ -96,16 +76,8 @@ int * scheduler_allDimensions(Instance * instance)
 {
 	int * list;
 	double * values;
-	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_allDimensions");
-		exit(EXIT_FAILURE);
-	}
-	if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(list, int, instance->itemsCount, "scheduler_allDimensions");
+	MMALLOC(values, double, instance->itemsCount, "scheduler_allDimensions");
 	
 	for(int i = 0; i < instance->itemsCount; i++)
 	{
@@ -132,16 +104,8 @@ int * scheduler_forDimension(Instance * instance, int dimension, int * itemsInLi
 {
 	int * list;
 	double * values;
-	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_forDimension");
-		exit(EXIT_FAILURE);
-	}
-	if((values = (double *) malloc(sizeof(double) * sizeList)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(list, int, sizeList, "scheduler_forDimension");
+	MMALLOC(values, double, sizeList, "scheduler_forDimensions");
 	
 	if(itemsInList != NULL)
 		for(int i = 0; i < sizeList; i++)
@@ -170,16 +134,8 @@ int * scheduler_allDimensionsWeighted(Instance * instance)
 {
 	int * list;
 	double * values;
-	if((list = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_allDimensions");
-		exit(EXIT_FAILURE);
-	}
-	if((values = (double *) malloc(sizeof(double) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(list, int, instance->itemsCount, "scheduler_allDimensionsWeighted");
+	MMALLOC(values, double, instance->itemsCount, "scheduler_allDimensionsWeighted");
 	
 	for(int i = 0; i < instance->itemsCount; i++)
 	{
@@ -206,16 +162,8 @@ int * scheduler_exponential(Instance * instance, Bag * bag, int * itemsInList, i
 {
 	int * list;
 	double * values;
-	if((list = (int *) malloc(sizeof(int) * sizeList)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
-	if((values = (double *) malloc(sizeof(double) * sizeList)) == NULL)
-	{
-		perror("ERROR MALLOC scheduler_exponential");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(list, int, sizeList, "scheduler_exponential");
+	MMALLOC(values, double, sizeList, "scheduler_exponential");
 	
 	if(itemsInList != NULL)
 		for(int i = 0; i < sizeList; i++)

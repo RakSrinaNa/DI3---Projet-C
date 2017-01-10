@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "utils.h"
 #include "unit.h"
 #include "itemUnit.h"
 #include "item.h"
@@ -8,11 +9,7 @@
 void itemTests()
 {
 	Item * item;
-	if((item = (Item *) malloc(sizeof(Item))) == NULL)
-	{
-		perror("TEST MALLOC ERROR");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(item, Item, 1, NULL);
 	item_initialize(item, 0);
 	if(item->weights != NULL)
 		unit_error("ASSERT ITEM 1");

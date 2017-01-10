@@ -4,6 +4,7 @@
 #include "unit.h"
 #include "instanceUnit.h"
 #include "instance.h"
+#include "utils.h"
 
 void instanceTests()
 {
@@ -15,11 +16,7 @@ void instanceTests()
 	weights[2] = 3;
 	
 	Instance * instance;
-	if((instance = (Instance *) malloc(sizeof(Instance))) == NULL)
-	{
-		perror("TEST MALLOC ERROR");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instance, Instance, 1, NULL);
 	instance_initialize(instance, 0, 0);
 	if(instance->items != NULL || instance->maxWeights != NULL)
 		unit_error("ASSERT INSTANCE 2");

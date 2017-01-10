@@ -21,6 +21,7 @@ SolutionDirect * solutionDirect_create(Instance * instance);
 
 /**
  * Destroy a solution previously created with solutionDirect_create.
+ *
  * @param solution A pointer to the solution to destroy.
  */
 void solutionDirect_destroy(SolutionDirect * solution);
@@ -28,8 +29,7 @@ void solutionDirect_destroy(SolutionDirect * solution);
 /**
  * Give the score for a solution.
  *
- * @param instance A pointer to the instance associated with the solution.
- * @param items The items taken in the bag (array of booleans).
+ * @param solution A pointer to the solution.
  * @return The score.
  */
 int solutionDirect_evaluate(SolutionDirect * solution);
@@ -40,7 +40,7 @@ int solutionDirect_evaluate(SolutionDirect * solution);
  * @param solution A pointer to the solution.
  * @return Boolean representing if the solution is possible.
  */
-int solutionDirect_doable(Instance * instance, int * items);
+int solutionDirect_doable(SolutionDirect * solution);
 
 /**
  * Prints the solution to the screen.

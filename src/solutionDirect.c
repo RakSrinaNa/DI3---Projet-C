@@ -3,23 +3,16 @@
 
 #include "instance.h"
 #include "solutionDirect.h"
+#include "utils.h"
 
 SolutionDirect * solutionDirect_create(Instance * instance)
 {
 	SolutionDirect * solution;
-	if((solution = (SolutionDirect *) malloc(sizeof(SolutionDirect))) == NULL)
-	{
-		perror("ERROR MALLOC solutionDirect_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(solution, SolutionDirect, 1, "solutionDirect_create");
 	
 	solution->instance = instance;
 	
-	if((solution->itemsTaken = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC solutionDirect_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(solution->itemsTaken, int, instance->itemsCount, "solutionDirect_create");
 	for(int i = 0; i < instance->itemsCount; i++)
 		solution->itemsTaken[i] = 0;
 	
@@ -43,15 +36,15 @@ int solutionDirect_evaluate(SolutionDirect * solution)
 	return totalValue;
 }
 
-int solutionDirect_doable(Instance * instance, int * items)
+int solutionDirect_doable(SolutionDirect * solution)
 {
-	for(int dimension = 0; dimension < instance->dimensionsNumber; dimension++)
+	for(int dimension = 0; dimension < solution->instance->dimensionsNumber; dimension++)
 	{
 		int totalWeight = 0;
-		for(int i = 0; i < instance->itemsCount; i++)
-			if(items[i] == 1)
-				totalWeight += instance_item_getWeight(instance, i, dimension);
-		if(totalWeight > instance_getMaxWeight(instance, dimension))
+		for(int i = 0; i < solution->instance->itemsCount; i++)
+			if(solutionDirect_isItemTaken(solution, i) == 1)
+				totalWeight += instance_item_getWeight(solution->instance, i, dimension);
+		if(totalWeight > instance_getMaxWeight(solution->instance, dimension))
 			return 0;
 	}
 	return 1;

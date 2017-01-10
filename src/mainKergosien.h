@@ -1,4 +1,4 @@
-#ifndef BAG
+#ifndef MAINKERGOSIEN
 #define MAINKERGOSIEN
 
 void mainKergosien();

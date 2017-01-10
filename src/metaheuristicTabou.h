@@ -32,7 +32,7 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution);
 void movement_applyMovement(Solution * solution, Movement * movement);
 
 //TODO
-void movement_tabouDestroy(Movement ** tabou, int * tabouCount);
+void movement_tabouDestroy(Movement ** tabou, int tabouCount);
 
 //TODO
 Movement * movement_duplicate(Movement * movement);

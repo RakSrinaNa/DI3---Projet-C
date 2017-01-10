@@ -6,11 +6,9 @@
 
 Bag * bag_create(Instance * instance)
 {
-	Bag * bag = MALLOC(Bag, 1);
-	MCHECK(bag, "bag_create");
-	
-	bag->weights = MALLOC(int, instance->dimensionsNumber);
-	MCHECK(bag->weights, "bag_create");
+	Bag * bag;
+	MMALLOC(bag, Bag, 1, "bag_create");
+	MMALLOC(bag->weights, int, instance->dimensionsNumber, "bag_create");
 	
 	bag->items = NULL;
 	bag->itemsCount = 0;
@@ -31,8 +29,7 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	(bag->itemsCount)++;
-	bag->items = REALLOC(int, bag->items, bag->itemsCount);
-	RCHECK(bag->items, "bag_appendItem");
+	RREALLOC(bag->items, int, bag->itemsCount, "bag_appendItem");
 	bag->items[bag->itemsCount - 1] = itemIndex;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)

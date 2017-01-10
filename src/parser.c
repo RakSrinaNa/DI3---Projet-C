@@ -4,15 +4,12 @@
 
 #include "instance.h"
 #include "parser.h"
+#include "utils.h"
 
 Parser * parser_create(char * filename)
 {
 	Parser * parser;
-	if((parser = (Parser *) malloc(sizeof(Parser))) == NULL)
-	{
-		perror("ERROR MALLOC parser_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(parser, Parser, 1, "parser_create");
 	parser->filename = filename;
 	parser->instanceRead = 0;
 	FILE * file;
@@ -43,11 +40,7 @@ Instance * parser_getNextInstance(Parser * parser)
 	if(parser->instanceRead >= parser->instanceCount)
 		return NULL;
 	Instance * instance;
-	if((instance = (Instance *) malloc(sizeof(Instance))) == NULL) // Create instance
-	{
-		perror("ERROR MALLOC parser_getNextInstance");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instance, Instance, 1, "parser_getNextInstance");
 	
 	FILE * file;
 	if((file = fopen(parser->filename, "rb")) == NULL)
@@ -78,11 +71,7 @@ Instance * parser_readAllFile(char * fileName)
 	
 	int instancesNumber = atoi(parser_readLine(file)); // Read number of instances
 	Instance * instances;
-	if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL) // Create instances
-	{
-		perror("ERROR MALLOC parser_readAllFile");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instances, Instance, 1, "parser_readAllFiles");
 	
 	for(int instanceIndex = 0; instanceIndex < instancesNumber; instanceIndex++) // Read every instance
 		parser_readInstance(file, instances + instanceIndex);
@@ -145,11 +134,7 @@ char * parser_readLine(FILE * file)
 int * parser_lineToIntArray(char * line, int valuesNumber)
 {
 	int * values;
-	if((values = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
-	{
-		perror("ERROR MALLOC parser_lineToIntArray parser.c");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(values, int, valuesNumber, "parser_lineToIntArray");
 	
 	int valuesLength = 0; // Number of values actually put in the array
 	
@@ -214,9 +199,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 		return -1;
 	if(bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
 	{
-		bufferPtr = (char *) malloc(50 * sizeof(char));
-		if(bufferPtr == NULL)
-			return -1;
+		MMALLOC(bufferPtr, char, 50, NULL);
 		size = 50;
 	}
 	while(charRead != EOF) // While we didn't reach the end of the file
@@ -224,15 +207,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 		if(writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
 		{
 			size += 50;
-			char * newBufferPtr = realloc(bufferPtr, size);
-			if(newBufferPtr == NULL) // If realloc fails
-			{
-				bufferPtr[writingHead] = '\0';
-				*linePtr = bufferPtr;
-				*lineSize = size;
-				return -1;
-			}
-			bufferPtr = newBufferPtr;
+			RREALLOC(bufferPtr, char, size, NULL);
 		}
 		bufferPtr[writingHead++] = (char) charRead; // Write the char read into out buffer
 		if(charRead == '\n') // If it's the end of the line, get out of the while

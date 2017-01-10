@@ -1,4 +1,5 @@
 #include "heuristic.h"
+#include "utils.h"
 #include <stdlib.h>
 
 void solution_saveToFile(char * fileName, Solution * solution)
@@ -35,7 +36,7 @@ int solution_doable(Solution * solution)
 	switch(solution->type)
 	{
 		case DIRECT:
-			return solutionDirect_doable(solution->instance, solution->solutions.direct->itemsTaken);
+			return solutionDirect_doable(solution->solutions.direct);
 		case INDIRECT:
 			return solutionIndirect_doable(solution->solutions.indirect);
 	}
@@ -45,11 +46,7 @@ int solution_doable(Solution * solution)
 Solution * solution_duplicate(Solution * solution)
 {
 	Solution * newSolution;
-	if((newSolution = (Solution *) malloc(sizeof(Solution))) == NULL)
-	{
-		perror("MALLOC ERROR solution_duplicate");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(newSolution, Solution, 1, "solution_duplicate");
 	newSolution->instance = solution->instance;
 	newSolution->type = solution->type;
 	newSolution->solveTime = solution->solveTime;

@@ -15,7 +15,7 @@ void solutionDirectTests(void)
 	solution->itemsTaken[7] = 1;
 	if(solutionDirect_evaluate(solution) != 333)
 		unit_error("ASSERT SOLUTIONDIRECT 1");
-	if(solutionDirect_doable(instance, solution->itemsTaken) != 0)
+	if(solutionDirect_doable(solution) != 0)
 		unit_error("ASSERT SOLUTIONDIRECT 2");
 	solution->itemsTaken[1] = 0;
 	solutionDirect_takeItem(solution, 1);
@@ -30,7 +30,7 @@ void solutionDirectTests(void)
 	int score = solutionDirect_evaluate(solution);
 	if(score != 167)
 		unit_error("ASSERT SOLUTIONDIRECT 4");
-	if(solutionDirect_doable(instance, solution->itemsTaken) != 1)
+	if(solutionDirect_doable(solution) != 1)
 		unit_error("ASSERT SOLUTIONDIRECT 5");
 	char * filename = "testSolutionDirect.txt";
 	solutionDirect_saveToFile(filename, solution);
