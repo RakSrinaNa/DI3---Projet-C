@@ -64,7 +64,7 @@ Solution * solution_duplicate(Solution * solution)
 			perror("Unknown solutionType solution_duplicate");
 			exit(EXIT_FAILURE);
 	}
-	return NULL;
+	return newSolution;
 }
 
 void solution_destroy(Solution * solution)

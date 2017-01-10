@@ -8,6 +8,7 @@
 #include "solutionIndirectUnit.h"
 #include "schedulerUnit.h"
 #include "heuristicUnit.h"
+#include "metaheuristicLocalUnit.h"
 
 int mainUnit()
 {
@@ -34,6 +35,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing heuristic tests...");
 	heuristicTests();
+	printf("OK\n");
+	printf("Executing metaheuristicLocal tests...");
+	metaheuristicLocalTests();
 	printf("OK\n");
 	return 0;
 }

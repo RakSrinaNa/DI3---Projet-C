@@ -39,6 +39,7 @@ set(SOURCE_FILES
         src/schedulerUnit.c src/schedulerUnit.h
 
         src/metaheuristicLocal.c src/metaheuristicLocal.h
+        src/metaheuristicLocalUnit.c src/metaheuristicLocalUnit.h
 
         src/metaheuristicTabou.c src/metaheuristicTabou.h
         )
