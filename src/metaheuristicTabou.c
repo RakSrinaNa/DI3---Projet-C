@@ -33,7 +33,7 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 		int scoreBestNeighbor = 0;
 		int movementsCount = 0;
 
-		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution);
+		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution, NULL);
 
 		Solution * bestNeighbourSolution = NULL;
 
@@ -80,17 +80,17 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 		i++;
 
         //Clean the house
-        movement_tabouDestroy(movementsPossible, MIN(tabouMax, tabouChanges)); // TODO TABOU COUNT
+        movement_tabouDestroy(movementsPossible, movementsCount);
 
 	}
 
     //Clean the house
-    movement_tabouDestroy(tabou, 0); // TODO TABOU COUNT
+    movement_tabouDestroy(tabou, MIN(tabouMax, tabouChanges));
 
 	return bestSolution;
 }
 
-Movement ** metaheuristicTabou_getMovements(Solution * solution)
+Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementCount)
 {
 	Movement ** movements = NULL;
 	int pos = 0;
@@ -98,22 +98,14 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution)
 	for(int i = 0; i < solution->instance->itemsCount; i++)
         for(int j = i+1; j < solution->instance->itemsCount; j++)
         {
-            if((movements = (Movement **)realloc(movements, sizeof(Movement *) * pos++)) == NULL)
-            {
-                perror("ERROR REALLOC metaheuristicTabou_getMovement");
-                exit(EXIT_FAILURE);
-            }
             Movement * movement;
-            if((movement = (Movement *)malloc(sizeof(Movement))) == NULL)
-            {
-                perror("ERROR MALLOC metaheuristicTabou_getMovement");
-                exit(EXIT_FAILURE);
-            }
+	        RREALLOC(movements, Movement *, pos++, "metaheuristicTabou_getMovements");
+	        MMALLOC(movement, Movement, 1, "metaheuristicTabou_getMovements");
             movement->a = solutionIndirect_getItemIndex(solution->solutions.indirect, i);
             movement->b = solutionIndirect_getItemIndex(solution->solutions.indirect, j);
             movements[pos - 1] = movement;
         }
-
+	*movementCount = pos;
 	return movements;
 }
 
@@ -135,11 +127,7 @@ int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, M
 void movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
 {
 	if(*tabouChanges < max)
-		if((tabou = (Movement **) realloc(tabou, sizeof(Movement *) * (*tabouChanges + 1))) == NULL)
-		{
-			perror("ERROR MALLOC metaheuristicTabou");
-			exit(EXIT_FAILURE);
-		}
+		RREALLOC(tabou, Movement *, *tabouChanges + 1, "movement_appendTabou");
 
 	tabou[(*tabouChanges) % max] = movement;
 	(*tabouChanges)++;

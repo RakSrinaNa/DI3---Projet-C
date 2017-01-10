@@ -83,7 +83,7 @@ double scheduler_forDimension_score(Instance * instance, int index, int dim);
  * @param instance A pointer to the instance containing the items.
  * @return The list of items.
  */
-int * scheduler_allDimensionsWeighted(Instance * instance);
+int * scheduler_allDimensionsWeighted(Instance * instance); //TODO UNIT
 
 /**
  * Get the ratio of an item over all the weighted dimensions.
@@ -92,7 +92,7 @@ int * scheduler_allDimensionsWeighted(Instance * instance);
  * @param index The index of the item.
  * @return Its ratio (value/(sum of (maxWeight - weight))).
  */
-double scheduler_allDimensionsWeighted_score(Instance * instance, int index);
+double scheduler_allDimensionsWeighted_score(Instance * instance, int index); //TODO UNIT
 
 /**
  * Creates a list of items indexes of an instance. This list is ordered by the ratio with the weight ties the exponential of 20 times the ratio of the completion of the bag.
@@ -122,6 +122,6 @@ double scheduler_exponential_score(Instance * instance, Bag * bag, int index); /
  * @param scores An array of the scores.
  * @param sizeList The size of the lists.
  */
-void scheduler_sortArray(int * indexes, double * scores, int sizeList); //TODO UNIT
+void scheduler_sortArray(int * indexes, double * scores, int sizeList);
 
 #endif

@@ -65,10 +65,21 @@ void solutionDirect_saveToFile(char * fileName, SolutionDirect * solution);
  */
 void solutionDirect_takeItem(SolutionDirect * solution, int index);
 
-//TODO
+/**
+ * Duplicate a SolutionDirect on the heap.
+ *
+ * @param solutionDirect A pointer to the solution to duplicate.
+ * @return A pointer to the duplicated solution.
+ */
 SolutionDirect * solutionDirect_duplicate(SolutionDirect * solutionDirect);
 
-//TODO
+/**
+ * Tells if an item is taken in the solution.
+ *
+ * @param solution A pointer to the solution to test.
+ * @param index The index of the item.
+ * @return 0 if not taken, 1 if taken.
+ */
 int solutionDirect_isItemTaken(SolutionDirect * solution, int index);
 
 #endif

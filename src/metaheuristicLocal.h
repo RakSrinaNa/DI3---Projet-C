@@ -20,6 +20,6 @@ Solution ** metaheuristicLocal_swapItem(Solution * currentSolution, int * neighb
 Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighboursCount);
 
 //TODO
-Solution ** metaheuristicLocal_intervertItem(Solution * currentSolution, int * neighboursCount);
+Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neighboursCount);
 
 #endif

@@ -7,6 +7,8 @@
 
 void schedulerTests()
 {
+	schedulerSortArrayTests();
+	
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 	
 	int correctValueList[15] = {3, 12, 7, 10, 4, 9, 14, 6, 11, 1, 13, 8, 2, 5, 0};
@@ -128,4 +130,14 @@ void schedulerTests()
 	
 	instance_destroy(instance);
 	free(instance);
+}
+
+void schedulerSortArrayTests()
+{
+	int correctIndexesList[] = {2, 5, 6, 4, 9, 8, 1, 0, 3, 7};
+	int indexes[] = {0, 1, 2, 3, 4, 5 ,6 ,7 ,8, 9};
+	double values[] = {1, 1.5, 9, 0.1, 4, 8, 8, 0.1, 2, 3};
+	scheduler_sortArray(indexes, values, 10);
+	if(!unit_arrayEquals(correctIndexesList, indexes, 10))
+		unit_error("ASSERT ERROR SCHEDULER A1");
 }

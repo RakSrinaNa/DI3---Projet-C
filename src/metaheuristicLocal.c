@@ -5,6 +5,7 @@
 #include "solutionDirect.h"
 #include "heuristic.h"
 #include "metaheuristicLocal.h"
+#include "utils.h"
 
 Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator)
 {
@@ -73,7 +74,7 @@ Solution ** metaheuristicLocal_getNeighbours(Solution * currentSolution, int sea
 				case 0:
 					return metaheuristicLocal_addItem(currentSolution, neighboursCount);
 				case 1:
-					return metaheuristicLocal_intervertItem(currentSolution, neighboursCount);
+					return metaheuristicLocal_invertItem(currentSolution, neighboursCount);
 
 				default:
 					break;
@@ -110,7 +111,7 @@ Solution ** metaheuristicLocal_swapItem(Solution * currentSolution, int * neighb
 			if(solution_doable(neighbourSolution))
 			{
 				(*neighboursCount)++;
-				neighbourSolutions = (Solution **) realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+				RREALLOC(neighbourSolutions, Solution*, *neighboursCount, "metaheuristicLocal_swapItem");
 				neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
 			}
 			else
@@ -136,7 +137,7 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 			if(solution_doable(neighbourSolution))
 			{
 				(*neighboursCount)++;
-				neighbourSolutions = (Solution **) realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+				RREALLOC(neighbourSolutions, Solution*, *neighboursCount, "metaheuristicLocal_addItem");
 				neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
 			}
 			else
@@ -146,7 +147,7 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 	return neighbourSolutions;
 }
 
-Solution ** metaheuristicLocal_intervertItem(Solution * currentSolution, int * neighboursCount)
+Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neighboursCount)
 {
 	Solution ** neighbourSolutions = NULL;
 
@@ -167,7 +168,7 @@ Solution ** metaheuristicLocal_intervertItem(Solution * currentSolution, int * n
 					if(solution_doable(neighbourSolution))
 					{
 						(*neighboursCount)++;
-						neighbourSolutions = (Solution **) realloc(neighbourSolutions, sizeof(Solution *) * *neighboursCount);
+						RREALLOC(neighbourSolutions, Solution*, *neighboursCount, "metaheuristicLocal_invertItem");
 						neighbourSolutions[*neighboursCount - 1] = neighbourSolution;
 					}
 					else
