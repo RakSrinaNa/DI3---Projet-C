@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "metaheuristicLocal.h"
 #include "metaheuristicTabou.h"
+#include "solution.h"
+#include "instance.h"
 
 #define UNUSED(x) (void)(x)
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
@@ -77,12 +79,12 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 		i++;
 
         //Clean the house
-        movement_tabouDestroy(movementsPossible);
+        movement_tabouDestroy(movementsPossible, 0); // TODO TABOU COUNT
 
 	}
 
     //Clean the house
-    movement_tabouDestroy(tabou);
+    movement_tabouDestroy(tabou, 0); // TODO TABOU COUNT
 
 	return bestSolution;
 }
@@ -92,22 +94,22 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution)
 	Movement ** movements = NULL;
 	int pos = 0;
 
-	for(int i = 0; i < solution->instance.itemsCount; i++)
-        for(int j = i+1; j < solution->instance.itemsCount; j++)
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+        for(int j = i+1; j < solution->instance->itemsCount; j++)
         {
-            if(movements = (Movement **)realloc(sizeof(Movement *) * pos++))
+            if((movements = (Movement **)realloc(movements, sizeof(Movement *) * pos++)) == NULL)
             {
                 perror("ERROR REALLOC metaheuristicTabou_getMovement");
                 exit(EXIT_FAILURE);
             }
             Movement * movement;
-            if(movement = (Movement *)realloc(sizeof(Movement)))
+            if((movement = (Movement *)malloc(sizeof(Movement))) == NULL)
             {
                 perror("ERROR MALLOC metaheuristicTabou_getMovement");
                 exit(EXIT_FAILURE);
             }
-            movement->a = solutionIndirect_getItemIndex(i);
-            movement->b = solutionIndirect_getItemIndex(j);
+            movement->a = solutionIndirect_getItemIndex(solution->solutions.indirect, i);
+            movement->b = solutionIndirect_getItemIndex(solution->solutions.indirect, j);
             movements[pos - 1] = movement;
         }
 
@@ -147,9 +149,9 @@ void movement_applyMovement(Solution * solution, Movement * movement)
     for(int i = 0; i < solution->instance->itemsCount; i++)
     {
         if(solution->solutions.indirect->itemsOrder[i] == movement->a)
-            solution->solutions.indirect->itemsOrder[i] == b;
+            solution->solutions.indirect->itemsOrder[i] = movement->b;
         else if(solution->solutions.indirect->itemsOrder[i] == movement->b)
-            solution->solutions.indirect->itemsOrder[i] == a;
+            solution->solutions.indirect->itemsOrder[i] = movement->a;
     }
     solutionIndirect_decode(solution->solutions.indirect);
 }

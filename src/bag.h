@@ -106,7 +106,13 @@ int bag_getCriticDimension(Instance * instance, Bag * bag);
  */
 SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag);
 
-//TODO
+/**
+ * Duplicates a bag on the heap.
+ *
+ * @param bag A pointer to the bag to duplicate.
+ * @param instance A pointer to the instance associated with the bag.
+ * @return A pointer to a new bag on the heap.
+ */
 Bag * bag_duplicate(Bag * bag, Instance * instance);
 
 #endif

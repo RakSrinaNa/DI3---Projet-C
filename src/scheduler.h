@@ -91,7 +91,14 @@ int * scheduler_allDimensionsWeighted(Instance * instance);
  */
 double scheduler_allDimensionsWeighted_score(Instance * instance, int index);
 
-//TODO
+/**
+ *
+ * @param instance
+ * @param bag
+ * @param itemsInList
+ * @param sizeList
+ * @return
+ */
 int * scheduler_exponential(Instance * instance, Bag * bag, int * itemsInList, int sizeList);
 
 //TODO
