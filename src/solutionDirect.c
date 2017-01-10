@@ -52,7 +52,7 @@ int solutionDirect_doable(SolutionDirect * solution)
 
 void solutionDirect_takeItem(SolutionDirect * solution, int index)
 {
-	if(index > 0 && index < solution->instance->itemsCount)
+	if(index > 0 || index <= solution->instance->itemsCount)
 		solution->itemsTaken[index] = 1;
 }
 
@@ -87,14 +87,14 @@ SolutionDirect * solutionDirect_duplicate(SolutionDirect * solutionDirect)
 	SolutionDirect * newSolution = solutionDirect_create(solutionDirect->instance);
 	for(int i = 0; i < solutionDirect->instance->itemsCount; i++)
 		if(solutionDirect_isItemTaken(solutionDirect, i) == 1)
-			solutionDirect_takeItem(solutionDirect, i);
+			solutionDirect_takeItem(newSolution, i);
 	
 	return newSolution;
 }
 
 int solutionDirect_isItemTaken(SolutionDirect * solution, int index)
 {
-	if(index < 0 && index >= solution->instance->itemsCount)
+	if(index < 0 || index >= solution->instance->itemsCount)
 		return 0;
 	return solution->itemsTaken[index];
 }

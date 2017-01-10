@@ -131,7 +131,6 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 		if(currentSolution->solutions.direct->itemsTaken[i] == 0)
 		{
 			Solution * neighbourSolution = solution_duplicate(currentSolution);
-
 			neighbourSolution->solutions.direct->itemsTaken[i] = 1;
 
 			if(solution_doable(neighbourSolution))
