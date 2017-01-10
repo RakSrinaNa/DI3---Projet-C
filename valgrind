@@ -1,2 +1,2 @@
 #!/bin/sh
-valgrind --track-origins=yes ./ex_projet2 test
+valgrind --track-origins=yes --leak-check=full ./ex_projet2 test
