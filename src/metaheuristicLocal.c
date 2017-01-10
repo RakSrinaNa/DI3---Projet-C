@@ -155,15 +155,14 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 	{
 		if(currentSolution->solutions.direct->itemsTaken[i])
 		{
-			Solution * neighbourSolution = solution_duplicate(currentSolution);
-			neighbourSolution->solutions.direct->itemsTaken[i] = 0;
-
 			for(int j = 0; j < currentSolution->solutions.direct->instance->itemsCount; j++)
 			{
 				if(j == i)
 					continue;
 				if(currentSolution->solutions.direct->itemsTaken[j] == 0)
 				{
+					Solution * neighbourSolution = solution_duplicate(currentSolution);
+					neighbourSolution->solutions.direct->itemsTaken[i] = 0;
 					neighbourSolution->solutions.direct->itemsTaken[j] = 1;
 
 					if(solution_doable(neighbourSolution))
