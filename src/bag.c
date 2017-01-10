@@ -1,21 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utils.h"
 #include "bag.h"
 
 Bag * bag_create(Instance * instance)
 {
-	Bag * bag;
-	if((bag = (Bag *) malloc(sizeof(Bag))) == NULL)
-	{
-		perror("MALLOC ERROR bag_create");
-		exit(EXIT_FAILURE);
-	}
-	if((bag->weights = (int *) malloc(sizeof(int) * instance->dimensionsNumber)) == NULL)
-	{
-		perror("MALLOC ERROR bag_create");
-		exit(EXIT_FAILURE);
-	}
+	Bag * bag = MALLOC(Bag, 1);
+	MCHECK(bag, "bag_create");
+	
+	bag->weights = MALLOC(int, instance->dimensionsNumber);
+	MCHECK(bag->weights, "bag_create");
+	
 	bag->items = NULL;
 	bag->itemsCount = 0;
 	
@@ -35,11 +31,8 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	(bag->itemsCount)++;
-	if((bag->items = (int *) realloc(bag->items, sizeof(int) * bag->itemsCount)) == NULL)
-	{
-		perror("REALLOC ERROR bag_appendItem");
-		exit(EXIT_FAILURE);
-	}
+	bag->items = REALLOC(int, bag->items, bag->itemsCount);
+	RCHECK(bag->items, "bag_appendItem");
 	bag->items[bag->itemsCount - 1] = itemIndex;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)
@@ -108,7 +101,7 @@ SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag)
 	return solution;
 }
 
-Bag * bag_duplicate(Bag * bag, Instance * instance)
+Bag * bag_duplicate(Instance * instance, Bag * bag)
 {
 	Bag * newBag = bag_create(instance);
 	for(int i = 0; i < bag->itemsCount; i++)

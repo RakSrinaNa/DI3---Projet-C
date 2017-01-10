@@ -109,10 +109,10 @@ SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag);
 /**
  * Duplicates a bag on the heap.
  *
- * @param bag A pointer to the bag to duplicate.
  * @param instance A pointer to the instance associated with the bag.
+ * @param bag A pointer to the bag to duplicate.
  * @return A pointer to a new bag on the heap.
  */
-Bag * bag_duplicate(Bag * bag, Instance * instance);
+Bag * bag_duplicate(Instance * instance, Bag * bag);
 
 #endif

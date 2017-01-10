@@ -10,6 +10,7 @@ set(SOURCE_FILES
         src/mainKergosien.c src/mainKergosien.h
         src/mainUnit.c src/mainUnit.h
         src/unit.c src/unit.h
+        src/utils.h
 
         src/instance.c src/instance.h
         src/instanceUnit.c src/instanceUnit.h
