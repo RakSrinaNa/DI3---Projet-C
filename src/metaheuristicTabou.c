@@ -31,7 +31,7 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 
 	while(i < iterationMax)
 	{
-		int scoreBestNeighbor = 0;
+		int scoreBestNeighbour = 0;
 		int movementsCount = 0;
 
 		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution, NULL);
@@ -48,26 +48,34 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 
 				if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]))
 				{
-					if(solution_evaluate(neighbourSolution) > scoreBestNeighbor)
+					if(solution_evaluate(neighbourSolution) > scoreBestNeighbour)
 					{
 						bestNeighbourSolution = neighbourSolution;
-						scoreBestNeighbor = solution_evaluate(neighbourSolution);
+						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
+					else
+                    {
+                        solution_destroy(neighbourSolution);
+                    }
 				}
 				else
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBest)
 					{
 						bestNeighbourSolution = neighbourSolution;
-						scoreBestNeighbor = solution_evaluate(neighbourSolution);
+						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
+					else
+                    {
+                        solution_destroy(neighbourSolution);
+                    }
 				}
 			}
 		}
 
-		int scoreCurrent = scoreBestNeighbor;
+		int scoreCurrent = scoreBestNeighbour;
 
 		currentSolution = bestNeighbourSolution;
 		movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
