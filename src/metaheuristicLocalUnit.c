@@ -11,6 +11,7 @@ void metaheuristicLocalTests()
 {
 	metaheuristicLocalInvertItemTests();
 	metaheuristicLocalAddItemTests();
+	metaheuristicLocalSwapItemsTests();
 }
 
 void metaheuristicLocalInvertItemTests()
