@@ -22,4 +22,7 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 //TODO
 Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neighboursCount);
 
+//TODO
+Solution ** metaheuristicLocal_addAndInvertItem(Solution * currentSolution, int * neighboursCount);
+
 #endif
