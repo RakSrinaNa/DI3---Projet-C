@@ -72,9 +72,7 @@ Solution ** metaheuristicLocal_getNeighbours(Solution * currentSolution, int sea
 			switch(searchOperator)
 			{
 				case 0:
-					return metaheuristicLocal_addItem(currentSolution, neighboursCount);
-				case 1:
-					return metaheuristicLocal_invertItem(currentSolution, neighboursCount);
+					return metaheuristicLocal_addAndInvertItem(currentSolution, neighboursCount);
 
 				default:
 					break;
@@ -177,4 +175,20 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 		}
 	}
 	return neighbourSolutions;
+}
+
+Solution ** metaheuristicLocal_addAndInvertItem(Solution * currentSolution, int * neighboursCount)
+{
+
+    Solution ** addTempo = metaheuristicLocal_addItem(currentSolution, neighboursCount);
+    int nbAddTempo = *neighboursCount;
+
+    Solution ** invertTempo = metaheuristicLocal_invertItem(currentSolution, neighboursCount);
+
+    RREALLOC(invertTempo, Solution *, *neighboursCount, "metaheuristicLocal_addAndInvertItem");
+
+    for(int i = 0; i < nbAddTempo; i++)
+            invertTempo[i + *neighboursCount - nbAddTempo] = addTempo[i];
+
+    return invertTempo;
 }
