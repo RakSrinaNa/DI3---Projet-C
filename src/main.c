@@ -36,10 +36,6 @@ int main(int argc, char * argv[])
 			parser_destroy(parser);
 		}
 	}
-	else
-	{
-		parser_readAllFile("MKP-Instances/_mknapcb1_res.txt");
-	}
 	
 	return 0;
 }
