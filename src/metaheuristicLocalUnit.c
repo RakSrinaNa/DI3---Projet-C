@@ -86,7 +86,7 @@ void metaheuristicLocalSwapItemsTests()
 	solution->solutions.indirect->itemsOrder = itemOrder;
 	solutionIndirect_decode(solution->solutions.indirect);
 	Solution ** results = metaheuristicLocal_swapItem(solution, &count);
-	if(count != 2)
+	if(count != 3)
 		unit_error("ASSERT metaheuristicLocalSwapItemsTests 1");
 	for(int i = 0; i < count; i++)
 		if(!unit_arrayEquals(correctResult[i], results[i]->solutions.indirect->itemsOrder, solution->instance->itemsCount))
@@ -112,7 +112,7 @@ void metaheuristicLocalAddAndInvertItemTests()
 	solution->solutions.direct->itemsTaken[0] = 1;
 	solution->solutions.direct->itemsTaken[1] = 0;
 	solution->solutions.direct->itemsTaken[2] = 0;
-	Solution ** results = metaheuristicLocal_addItem(solution, &count);
+	Solution ** results = metaheuristicLocal_addAndInvertItem(solution, &count);
 	if(count != 3)
 		unit_error("ASSERT metaheuristicLocalAddAndInvertItemTests 1");
 	for(int i = 0; i < count; i++)

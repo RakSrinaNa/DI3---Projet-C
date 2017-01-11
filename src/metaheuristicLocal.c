@@ -32,7 +32,7 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		{
 			if(solution_evaluate(allNeighbours[i]) > scoreBestNeighbour)
 			{
-				bestNeighbourSolution = allNeighbours[i];
+				bestNeighbourSolution = solution_duplicate(allNeighbours[i]);
 				bestNeighbourIndex = i;
 				scoreBestNeighbour = solution_evaluate(allNeighbours[i]);
 			}
@@ -40,8 +40,7 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 
 		free(currentSolution);
 		for(int i = 0; i < neighboursCount; i++)
-			if(i != bestNeighbourIndex)
-				free(allNeighbours[i]);
+            free(allNeighbours[i]);
 		free(allNeighbours);
 
 		scoreCurrent = scoreBestNeighbour;
@@ -179,16 +178,18 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 
 Solution ** metaheuristicLocal_addAndInvertItem(Solution * currentSolution, int * neighboursCount)
 {
+    int addCount = 0;
+    Solution ** addTempo = metaheuristicLocal_addItem(currentSolution, &addCount);
 
-    Solution ** addTempo = metaheuristicLocal_addItem(currentSolution, neighboursCount);
-    int nbAddTempo = *neighboursCount;
+    int invertCount = 0;
+    Solution ** invertTempo = metaheuristicLocal_invertItem(currentSolution, &invertCount);
 
-    Solution ** invertTempo = metaheuristicLocal_invertItem(currentSolution, neighboursCount);
+    RREALLOC(invertTempo, Solution *, addCount + invertCount, "metaheuristicLocal_addAndInvertItem");
 
-    RREALLOC(invertTempo, Solution *, *neighboursCount, "metaheuristicLocal_addAndInvertItem");
+    for(int i = 0; i < addCount; i++)
+        invertTempo[i + invertCount] = addTempo[i];
 
-    for(int i = 0; i < nbAddTempo; i++)
-            invertTempo[i + *neighboursCount - nbAddTempo] = addTempo[i];
-
+    free(addTempo);
+    *neighboursCount = addCount + invertCount;
     return invertTempo;
 }
