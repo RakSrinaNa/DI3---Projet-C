@@ -127,7 +127,7 @@ char * parser_readLine(FILE * file)
 		}
 		if(getLine(&lineRead, &size, file) == -1) // Read a line, and return NULL if end of file
 			return NULL;
-	} while(*lineRead == '\n'); // While we have a non empty line
+	} while(*lineRead == '\n' || (*lineRead == '\r' && lineRead[1] != '\n')); // While we have a non empty line
 	return lineRead;
 }
 
