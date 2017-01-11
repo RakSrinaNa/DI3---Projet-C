@@ -12,6 +12,7 @@ void metaheuristicLocalTests()
 	metaheuristicLocalInvertItemTests();
 	metaheuristicLocalAddItemTests();
 	metaheuristicLocalSwapItemsTests();
+	metaheuristicLocalAddAndInvertItemTests();
 }
 
 void metaheuristicLocalInvertItemTests()
@@ -91,6 +92,31 @@ void metaheuristicLocalSwapItemsTests()
 			unit_error("ASSERT metaheuristicLocalSwapItemsTests 2");
 	for(int i = 0; i < count; i++)
 		solution_destroy(results[i]);
+	free(results);
+	solution_destroy(solution);
+	free(instance);
+}
+
+void metaheuristicLocalAddAndInvertItemTests()
+{
+	int correctResult[3][3] = {{0, 1, 0}, {0, 0, 1}, {1, 0, 1}};
+	int count = 0;
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	Solution * solution;
+	MMALLOC(solution, Solution, 1, NULL);
+	solution->instance = instance;
+	solution->type = DIRECT;
+	solution->solveTime = 0;
+	solution->solutions.direct = solutionDirect_create(instance);
+	solution->solutions.direct->itemsTaken[0] = 1;
+	solution->solutions.direct->itemsTaken[1] = 0;
+	solution->solutions.direct->itemsTaken[2] = 0;
+	Solution ** results = metaheuristicLocal_addItem(solution, &count);
+	if(count != 3)
+		unit_error("ASSERT metaheuristicLocalAddAndInvertItemTests 1");
+	for(int i = 0; i < count; i++)
+		if(!unit_arrayEquals(correctResult[i], results[i]->solutions.direct->itemsTaken, solution->instance->itemsCount))
+			unit_error("ASSERT metaheuristicLocalAddAndInvertItemTests 2");
 	free(results);
 	solution_destroy(solution);
 	free(instance);
