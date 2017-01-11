@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <stdlib.h>
-#include <sys/param.h>
 
 #include "utils.h"
 #include "metaheuristicLocal.h"
