@@ -155,11 +155,8 @@ void movement_tabouDestroy(Movement ** tabou, int tabouCount)
 Movement * movement_duplicate(Movement * movement)
 {
     Movement * newMovement;
-    if((newMovement = (Movement *)malloc(sizeof(Movement))) == NULL)
-    {
-        perror("ERROR MALLOC movement_duplicate");
-        exit(EXIT_FAILURE);
-    }
+    MMALLOC(newMovement, Movement, 1, "movement_duplicate");
+
     newMovement->a = movement->a;
     newMovement->b = movement->b;
 
