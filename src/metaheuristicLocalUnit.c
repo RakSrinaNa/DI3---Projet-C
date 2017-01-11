@@ -80,7 +80,7 @@ void metaheuristicLocalSwapItemsTests()
 	Solution * solution;
 	MMALLOC(solution, Solution, 1, NULL);
 	solution->instance = instance;
-	solution->type = DIRECT;
+	solution->type = INDIRECT;
 	solution->solveTime = 0;
 	solution->solutions.indirect = solutionIndirect_create(instance);
 	solution->solutions.indirect->itemsOrder = itemOrder;
