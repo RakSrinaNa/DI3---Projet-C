@@ -8,6 +8,7 @@
 #include "solution.h"
 #include "instance.h"
 
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 int movement_equals(Movement * m1, Movement * m2)
 {
