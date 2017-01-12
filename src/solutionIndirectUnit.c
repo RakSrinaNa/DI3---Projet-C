@@ -35,10 +35,10 @@ void solutionIndirectTests(void)
 	if(solution->bag->itemsCount != 2 || bag_getItemIndex(solution->bag, 0) != 0 || bag_getItemIndex(solution->bag, 1) != 12)
 		unit_error("ASSERT SOLUTIONINDIRECT 2");
 	
-	order[0] = 6;
-	order[1] = 12;
-	order[6] = 0;
-	order[12] = 1;
+	solution->itemsOrder[0] = 6;
+	solution->itemsOrder[1] = 12;
+	solution->itemsOrder[6] = 0;
+	solution->itemsOrder[12] = 1;
 	
 	solutionIndirect_decode(solution);
 	if(solutionIndirect_doable(solution) != 1)
