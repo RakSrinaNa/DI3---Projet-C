@@ -72,11 +72,6 @@ void metaheuristicLocalAddItemTests()
 void metaheuristicLocalSwapItemsTests()
 {
 	int correctResult[3][3] = {{1, 0, 2}, {2, 1, 0}, {0, 2, 1}};
-	int * itemOrder;
-	MMALLOC(itemOrder, int, 3, NULL);
-	itemOrder[0] = 0;
-	itemOrder[1] = 1;
-	itemOrder[2] = 2;
 	int count = 0;
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Solution * solution;
@@ -85,7 +80,9 @@ void metaheuristicLocalSwapItemsTests()
 	solution->type = INDIRECT;
 	solution->solveTime = 0;
 	solution->solutions.indirect = solutionIndirect_create(instance);
-	solution->solutions.indirect->itemsOrder = itemOrder;
+	solution->solutions.indirect->itemsOrder[0] = 0;
+	solution->solutions.indirect->itemsOrder[1] = 1;
+	solution->solutions.indirect->itemsOrder[2] = 2;
 	solutionIndirect_decode(solution->solutions.indirect);
 	Solution ** results = metaheuristicLocal_swapItem(solution, &count);
 	if(count != 3)
