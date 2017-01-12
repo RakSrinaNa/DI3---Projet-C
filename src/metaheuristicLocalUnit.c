@@ -40,7 +40,7 @@ void metaheuristicLocalInvertItemTests()
 		solution_destroy(results[i]);
 	free(results);
 	solution_destroy(solution);
-	free(instance);
+	instance_destroy(instance);
 }
 
 void metaheuristicLocalAddItemTests()
@@ -62,9 +62,11 @@ void metaheuristicLocalAddItemTests()
 		unit_error("ASSERT metaheuristicLocalAddItemTests 1");
 	if(!unit_arrayEquals(correctResult, results[0]->solutions.direct->itemsTaken, solution->instance->itemsCount))
 		unit_error("ASSERT metaheuristicLocalInvertItemTests 2");
+	for(int i = 0; i < count; i++)
+		solution_destroy(results[i]);
 	free(results);
 	solution_destroy(solution);
-	free(instance);
+	instance_destroy(instance);
 }
 
 void metaheuristicLocalSwapItemsTests()
@@ -95,7 +97,7 @@ void metaheuristicLocalSwapItemsTests()
 		solution_destroy(results[i]);
 	free(results);
 	solution_destroy(solution);
-	free(instance);
+	instance_destroy(instance);
 }
 
 void metaheuristicLocalAddAndInvertItemTests()
@@ -118,9 +120,11 @@ void metaheuristicLocalAddAndInvertItemTests()
 	for(int i = 0; i < count; i++)
 		if(!unit_arrayEquals(correctResult[i], results[i]->solutions.direct->itemsTaken, solution->instance->itemsCount))
 			unit_error("ASSERT metaheuristicLocalAddAndInvertItemTests 2");
+	for(int i = 0; i < count; i++)
+		solution_destroy(results[i]);
 	free(results);
 	solution_destroy(solution);
-	free(instance);
+	instance_destroy(instance);
 }
 
 void metaheuristicLocalSearchTests()
@@ -131,5 +135,5 @@ void metaheuristicLocalSearchTests()
 	if(solution_evaluate(solution) != 80 || solutionDirect_isItemTaken(solution->solutions.direct, 0) != 0 || solutionDirect_isItemTaken(solution->solutions.direct, 1) != 1 || solutionDirect_isItemTaken(solution->solutions.direct, 2) != 0)
 		unit_error("ASSERT metaheuristicLocalSearchTests 1");
 	solution_destroy(solution);
-	free(instance);
+	instance_destroy(instance);
 }
