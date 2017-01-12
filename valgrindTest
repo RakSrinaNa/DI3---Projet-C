@@ -1,0 +1,2 @@
+#!/bin/sh
+valgrind --track-origins=yes --tool=memcheck --leak-check=full ./ex_projet2 test
