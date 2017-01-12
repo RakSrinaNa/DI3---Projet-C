@@ -1,11 +1,11 @@
 #include <stdlib.h>
-#include "solutionUnit.h"
-#include "../solution.h"
-#include "../utils.h"
-#include "../parser.h"
-#include "unit.h"
-#include "../instance.h"
-#include "../bag.h"
+#include "headers/solutionUnit.h"
+#include "../headers/solution.h"
+#include "../headers/utils.h"
+#include "../headers/parser.h"
+#include "headers/unit.h"
+#include "../headers/instance.h"
+#include "../headers/bag.h"
 
 void solutionTests()
 {

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "instance.h"
-#include "solutionIndirect.h"
-#include "utils.h"
+#include "headers/instance.h"
+#include "headers/solutionIndirect.h"
+#include "headers/utils.h"
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {

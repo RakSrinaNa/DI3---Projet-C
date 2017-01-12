@@ -1,10 +1,10 @@
 #include <stdlib.h>
 
-#include "unit.h"
-#include "solutionDirectUnit.h"
-#include "../solutionDirect.h"
-#include "../parser.h"
-#include "../instance.h"
+#include "headers/unit.h"
+#include "headers/solutionDirectUnit.h"
+#include "../headers/solutionDirect.h"
+#include "../headers/parser.h"
+#include "../headers/instance.h"
 
 void solutionDirectTests(void)
 {

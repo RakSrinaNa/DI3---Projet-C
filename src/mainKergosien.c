@@ -3,10 +3,10 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-#include "instance.h"
-#include "parser.h"
-#include "heuristic.h"
-#include "metaheuristicLocal.h"
+#include "headers/instance.h"
+#include "headers/parser.h"
+#include "headers/heuristic.h"
+#include "headers/metaheuristicLocal.h"
 
 void mainKergosien()
 {

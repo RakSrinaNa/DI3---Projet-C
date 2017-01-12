@@ -1,5 +1,5 @@
-#include "heuristic.h"
-#include "utils.h"
+#include "headers/heuristic.h"
+#include "headers/utils.h"
 #include <stdlib.h>
 
 void solution_saveToFile(char * fileName, Solution * solution)

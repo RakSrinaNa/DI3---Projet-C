@@ -1,11 +1,11 @@
 #include <string.h>
 
-#include "unit/mainUnit.h"
-#include "mainKergosien.h"
-#include "parser.h"
-#include "solution.h"
-#include "heuristic.h"
-#include "metaheuristicTabou.h"
+#include "unit/headers/mainUnit.h"
+#include "headers/mainKergosien.h"
+#include "headers/parser.h"
+#include "headers/solution.h"
+#include "headers/heuristic.h"
+#include "headers/metaheuristicTabou.h"
 
 int main(int argc, char * argv[])
 {

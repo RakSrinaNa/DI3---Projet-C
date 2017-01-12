@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "utils.h"
-#include "bag.h"
+#include "headers/utils.h"
+#include "headers/bag.h"
 
 Bag * bag_create(Instance * instance)
 {

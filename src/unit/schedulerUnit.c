@@ -1,9 +1,9 @@
 #include <stdlib.h>
 
-#include "unit.h"
-#include "schedulerUnit.h"
-#include "../scheduler.h"
-#include "../parser.h"
+#include "headers/unit.h"
+#include "headers/schedulerUnit.h"
+#include "../headers/scheduler.h"
+#include "../headers/parser.h"
 
 void schedulerTests()
 {

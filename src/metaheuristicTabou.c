@@ -1,11 +1,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include "utils.h"
-#include "metaheuristicLocal.h"
-#include "metaheuristicTabou.h"
-#include "solution.h"
-#include "instance.h"
+#include "headers/utils.h"
+#include "headers/metaheuristicLocal.h"
+#include "headers/metaheuristicTabou.h"
+#include "headers/solution.h"
+#include "headers/instance.h"
 
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 

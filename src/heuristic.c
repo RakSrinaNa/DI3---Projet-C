@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <sys/timeb.h>
 
-#include "heuristic.h"
-#include "scheduler.h"
-#include "utils.h"
+#include "headers/heuristic.h"
+#include "headers/scheduler.h"
+#include "headers/utils.h"
 
 Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType)
 {

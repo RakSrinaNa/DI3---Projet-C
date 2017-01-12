@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "../heuristic.h"
-#include "unit.h"
-#include "../parser.h"
-#include "../scheduler.h"
+#include "../headers/heuristic.h"
+#include "headers/unit.h"
+#include "../headers/parser.h"
+#include "../headers/scheduler.h"
 
 void heuristicTests()
 {

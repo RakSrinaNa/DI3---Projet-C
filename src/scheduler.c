@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "instance.h"
-#include "scheduler.h"
-#include "utils.h"
+#include "headers/instance.h"
+#include "headers/scheduler.h"
+#include "headers/utils.h"
 
 int * scheduler_random(Instance * instance)
 {

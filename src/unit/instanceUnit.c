@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "unit.h"
-#include "instanceUnit.h"
-#include "../instance.h"
-#include "../utils.h"
+#include "headers/unit.h"
+#include "headers/instanceUnit.h"
+#include "../headers/instance.h"
+#include "../headers/utils.h"
 
 void instanceTests()
 {

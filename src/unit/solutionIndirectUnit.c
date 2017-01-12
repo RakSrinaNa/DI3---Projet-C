@@ -1,12 +1,12 @@
 #include <stdlib.h>
 
-#include "unit.h"
-#include "solutionIndirectUnit.h"
-#include "../solutionIndirect.h"
-#include "../parser.h"
-#include "../utils.h"
-#include "../bag.h"
-#include "../instance.h"
+#include "headers/unit.h"
+#include "headers/solutionIndirectUnit.h"
+#include "../headers/solutionIndirect.h"
+#include "../headers/parser.h"
+#include "../headers/utils.h"
+#include "../headers/bag.h"
+#include "../headers/instance.h"
 
 void solutionIndirectTests(void)
 {

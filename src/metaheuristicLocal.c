@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "instance.h"
-#include "solutionDirect.h"
-#include "heuristic.h"
-#include "metaheuristicLocal.h"
-#include "utils.h"
+#include "headers/instance.h"
+#include "headers/solutionDirect.h"
+#include "headers/heuristic.h"
+#include "headers/metaheuristicLocal.h"
+#include "headers/utils.h"
 
 Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator, int heuristicIndex)
 {

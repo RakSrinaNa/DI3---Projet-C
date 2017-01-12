@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "instance.h"
-#include "parser.h"
-#include "utils.h"
+#include "headers/instance.h"
+#include "headers/parser.h"
+#include "headers/utils.h"
 
 Parser * parser_create(char * filename)
 {

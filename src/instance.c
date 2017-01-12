@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "instance.h"
-#include "utils.h"
+#include "headers/instance.h"
+#include "headers/utils.h"
 
 void instance_initialize(Instance * instance, int itemsCount, int dimensionsCount)
 {

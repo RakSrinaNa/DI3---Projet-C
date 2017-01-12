@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
-#include "unit.h"
-#include "parserUnit.h"
-#include "../parser.h"
+#include "headers/unit.h"
+#include "headers/parserUnit.h"
+#include "../headers/parser.h"
 
 void parserTests(void)
 {
