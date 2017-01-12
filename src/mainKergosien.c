@@ -10,7 +10,11 @@
 
 void mainKergosien()
 {
-    mkdir("Solutions", S_IRWXU | S_IRWXG | S_IRWXO);
+    #if defined(_WIN32)
+        _mkdir("Solutions");
+    #else
+        mkdir("Solutions", S_IRWXU | S_IRWXG | S_IRWXO);
+    #endif
 
 	char dirName[] = "./MKP-Instances";
 	char filePath[200];

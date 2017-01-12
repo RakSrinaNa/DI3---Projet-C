@@ -107,8 +107,8 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
         for(int j = i+1; j < solution->instance->itemsCount; j++)
         {
             Movement * movement;
-	        RREALLOC(movements, Movement *, pos++, "metaheuristicTabou_getMovements");
-	        MMALLOC(movement, Movement, 1, "metaheuristicTabou_getMovements");
+	        RREALLOC(movements, Movement *, pos++, "RREALLOC metaheuristicTabou_getMovements");
+	        MMALLOC(movement, Movement, 1, "MMALLOC metaheuristicTabou_getMovements");
             movement->a = solutionIndirect_getItemIndex(solution->solutions.indirect, i);
             movement->b = solutionIndirect_getItemIndex(solution->solutions.indirect, j);
             movements[pos - 1] = movement;

@@ -5,6 +5,7 @@
 #include "parser.h"
 #include "solution.h"
 #include "heuristic.h"
+#include "metaheuristicTabou.h"
 
 int main(int argc, char * argv[])
 {
@@ -27,15 +28,18 @@ int main(int argc, char * argv[])
 		}
 		else if(strcmp(argv[1], "temp") == 0)
 		{
-			Parser * parser = parser_create("MKP-Instances/theBestBag2.txt");
-			Instance * instance = parser_getNextInstance(parser);
-			Solution * solution = heuristic(instance, DIRECT, 5);
-			solutionDirect_print(solution->solutions.direct);
-			solution_destroy(solution);
-			instance_destroy(instance);
-			parser_destroy(parser);
+		    Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
+            Instance * instance;
+            while((instance = parser_getNextInstance(parser)) != NULL)
+            {
+                Solution * solution = metaheuristicTablou_search(instance, INDIRECT, 5, 10, 1);
+                solutionIndirect_print(solution->solutions.indirect);
+                solution_destroy(solution);
+                instance_destroy(instance);
+            }
+            parser_destroy(parser);
 		}
 	}
-	
+
 	return 0;
 }
