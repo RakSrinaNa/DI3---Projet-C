@@ -5,6 +5,7 @@
 #include "instance.h"
 #include "parser.h"
 #include "heuristic.h"
+#include "metaheuristicLocal.h"
 
 void mainKergosien()
 {
@@ -35,18 +36,20 @@ void mainKergosien()
 					continue;
 				char outputFile[100];
 				Solution * solution;
-				if(1)
+				if(0)
 				{
-					solution = heuristic(instance, 1, j);
+					solution = metaheuristicLocal_search(instance, DIRECT, 0, j);
 					sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
 					solution_saveToFile(outputFile, solution);
 					printf("Solution written into %s\n", outputFile);
 					solution_destroy(solution);
 				}
 				
-				if(0)
+				if(1)
 				{
-					solution = heuristic(instance, 0, j);
+					if(j < 5)
+						continue;
+					solution = metaheuristicLocal_search(instance, INDIRECT, 0, j);
 					sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
 					solution_saveToFile(outputFile, solution);
 					printf("Solution written into %s\n", outputFile);
