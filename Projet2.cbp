@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="temp" />
+				<Option parameters="ker" />
 				<Compiler>
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="test" />
+				<Option parameters="ker" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-pedantic" />

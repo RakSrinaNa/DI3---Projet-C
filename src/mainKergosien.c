@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include "instance.h"
 #include "parser.h"

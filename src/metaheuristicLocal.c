@@ -10,7 +10,7 @@
 Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator, int heuristicIndex)
 {
 	Solution * currentSolution = heuristic(instance, solutionType, heuristicIndex);
-	Solution * bestSolution = currentSolution;
+	Solution * bestSolution = solution_duplicate(currentSolution);
 
 	int scoreBest = solution_evaluate(bestSolution);
 	int scoreCurrent = solution_evaluate(currentSolution);
@@ -31,14 +31,16 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		{
 			if(solution_evaluate(allNeighbours[i]) > scoreBestNeighbour)
 			{
+			    solution_destroy(bestNeighbourSolution);
 				bestNeighbourSolution = solution_duplicate(allNeighbours[i]);
 				scoreBestNeighbour = solution_evaluate(allNeighbours[i]);
 			}
 		}
 
-		free(currentSolution);
+		solution_destroy(currentSolution);
+
 		for(int i = 0; i < neighboursCount; i++)
-            free(allNeighbours[i]);
+            solution_destroy(allNeighbours[i]);
 		free(allNeighbours);
 
 		scoreCurrent = scoreBestNeighbour;
@@ -47,7 +49,8 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		if(scoreCurrent > scoreBest)
 		{
 			scoreBest = scoreCurrent;
-			bestSolution = currentSolution;
+			solution_destroy(bestSolution);
+			bestSolution = solution_duplicate(currentSolution);
 		}
 		else
 		{
@@ -56,6 +59,8 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		}
 
 		scorePrevious = scoreCurrent;
+
+        solution_destroy(bestNeighbourSolution);
 	}
 
 	return bestSolution;
