@@ -7,9 +7,9 @@
 #include "headers/metaheuristicLocal.h"
 #include "headers/utils.h"
 
-Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator, int heuristicIndex)
+Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator, int schedulerType)
 {
-	Solution * currentSolution = heuristic(instance, solutionType, heuristicIndex);
+	Solution * currentSolution = heuristic(instance, solutionType, schedulerType);
 	Solution * bestSolution = solution_duplicate(currentSolution);
 
 	int scoreBest = solution_evaluate(bestSolution);

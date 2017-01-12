@@ -32,7 +32,7 @@ int main(int argc, char * argv[])
             Instance * instance;
             while((instance = parser_getNextInstance(parser)) != NULL)
             {
-                Solution * solution = metaheuristicTablou_search(instance, INDIRECT, 10, 50, 1);
+                Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 50, 1);
                 solutionIndirect_print(solution->solutions.indirect);
                 solution_destroy(solution);
                 instance_destroy(instance);

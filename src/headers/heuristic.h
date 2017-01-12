@@ -26,7 +26,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
  *
  * @param instance A pointer to the instance where the items are from.
  * @param bag A pointer to the bag associated to the solution.
- * @param schedulerType The type of the scheduler.
+ * @param schedulerType The type of the scheduler. See heuristic function.
  * @param oldList The old list to replace, use NULL if creating a new one (should be useful for schedulerType 3 & 4).
  * @param listCount The size of the list to create.
  * @return The list to use in the heuristic for this scheduler.

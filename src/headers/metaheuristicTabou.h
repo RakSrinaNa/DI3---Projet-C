@@ -14,7 +14,7 @@ typedef struct
 int movement_equals(Movement * m1, Movement * m2);
 
 //TODO
-Solution * metaheuristicTablou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration);
+Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration);
 
 //TODO
 Movement ** movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement);
