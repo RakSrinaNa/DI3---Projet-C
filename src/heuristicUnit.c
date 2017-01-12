@@ -27,6 +27,7 @@ void heuristicTests()
 		unit_error("ASSERT HEURISTIC 3");
 	free(correctList);
 	free(list);
+	bag_destroy(bag);
 	
 	Solution * solution = heuristic(instance, INDIRECT, 0);
 	if(solution->type != INDIRECT || solution->instance != instance)

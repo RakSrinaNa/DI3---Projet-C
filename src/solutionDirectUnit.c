@@ -41,9 +41,10 @@ void solutionDirectTests(void)
 		perror("ERROR FOPEN SOLUTIONDIRECT UNIT");
 		exit(EXIT_FAILURE);
 	}
-	if(score != atoi(parser_readLine(file)))
-		unit_error("ASSERT SOLUTIONDIRECT 6");
 	char * line = parser_readLine(file);
+	if(score != atoi(line))
+		unit_error("ASSERT SOLUTIONDIRECT 6");
+	line = parser_readLine(file);
 	int * itemsTaken = parser_lineToIntArray(line, instance->itemsCount);
 	free(line);
 	fclose(file);

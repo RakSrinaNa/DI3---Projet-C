@@ -36,5 +36,4 @@ void instanceTests()
 	if(instance_item_getWeight(instance, 0, 2) != 2)
 		unit_error("ASSERT INSTANCE 8");
 	instance_destroy(instance);
-	free(instance);
 }

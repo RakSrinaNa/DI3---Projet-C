@@ -64,5 +64,4 @@ void bagTests()
 	
 	bag_destroy(bag);
 	instance_destroy(instance);
-	free(instance);
 }

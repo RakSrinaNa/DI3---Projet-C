@@ -43,6 +43,7 @@ void instance_destroy(Instance * instance)
 	
 	free(instance->maxWeights);
 	free(instance->items);
+	free(instance);
 }
 
 int instance_item_getWeight(Instance * instance, int index, int dimension)
