@@ -1,7 +1,7 @@
 language: c
 compiler: gcc
 install:
-  - sudo apt-get install valgrindTest
+  - sudo apt-get install valgrind
 script: make test
 notifications:
   email: true
