@@ -2,8 +2,8 @@
 
 #include "unit.h"
 #include "schedulerUnit.h"
-#include "scheduler.h"
-#include "parser.h"
+#include "../scheduler.h"
+#include "../parser.h"
 
 void schedulerTests()
 {

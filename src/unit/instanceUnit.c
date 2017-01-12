@@ -3,8 +3,8 @@
 
 #include "unit.h"
 #include "instanceUnit.h"
-#include "instance.h"
-#include "utils.h"
+#include "../instance.h"
+#include "../utils.h"
 
 void instanceTests()
 {

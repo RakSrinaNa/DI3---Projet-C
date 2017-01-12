@@ -1,12 +1,12 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include "metaheuristicTabouUnit.h"
-#include "utils.h"
-#include "metaheuristicTabou.h"
+#include "../utils.h"
+#include "../metaheuristicTabou.h"
 #include "unit.h"
-#include "parser.h"
-#include "solution.h"
-#include "instance.h"
+#include "../parser.h"
+#include "../solution.h"
+#include "../instance.h"
 
 void metaheuristicTabouTests()
 {

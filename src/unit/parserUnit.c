@@ -2,7 +2,7 @@
 
 #include "unit.h"
 #include "parserUnit.h"
-#include "parser.h"
+#include "../parser.h"
 
 void parserTests(void)
 {

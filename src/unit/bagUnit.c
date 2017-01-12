@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include "unit.h"
 #include "bagUnit.h"
-#include "bag.h"
-#include "parser.h"
+#include "../bag.h"
+#include "../parser.h"
 
 void bagTests()
 {

@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include "metaheuristicLocalUnit.h"
-#include "metaheuristicLocal.h"
-#include "parser.h"
-#include "utils.h"
-#include "solution.h"
+#include "../metaheuristicLocal.h"
+#include "../parser.h"
+#include "../utils.h"
+#include "../solution.h"
 #include "unit.h"
-#include "instance.h"
+#include "../instance.h"
 
 void metaheuristicLocalTests()
 {

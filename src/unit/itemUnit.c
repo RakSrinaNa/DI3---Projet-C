@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "utils.h"
+#include "../utils.h"
 #include "unit.h"
 #include "itemUnit.h"
-#include "item.h"
+#include "../item.h"
 
 void itemTests()
 {

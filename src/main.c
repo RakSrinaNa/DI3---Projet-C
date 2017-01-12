@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "mainUnit.h"
+#include "unit/mainUnit.h"
 #include "mainKergosien.h"
 #include "parser.h"
 #include "solution.h"

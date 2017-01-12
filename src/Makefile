@@ -1,5 +1,5 @@
 EXEC=ex_projet2
-SRC=$(wildcard *.c)
+SRC=$(wildcard *.c) $(wildcard */*.c)
 OBJ=$(SRC:.c=.o)
 
 all: $(EXEC)

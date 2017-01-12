@@ -2,11 +2,11 @@
 
 #include "unit.h"
 #include "solutionIndirectUnit.h"
-#include "solutionIndirect.h"
-#include "parser.h"
-#include "utils.h"
-#include "bag.h"
-#include "instance.h"
+#include "../solutionIndirect.h"
+#include "../parser.h"
+#include "../utils.h"
+#include "../bag.h"
+#include "../instance.h"
 
 void solutionIndirectTests(void)
 {
