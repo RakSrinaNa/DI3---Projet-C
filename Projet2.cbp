@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="ker" />
+				<Option parameters="temp" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-pedantic" />
@@ -97,6 +97,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/metaheuristicTabou.h" />
+		<Unit filename="src/metaheuristicTabouUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/metaheuristicTabouUnit.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -133,6 +137,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/solutionIndirectUnit.h" />
+		<Unit filename="src/solutionUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/solutionUnit.h" />
 		<Unit filename="src/unit.c">
 			<Option compilerVar="CC" />
 		</Unit>

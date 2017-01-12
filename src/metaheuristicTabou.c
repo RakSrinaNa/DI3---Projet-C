@@ -33,7 +33,7 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 		int scoreBestNeighbour = 0;
 		int movementsCount = 0;
 
-		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution, NULL);
+		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution, &movementsCount);
 
 		Solution * bestNeighbourSolution = NULL;
 
@@ -74,10 +74,13 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 
 		int scoreCurrent = scoreBestNeighbour;
 
-		solution_destroy(currentSolution);
-		currentSolution = solution_duplicate(bestNeighbourSolution);
+		if(bestNeighbourSolution != NULL)
+        {
+            solution_destroy(currentSolution);
+            currentSolution = solution_duplicate(bestNeighbourSolution);
+        }
 		solution_destroy(bestNeighbourSolution);
-		movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
+		tabou = movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
 
 		if(scoreCurrent > scoreBest)
 		{
@@ -106,8 +109,9 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 	for(int i = 0; i < solution->instance->itemsCount; i++)
         for(int j = i+1; j < solution->instance->itemsCount; j++)
         {
+            pos++;
             Movement * movement;
-	        RREALLOC(movements, Movement *, pos++, "RREALLOC metaheuristicTabou_getMovements");
+	        RREALLOC(movements, Movement *, pos, "RREALLOC metaheuristicTabou_getMovements");
 	        MMALLOC(movement, Movement, 1, "MMALLOC metaheuristicTabou_getMovements");
             movement->a = solutionIndirect_getItemIndex(solution->solutions.indirect, i);
             movement->b = solutionIndirect_getItemIndex(solution->solutions.indirect, j);
@@ -126,19 +130,23 @@ Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Move
 
 int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
 {
+    if(tabou == NULL)
+        return false;
 	for(int i = 0; i < MIN(max, *tabouChanges); i++)
 		if(movement_equals(tabou[i], movement))
 			return true;
 	return false;
 }
 
-void movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
+Movement ** movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
 {
 	if(*tabouChanges < max)
-		RREALLOC(tabou, Movement *, *tabouChanges + 1, "movement_appendTabou");
+		RREALLOC(tabou, Movement *, (*tabouChanges) + 1, "movement_appendTabou");
 
 	tabou[(*tabouChanges) % max] = movement;
 	(*tabouChanges)++;
+
+	return tabou;
 }
 
 void movement_applyMovement(Solution * solution, Movement * movement)
