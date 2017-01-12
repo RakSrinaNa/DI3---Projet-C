@@ -5,6 +5,8 @@
 #include "solutionIndirect.h"
 #include "parser.h"
 #include "utils.h"
+#include "bag.h"
+#include "instance.h"
 
 void solutionIndirectTests(void)
 {
@@ -70,7 +72,12 @@ void solutionIndirectTests(void)
 	if(remove(filename) != 0)
 		perror("ERROR REMOVE SOLUTIONINDIRECT UNIT");
 	
+	SolutionIndirect * dup = solutionIndirect_duplicate(solution);
+	if(dup == NULL || dup->instance != solution->instance || solution->bag->itemsCount != dup->bag->itemsCount || !unit_arrayEquals(solution->bag->weights, dup->bag->weights, instance->dimensionsNumber) || !unit_arrayEquals(solution->bag->items, dup->bag->items, solution->bag->itemsCount))
+		unit_error("ASSERT SOLUTIONINDIRECT 5");
+	
 	solutionIndirect_destroy(solution);
+	solutionIndirect_destroy(dup);
 	instance_destroy(instance);
 	free(instance);
 }

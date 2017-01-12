@@ -4,6 +4,7 @@
 #include "solutionDirectUnit.h"
 #include "solutionDirect.h"
 #include "parser.h"
+#include "instance.h"
 
 void solutionDirectTests(void)
 {
@@ -48,5 +49,10 @@ void solutionDirectTests(void)
 		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");
 	if(!unit_arrayEquals(itemsTaken, solution->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT SOLUTIONDIRECT 7");
-	free(itemsTaken);
+	SolutionDirect * dup = solutionDirect_duplicate(solution);
+	if(dup == NULL || dup->instance != solution->instance || !unit_arrayEquals(solution->itemsTaken, dup->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT SOLUTIONDIRECT 8");
+	solutionDirect_destroy(solution);
+	solutionDirect_destroy(dup);
+	instance_destroy(instance);
 }
