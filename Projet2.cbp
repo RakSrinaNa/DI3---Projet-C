@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-std=c99" />
 					<Add option="-g" />
+					<Add option="-Werror" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -30,6 +31,7 @@
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
 					<Add option="-std=c99" />
+					<Add option="-Werror" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -44,113 +46,113 @@
 		<Unit filename="src/bag.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/bag.h" />
-		<Unit filename="src/bagUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/bagUnit.h" />
+		<Unit filename="src/headers/bag.h" />
+		<Unit filename="src/headers/heuristic.h" />
+		<Unit filename="src/headers/instance.h" />
+		<Unit filename="src/headers/item.h" />
+		<Unit filename="src/headers/mainKergosien.h" />
+		<Unit filename="src/headers/metaheuristicLocal.h" />
+		<Unit filename="src/headers/metaheuristicTabou.h" />
+		<Unit filename="src/headers/parser.h" />
+		<Unit filename="src/headers/scheduler.h" />
+		<Unit filename="src/headers/solution.h" />
+		<Unit filename="src/headers/solutionDirect.h" />
+		<Unit filename="src/headers/solutionIndirect.h" />
+		<Unit filename="src/headers/utils.h" />
 		<Unit filename="src/heuristic.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/heuristic.h" />
-		<Unit filename="src/heuristicUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/heuristicUnit.h" />
 		<Unit filename="src/instance.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/instance.h" />
-		<Unit filename="src/instanceUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/instanceUnit.h" />
 		<Unit filename="src/item.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/item.h" />
-		<Unit filename="src/itemUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/itemUnit.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/mainKergosien.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/mainKergosien.h" />
-		<Unit filename="src/mainUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/mainUnit.h" />
-		<Unit filename="src/metaheuristic.h" />
 		<Unit filename="src/metaheuristicLocal.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/metaheuristicLocal.h" />
-		<Unit filename="src/metaheuristicLocalUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/metaheuristicLocalUnit.h" />
 		<Unit filename="src/metaheuristicTabou.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/metaheuristicTabou.h" />
-		<Unit filename="src/metaheuristicTabouUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/metaheuristicTabouUnit.h" />
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/parser.h" />
-		<Unit filename="src/parserUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/parserUnit.h" />
 		<Unit filename="src/scheduler.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/scheduler.h" />
-		<Unit filename="src/schedulerUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/schedulerUnit.h" />
 		<Unit filename="src/solution.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/solution.h" />
 		<Unit filename="src/solutionDirect.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/solutionDirect.h" />
-		<Unit filename="src/solutionDirectUnit.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/solutionDirectUnit.h" />
 		<Unit filename="src/solutionIndirect.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/solutionIndirect.h" />
-		<Unit filename="src/solutionIndirectUnit.c">
+		<Unit filename="src/unit/bagUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/solutionIndirectUnit.h" />
-		<Unit filename="src/solutionUnit.c">
+		<Unit filename="src/unit/headers/bagUnit.h" />
+		<Unit filename="src/unit/headers/heuristicUnit.h" />
+		<Unit filename="src/unit/headers/instanceUnit.h" />
+		<Unit filename="src/unit/headers/itemUnit.h" />
+		<Unit filename="src/unit/headers/mainUnit.h" />
+		<Unit filename="src/unit/headers/metaheuristicLocalUnit.h" />
+		<Unit filename="src/unit/headers/metaheuristicTabouUnit.h" />
+		<Unit filename="src/unit/headers/parserUnit.h" />
+		<Unit filename="src/unit/headers/schedulerUnit.h" />
+		<Unit filename="src/unit/headers/solutionDirectUnit.h" />
+		<Unit filename="src/unit/headers/solutionIndirectUnit.h" />
+		<Unit filename="src/unit/headers/solutionUnit.h" />
+		<Unit filename="src/unit/headers/unit.h" />
+		<Unit filename="src/unit/heuristicUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/solutionUnit.h" />
-		<Unit filename="src/unit.c">
+		<Unit filename="src/unit/instanceUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/unit.h" />
-		<Unit filename="src/utils.h" />
+		<Unit filename="src/unit/itemUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/mainUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/metaheuristicLocalUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/metaheuristicTabouUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/parserUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/schedulerUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/solutionDirectUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/solutionIndirectUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/solutionUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/unit.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
 			<debugger />
 			<lib_finder disable_auto="1" />
+			<editor_config active="1" use_tabs="1" tab_indents="1" tab_width="4" indent="4" eol_mode="0" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
