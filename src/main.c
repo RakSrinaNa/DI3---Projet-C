@@ -4,7 +4,6 @@
 #include "headers/mainKergosien.h"
 #include "headers/parser.h"
 #include "headers/solution.h"
-#include "headers/heuristic.h"
 #include "headers/metaheuristicTabou.h"
 
 int main(int argc, char * argv[])
@@ -28,18 +27,18 @@ int main(int argc, char * argv[])
 		}
 		else if(strcmp(argv[1], "temp") == 0)
 		{
-		    Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
-            Instance * instance;
-            while((instance = parser_getNextInstance(parser)) != NULL)
-            {
-                Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 50, 1);
-                solutionIndirect_print(solution->solutions.indirect);
-                solution_destroy(solution);
-                instance_destroy(instance);
-            }
-            parser_destroy(parser);
+			Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
+			Instance * instance;
+			while((instance = parser_getNextInstance(parser)) != NULL)
+			{
+				Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 50, 1);
+				solutionIndirect_print(solution->solutions.indirect);
+				solution_destroy(solution);
+				instance_destroy(instance);
+			}
+			parser_destroy(parser);
 		}
 	}
-
+	
 	return 0;
 }

@@ -5,8 +5,6 @@
 #include "../headers/metaheuristicTabou.h"
 #include "headers/unit.h"
 #include "../headers/parser.h"
-#include "../headers/solution.h"
-#include "../headers/instance.h"
 
 void metaheuristicTabouTests()
 {

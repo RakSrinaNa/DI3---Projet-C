@@ -4,9 +4,6 @@
 #include "headers/solutionIndirectUnit.h"
 #include "../headers/solutionIndirect.h"
 #include "../headers/parser.h"
-#include "../headers/utils.h"
-#include "../headers/bag.h"
-#include "../headers/instance.h"
 
 void solutionIndirectTests(void)
 {

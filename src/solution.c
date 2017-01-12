@@ -55,11 +55,11 @@ Solution * solution_duplicate(Solution * solution)
 		case DIRECT:
 			newSolution->solutions.direct = solutionDirect_duplicate(solution->solutions.direct);
 			break;
-
+		
 		case INDIRECT:
 			newSolution->solutions.indirect = solutionIndirect_duplicate(solution->solutions.indirect);
 			break;
-
+		
 		default:
 			perror("Unknown solutionType solution_duplicate");
 			exit(EXIT_FAILURE);
@@ -69,8 +69,8 @@ Solution * solution_duplicate(Solution * solution)
 
 void solution_destroy(Solution * solution)
 {
-    if (solution == NULL)
-        return;
+	if(solution == NULL)
+		return;
 	switch(solution->type)
 	{
 		case DIRECT:

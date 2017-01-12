@@ -3,9 +3,7 @@
 #include "../headers/metaheuristicLocal.h"
 #include "../headers/parser.h"
 #include "../headers/utils.h"
-#include "../headers/solution.h"
 #include "headers/unit.h"
-#include "../headers/instance.h"
 
 void metaheuristicLocalTests()
 {
@@ -128,7 +126,7 @@ void metaheuristicLocalSearchTests()
 {
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Solution * solution = metaheuristicLocal_search(instance, DIRECT, 0, 1);
-
+	
 	if(solution_evaluate(solution) != 80 || solutionDirect_isItemTaken(solution->solutions.direct, 0) != 0 || solutionDirect_isItemTaken(solution->solutions.direct, 1) != 1 || solutionDirect_isItemTaken(solution->solutions.direct, 2) != 0)
 		unit_error("ASSERT metaheuristicLocalSearchTests 1");
 	solution_destroy(solution);

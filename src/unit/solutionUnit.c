@@ -4,8 +4,6 @@
 #include "../headers/utils.h"
 #include "../headers/parser.h"
 #include "headers/unit.h"
-#include "../headers/instance.h"
-#include "../headers/bag.h"
 
 void solutionTests()
 {

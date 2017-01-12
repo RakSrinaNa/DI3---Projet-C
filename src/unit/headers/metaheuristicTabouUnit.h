@@ -2,6 +2,7 @@
 #define METAHEURISTICTABOU_UNIT
 
 void metaheuristicTabouTests();
+
 void movementTests();
 
 #endif

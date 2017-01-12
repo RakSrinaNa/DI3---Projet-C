@@ -134,7 +134,7 @@ void schedulerTests()
 void schedulerSortArrayTests()
 {
 	int correctIndexesList[] = {2, 5, 6, 4, 9, 8, 1, 0, 3, 7};
-	int indexes[] = {0, 1, 2, 3, 4, 5 ,6 ,7 ,8, 9};
+	int indexes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	double values[] = {1, 1.5, 9, 0.1, 4, 8, 8, 0.1, 2, 3};
 	scheduler_sortArray(indexes, values, 10);
 	if(!unit_arrayEquals(correctIndexesList, indexes, 10))
