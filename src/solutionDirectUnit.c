@@ -44,6 +44,7 @@ void solutionDirectTests(void)
 	char * line = parser_readLine(file);
 	if(score != atoi(line))
 		unit_error("ASSERT SOLUTIONDIRECT 6");
+	free(line);
 	line = parser_readLine(file);
 	int * itemsTaken = parser_lineToIntArray(line, instance->itemsCount);
 	free(line);
