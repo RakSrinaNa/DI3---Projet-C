@@ -88,7 +88,7 @@ void parser_readInstance(FILE * file, Instance * instance)
 	instance_initialize(instance, lineNumbers[0], lineNumbers[1]); // Initialize the instance with the number of items and dimensions
 	free(lineNumbers);
 
-	parser_readLine(file); // Read line to skip it, we don't use it for now
+	free(parser_readLine(file)); // Read line to skip it, we don't use it for now
 
 	line = parser_readLine(file); // Read line of values
 	lineNumbers = parser_lineToIntArray(line, instance->itemsCount);
