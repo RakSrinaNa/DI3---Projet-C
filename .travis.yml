@@ -2,6 +2,7 @@ language: c
 compiler: gcc
 install:
   - sudo apt-get install valgrind
+  - chmod +x valgrind
 script: make test
 notifications:
   email: true

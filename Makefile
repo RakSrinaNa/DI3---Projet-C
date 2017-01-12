@@ -18,4 +18,4 @@ clall:
 	-rm $(EXEC) && cd $(SRC_DIR) && $(MAKE) $@
 
 test: all
-	./$(EXEC) test && valgrind --track-origins=yes --error-exitcode=50 ./$(EXEC) test
+	./$(EXEC) test && ./valgrind --track-origins=yes --show-leak-kinds=all --leak-check=full --error-exitcode=50 ./$(EXEC) test
