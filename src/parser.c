@@ -69,7 +69,9 @@ Instance * parser_readAllFile(char * fileName)
 		exit(EXIT_FAILURE);
 	}
 
-	int instancesNumber = atoi(parser_readLine(file)); // Read number of instances
+	char * line = parser_readLine(file);
+	int instancesNumber = atoi(line); // Read number of instances
+	free(line);
 	Instance * instances;
 	MMALLOC(instances, Instance, 1, "parser_readAllFiles");
 

@@ -43,7 +43,9 @@ void solutionDirectTests(void)
 	}
 	if(score != atoi(parser_readLine(file)))
 		unit_error("ASSERT SOLUTIONDIRECT 6");
-	int * itemsTaken = parser_lineToIntArray(parser_readLine(file), instance->itemsCount);
+	char * line = parser_readLine(file);
+	int * itemsTaken = parser_lineToIntArray(line, instance->itemsCount);
+	free(line);
 	fclose(file);
 	if(remove(filename) != 0)
 		perror("ERROR REMOVE SOLUTIONDIRECT UNIT");

@@ -58,14 +58,16 @@ void solutionIndirectTests(void)
 		exit(EXIT_FAILURE);
 	}
 	if(solutionIndirect_evaluate(solution) != atoi(parser_readLine(file)))
-		unit_error("ASSERT SOLUTIONDIRECT 3");
-	int * itemOrder = parser_lineToIntArray(parser_readLine(file), solution->instance->itemsCount);
+		unit_error("ASSERT SOLUTIONINDIRECT 4");
+	char * line = parser_readLine(file);
+	int * itemOrder = parser_lineToIntArray(line, solution->instance->itemsCount);
+	free(line);
 	for(int i = 0; i < instance->itemsCount; i++)
 		if(solutionIndirect_getItemIndex(solution, i) != itemOrder[i])
 		{
 			if(remove(filename) != 0)
 				perror("ERROR REMOVE SOLUTIONINDIRECT UNIT");
-			unit_error("ASSERT SOLUTIONINDIRECT 4");
+			unit_error("ASSERT SOLUTIONINDIRECT 5");
 		}
 	free(itemOrder); // Bag content (next line) should have already been verified in bagUnit
 	fclose(file);
@@ -79,5 +81,4 @@ void solutionIndirectTests(void)
 	solutionIndirect_destroy(solution);
 	solutionIndirect_destroy(dup);
 	instance_destroy(instance);
-	free(instance);
 }
