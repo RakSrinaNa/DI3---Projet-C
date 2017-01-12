@@ -129,7 +129,6 @@ void schedulerTests()
 	free(valueList);
 	
 	instance_destroy(instance);
-	free(instance);
 }
 
 void schedulerSortArrayTests()

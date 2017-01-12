@@ -33,12 +33,12 @@ void parserTests(void)
 	}
 	
 	instance_destroy(instance);
+	instance_destroy(instance1);
 	
 	if(parser_getNextInstance(parser) != NULL)
 		unit_error("ASSERT PARSER 8");
 	
 	parser_destroy(parser);
-	free(instance);
 }
 
 void parserTestLineToIntArray()

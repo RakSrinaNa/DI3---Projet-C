@@ -70,5 +70,4 @@ void heuristicTests()
 	solution_destroy(solution);
 	
 	instance_destroy(instance);
-	free(instance);
 }
