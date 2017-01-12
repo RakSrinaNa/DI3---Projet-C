@@ -23,7 +23,6 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 	{
 		Solution * bestNeighbourSolution = NULL;
 		int scoreBestNeighbour = 0;
-		int bestNeighbourIndex = -1;
 
 		int neighboursCount = 0;
 		Solution ** allNeighbours = metaheuristicLocal_getNeighbours(currentSolution, searchOperator, &neighboursCount);
@@ -33,7 +32,6 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 			if(solution_evaluate(allNeighbours[i]) > scoreBestNeighbour)
 			{
 				bestNeighbourSolution = solution_duplicate(allNeighbours[i]);
-				bestNeighbourIndex = i;
 				scoreBestNeighbour = solution_evaluate(allNeighbours[i]);
 			}
 		}
