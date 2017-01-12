@@ -13,6 +13,7 @@ void solutionTests()
 	
 	Solution * solution;
 	MMALLOC(solution, Solution, 1, NULL);
+	solution->instance = instance;
 	solution->type = INDIRECT;
 	solution->solveTime = 2.2;
 	solution->solutions.indirect = solutionIndirect_create(instance);
