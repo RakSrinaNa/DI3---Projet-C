@@ -27,8 +27,12 @@ void solutionTests()
 		unit_error("ASSERT SOLUTION 2");
 	
 	Solution * dup = solution_duplicate(solution);
-	if(dup == NULL || solution->instance != dup->instance || solution->type != dup->type || solution->solveTime != dup->solveTime || solution->solutions.indirect->instance != dup->solutions.indirect->instance || !unit_arrayEquals(solution->solutions.indirect->itemsOrder, dup->solutions.indirect->itemsOrder, instance->itemsCount) || solution->solutions.indirect->bag->itemsCount != dup->solutions.indirect->bag->itemsCount || !unit_arrayEquals(solution->solutions.indirect->bag->items, dup->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount) || !unit_arrayEquals(solution->solutions.indirect->bag->weights, dup->solutions.indirect->bag->weights, instance->dimensionsNumber))
+	if(dup == NULL || solution->instance != dup->instance || solution->type != dup->type || solution->solveTime != dup->solveTime)
 		unit_error("ASSERT SOLUTION 3");
+	if(solution->solutions.indirect->instance != dup->solutions.indirect->instance || !unit_arrayEquals(solution->solutions.indirect->itemsOrder, dup->solutions.indirect->itemsOrder, instance->itemsCount))
+		unit_error("ASSERT SOLUTION 4");
+	if(solution->solutions.indirect->bag->itemsCount != dup->solutions.indirect->bag->itemsCount || !unit_arrayEquals(solution->solutions.indirect->bag->items, dup->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount) || !unit_arrayEquals(solution->solutions.indirect->bag->weights, dup->solutions.indirect->bag->weights, instance->dimensionsNumber))
+		unit_error("ASSERT SOLUTION 5");
 	
 	solution_destroy(solution);
 	solution_destroy(dup);
