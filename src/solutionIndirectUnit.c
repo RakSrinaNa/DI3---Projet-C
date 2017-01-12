@@ -57,9 +57,11 @@ void solutionIndirectTests(void)
 		perror("ERROR FOPEN SOLUTIONINDIRECT UNIT");
 		exit(EXIT_FAILURE);
 	}
-	if(solutionIndirect_evaluate(solution) != atoi(parser_readLine(file)))
-		unit_error("ASSERT SOLUTIONINDIRECT 4");
 	char * line = parser_readLine(file);
+	if(solutionIndirect_evaluate(solution) != atoi(line))
+		unit_error("ASSERT SOLUTIONINDIRECT 4");
+	free(line);
+	line = parser_readLine(file);
 	int * itemOrder = parser_lineToIntArray(line, solution->instance->itemsCount);
 	free(line);
 	for(int i = 0; i < instance->itemsCount; i++)

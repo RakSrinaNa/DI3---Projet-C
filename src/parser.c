@@ -19,7 +19,9 @@ Parser * parser_create(char * filename)
 		exit(EXIT_FAILURE);
 	}
 
-	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
+	char * line = parser_readLine(file);
+	parser->instanceCount = atoi(line); // Read number of instances
+	free(line);
 	if(fgetpos(file, &(parser->offset)) != 0)
 	{
 		perror("ERROR FGETPOS parser_create");

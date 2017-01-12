@@ -45,7 +45,9 @@ void bagTests()
 	}
 	bag_saveItems(bag, file);
 	fseek(file, 0, SEEK_SET);
-	int * bagItems = parser_lineToIntArray(parser_readLine(file), bag->itemsCount);
+	char * line = parser_readLine(file);
+	int * bagItems = parser_lineToIntArray(line, bag->itemsCount);
+	free(line);
 	fclose(file);
 	if(remove(filename) != 0)
 		perror("ERROR REMOVE BAG UNIT");
