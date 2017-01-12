@@ -10,7 +10,7 @@
 
 void mainKergosien()
 {
-    mkdir("Solutions");
+    mkdir("Solutions", S_IRWXU | S_IRWXG | S_IRWXO);
 
 	char dirName[] = "./MKP-Instances";
 	char filePath[200];

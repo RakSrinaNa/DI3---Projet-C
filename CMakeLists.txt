@@ -31,6 +31,7 @@ set(SOURCE_FILES
         src/solutionIndirectUnit.c src/solutionIndirectUnit.h
 
         src/solution.c src/solution.h
+        src/solutionUnit.c src/solutionUnit.h
 
         src/heuristic.c src/heuristic.h
         src/heuristicUnit.c src/heuristicUnit.h

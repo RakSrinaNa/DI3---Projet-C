@@ -9,6 +9,7 @@
 #include "schedulerUnit.h"
 #include "heuristicUnit.h"
 #include "metaheuristicLocalUnit.h"
+#include "solutionUnit.h"
 
 int mainUnit()
 {
@@ -29,6 +30,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing solutionIndirect tests...");
 	solutionIndirectTests();
+	printf("OK\n");
+	printf("Executing solution tests...");
+	solutionTests();
 	printf("OK\n");
 	printf("Executing scheduler tests...");
 	schedulerTests();
