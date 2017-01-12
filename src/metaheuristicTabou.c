@@ -19,9 +19,9 @@ int movement_equals(Movement * m1, Movement * m2)
 Solution * metaheuristicTablou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration)
 {
 	Solution * currentSolution = heuristic(instance, solutionType, 5);
-	Solution * bestSolution = currentSolution;
+	Solution * bestSolution = solution_duplicate(currentSolution);
 
-	int scoreBest = solution_evaluate(currentSolution);
+	int scoreBest = solution_evaluate(bestSolution);
 
     Movement ** tabou = NULL;
     int tabouChanges = 0;
@@ -49,34 +49,34 @@ Solution * metaheuristicTablou_search(Instance * instance, SolutionType solution
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBestNeighbour)
 					{
-						bestNeighbourSolution = neighbourSolution;
+					    solution_destroy(bestNeighbourSolution);
+						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
-					else
-                    {
-                        solution_destroy(neighbourSolution);
-                    }
+                    solution_destroy(neighbourSolution);
+
 				}
 				else
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBest)
 					{
-						bestNeighbourSolution = neighbourSolution;
+					    solution_destroy(bestNeighbourSolution);
+						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
-					else
-                    {
-                        solution_destroy(neighbourSolution);
-                    }
+                    solution_destroy(neighbourSolution);
+
 				}
 			}
 		}
 
 		int scoreCurrent = scoreBestNeighbour;
 
-		currentSolution = bestNeighbourSolution;
+		solution_destroy(currentSolution);
+		currentSolution = solution_duplicate(bestNeighbourSolution);
+		solution_destroy(bestNeighbourSolution);
 		movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
 
 		if(scoreCurrent > scoreBest)
