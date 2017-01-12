@@ -10,6 +10,7 @@
 #include "heuristicUnit.h"
 #include "metaheuristicLocalUnit.h"
 #include "solutionUnit.h"
+#include "metaheuristicTabouUnit.h"
 
 int mainUnit()
 {
@@ -42,6 +43,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing metaheuristicLocal tests...");
 	metaheuristicLocalTests();
+	printf("OK\n");
+	printf("Executing metaheuristicTabou tests...");
+	metaheuristicTabouTests();
 	printf("OK\n");
 	return 0;
 }
