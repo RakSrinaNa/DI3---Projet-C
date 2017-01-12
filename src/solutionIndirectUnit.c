@@ -13,24 +13,21 @@ void solutionIndirectTests(void)
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag.txt");
 	SolutionIndirect * solution = solutionIndirect_create(instance);
 	
-	int * order;
-	MMALLOC(order, int, instance->itemsCount, NULL);
-	order[0] = 0;
-	order[1] = 1;
-	order[2] = 2;
-	order[3] = 3;
-	order[4] = 4;
-	order[5] = 5;
-	order[6] = 6;
-	order[7] = 7;
-	order[8] = 8;
-	order[9] = 9;
-	order[10] = 10;
-	order[11] = 11;
-	order[12] = 12;
-	order[13] = 13;
-	order[14] = 14;
-	solution->itemsOrder = order;
+	solution->itemsOrder[0] = 0;
+	solution->itemsOrder[1] = 1;
+	solution->itemsOrder[2] = 2;
+	solution->itemsOrder[3] = 3;
+	solution->itemsOrder[4] = 4;
+	solution->itemsOrder[5] = 5;
+	solution->itemsOrder[6] = 6;
+	solution->itemsOrder[7] = 7;
+	solution->itemsOrder[8] = 8;
+	solution->itemsOrder[9] = 9;
+	solution->itemsOrder[10] = 10;
+	solution->itemsOrder[11] = 11;
+	solution->itemsOrder[12] = 12;
+	solution->itemsOrder[13] = 13;
+	solution->itemsOrder[14] = 14;
 	
 	solutionIndirect_decode(solution);
 	if(solutionIndirect_doable(solution) != 1)
