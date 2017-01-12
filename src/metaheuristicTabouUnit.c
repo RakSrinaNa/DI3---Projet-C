@@ -30,11 +30,6 @@ void movementTests()
 	free(m1);
 	
 	int correctOrder[3] = {2, 1, 0};
-	int * itemOrder;
-	MMALLOC(itemOrder, int, 3, NULL);
-	itemOrder[0] = 0;
-	itemOrder[1] = 1;
-	itemOrder[2] = 2;
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Solution * solution;
 	MMALLOC(solution, Solution, 1, NULL);
@@ -42,7 +37,9 @@ void movementTests()
 	solution->type = INDIRECT;
 	solution->solveTime = 0;
 	solution->solutions.indirect = solutionIndirect_create(instance);
-	solution->solutions.indirect->itemsOrder = itemOrder;
+	solution->solutions.indirect->itemsOrder[0] = 0;
+	solution->solutions.indirect->itemsOrder[1] = 1;
+	solution->solutions.indirect->itemsOrder[2] = 2;
 	m2->a = 0;
 	m2->b = 2;
 	
