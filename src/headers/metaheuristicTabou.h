@@ -17,7 +17,7 @@ int movement_equals(Movement * m1, Movement * m2);
 Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration);
 
 //TODO
-Movement ** movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement);
+void movement_appendTabou(Movement *** tabouPtr, int max, int * tabouChanges, Movement * movement);
 
 //TODO
 int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement);

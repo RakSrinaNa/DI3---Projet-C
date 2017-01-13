@@ -5,4 +5,6 @@ void metaheuristicTabouTests();
 
 void movementTests();
 
+void movementAppendTabouTests();
+
 #endif

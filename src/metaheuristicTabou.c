@@ -76,7 +76,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 			currentSolution = solution_duplicate(bestNeighbourSolution);
 		}
 		solution_destroy(bestNeighbourSolution);
-		tabou = movement_appendTabou(tabou, tabouMax, &tabouChanges, usefulMovement);
+		movement_appendTabou(&tabou, tabouMax, &tabouChanges, usefulMovement);
 		
 		if(scoreCurrent > scoreBest)
 		{
@@ -133,8 +133,9 @@ int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, M
 	return false;
 }
 
-Movement ** movement_appendTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
+void movement_appendTabou(Movement *** tabouPtr, int max, int * tabouChanges, Movement * movement)
 {
+	Movement ** tabou = *tabouPtr;
 	if(*tabouChanges < max)
 	{
 		RREALLOC(tabou, Movement *, (*tabouChanges) + 1, "movement_appendTabou");
@@ -143,7 +144,7 @@ Movement ** movement_appendTabou(Movement ** tabou, int max, int * tabouChanges,
 	tabou[(*tabouChanges) % max] = movement;
 	(*tabouChanges)++;
 	
-	return tabou;
+	*tabouPtr = tabou;
 }
 
 void movement_applyMovement(Solution * solution, Movement * movement)
