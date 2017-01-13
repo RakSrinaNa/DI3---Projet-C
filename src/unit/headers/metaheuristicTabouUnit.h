@@ -11,4 +11,6 @@ void metaheuristicTabouGetMovementsTest();
 
 void metaheuristicTabouGetMovementsTests();
 
+void metaheuristicTabouSearchTests();
+
 #endif

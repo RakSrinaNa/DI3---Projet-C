@@ -5,6 +5,7 @@
 #include "../headers/parser.h"
 #include "../headers/solution.h"
 #include "../headers/instance.h"
+#include "../headers/bag.h"
 
 void metaheuristicTabouTests()
 {
@@ -12,6 +13,7 @@ void metaheuristicTabouTests()
 	movementTabouTests();
 	metaheuristicTabouGetMovementsTest();
 	metaheuristicTabouGetMovementsTests();
+	metaheuristicTabouSearchTests();
 }
 
 void movementTests()
@@ -161,6 +163,22 @@ void metaheuristicTabouGetMovementsTests()
 	for(int i = 0; i < count; i++)
 		free(movements[i]);
 	free(movements);
+	solution_destroy(solution);
+	instance_destroy(instance);
+}
+
+void metaheuristicTabouSearchTests()
+{
+	int correctItems[2][2] = {{0, 2}, {2, 0}};
+	
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 5, 1);
+	
+	if(solution == NULL || solution->solveTime == 0 || solution->instance != instance || solution->type != INDIRECT)
+		unit_error("ASSERT metaheuristicTabouSearchTests 1");
+	if(solution->solutions.indirect->bag->itemsCount != 2 || !(unit_arrayEquals(correctItems[0], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount) || unit_arrayEquals(correctItems[1], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount)))
+		unit_error("ASSERT metaheuristicTabouSearchTests 2");
+	
 	solution_destroy(solution);
 	instance_destroy(instance);
 }
