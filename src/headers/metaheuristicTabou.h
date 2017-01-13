@@ -20,7 +20,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 void movement_appendTabou(Movement *** tabouPtr, int max, int * tabouChanges, Movement * movement);
 
 //TODO
-int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement);
+int metaheuristicTabou_isTabou(Movement ** tabou, int max, int tabouChanges, Movement * movement);
 
 //TODO
 Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Movement * movement);

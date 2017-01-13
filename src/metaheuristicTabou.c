@@ -39,11 +39,11 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 		
 		for(int j = 0; j < movementsCount; j++)
 		{
-			if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]) || aspiration)
+			if(!metaheuristicTabou_isTabou(tabou, tabouMax, tabouChanges, movementsPossible[j]) || aspiration)
 			{
 				Solution * neighbourSolution = metaheuristicTabou_getNeighbourFromMovement(currentSolution, movementsPossible[j]);
 				
-				if(!metaheuristicTabou_isTabou(tabou, tabouMax, &tabouChanges, movementsPossible[j]))
+				if(!metaheuristicTabou_isTabou(tabou, tabouMax, tabouChanges, movementsPossible[j]))
 				{
 					if(solution_evaluate(neighbourSolution) > scoreBestNeighbour)
 					{
@@ -123,11 +123,11 @@ Solution * metaheuristicTabou_getNeighbourFromMovement(Solution * solution, Move
 	return newSolution;
 }
 
-int metaheuristicTabou_isTabou(Movement ** tabou, int max, int * tabouChanges, Movement * movement)
+int metaheuristicTabou_isTabou(Movement ** tabou, int max, int tabouChanges, Movement * movement)
 {
 	if(tabou == NULL)
 		return false;
-	for(int i = 0; i < MIN(max, *tabouChanges); i++)
+	for(int i = 0; i < MIN(max, tabouChanges); i++)
 		if(movement_equals(tabou[i], movement))
 			return true;
 	return false;

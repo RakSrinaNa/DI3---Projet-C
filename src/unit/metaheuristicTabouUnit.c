@@ -9,7 +9,7 @@
 void metaheuristicTabouTests()
 {
 	movementTests();
-	movementAppendTabouTests();
+	movementTabouTests();
 }
 
 void movementTests()
@@ -52,7 +52,7 @@ void movementTests()
 	free(m2);
 }
 
-void movementAppendTabouTests()
+void movementTabouTests()
 {
 	int changes = 0;
 	int max = 2;
@@ -60,23 +60,41 @@ void movementAppendTabouTests()
 	
 	Movement  * m1;
 	MMALLOC(m1, Movement, 1, NULL);
+	m1->a = 4;
+	m1->b = 5;
 	movement_appendTabou(&movements, max, &changes, m1);
 	if(changes != 1 || movements[0] != m1)
-		unit_error("ASSERT movementAppendTabouTests 1");
+		unit_error("ASSERT movementTabouTests 1");
 	
 	Movement  * m2;
 	MMALLOC(m2, Movement, 1, NULL);
+	m2->a = 5;
+	m2->b = 6;
 	movement_appendTabou(&movements, max, &changes, m2);
 	if(changes != 2 || movements[0] != m1 || movements[1] != m2)
-		unit_error("ASSERT movementAppendTabouTests 2");
+		unit_error("ASSERT movementTabouTests 2");
 	
 	Movement  * m3;
 	MMALLOC(m3, Movement, 1, NULL);
+	m3->a = 6;
+	m3->b = 7;
 	movement_appendTabou(&movements, max, &changes, m3);
 	if(changes != 3 || movements[0] != m3 || movements[1] != m2)
-		unit_error("ASSERT movementAppendTabouTests 3");
+		unit_error("ASSERT movementTabouTests 3");
 	
+	Movement  * m4;
+	MMALLOC(m4, Movement, 1, NULL);
+	m4->a = 7;
+	m4->b = 6;
 	
+	if(metaheuristicTabou_isTabou(movements, max, changes, m4) != 1)
+		unit_error("ASSERT movementTabouTests 4");
+	
+	m4->a = 10;
+	if(metaheuristicTabou_isTabou(movements, max, changes, m4) != 0)
+		unit_error("ASSERT movementTabouTests 4");
+	
+	free(m4);
 	for(int i = 0; i < MIN(max, changes); i++)
 		free(movements[i]);
 	free(movements);
