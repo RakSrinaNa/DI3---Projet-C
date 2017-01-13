@@ -25,11 +25,11 @@ void movementTests()
 	
 	Movement * m2 = movement_duplicate(m1);
 	if(movement_equals(m1, m2) != 1)
-		unit_error("ASSERT MOVEMENT 1");
+		unit_error("ASSERT movementTests 1");
 	m2->a = 15;
 	m2->b = 9;
 	if(movement_equals(m1, m2) != 1)
-		unit_error("ASSERT MOVEMENT 2");
+		unit_error("ASSERT movementTests 2");
 	free(m1);
 	
 	int correctOrder[3] = {2, 1, 0};
@@ -49,7 +49,20 @@ void movementTests()
 	movement_applyMovement(solution, m2);
 	
 	if(!unit_arrayEquals(correctOrder, solution->solutions.indirect->itemsOrder, instance->itemsCount))
-		unit_error("ASSERT MOVEMENT 3");
+		unit_error("ASSERT movementTests 3");
+	
+	solution_destroy(solution);
+	int correctTaken[] = {0, 0, 1};
+	MMALLOC(solution, Solution, 1, NULL);
+	solution->instance = instance;
+	solution->type = DIRECT;
+	solution->solveTime = 0;
+	solution->solutions.direct = solutionDirect_create(instance);
+	solution->solutions.direct->itemsTaken[0] = 1;
+	
+	movement_applyMovement(solution, m1);
+	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT movementTests 4");
 	
 	solution_destroy(solution);
 	instance_destroy(instance);
