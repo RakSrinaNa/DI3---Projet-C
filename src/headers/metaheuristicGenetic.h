@@ -1,16 +1,29 @@
 #ifndef METAHEURISTICGENETIC
 #define METAHEURISTICGENETIC
 
+#include "solution.h"
+
+typedef struct
+{
+	Solution ** persons;
+	int maxSize;
+	int size;
+} Population;
+
 Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations);
 
-Solution ** metaheuristicGenetic_firstPopulation(Instance * instance, SolutionType SolutionType, int populationMaxSize);
+Population * population_create(int populationMaxSize);
 
-Solution * metaheuristicGenetic_bestFromPopulation(Solution ** population, int populationMaxSize);
+void population_append(Population * population, Solution * people);
 
-void metaheuristicGenetic_selectParents(Solution ** population, int populationMaxSize, Solution * parent1, Solution * parent2, int style);
+void population_destroy(Population * population);
 
-void metaheuristicGenetic_selectParentsFight(Solution ** population, int populationMaxSize, Solution * parent1, Solution * parent2);
+Solution * metaheuristicGenetic_bestFromPopulation(Population * population);
 
-void metaheuristicGenetic_selectParentsRoulette(Solution ** population, int populationMaxSize, Solution * parent1, Solution * parent2);
+void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style);
+
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2);
+
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2);
 
 #endif
