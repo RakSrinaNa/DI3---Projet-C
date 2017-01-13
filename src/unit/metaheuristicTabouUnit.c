@@ -3,9 +3,6 @@
 #include "../headers/metaheuristicTabou.h"
 #include "headers/unit.h"
 #include "../headers/parser.h"
-#include "../headers/solution.h"
-#include "../headers/instance.h"
-#include "../headers/bag.h"
 
 void metaheuristicTabouTests()
 {
@@ -89,7 +86,7 @@ void movementTabouTests()
 	int max = 2;
 	Movement ** movements = NULL;
 	
-	Movement  * m1;
+	Movement * m1;
 	MMALLOC(m1, Movement, 1, NULL);
 	m1->a = 4;
 	m1->b = 5;
@@ -97,7 +94,7 @@ void movementTabouTests()
 	if(changes != 1 || movements[0] != m1)
 		unit_error("ASSERT movementTabouTests 1");
 	
-	Movement  * m2;
+	Movement * m2;
 	MMALLOC(m2, Movement, 1, NULL);
 	m2->a = 5;
 	m2->b = 6;
@@ -105,7 +102,7 @@ void movementTabouTests()
 	if(changes != 2 || movements[0] != m1 || movements[1] != m2)
 		unit_error("ASSERT movementTabouTests 2");
 	
-	Movement  * m3;
+	Movement * m3;
 	MMALLOC(m3, Movement, 1, NULL);
 	m3->a = 6;
 	m3->b = 7;
@@ -113,7 +110,7 @@ void movementTabouTests()
 	if(changes != 3 || movements[0] != m3 || movements[1] != m2)
 		unit_error("ASSERT movementTabouTests 3");
 	
-	Movement  * m4;
+	Movement * m4;
 	MMALLOC(m4, Movement, 1, NULL);
 	m4->a = 7;
 	m4->b = 6;
@@ -145,7 +142,7 @@ void metaheuristicTabouGetMovementsTest()
 	solution->solutions.indirect->itemsOrder[1] = 1;
 	solution->solutions.indirect->itemsOrder[2] = 2;
 	
-	Movement  * m1;
+	Movement * m1;
 	MMALLOC(m1, Movement, 1, NULL);
 	m1->a = 1;
 	m1->b = 2;
@@ -173,7 +170,7 @@ void metaheuristicTabouGetMovementsTests()
 	solution->solutions.indirect->itemsOrder[0] = 0;
 	solution->solutions.indirect->itemsOrder[1] = 1;
 	solution->solutions.indirect->itemsOrder[2] = 2;
-	Movement  * m1;
+	Movement * m1;
 	MMALLOC(m1, Movement, 1, NULL);
 	
 	int count;
@@ -185,7 +182,7 @@ void metaheuristicTabouGetMovementsTests()
 		m1->a = correctSolutions[i][0];
 		m1->b = correctSolutions[i][1];
 	}
-		
+	
 	free(m1);
 	for(int i = 0; i < count; i++)
 		free(movements[i]);

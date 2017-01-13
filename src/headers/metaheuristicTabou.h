@@ -10,7 +10,8 @@ typedef struct
 	int b;
 } Movement;
 
-typedef struct {
+typedef struct
+{
 	Movement ** movements;
 	int size;
 	int changes;
