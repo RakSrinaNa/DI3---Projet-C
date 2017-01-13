@@ -20,10 +20,10 @@ void population_destroy(Population * population);
 
 Solution * metaheuristicGenetic_bestFromPopulation(Population * population);
 
-void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style);
+void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style);
 
-void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2);
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution * parent1, Solution * parent2);
 
-void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2);
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2);
 
 #endif
