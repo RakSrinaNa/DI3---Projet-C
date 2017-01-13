@@ -98,7 +98,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 		{
 			scoreBest = scoreCurrent;
 			solution_destroy(bestSolution);
-			bestSolution = duplicate_solution(currentSolution);
+			bestSolution = solution_duplicate(currentSolution);
 
 			i = 0;
 		}
