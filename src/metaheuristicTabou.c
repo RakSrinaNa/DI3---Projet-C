@@ -184,10 +184,11 @@ void movement_appendTabou(Movement *** tabouPtr, int max, int * tabouChanges, Mo
 
 void movement_applyMovement(Solution * solution, Movement * movement)
 {
+	int tempo;
 	switch (solution->type)
 	{
 	case DIRECT:
-		int tempo = solution->solutions.direct->itemsTaken[movement->a];
+		tempo = solution->solutions.direct->itemsTaken[movement->a];
 		solution->solutions.direct->itemsTaken[movement->a] = solution->solutions.direct->itemsTaken[movement->b];
 		solution->solutions.direct->itemsTaken[movement->b] = tempo;
 
