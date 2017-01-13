@@ -20,6 +20,7 @@ Tabou * tabou_create(int tabouMax)
 	tabou->size = 0;
 	tabou->max = tabouMax;
 	tabou->movements = NULL;
+	return tabou;
 }
 
 Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration)
