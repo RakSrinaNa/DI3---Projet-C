@@ -64,6 +64,20 @@ void movementTests()
 	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT movementTests 4");
 	
+	correctTaken[0] = 1;
+	solution->solutions.direct->itemsTaken[0] = 1;
+	movement_applyMovement(solution, m2);
+	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT movementTests 5");
+	
+	correctTaken[0] = 0;
+	correctTaken[2] = 0;
+	solution->solutions.direct->itemsTaken[0] = 0;
+	solution->solutions.direct->itemsTaken[2] = 0;
+	movement_applyMovement(solution, m2);
+	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
+		unit_error("ASSERT movementTests 6");
+	
 	solution_destroy(solution);
 	instance_destroy(instance);
 	free(m2);
