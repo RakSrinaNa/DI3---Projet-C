@@ -4,6 +4,7 @@
 #include "headers/utils.h"
 #include "headers/metaheuristicLocal.h"
 #include "headers/metaheuristicTabou.h"
+#include "headers/solution.h"
 
 int movement_equals(Movement * m1, Movement * m2)
 {
@@ -14,6 +15,9 @@ int movement_equals(Movement * m1, Movement * m2)
 
 Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration)
 {
+	struct timeb timeStart, timeEnd;
+	ftime(&timeStart);
+	
 	Solution * currentSolution = heuristic(instance, solutionType, 5);
 	Solution * bestSolution = solution_duplicate(currentSolution);
 
@@ -91,6 +95,9 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 	//Clean the house
 	movement_tabouDestroy(tabou, MMIN(tabouMax, tabouChanges));
 
+	ftime(&timeEnd);
+	bestSolution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
+	
 	return bestSolution;
 }
 
