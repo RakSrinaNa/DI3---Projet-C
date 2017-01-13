@@ -7,4 +7,6 @@ void movementTests();
 
 void movementTabouTests();
 
+void metaheuristicTabouGetMovementsTest();
+
 #endif

@@ -5,11 +5,14 @@
 #include "../headers/metaheuristicTabou.h"
 #include "headers/unit.h"
 #include "../headers/parser.h"
+#include "../headers/solution.h"
+#include "../headers/instance.h"
 
 void metaheuristicTabouTests()
 {
 	movementTests();
 	movementTabouTests();
+	metaheuristicTabouGetMovementsTest();
 }
 
 void movementTests()
@@ -98,4 +101,28 @@ void movementTabouTests()
 	for(int i = 0; i < MIN(max, changes); i++)
 		free(movements[i]);
 	free(movements);
+}
+
+void metaheuristicTabouGetMovementsTest()
+{
+	int correctOrder[3] = {0, 2, 1};
+			Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	Solution * solution;
+	MMALLOC(solution, Solution, 1, NULL);
+	solution->instance = instance;
+	solution->type = INDIRECT;
+	solution->solveTime = 0;
+	solution->solutions.indirect = solutionIndirect_create(instance);
+	solution->solutions.indirect->itemsOrder[0] = 0;
+	solution->solutions.indirect->itemsOrder[1] = 1;
+	solution->solutions.indirect->itemsOrder[2] = 2;
+	
+	Movement  * m1;
+	MMALLOC(m1, Movement, 1, NULL);
+	m1->a = 1;
+	m1->b = 2;
+	
+	Solution * moved = metaheuristicTabou_getNeighbourFromMovement(solution, m1);
+	if(moved == solution || !unit_arrayEquals(correctOrder, moved->solutions.indirect->itemsOrder, instance->itemsCount))
+		unit_error("ASSERT metaheuristicTabouGetMovementsTest 1");
 }

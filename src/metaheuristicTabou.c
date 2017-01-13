@@ -14,7 +14,7 @@ int movement_equals(Movement * m1, Movement * m2)
 	return 0;
 }
 
-Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration)
+Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionType, int iterationMax, int tabouMax, int aspiration) //TODO Tests
 {
 	Solution * currentSolution = heuristic(instance, solutionType, 5);
 	Solution * bestSolution = solution_duplicate(currentSolution);
@@ -96,7 +96,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 	return bestSolution;
 }
 
-Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementCount)
+Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementCount) //TODO Tests
 {
 	Movement ** movements = NULL;
 	int pos = 0;

@@ -98,6 +98,8 @@ SolutionIndirect * solutionIndirect_duplicate(SolutionIndirect * solution)
 	SolutionIndirect * newSolution = solutionIndirect_create(solution->instance);
 	for(int i = 0; i < solution->instance->itemsCount; i++)
 		newSolution->itemsOrder[i] = solution->itemsOrder[i];
+	if(solution->bag == NULL)
+		solutionIndirect_decode(solution);
 	newSolution->bag = bag_duplicate(solution->instance, solution->bag);
 	return newSolution;
 }
