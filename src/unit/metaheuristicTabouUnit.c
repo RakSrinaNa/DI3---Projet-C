@@ -128,5 +128,5 @@ void metaheuristicTabouGetMovementsTest()
 	
 	free(m1);
 	solution_destroy(moved);
-	free(solution);
+	solution_destroy(solution);
 }
