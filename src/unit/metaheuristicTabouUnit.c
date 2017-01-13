@@ -175,7 +175,7 @@ void metaheuristicTabouSearchTests()
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 5, 1);
 	
-	if(solution == NULL || solution->solveTime == 0 || solution->instance != instance || solution->type != INDIRECT)
+	if(solution == NULL || solution->instance != instance || solution->type != INDIRECT)
 		unit_error("ASSERT metaheuristicTabouSearchTests 1");
 	if(solution->solutions.indirect->bag->itemsCount != 2 || !(unit_arrayEquals(correctItems[0], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount) || unit_arrayEquals(correctItems[1], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount)))
 		unit_error("ASSERT metaheuristicTabouSearchTests 2");
