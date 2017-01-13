@@ -17,7 +17,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 {
 	struct timeb timeStart, timeEnd;
 	ftime(&timeStart);
-	
+
 	Solution * currentSolution = heuristic(instance, solutionType, 5);
 	Solution * bestSolution = solution_duplicate(currentSolution);
 
@@ -50,6 +50,8 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					if(solution_evaluate(neighbourSolution) > scoreBestNeighbour)
 					{
 						solution_destroy(bestNeighbourSolution);
+						free(usefulMovement);
+
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
@@ -61,6 +63,8 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					if(solution_evaluate(neighbourSolution) > scoreBest)
 					{
 						solution_destroy(bestNeighbourSolution);
+						free(usefulMovement);
+
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = solution_evaluate(neighbourSolution);
 						usefulMovement = movement_duplicate(movementsPossible[j]);
@@ -78,7 +82,8 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 			currentSolution = solution_duplicate(bestNeighbourSolution);
 		}
 		solution_destroy(bestNeighbourSolution);
-		movement_appendTabou(&tabou, tabouMax, &tabouChanges, usefulMovement);
+		if(usefulMovement != NULL)
+			movement_appendTabou(&tabou, tabouMax, &tabouChanges, usefulMovement);
 
 		if(scoreCurrent > scoreBest)
 		{
@@ -97,7 +102,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 
 	ftime(&timeEnd);
 	bestSolution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
-	
+
 	return bestSolution;
 }
 
