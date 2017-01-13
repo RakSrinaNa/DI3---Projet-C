@@ -60,7 +60,7 @@ void movementTests()
 	solution->solutions.direct = solutionDirect_create(instance);
 	solution->solutions.direct->itemsTaken[0] = 1;
 	
-	movement_applyMovement(solution, m1);
+	movement_applyMovement(solution, m2);
 	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT movementTests 4");
 	
