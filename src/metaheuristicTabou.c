@@ -187,14 +187,9 @@ void movement_applyMovement(Solution * solution, Movement * movement)
 	switch (solution->type)
 	{
 	case DIRECT:
-		if(solution->solutions.direct->itemsTaken[movement->a] == 0)
-			solution->solutions.direct->itemsTaken[movement->a] = 1;
-		else
-			solution->solutions.direct->itemsTaken[movement->a] = 0;
-		if(solution->solutions.direct->itemsTaken[movement->b] == 1)
-			solution->solutions.direct->itemsTaken[movement->b] = 0;
-		else
-			solution->solutions.direct->itemsTaken[movement->b] = 0;
+		int tempo = solution->solutions.direct->itemsTaken[movement->a];
+		solution->solutions.direct->itemsTaken[movement->a] = solution->solutions.direct->itemsTaken[movement->b];
+		solution->solutions.direct->itemsTaken[movement->b] = tempo;
 
 		break;
 
