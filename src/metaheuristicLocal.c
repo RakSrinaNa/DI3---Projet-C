@@ -29,11 +29,12 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		
 		for(int i = 0; i < neighboursCount; i++)
 		{
-			if(solution_evaluate(allNeighbours[i]) > scoreBestNeighbour)
+			int tempScore = solution_evaluate(allNeighbours[i]);
+			if(tempScore > scoreBestNeighbour)
 			{
 				solution_destroy(bestNeighbourSolution);
 				bestNeighbourSolution = solution_duplicate(allNeighbours[i]);
-				scoreBestNeighbour = solution_evaluate(allNeighbours[i]);
+				scoreBestNeighbour = tempScore;
 			}
 		}
 		

@@ -56,26 +56,28 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 
 				if(!tabou_isMovementTabou(tabou, movementsPossible[j]))
 				{
-					if(solution_doable(neighbourSolution) && solution_evaluate(neighbourSolution) > scoreBestNeighbour)
+					int tempScore = solution_evaluate(neighbourSolution);
+					if(solution_doable(neighbourSolution) && tempScore > scoreBestNeighbour)
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
 
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
-						scoreBestNeighbour = solution_evaluate(neighbourSolution);
+						scoreBestNeighbour = tempScore;
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
 					solution_destroy(neighbourSolution);
 				}
 				else
 				{
-					if(solution_doable(neighbourSolution) && solution_evaluate(neighbourSolution) > scoreBest)
+					int tempScore = solution_evaluate(neighbourSolution);
+					if(solution_doable(neighbourSolution) && tempScore > scoreBest)
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
 
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
-						scoreBestNeighbour = solution_evaluate(neighbourSolution);
+						scoreBestNeighbour = tempScore;
 						usefulMovement = movement_duplicate(movementsPossible[j]);
 					}
 					solution_destroy(neighbourSolution);
