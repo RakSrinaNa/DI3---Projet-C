@@ -12,5 +12,5 @@ cmake-build-debug
 Projet2.depend
 Projet2.layout
 type_*_instance_?_?_scheduler_?.txt
-Solutions
+Solutions/*.txt
 *.o
