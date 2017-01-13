@@ -47,7 +47,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 
 				if(!metaheuristicTabou_isTabou(tabou, tabouMax, tabouChanges, movementsPossible[j]))
 				{
-					if(solution_evaluate(neighbourSolution) > scoreBestNeighbour)
+					if(solution_doable(neighbourSolution) && solution_evaluate(neighbourSolution) > scoreBestNeighbour)
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
@@ -60,7 +60,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 				}
 				else
 				{
-					if(solution_evaluate(neighbourSolution) > scoreBest)
+					if(solution_doable(neighbourSolution) && solution_evaluate(neighbourSolution) > scoreBest)
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
