@@ -183,7 +183,7 @@ void metaheuristicTabouSearchTests()
 	solution_destroy(solution);
 	
 	solution = metaheuristicTabou_search(instance, DIRECT, 10, 5, 1);
-	if(solution == NULL || solution->solveTime == 0 || solution->instance != instance || solution->type != DIRECT)
+	if(solution == NULL || solution->instance != instance || solution->type != DIRECT)
 		unit_error("ASSERT metaheuristicTabouSearchTests 3");
 	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT metaheuristicTabouSearchTests 4");
