@@ -99,7 +99,7 @@ void movementTabouTests()
 		unit_error("ASSERT movementTabouTests 4");
 	
 	free(m4);
-	for(int i = 0; i < MINN(max, changes); i++)
+	for(int i = 0; i < MMIN(max, changes); i++)
 		free(movements[i]);
 	free(movements);
 }
