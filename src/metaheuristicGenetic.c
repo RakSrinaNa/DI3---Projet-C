@@ -42,17 +42,18 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 			{
 				scoreBest = tempScore;
 				solution_destroy(bestSolution);
-				bestSolution = solution_duplicate(childPopulation->persons[j]);
+				bestSolution = solution_duplicate(&(childPopulation->persons[j]));
 			}
 			if(mutationProbability > (float) (rand() % RAND_MAX))
 			{
-				childPopulation->persons[j] = metaheuristicGenetic_mutation(childPopulation->persons[j]);
-				tempScore = solution_evaluate(childPopulation->persons[j]);
+				solution_destroy(&(childPopulation->persons[j]));
+				&(childPopulation->persons[j]) = metaheuristicGenetic_mutation(&(childPopulation->persons[j]));
+				tempScore = solution_evaluate(&(childPopulation->persons[j]));
 				if(tempScore > scoreBest)
 				{
 					scoreBest = tempScore;
 					solution_destroy(bestSolution);
-					bestSolution = solution_duplicate(childPopulation->persons[j]);
+					bestSolution = solution_duplicate(&(childPopulation->persons[j]));
 				}
 			}
 		}
@@ -62,6 +63,16 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 
 	population_destroy(population);
 	return bestSolution;
+}
+
+Population * population_create(int populationMaxSize)
+{
+	Population * population;
+	MMALLOC(population, Population, 1, "population_create");
+	population->maxSize = populationMaxSize;
+	population->size = 0;
+	population->persons = NULL;
+	return population;
 }
 
 void population_destroy(Population * population)
@@ -84,15 +95,6 @@ void population_append(Population * population, Solution * people)
 	population->persons[population->size - 1] = people;
 }
 
-Population * population_create(int populationMaxSize)
-{
-	Population * population;
-	MMALLOC(population, Population, 1, "population_create");
-	population->maxSize = populationMaxSize;
-	population->size = 0;
-	population->persons = NULL;
-	return population;
-}
 
 Solution * metaheuristicGenetic_bestFromPopulation(Population * population)
 {
@@ -148,6 +150,17 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 		else
 			fighter4 = fighter;
 	}
+
+	if(solution_evaluate(fighter1) > solution_evaluate(fighter2))
+		parent1 = fighter1;
+	else
+		parent1 = fighter2;
+
+	if(solution_evaluate(fighter3) > solution_evaluate(fighter4))
+		parent1 = fighter3;
+	else
+		parent1 = fighter4;
+
 }
 
 void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2)
@@ -174,3 +187,5 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 		i++;
 	}
 }
+
+metaheuristicGenetic_mutation(Solution * childPopulation->persons[j])
