@@ -140,6 +140,8 @@ void movement_appendTabou(Movement *** tabouPtr, int max, int * tabouChanges, Mo
 	{
 		RREALLOC(tabou, Movement *, (*tabouChanges) + 1, "movement_appendTabou");
 	}
+	else
+		free(tabou[(*tabouChanges) % max]);
 	
 	tabou[(*tabouChanges) % max] = movement;
 	(*tabouChanges)++;
