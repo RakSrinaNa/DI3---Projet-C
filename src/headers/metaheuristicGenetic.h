@@ -1,7 +1,7 @@
 #ifndef METAHEURISTICGENETIC
 #define METAHEURISTICGENETIC
 
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProba, int maxIte);
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations);
 
 Solution ** metaheuristicGenetic_firstPopulation(Instance * instance, SolutionType SolutionType, int populationMaxSize);
 

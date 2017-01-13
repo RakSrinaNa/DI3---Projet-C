@@ -1,22 +1,25 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "solution.h"
-#include "heuristic.h"
 #include "headers/metaheuristicGenetic.h"
+#include "headers/solution.h"
+#include "headers/utils.h"
+#include "headers/heuristic.h"
 
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationMaxSize, float mutationProba, int maxIte)
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationMaxSize, float mutationProbability, int maxIterations)
 {
 	//Random
 	srand(time(NULL));
 
-	Solution ** population = metaheuristicGenetic_firstPopulation(instance, SolutionType, populationMaxSize);
+	Solution ** population = metaheuristicGenetic_firstPopulation(instance, solutionType, populationMaxSize);
 	int populationSize = 0;
 
 	Solution * bestSolution = metaheuristicGenetic_bestFromPopulation(population, populationMaxSize);
 	int scoreBest = solution_evaluate(bestSolution);
 
-	while(i < maxIte)
+	
+	int i = 0;
+	while(i < maxIterations)
 	{
 		Solution ** childPopulation = NULL;
 		for(int j = 0; j < populationMaxSize/2; j++)
@@ -38,7 +41,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
                 solution_destroy(bestSolution);
                 bestSolution = solution_duplicate(childPopulation[j]);
 			}
-			if(mutationProba > (float)rand()%RAND_MAX)
+			if(mutationProbability > (float)(rand() % RAND_MAX))
 			{
 				childPopulation[j] = metaheuristicGenetic_mutation(childPopulation[j]);
 				if(solution_evaluate(childPopulation[j]) > scoreBest)
@@ -58,12 +61,12 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 	return bestSolution;
 }
 
-Solution ** metaheuristicGenetic_firstPopulation(Instance * instance, SolutionType SolutionType, int populationMaxSize)
+Solution ** metaheuristicGenetic_firstPopulation(Instance * instance, SolutionType solutionType, int populationMaxSize)
 {
     Solution ** population;
     MMALLOC(population, Solution *, populationMaxSize, "metaheuristicGenetic_firstPopulation");
     for(int i = 0; i < populationMaxSize; i++)
-		population[j] = heuristic(instance, solutionType, 0);
+		population[i] = heuristic(instance, solutionType, 0);
 
 	return population;
 }
@@ -73,10 +76,10 @@ Solution * metaheuristicGenetic_bestFromPopulation(Solution ** population, int p
 	Solution * bestSolution = NULL;
 	int bestScore = 0;
 	for(int i = 0; i < populationMaxSize; i++)
-        if(solution_evaluate(population[j]) > best)
+        if(solution_evaluate(population[i]) > bestScore)
 		{
-			best = solution_evaluate(population[j]);
-			bestSolution = population[j];
+			bestScore = solution_evaluate(population[i]);
+			bestSolution = population[i];
 		}
 
 	return bestSolution;
@@ -86,13 +89,16 @@ void metaheuristicGenetic_selectParents(Solution ** population, int populationMa
 {
 	switch(style)
 	{
-	case 0:
-		metaheuristicGenetic_selectParentsFight(population, populationMaxSize, parent1, parent2);
-		break;
-
-	case 1:
-		metaheuristicGenetic_selectParentsRoulette(population, populationMaxSize, parent1, parent2);
-		break;
+		case 0:
+			metaheuristicGenetic_selectParentsFight(population, populationMaxSize, parent1, parent2);
+			break;
+	
+		case 1:
+			metaheuristicGenetic_selectParentsRoulette(population, populationMaxSize, parent1, parent2);
+			break;
+			
+		default:
+			break;
 	}
 }
 
@@ -110,7 +116,7 @@ void metaheuristicGenetic_selectParentsFight(Solution ** population, int populat
 			fighter2 = fighter;
 		else if(fighter3 == -1)
 			fighter3 = fighter;
-		else if(fighter4 == -1)
+		else
 			fighter4 = fighter;
 	}
 }
