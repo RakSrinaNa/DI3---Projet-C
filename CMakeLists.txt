@@ -44,5 +44,8 @@ set(SOURCE_FILES
 
         src/metaheuristicTabou.c src/headers/metaheuristicTabou.h
         src/unit/metaheuristicTabouUnit.c src/unit/headers/metaheuristicTabouUnit.h
+
+        src/metaheuristicGenetic.c src/headers/metaheuristicGenetic.h
+        src/unit/metaheuristicGeneticUnit.c src/unit/headers/metaheuristicGeneticUnit.h
         )
 add_executable(ex_projet2 ${SOURCE_FILES})
