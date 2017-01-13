@@ -125,4 +125,8 @@ void metaheuristicTabouGetMovementsTest()
 	Solution * moved = metaheuristicTabou_getNeighbourFromMovement(solution, m1);
 	if(moved == solution || !unit_arrayEquals(correctOrder, moved->solutions.indirect->itemsOrder, instance->itemsCount))
 		unit_error("ASSERT metaheuristicTabouGetMovementsTest 1");
+	
+	free(m1);
+	solution_destroy(moved);
+	free(solution);
 }
