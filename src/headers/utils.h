@@ -1,7 +1,7 @@
 #ifndef UTILS
 #define UTILS
 
-//#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MINN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 #define UNUSED(x) (void)(x)
 

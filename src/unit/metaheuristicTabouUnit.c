@@ -1,5 +1,3 @@
-#include <stddef.h>
-#include <stdlib.h>
 #include "headers/metaheuristicTabouUnit.h"
 #include "../headers/utils.h"
 #include "../headers/metaheuristicTabou.h"
@@ -13,6 +11,7 @@ void metaheuristicTabouTests()
 	movementTests();
 	movementTabouTests();
 	metaheuristicTabouGetMovementsTest();
+	metaheuristicTabouGetMovementsTests();
 }
 
 void movementTests()
@@ -98,7 +97,7 @@ void movementTabouTests()
 		unit_error("ASSERT movementTabouTests 4");
 	
 	free(m4);
-	for(int i = 0; i < MIN(max, changes); i++)
+	for(int i = 0; i < MINN(max, changes); i++)
 		free(movements[i]);
 	free(movements);
 }
@@ -106,7 +105,7 @@ void movementTabouTests()
 void metaheuristicTabouGetMovementsTest()
 {
 	int correctOrder[3] = {0, 2, 1};
-			Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Solution * solution;
 	MMALLOC(solution, Solution, 1, NULL);
 	solution->instance = instance;
@@ -129,4 +128,39 @@ void metaheuristicTabouGetMovementsTest()
 	free(m1);
 	solution_destroy(moved);
 	solution_destroy(solution);
+	instance_destroy(instance);
+}
+
+void metaheuristicTabouGetMovementsTests()
+{
+	int correctSolutions[3][2] = {{0, 1}, {0, 2}, {1, 2}};
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	Solution * solution;
+	MMALLOC(solution, Solution, 1, NULL);
+	solution->instance = instance;
+	solution->type = INDIRECT;
+	solution->solveTime = 0;
+	solution->solutions.indirect = solutionIndirect_create(instance);
+	solution->solutions.indirect->itemsOrder[0] = 0;
+	solution->solutions.indirect->itemsOrder[1] = 1;
+	solution->solutions.indirect->itemsOrder[2] = 2;
+	Movement  * m1;
+	MMALLOC(m1, Movement, 1, NULL);
+	
+	int count;
+	Movement ** movements = metaheuristicTabou_getMovements(solution, &count);
+	if(count != 3)
+		unit_error("ASSERT metaheuristicTabouGetMovementsTests 1");
+	for(int i = 0; i < count; i++)
+	{
+		m1->a = correctSolutions[i][0];
+		m1->b = correctSolutions[i][1];
+	}
+		
+	free(m1);
+	for(int i = 0; i < count; i++)
+		free(movements[i]);
+	free(movements);
+	solution_destroy(solution);
+	instance_destroy(instance);
 }

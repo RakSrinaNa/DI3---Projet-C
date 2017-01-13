@@ -21,6 +21,8 @@ Bag * bag_create(Instance * instance)
 
 void bag_destroy(Bag * bag)
 {
+	if(bag == NULL)
+		return;
 	free(bag->items);
 	free(bag->weights);
 	free(bag);
