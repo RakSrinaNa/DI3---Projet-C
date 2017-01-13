@@ -42,22 +42,21 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 			{
 				scoreBest = tempScore;
 				solution_destroy(bestSolution);
-				bestSolution = solution_duplicate(&(childPopulation->persons[j]));
+				bestSolution = solution_duplicate(childPopulation->persons[j]);
 			}
 			if(mutationProbability > (float) (rand() % RAND_MAX))
 			{
-				solution_destroy(&(childPopulation->persons[j]));
-				&(childPopulation->persons[j]) = metaheuristicGenetic_mutation(&(childPopulation->persons[j]));
-				tempScore = solution_evaluate(&(childPopulation->persons[j]));
+				metaheuristicGenetic_mutation(childPopulation->persons[j]);
+				tempScore = solution_evaluate(childPopulation->persons[j]);
 				if(tempScore > scoreBest)
 				{
 					scoreBest = tempScore;
 					solution_destroy(bestSolution);
-					bestSolution = solution_duplicate(&(childPopulation->persons[j]));
+					bestSolution = solution_duplicate(childPopulation->persons[j]);
 				}
 			}
 		}
-		metaheuristicGenetic_naturalSelection(population, childPopulation);
+		metaheuristicGenetic_naturalSelection(population, childPopulation, int 2);
 		i++;
 	}
 
@@ -106,7 +105,7 @@ Solution * metaheuristicGenetic_bestFromPopulation(Population * population)
 		if(tempScore > bestScore)
 		{
 			bestScore = tempScore;
-			bestSolution = population->persons[i];
+			bestSolution = solution_duplicate(population->persons[i]);
 		}
 	}
 
@@ -172,7 +171,7 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 	{
 		long score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
-			parent1 = &(population->persons[i]);
+			parent1 = population->persons[i];
 		populationScore -= score;
 		i++;
 	}
@@ -182,10 +181,64 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 	{
 		long score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
-			parent2 = &(population->persons[i]);
+			parent2 = population->persons[i];
 		populationScore -= score;
 		i++;
 	}
 }
 
-metaheuristicGenetic_mutation(Solution * childPopulation->persons[j])
+void metaheuristicGenetic_mutation(Solution * child)
+{
+    switch(child->type)
+    {
+	case DIRECT:
+		int index = rand() % child->instance->itemsCount;
+		child->solutions.direct->itemsTaken[index] = abs(child->solutions.direct->itemsTaken[index] - 1);
+		break;
+
+	case INDIRECT:
+		int indexStart = rand() % child->instance->itemsCount;
+		int indexEnd = indexStart + rand() % (child->instance->itemsCount - indexStart);
+
+		int object = -1;
+		for(int i = 0; i < child->instance->itemsCount; i++)
+		{
+			if(i == indexStart)
+				object = solutionIndirect_getItemIndex(child->solutions.indirect, i);
+			if(i > indexStart && i <= indexEnd)
+				child->solutions.indirect->itemsOrder[i-1] = solutionIndirect_getItemIndex(child->solutions.indirect, i);
+			if(i == indexEnd)
+				child->solutions.indirect->itemsOrder[i] = object;
+
+		}
+		break;
+    }
+}
+
+void metaheuristicGenetic_naturalSelection(Population * population, Population * childPopulation, int style)
+{
+	Population * newPopulation = population_create(population->maxSize);
+	switch(style)
+	{
+	case 0:
+		metaheuristicGenetic_naturalSelectionGeneretion(childPopulation, newPopulation);
+		break;
+	case 1:
+		metaheuristicGenetic_naturalSelectionElitist(population, childPopulation, newPopulation);
+		break;
+	case 2:
+		metaheuristicGenetic_naturalSelectionBalanced(population, childPopulation, newPopulation);
+		break;
+	}
+
+	population_destroy(childPopulation);
+	population_destroy(population);
+	population = newPopulation;
+
+}
+
+void metaheuristicGenetic_naturalSelectionGeneretion(Population * childPopulation, Population * newPopulation)
+{
+    for(int i = 0; i < childPopulation->maxSize; i++)
+        population_append(newPopulation, solution_duplicate(childPopulation->persons[i]));
+}

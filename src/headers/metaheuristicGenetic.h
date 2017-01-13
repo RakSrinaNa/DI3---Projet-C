@@ -26,4 +26,10 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 
 void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2);
 
+void metaheuristicGenetic_mutation(Solution * child);
+
+void metaheuristicGenetic_naturalSelection(Population * population, Population * childPopulation);
+
+void metaheuristicGenetic_naturalSelectionGeneretion(Population * childPopulation, Population * newPopulation);
+
 #endif
