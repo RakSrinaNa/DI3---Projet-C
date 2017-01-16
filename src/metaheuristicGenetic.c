@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 
 #include "headers/metaheuristicGenetic.h"
 #include "headers/utils.h"
@@ -14,7 +15,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 	for(int i = 0; i < population->maxSize; i++)
 		population_append(population, heuristic(instance, solutionType, 0));
 
-	Solution * bestSolution = metaheuristicGenetic_bestFromPopulation(population);
+	Solution * bestSolution = population_getBest(population);
 	int scoreBest = solution_evaluate(bestSolution);
 
 	int i = 0;
@@ -82,6 +83,16 @@ void population_destroy(Population * population)
 	free(population);
 }
 
+Population * population_duplicate(Population * population)
+{
+	Population * newPopulation = population_create(population->maxSize);
+
+	for(int i = 0; i < population->maxSize; i++)
+        population_append(newPopulation, solution_duplicate(population->persons[i]));
+
+	return newPopulation;
+}
+
 int population_append(Population * population, Solution * people)
 {
 	if(population->size >= population->maxSize)
@@ -95,8 +106,25 @@ int population_append(Population * population, Solution * people)
 	return 1;
 }
 
+void population_replace(Solution * toReplace, Solution * replacer)
+{
+    solution_destroy(toReplace);
+    toReplace = solution_duplicate(replacer);
+}
 
-Solution * metaheuristicGenetic_bestFromPopulation(Population * population)
+void population_remove(Population * population, Solution * solution)
+{
+	population->size--;
+	population_replace(solution, population->persons[population->size]);
+	RREALLOC(population->persons, Solution *, population->size, "population_remove");
+}
+
+void population_removeIndex(Population * population, int index)
+{
+	population_remove(population, population->persons[index]);
+}
+
+Solution * population_getBest(Population * population)
 {
 	Solution * bestSolution = NULL;
 	int bestScore = -1;
@@ -112,6 +140,24 @@ Solution * metaheuristicGenetic_bestFromPopulation(Population * population)
 	}
 
 	return bestSolution;
+}
+
+Solution * population_getWorst(Population * population)
+{
+	Solution * worstSolution = NULL;
+	int worstScore = INT_MAX;
+	for(int i = 0; i < population->size; i++)
+	{
+		int tempScore = solution_evaluate(population->persons[i]);
+		if(tempScore < worstScore)
+		{
+			worstScore = tempScore;
+			free(worstSolution);
+			worstSolution = solution_duplicate(population->persons[i]);
+		}
+	}
+
+	return worstSolution;
 }
 
 void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style)
@@ -153,14 +199,14 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 	}
 
 	if(solution_evaluate(fighter1) > solution_evaluate(fighter2))
-		parent1 = fighter1;
+		parent1 = population->persons[fighter1];
 	else
-		parent1 = fighter2;
+		parent1 = population->persons[fighter2];
 
 	if(solution_evaluate(fighter3) > solution_evaluate(fighter4))
-		parent1 = fighter3;
+		parent1 = population->persons[fighter3];
 	else
-		parent1 = fighter4;
+		parent1 = population->persons[fighter4];
 
 }
 
@@ -220,17 +266,17 @@ void metaheuristicGenetic_mutation(Solution * child)
 
 void metaheuristicGenetic_naturalSelection(Population * population, Population * childPopulation, int style)
 {
-	Population * newPopulation = population_create(population->maxSize);
+	Population * newPopulation;
 	switch(style)
 	{
 	case 0:
-		metaheuristicGenetic_naturalSelectionGeneretion(childPopulation, newPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionGeneretion(childPopulation);
 		break;
 	case 1:
-		metaheuristicGenetic_naturalSelectionElitist(population, childPopulation, newPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionElitist(population, childPopulation);
 		break;
 	case 2:
-		metaheuristicGenetic_naturalSelectionBalanced(population, childPopulation, newPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionBalanced(population, childPopulation);
 		break;
 	}
 
@@ -240,8 +286,54 @@ void metaheuristicGenetic_naturalSelection(Population * population, Population *
 
 }
 
-void metaheuristicGenetic_naturalSelectionGeneretion(Population * childPopulation, Population * newPopulation)
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * childPopulation)
 {
-    for(int i = 0; i < childPopulation->maxSize; i++)
-        population_append(newPopulation, solution_duplicate(childPopulation->persons[i]));
+	Population * newPopulation = population_create(childPopulation->maxSize);
+    newPopulation = population_duplicate(childPopulation);
+    return newPopulation;
+}
+
+Population * metaheuristicGenetic_naturalSelectionElitist(Population * population, Population * childPopulation)
+{
+    Population * newPopulation = population_duplicate(population);
+
+	Solution * worst = population_getWorst(newPopulation);
+
+	int i = 0;
+	while(i < childPopulation->maxSize)
+	{
+		if(solution_evaluate(childPopulation->persons[i]) > solution_evaluate(worst))
+		{
+			population_replace(worst, childPopulation->persons[i]);
+			Solution * worst = population_getWorst(newPopulation);
+		}
+		i++;
+	}
+
+	return newPopulation;
+}
+
+Population * metaheuristicGenetic_naturalSelectionBalanced(Population * population, Population * childPopulation)
+{
+	Population * newPopulation = population_duplicate(population);
+	Population * newPopulationChild = population_duplicate(childPopulation);
+
+	while(newPopulation->size > newPopulation->maxSize/2)
+		population_remove(newPopulation, population_getWorst(newPopulation));
+
+	while(newPopulationChild->size > newPopulationChild->maxSize/2)
+		population_remove(newPopulationChild, population_getWorst(newPopulationChild));
+
+	Population * finalPopulation = population_create(population->maxSize);
+
+	for(int i = 0; i < newPopulation->size; i++)
+		population_append(finalPopulation, solution_duplicate(newPopulation->persons[i]));
+
+	for(int i = 0; i < newPopulationChild->size; i++)
+		population_append(finalPopulation, solution_duplicate(newPopulationChild->persons[i]));
+
+	population_destroy(newPopulation);
+	population_destroy(newPopulationChild);
+
+	return finalPopulation;
 }
