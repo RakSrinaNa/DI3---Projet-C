@@ -191,23 +191,24 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 
 void metaheuristicGenetic_mutation(Solution * child)
 {
+	int index = 0;
     switch(child->type)
     {
 	case DIRECT:
-		int index = rand() % child->instance->itemsCount;
+		index = rand() % child->instance->itemsCount;
 		child->solutions.direct->itemsTaken[index] = abs(child->solutions.direct->itemsTaken[index] - 1);
 		break;
 
 	case INDIRECT:
-		int indexStart = rand() % child->instance->itemsCount;
-		int indexEnd = indexStart + rand() % (child->instance->itemsCount - indexStart);
+		index = rand() % child->instance->itemsCount;
+		int indexEnd = index + rand() % (child->instance->itemsCount - index);
 
 		int object = -1;
 		for(int i = 0; i < child->instance->itemsCount; i++)
 		{
-			if(i == indexStart)
+			if(i == index)
 				object = solutionIndirect_getItemIndex(child->solutions.indirect, i);
-			if(i > indexStart && i <= indexEnd)
+			if(i > index && i <= indexEnd)
 				child->solutions.indirect->itemsOrder[i-1] = solutionIndirect_getItemIndex(child->solutions.indirect, i);
 			if(i == indexEnd)
 				child->solutions.indirect->itemsOrder[i] = object;
