@@ -3,4 +3,6 @@
 
 void metaheuristicGeneticTests();
 
+void populationTests();
+
 #endif

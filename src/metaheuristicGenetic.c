@@ -82,16 +82,17 @@ void population_destroy(Population * population)
 	free(population);
 }
 
-void population_append(Population * population, Solution * people)
+int population_append(Population * population, Solution * people)
 {
 	if(population->size >= population->maxSize)
 	{
 		perror("Overpopulation population_append");
-		exit(EXIT_FAILURE);
+		return 0;
 	}
 	population->size++;
 	RREALLOC(population->persons, Solution *, population->size, "population_destroy");
 	population->persons[population->size - 1] = people;
+	return 1;
 }
 
 
