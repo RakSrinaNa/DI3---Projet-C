@@ -3,15 +3,36 @@
 #include "headers/unit.h"
 #include "../headers/metaheuristicTabou.h"
 #include "../headers/parser.h"
+#include "../headers/solution.h"
 
 void metaheuristicGeneticTests() //TODO
 {
-	populationTests();
+	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
+	populationTests(instance);
+	
+	Solution * solution1 = heuristic(instance, INDIRECT, 5);
+	Solution * solution2 = solution_duplicate(solution1);
+	solution2->solutions.indirect->itemsOrder[0] = 1;
+	solution2->solutions.indirect->itemsOrder[1] = 0;
+	solution2->solutions.indirect->itemsOrder[2] = 2;
+	Solution * solution3 = solution_duplicate(solution1);
+	
+	Population * population = population_create(3);
+	population_append(population, solution1);
+	population_append(population, solution2);
+	population_append(population, solution3);
+	
+	Solution * solution = metaheuristicGenetic_bestFromPopulation(population);
+	if(solution != solution1)
+		unit_error("ASSERT GENETIC 1");
+	
+	solution_destroy(solution);
+	population_destroy(population);
+	instance_destroy(instance);
 }
 
-void populationTests()
+void populationTests(Instance * instance)
 {
-	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	Population * population = population_create(2);
 	if(population == NULL || population->size != 0 || population->maxSize != 2 || population->persons != NULL)
 		unit_error("ASSERT POPULATION 1");
@@ -33,5 +54,4 @@ void populationTests()
 	
 	solution_destroy(solution3);
 	population_destroy(population);
-	instance_destroy(instance);
 }

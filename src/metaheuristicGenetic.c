@@ -99,13 +99,14 @@ int population_append(Population * population, Solution * people)
 Solution * metaheuristicGenetic_bestFromPopulation(Population * population)
 {
 	Solution * bestSolution = NULL;
-	int bestScore = 0;
+	int bestScore = -1;
 	for(int i = 0; i < population->size; i++)
 	{
 		int tempScore = solution_evaluate(population->persons[i]);
 		if(tempScore > bestScore)
 		{
 			bestScore = tempScore;
+			free(bestSolution);
 			bestSolution = solution_duplicate(population->persons[i]);
 		}
 	}
