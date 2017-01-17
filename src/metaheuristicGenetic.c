@@ -259,15 +259,14 @@ void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, 
     switch(parent1->type)
     {
 	case DIRECT:
+		metaheuristicGenetic_breedChildren1Point(parent1, parent2, child1, child2);
 		break;
 
 	case INDIRECT:
 		metaheuristicGenetic_breedChildrenPMX(parent1, parent2, child1, child2);
 		break;
     }
-
 }
-
 
 void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
 {
@@ -303,6 +302,49 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 	{
         (*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
         (*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+	}
+
+}
+
+void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
+{
+	int cut = (rand() % (parent1->solutions.indirect->instance->itemsCount-2))+1;
+
+    *child1 = solution_fromIndirect(solutionIndirect_create(parent1->solutions.indirect->instance));
+    *child2 = solution_fromIndirect(solutionIndirect_create(parent2->solutions.indirect->instance));
+
+    for(int i = 0; i < cut; i++)
+	{
+        (*child1)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent2->solutions.direct, i);
+        (*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
+	}
+
+	for(int i = cut; i < parent1->solutions.indirect->instance->itemsCount; i++)
+	{
+        (*child1)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
+        (*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent2->solutions.direct, i);
+
+        if(!solution_doable(*child1))
+			(*child1)->solutions.direct->itemsTaken[i] = 0;
+        if(!solution_doable(*child2))
+			(*child2)->solutions.direct->itemsTaken[i] = 0;
+	}
+
+	for(int i = parent1->solutions.indirect->instance->itemsCount-1; i >= 0; i--)
+	{
+        if(!solutionDirect_isItemTaken((*child1)->solutions.direct, i))
+        {
+			solutionDirect_takeItem((*child1)->solutions.direct, i);
+			if(!solution_doable(*child1))
+				(*child1)->solutions.direct->itemsTaken[i] = 0;
+        }
+
+        if(!solutionDirect_isItemTaken((*child2)->solutions.direct, i))
+        {
+			solutionDirect_takeItem((*child2)->solutions.direct, i);
+			if(!solution_doable(*child2))
+				(*child2)->solutions.direct->itemsTaken[i] = 0;
+        }
 	}
 
 }
