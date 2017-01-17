@@ -2,6 +2,9 @@
 #include <time.h>
 #include <limits.h>
 
+#include "headers/solutionIndirect.h"
+#include "headers/solutionDirect.h"
+#include "headers/solution.h"
 #include "headers/metaheuristicGenetic.h"
 #include "headers/utils.h"
 #include "headers/heuristic.h"
@@ -285,6 +288,14 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 	for(int i = cut1; i < cut2; i++)
 	{
 		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+		while(solutionIndirect_getIndexItem((*child1)->solutions.indirect, item) != -1)
+			item = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, solutionIndirect_getIndexItem((*child1)->solutions.indirect, item)));
+		(*child1)->solutions.indirect->itemsOrder[i] = item;
+
+		int item2 = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
+		while(solutionIndirect_getIndexItem((*child2)->solutions.indirect, item2) != -1)
+			item2 = solutionIndirect_getItemIndex(parent1->solutions.indirect, solutionIndirect_getIndexItem(parent2->solutions.indirect, solutionIndirect_getIndexItem((*child2)->solutions.indirect, item2)));
+		(*child2)->solutions.indirect->itemsOrder[i] = item2;
 	}
 
 
