@@ -5,11 +5,15 @@
 #include "headers/heuristic.h"
 #include "headers/scheduler.h"
 #include "headers/utils.h"
+#include "headers/solution.h"
+#include "headers/instance.h"
 
 Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
+	int * itemOrder;
+	MMALLOC(itemOrder, int, instance->itemsCount, "heuristic");
 	
 	struct timeb timeStart, timeEnd;
 	ftime(&timeStart);
@@ -21,6 +25,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 		int itemIndex = scheduler_removeFromList(&list, &listCount, 0);
 		if(bag_canContain(instance, bag, itemIndex))
 		{
+			itemOrder[j] = itemIndex;
 			j++;
 			bag_appendItem(instance, bag, itemIndex);
 			if(list != NULL && (schedulerType == 3 || schedulerType == 5) && listCount > 0)
@@ -31,6 +36,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 			}
 		}
 	}
+	free(list);
 	ftime(&timeEnd);
 	
 	Solution * solution = NULL;
@@ -44,6 +50,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 		
 		case INDIRECT:
 			solution_fromIndirect(solutionIndirect_create(instance));
+			solution->solutions.indirect->itemsOrder = itemOrder;
 			solution->solutions.indirect->bag = bag;
 			break;
 		
