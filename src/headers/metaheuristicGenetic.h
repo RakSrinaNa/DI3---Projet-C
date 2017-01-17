@@ -109,6 +109,9 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
 //TODO Doc
+void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
+
+//TODO Doc
 void metaheuristicGenetic_mutation(Solution * child); //TODO Unit
 
 //TODO Doc

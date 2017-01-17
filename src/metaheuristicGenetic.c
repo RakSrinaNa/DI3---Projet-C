@@ -259,9 +259,15 @@ void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, 
 		break;
 
 	case INDIRECT:
-
+		metaheuristicGenetic_breedChildrenPMX(parent1, parent2, child1, child2);
 		break;
     }
+
+}
+
+
+void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
+{
 
 }
 
