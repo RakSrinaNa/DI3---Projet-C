@@ -47,13 +47,13 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 	switch(solutionType)
 	{
 		case DIRECT:
-			solution_fromDirect(bag_toSolutionDirect(instance, bag));
+			solution = solution_fromDirect(bag_toSolutionDirect(instance, bag));
 			free(itemOrder);
 			bag_destroy(bag);
 			break;
 
 		case INDIRECT:
-			solution_fromIndirect(solutionIndirect_create(instance));
+			solution = solution_fromIndirect(solutionIndirect_create(instance));
 			free(solution->solutions.indirect->itemsOrder);
 			solution->solutions.indirect->itemsOrder = itemOrder;
 			solution->solutions.indirect->bag = bag;
