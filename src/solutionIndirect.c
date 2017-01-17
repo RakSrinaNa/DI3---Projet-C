@@ -11,7 +11,7 @@ SolutionIndirect * solutionIndirect_create(Instance * instance)
 	MMALLOC(solution, SolutionIndirect, 1, "solutionIndirect_create");
 	MMALLOC(solution->itemsOrder, int, instance->itemsCount, "solutionIndirect_create");
 	for(int i = 0; i < instance->itemsCount; i++)
-		solution->itemsOrder[i] = 0;
+		solution->itemsOrder[i] = -1;
 	
 	solution->bag = NULL;
 	solution->instance = instance;
@@ -62,6 +62,14 @@ int solutionIndirect_doable(SolutionIndirect * solution)
 int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index)
 {
 	return solution->itemsOrder[index];
+}
+
+int solutionIndirect_getIndexItem(SolutionIndirect * solution, int item)
+{
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		if(solution->itemsOrder[i] == item)
+			return i;
+	return -1;
 }
 
 void solutionIndirect_print(SolutionIndirect * solution)

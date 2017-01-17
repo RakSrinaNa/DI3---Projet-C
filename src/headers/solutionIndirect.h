@@ -77,6 +77,15 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution);
 int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index);
 
 /**
+ * Get the index of the 'item'th item in the order list.
+ *
+ * @param solution A pointer to the solution.
+ * @param item The index of the item to find.
+ * @return The index in the order list, -1 if not found.
+ */
+int solutionIndirect_getIndexItem(SolutionIndirect * solution, int item);
+
+/**
  * Duplicates a SolutionIndirect on the heap.
  *
  * @param solution A pointer to the solution to duplicate.
