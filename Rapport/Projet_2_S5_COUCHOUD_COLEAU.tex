@@ -110,7 +110,91 @@ Département DI\\~ %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter*{Introduction}
+Le projet que nous avons choisi est celui portant sur le problème du sac à dos (\textit{Knapsack problem}). Celui-ci se généralise très simplement et donne lieux à de nombreux problèmes analogues.
 
+Dans notre cas nous devons replir un sac à dos d'objets. Chaque objet a une certaine valeur près définie ainsi que des "poids" sur différentes dimensions. On peut imaginer le cas où l'on tente de remplir sa valise pour partir en voyage. Chaque objet a une valeur selong l'importance qu'on lui donne ainsi que des "poids" qui pourraient être la place qu'il occupe, son poid etc. L'idée ici est d'essayer de maximiser la valeur que nous emportons avec nous sachant que notre valise est limitée en poid et taille.
+
+D'un point de vu mathématique, on peut modéliser ceci simplement:
+\begin{itemize}
+	\item $X$ Un vecteur définissant quels items sont dans le sac ou pas (ex: $(0; 0; 1)$ définira un sac avec seulement le 3ème item de pris).
+	\item $W_j$ Le poid maximum que le sac peut dontenir sur la dimention $i$.
+	\item $w_{i,j}$ Le poid du $i$ème item sur la $j$ème dimension.
+	\item $v_i$ La valeur du $i$ème item.\\
+\end{itemize}
+Les contriantes sont: $\forall j\in [0...m], \sum_{i=0}^nx_iw_{i,j}\leq W_j$\\
+On appelera la fonction objectif $z(X)$ la fonction donant la valeur d'un sac: $z(X)=\sum_{i=0}^mx_iv_i$
+
+\chapter{Structure du projet}
+Le C ayant un language rassamblant tout les fichiers en un lors de la compilation, il est nécessaire de choisis judicieusement ses noms de fonstions afin d'éviter les duplicatas. Dans notre cas nous avons choisi un formattage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions du type \textit{population\_create(...)} ou bien \textit{metaheuristicGenetic\_search(...)}.
+
+\section{Fichiers}
+Concernant l'organisation des fichiers en eux même, chaque type d'entre eux est localisé à un endroit différent. En effet nous avions commencé par mettre tout nos .c et .h dans un mêm dossier. Cependant le projet grandissant assez vite, il a rapidement été un lieux où l'on se perd. Pour cela nous avons décidé de séparer les .h des .c puisque nous travaillons principalement sur les .c. Cela permet de s'y retrouver plus aisément. Ainsi la structure de notre dossier sources est la suivante:
+\begin{itemize}
+	\item src $\longrightarrow$ Le dossier racine contenant nos .c pour le programme
+	\begin{itemize}
+		\item headers $\longrightarrow$ Le dossier contenant nos headers pour le programme
+		\item unit $\longrightarrow$ Le dossier contenant nos .c pour les tests unitaires
+		\begin{itemize}
+			\item headers $\longrightarrow$ Le dossier contenant nos headers pour les tests unitaires\\
+		\end{itemize}	
+	\end{itemize}
+\end{itemize}
+
+Intéresson nous au dossier src. Nous avons décider de créer des fichiers spécifiques pour certaines strcutures ainsi que leur fonctions. Celles-ci sont:
+\begin{itemize}
+	\item Bag $\longrightarrow$ Représentant le contenu du sac pour une solution directe.
+	\item SolutionDirect $\longrightarrow$ Représentant une solution directe.
+	\item SolutionIndirect $\longrightarrow$ Représentant une solution indirecte.
+	\item Solution $\longrightarrow$ Représentant l'union du'une solution directe et indirecte.
+	\item Instance $\longrightarrow$ Représentant une instance.
+	\item Item $\longrightarrow$ Représenant un élément du sac.\\
+\end{itemize}
+
+A coté de cela nous avons plusieurs fichiers étant juste un regroupement de fonctions selon leur utilisation:
+\begin{itemize}
+	\item Parser $\longrightarrow$ Regroupant les différentes fonctions afin de lire un fichier.
+	\item Heuristic $\longrightarrow$ Regroupant les fonctions lièes à la résolution grâce à une heuristique.
+	\item Scheduler $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour l'heuristique.
+	\item MetaheuristiqueLocal $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique locale.
+	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique tabou et contenant la structure Tabou.
+	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique génétique et contenant la structure Population.
+\end{itemize}
+
+\section{Structures}
+\subsection{Parser}
+Cette structure permet la lecture pas à pas d'un fichier. Celle-ci contient le chemin du fichier concerné, l'offset actuel de lecture, le nombre d'instances à lire et le nombre d'instances lues.
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
+	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
+	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.
+\end{itemize}
+
+\chapter{Parser}
+L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons nous toutes les instances d'un fichier en un seul coup ou lisons les une par une?
+
+Nous avons premièrement décidé de les lires toutes a la suite. En effet ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir s'avancer sur les autres tâches à faire. Puis rapidement nous avons implémenté la seconde méthode. Celle-ci nous a parru plus adéquate pour nos utilisations car elle permet d'éviter une utilisation importante de la mémoire pour pas grand chose. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous a parru être le meilleur.
+
+Ainsi vous trouverez dans notre code les deux méthodes de lecture:
+\begin{itemize}
+	\item parser\_readAllFile $\longrightarrow$ qui renvoi toutes les instances d'un fichier
+	\item parser\_create $\longrightarrow$ Permet l'utilisation de parser\_getNextInstance qui renvoi uniquement la prochaine Instance.
+\end{itemize}
+
+\chapter{Heuristique}
+Dans le cadre des heuristiques, nous avons du implémenter nos propre critère de selection. Nous allons ici vous en présenter deux.
+
+Le premier se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière plus l'item remplira le sac, plus le diviseur sera importante et par conséquent aura un score faible.
+
+Le s
+
+\chapter{Metaheuristiques}
+\section{Local}
+\section{Tabou}
+\section{Genetique}
+
+\chapter{Autres}
 
 %--------------------------------------------------------------------------------
 \chapter*{Conclusion}
