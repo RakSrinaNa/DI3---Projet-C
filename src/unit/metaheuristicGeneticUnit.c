@@ -16,17 +16,41 @@ void metaheuristicGeneticTests() //TODO
 	solution2->solutions.indirect->itemsOrder[1] = 0;
 	solution2->solutions.indirect->itemsOrder[2] = 2;
 	Solution * solution3 = solution_duplicate(solution1);
+	Solution * solution5 = solution_duplicate(solution1);
 	
 	Population * population = population_create(3);
 	population_append(population, solution1);
 	population_append(population, solution2);
 	population_append(population, solution3);
 	
-	Solution * solution = metaheuristicGenetic_bestFromPopulation(population);
+	Solution * solution = population_getBest(population);
 	if(solution != solution1)
 		unit_error("ASSERT GENETIC 1");
 	
 	solution_destroy(solution);
+	solution = population_getWorst(population);
+	if(solution != solution2)
+		unit_error("ASSERT GENETIC 2");
+	solution_destroy(solution);
+	
+	Population * populationDup = population_duplicate(population);
+	if(populationDup == NULL || population->size != populationDup->size || population->maxSize != populationDup->maxSize)
+		unit_error("ASSERT GENETIC 3");
+	
+	Solution * solution4 = solution_duplicate(solution2);
+	population_remove(population, solution2);
+	if(population->size != 2 || population->maxSize != 3 || population->persons[0] != solution1 || population->persons[1] != solution3)
+		unit_error("ASSERT GENETIC 4");
+	
+	population_append(population, solution4);
+	if(population->size != 3 || population->maxSize != 3 || population->persons[0] != solution1 || population->persons[1] != solution3 || population->persons[2] != solution4)
+		unit_error("ASSERT GENETIC 5");
+	
+	population_replace(population, solution4, solution5);
+	if(population->size != 3 || population->maxSize != 3 || population->persons[0] != solution1 || population->persons[1] != solution3 || population->persons[2] != solution5)
+		unit_error("ASSERT GENETIC 6");
+	
+	population_destroy(populationDup);
 	population_destroy(population);
 	instance_destroy(instance);
 }
