@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="ker" />
+				<Option parameters="temp" />
 				<Compiler>
 					<Add option="-pedantic" />
 					<Add option="-Wall" />
@@ -51,6 +51,7 @@
 		<Unit filename="src/headers/instance.h" />
 		<Unit filename="src/headers/item.h" />
 		<Unit filename="src/headers/mainKergosien.h" />
+		<Unit filename="src/headers/metaheuristicGenetic.h" />
 		<Unit filename="src/headers/metaheuristicLocal.h" />
 		<Unit filename="src/headers/metaheuristicTabou.h" />
 		<Unit filename="src/headers/parser.h" />
@@ -106,6 +107,7 @@
 		<Unit filename="src/unit/headers/instanceUnit.h" />
 		<Unit filename="src/unit/headers/itemUnit.h" />
 		<Unit filename="src/unit/headers/mainUnit.h" />
+		<Unit filename="src/unit/headers/metaheuristicGeneticUnit.h" />
 		<Unit filename="src/unit/headers/metaheuristicLocalUnit.h" />
 		<Unit filename="src/unit/headers/metaheuristicTabouUnit.h" />
 		<Unit filename="src/unit/headers/parserUnit.h" />
@@ -124,6 +126,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/unit/mainUnit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/unit/metaheuristicGeneticUnit.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/unit/metaheuristicLocalUnit.c">

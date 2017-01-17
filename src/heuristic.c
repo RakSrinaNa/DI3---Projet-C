@@ -20,6 +20,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 	int * list = heuristic_getList(instance, bag, schedulerType, NULL, listCount);
 	int i = 0;
 	while(list != NULL)
+	{
 
 		i++;
 		int itemIndex = scheduler_removeFromList(&list, &listCount, 0);
@@ -38,7 +39,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 			}
 		}
 	}
-	free(list);
+
 	ftime(&timeEnd);
 
 	Solution * solution = NULL;
@@ -47,11 +48,13 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 	{
 		case DIRECT:
 			solution_fromDirect(bag_toSolutionDirect(instance, bag));
+			free(itemOrder);
 			bag_destroy(bag);
 			break;
 
 		case INDIRECT:
 			solution_fromIndirect(solutionIndirect_create(instance));
+			free(solution->solutions.indirect->itemsOrder);
 			solution->solutions.indirect->itemsOrder = itemOrder;
 			solution->solutions.indirect->bag = bag;
 			break;
