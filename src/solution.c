@@ -1,5 +1,6 @@
 #include "headers/heuristic.h"
 #include "headers/utils.h"
+#include "headers/solution.h"
 #include <stdlib.h>
 
 void solution_saveToFile(char * fileName, Solution * solution)
@@ -81,4 +82,26 @@ void solution_destroy(Solution * solution)
 			break;
 	}
 	free(solution);
+}
+
+Solution * solution_fromIndirect(SolutionIndirect * solutionIndirect)
+{
+	Solution * solution;
+	MMALLOC(solution, Solution, 1, "solution_fromIndirect");
+	solution->solveTime = 0;
+	solution->type = INDIRECT;
+	solution->solutions.indirect = solutionIndirect;
+	solution->instance = solutionIndirect->instance;
+	return solution;
+}
+
+Solution * solution_fromDirect(SolutionDirect * solutionDirect)
+{
+	Solution * solution;
+	MMALLOC(solution, Solution, 1, "solution_fromDirect");
+	solution->solveTime = 0;
+	solution->type = DIRECT;
+	solution->solutions.direct = solutionDirect;
+	solution->instance = solutionDirect->instance;
+	return solution;
 }

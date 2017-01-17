@@ -33,19 +33,17 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 	}
 	ftime(&timeEnd);
 	
-	Solution * solution;
-	MMALLOC(solution, Solution, 1, "heuristic");
-	solution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
-	solution->type = solutionType;
+	Solution * solution = NULL;
+	
 	switch(solutionType)
 	{
 		case DIRECT:
-			solution->solutions.direct = bag_toSolutionDirect(instance, bag);
+			solution_fromDirect(bag_toSolutionDirect(instance, bag));
 			bag_destroy(bag);
 			break;
 		
 		case INDIRECT:
-			solution->solutions.indirect = solutionIndirect_create(instance);
+			solution_fromIndirect(solutionIndirect_create(instance));
 			solution->solutions.indirect->bag = bag;
 			break;
 		
@@ -53,7 +51,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 			perror("Unknown solutionType heuristic");
 			exit(EXIT_FAILURE);
 	}
-	solution->instance = instance;
+	solution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
 	
 	return solution;
 }

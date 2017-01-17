@@ -70,4 +70,20 @@ Solution * solution_duplicate(Solution * solution);
  */
 void solution_destroy(Solution * solution);
 
+/**
+ * Create a solution from a solutionIndirect.
+ *
+ * @param solutionIndirect A pointer to the solution to wrap.
+ * @return A pointer to the newly created solution.
+*/
+Solution * solution_fromIndirect(SolutionIndirect * solutionIndirect);
+
+/**
+ * Create a solution from a solutionDirect.
+ *
+ * @param solutionDirect A pointer to the solution to wrap.
+ * @return A pointer to the newly created solution.
+*/
+Solution * solution_fromDirect(SolutionDirect * solutionDirect);
+
 #endif
