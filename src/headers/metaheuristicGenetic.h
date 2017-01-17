@@ -18,9 +18,10 @@ typedef struct
  * @param populationSize Number maximum of each population.
  * @param mutationProbability The probability between 0 and 1 of a child mutating.
  * @param maxIterations The maximum number of generation to create.
+ * @param styleNaturalSelection The style of the natural selection.
  * @return A pointer to the best solution the metaheuristic found.
  */
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations); //TODO Unit
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations, int styleNaturalSelection); //TODO Unit
 
 /**
  * Creates a population structure.
@@ -96,13 +97,16 @@ void population_remove(Population * population, Solution * solution);
 long population_evaluate(Population * population);
 
 //TODO Doc
-void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style); //TODO Unit
+void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style); //TODO Unit
 
 //TODO Doc
 void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2); //TODO Unit
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2); //TODO Unit
+
+//TODO Doc
+void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
 //TODO Doc
 void metaheuristicGenetic_mutation(Solution * child); //TODO Unit

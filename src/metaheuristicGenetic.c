@@ -6,7 +6,7 @@
 #include "headers/utils.h"
 #include "headers/heuristic.h"
 
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationMaxSize, float mutationProbability, int maxIterations)
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationMaxSize, float mutationProbability, int maxIterations, int styleNaturalSelection)
 {
 	//Random
 	srand(time(NULL));
@@ -26,11 +26,11 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 		{
 			Solution * parent1 = NULL;
 			Solution * parent2 = NULL;
-			metaheuristicGenetic_selectParents(population, parent1, parent2, 0);
+			metaheuristicGenetic_selectParents(population, &parent1, &parent2, 0);
 
 			Solution * child1 = NULL;
 			Solution * child2 = NULL;
-			metaheuristicGenetic_breedChildren(parent1, parent2, child1, child2);
+			metaheuristicGenetic_breedChildren(parent1, parent2, &child1, &child2);
 
 			population_append(childPopulation, child1);
 			population_append(childPopulation, child2);
@@ -45,7 +45,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 				solution_destroy(bestSolution);
 				bestSolution = solution_duplicate(childPopulation->persons[j]);
 			}
-			if(mutationProbability > (float) (rand() % RAND_MAX))
+			if(mutationProbability > (float) (rand()) / RAND_MAX)
 			{
 				metaheuristicGenetic_mutation(childPopulation->persons[j]);
 				tempScore = solution_evaluate(childPopulation->persons[j]);
@@ -57,7 +57,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 				}
 			}
 		}
-		metaheuristicGenetic_naturalSelection(&population, childPopulation, int 2);
+		metaheuristicGenetic_naturalSelection(&population, childPopulation, styleNaturalSelection);
 		i++;
 	}
 
@@ -170,12 +170,12 @@ long population_evaluate(Population * population)
 	return score;
 }
 
-void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style)
+void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style)
 {
 	switch(style)
 	{
 		case 0:
-			metaheuristicGenetic_selectParentsFight(population, &parent1, &parent2);
+			metaheuristicGenetic_selectParentsFight(population, parent1, parent2);
 			break;
 
 		case 1:
@@ -220,29 +220,49 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 
 }
 
-void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2)
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2)
 {
 	int i = 0;
 	long populationScore = population_evaluate(population);
 
-	while(parent1 == NULL)
+	while(*parent1 == NULL)
 	{
 		long score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
-			parent1 = population->persons[i];
+			*parent1 = population->persons[i];
 		populationScore -= score;
 		i++;
 	}
 
 	i = 0;
-	while(parent2 == NULL || parent1 == parent2)
+	while(*parent2 == NULL || *parent1 == *parent2)
 	{
 		long score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
-			parent2 = population->persons[i];
+			*parent2 = population->persons[i];
 		populationScore -= score;
 		i++;
 	}
+}
+
+void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
+{
+    if(parent1->type != parent2->type)
+    {
+		perror("metaheuristicGenetic_breedChildren");
+		exit(EXIT_FAILURE);
+    }
+
+    switch(parent1->type)
+    {
+	case DIRECT:
+		break;
+
+	case INDIRECT:
+
+		break;
+    }
+
 }
 
 void metaheuristicGenetic_mutation(Solution * child)
@@ -288,9 +308,9 @@ void metaheuristicGenetic_naturalSelection(Population ** population, Population 
 	case 2:
 		newPopulation = metaheuristicGenetic_naturalSelectionBalanced(*population, childPopulation);
 		break;
-		default:
-			perror("NATURAL SELECTION STYLE OVERSWAG");
-			exit(EXIT_FAILURE);
+	default:
+		perror("NATURAL SELECTION STYLE OVERSWAG");
+		exit(EXIT_FAILURE);
 	}
 	population_destroy(childPopulation);
 	population_destroy(*population);
