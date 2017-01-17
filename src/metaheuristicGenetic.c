@@ -276,8 +276,8 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 	while (cut2 <= cut1)
 		cut2 = rand() % parent2->solutions.indirect->instance->itemsCount;
 
-    *child1 = solutionIndirect_create(parent1->solutions.indirect->instance);
-    *child2 = solutionIndirect_create(parent2->solutions.indirect->instance);
+    *child1 = solution_fromIndirect(solutionIndirect_create(parent1->solutions.indirect->instance));
+    *child2 = solution_fromIndirect(solutionIndirect_create(parent2->solutions.indirect->instance));
 
     for(int i = 0; i < cut1; i++)
 	{

@@ -4,7 +4,7 @@
 #include "headers/mainKergosien.h"
 #include "headers/parser.h"
 #include "headers/solution.h"
-#include "headers/metaheuristicTabou.h"
+#include "headers/metaheuristicGenetic.h"
 
 int main(int argc, char * argv[])
 {
@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 			Instance * instance;
 			while((instance = parser_getNextInstance(parser)) != NULL)
 			{
-				Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 20, 1);
+				Solution * solution = metaheuristicGenetic_search(instance, INDIRECT, 100, 0.1, 200, 2);
 				solutionIndirect_print(solution->solutions.indirect);
 				solution_destroy(solution);
 				instance_destroy(instance);
