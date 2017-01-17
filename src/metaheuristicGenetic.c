@@ -230,7 +230,7 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 
 	while(*parent1 == NULL)
 	{
-		long score = solution_evaluate(population->persons[i]);
+		int score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
 			*parent1 = population->persons[i];
 		populationScore -= score;
@@ -240,7 +240,7 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 	i = 0;
 	while(*parent2 == NULL || *parent1 == *parent2)
 	{
-		long score = solution_evaluate(population->persons[i]);
+		int score = solution_evaluate(population->persons[i]);
 		if((float) rand() / RAND_MAX < (float) score / populationScore)
 			*parent2 = population->persons[i];
 		populationScore -= score;
