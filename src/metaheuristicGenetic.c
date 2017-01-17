@@ -57,7 +57,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 				}
 			}
 		}
-		metaheuristicGenetic_naturalSelection(population, childPopulation, int 2);
+		metaheuristicGenetic_naturalSelection(&population, childPopulation, int 2);
 		i++;
 	}
 
@@ -162,6 +162,14 @@ void population_replace(Population * population, Solution * toReplace, Solution 
 	population_append(population, replaceWith);
 }
 
+long population_evaluate(Population * population)
+{
+    long score = 0;
+    for(int i = 0; i < population->size; i++)
+		score += solution_evaluate(population->persons[i]);
+	return score;
+}
+
 void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style)
 {
 	switch(style)
@@ -200,15 +208,15 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 			fighter4 = fighter;
 	}
 
-	if(solution_evaluate(fighter1) > solution_evaluate(fighter2))
+	if(solution_evaluate(population->persons[fighter1]) > solution_evaluate(population->persons[fighter2]))
 		parent1 = population->persons[fighter1];
 	else
 		parent1 = population->persons[fighter2];
 
-	if(solution_evaluate(fighter3) > solution_evaluate(fighter4))
-		parent1 = population->persons[fighter3];
+	if(solution_evaluate(population->persons[fighter3]) > solution_evaluate(population->persons[fighter4))
+		parent2 = population->persons[fighter3];
 	else
-		parent1 = population->persons[fighter4];
+		parent2 = population->persons[fighter4];
 
 }
 
@@ -281,7 +289,7 @@ void metaheuristicGenetic_naturalSelection(Population ** population, Population 
 		newPopulation = metaheuristicGenetic_naturalSelectionBalanced(*population, childPopulation);
 		break;
 		default:
-			perror("NATURAL SELECTION STYLE UNKNOWN");
+			perror("NATURAL SELECTION STYLE OVERSWAG");
 			exit(EXIT_FAILURE);
 	}
 	population_destroy(childPopulation);
@@ -290,9 +298,9 @@ void metaheuristicGenetic_naturalSelection(Population ** population, Population 
 
 }
 
-Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population)
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * childPopulation)
 {
-    Population * newPopulation = population_duplicate(population);
+    Population * newPopulation = population_duplicate(childPopulation);
     return newPopulation;
 }
 

@@ -74,6 +74,9 @@
 		<Unit filename="src/mainKergosien.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/metaheuristicGenetic.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/metaheuristicLocal.c">
 			<Option compilerVar="CC" />
 		</Unit>
