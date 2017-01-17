@@ -268,6 +268,31 @@ void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, 
 
 void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
 {
+	int cut1 = (rand() % (parent1->solutions.indirect->instance->itemsCount-2))+1;
+	int cut2 = rand() % parent2->solutions.indirect->instance->itemsCount;
+	while (cut2 <= cut1)
+		cut2 = rand() % parent2->solutions.indirect->instance->itemsCount;
+
+    *child1 = solutionIndirect_create(parent1->solutions.indirect->instance);
+    *child2 = solutionIndirect_create(parent2->solutions.indirect->instance);
+
+    for(int i = 0; i < cut1; i++)
+	{
+        (*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
+        (*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+	}
+
+	for(int i = cut1; i < cut2; i++)
+	{
+		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+	}
+
+
+	for(int i = cut2; i < parent1->solutions.indirect->instance->itemsCount; i++)
+	{
+        (*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
+        (*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+	}
 
 }
 
