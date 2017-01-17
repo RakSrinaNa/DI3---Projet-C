@@ -46,7 +46,7 @@ void mainKergosien()
 				Solution * solution;
 				if(0)
 				{
-					solution = metaheuristicTabou_search(instance, INDIRECT, 10, 20, 1);
+					solution = metaheuristicTabou_search(instance, DIRECT, 10, 20, 1);
 					sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
 					solution_saveToFile(outputFile, solution);
 					printf("Solution written into %s\n", outputFile);
