@@ -87,7 +87,7 @@ Population * population_duplicate(Population * population)
 {
 	Population * newPopulation = population_create(population->maxSize);
 
-	for(int i = 0; i < population->maxSize; i++)
+	for(int i = 0; i < population->size; i++)
         population_append(newPopulation, solution_duplicate(population->persons[i]));
 
 	return newPopulation;
@@ -106,22 +106,18 @@ int population_append(Population * population, Solution * people)
 	return 1;
 }
 
-void population_replace(Solution * toReplace, Solution * replacer)
-{
-    solution_destroy(toReplace);
-    toReplace = solution_duplicate(replacer);
-}
-
 void population_remove(Population * population, Solution * solution)
 {
+	int i = 0;
+	while(population->size > i && population->persons[i] != solution)
+		i++;
+	if(i < population->size)
+	{
+		solution_destroy(solution);
+		for(int j = i; j < population->size - 1; j++)
+			population->persons[j] = population->persons[j + 1];
+	}
 	population->size--;
-	population_replace(solution, population->persons[population->size]);
-	RREALLOC(population->persons, Solution *, population->size, "population_remove");
-}
-
-void population_removeIndex(Population * population, int index)
-{
-	population_remove(population, population->persons[index]);
 }
 
 Solution * population_getBest(Population * population)
@@ -158,6 +154,12 @@ Solution * population_getWorst(Population * population)
 	}
 
 	return worstSolution;
+}
+
+void population_replace(Population * population, Solution * toReplace, Solution * replaceWith)
+{
+	population_remove(population, toReplace);
+	population_append(population, replaceWith);
 }
 
 void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style)
@@ -264,32 +266,33 @@ void metaheuristicGenetic_mutation(Solution * child)
     }
 }
 
-void metaheuristicGenetic_naturalSelection(Population * population, Population * childPopulation, int style)
+void metaheuristicGenetic_naturalSelection(Population ** population, Population * childPopulation, int style)
 {
 	Population * newPopulation;
 	switch(style)
 	{
 	case 0:
-		newPopulation = metaheuristicGenetic_naturalSelectionGeneretion(childPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionGeneration(childPopulation);
 		break;
 	case 1:
-		newPopulation = metaheuristicGenetic_naturalSelectionElitist(population, childPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionElitist(*population, childPopulation);
 		break;
 	case 2:
-		newPopulation = metaheuristicGenetic_naturalSelectionBalanced(population, childPopulation);
+		newPopulation = metaheuristicGenetic_naturalSelectionBalanced(*population, childPopulation);
 		break;
+		default:
+			perror("NATURAL SELECTION STYLE UNKNOWN");
+			exit(EXIT_FAILURE);
 	}
-
 	population_destroy(childPopulation);
-	population_destroy(population);
-	population = newPopulation;
+	population_destroy(*population);
+	*population = newPopulation;
 
 }
 
-Population * metaheuristicGenetic_naturalSelectionGeneration(Population * childPopulation)
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population)
 {
-	Population * newPopulation = population_create(childPopulation->maxSize);
-    newPopulation = population_duplicate(childPopulation);
+    Population * newPopulation = population_duplicate(population);
     return newPopulation;
 }
 
@@ -304,8 +307,8 @@ Population * metaheuristicGenetic_naturalSelectionElitist(Population * populatio
 	{
 		if(solution_evaluate(childPopulation->persons[i]) > solution_evaluate(worst))
 		{
-			population_replace(worst, childPopulation->persons[i]);
-			Solution * worst = population_getWorst(newPopulation);
+			population_replace(newPopulation, worst, childPopulation->persons[i]);
+			worst = population_getWorst(newPopulation);
 		}
 		i++;
 	}

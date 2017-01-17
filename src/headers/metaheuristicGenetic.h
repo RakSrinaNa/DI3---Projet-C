@@ -20,7 +20,7 @@ typedef struct
  * @param maxIterations The maximum number of generation to create.
  * @return A pointer to the best solution the metaheuristic found.
  */
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations);
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations); //TODO Unit
 
 /**
  * Creates a population structure.
@@ -52,24 +52,42 @@ void population_destroy(Population * population);
  * @param population A pointer to the population in which to find the solution.
  * @return A pointer to the best solution. If several solutions have the same score, only the first one encountered will be kept.
  */
-Solution * metaheuristicGenetic_bestFromPopulation(Population * population);
+Solution * population_getBest(Population * population);
 
 //TODO Doc
-void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style);
+Solution * population_getWorst(Population * population); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_selectParentsFight(Population * population, Solution * parent1, Solution * parent2);
+Population * population_duplicate(Population * population); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2);
+void population_replace(Population * population, Solution * toReplace, Solution * replaceWith); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_mutation(Solution * child);
+void population_remove(Population * population, Solution * solution); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_naturalSelection(Population * population, Population * childPopulation);
+void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_naturalSelectionGeneretion(Population * childPopulation, Population * newPopulation);
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution * parent1, Solution * parent2); //TODO Unit
+
+//TODO Doc
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2); //TODO Unit
+
+//TODO Doc
+void metaheuristicGenetic_mutation(Solution * child); //TODO Unit
+
+//TODO Doc
+void metaheuristicGenetic_naturalSelection(Population ** population, Population * childPopulation, int style); //TODO Unit
+
+//TODO Doc
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population); //TODO Unit
+
+//TODO Doc
+Population * metaheuristicGenetic_naturalSelectionElitist(Population * population, Population * childPopulation); //TODO Unit
+
+//TODO Doc
+Population * metaheuristicGenetic_naturalSelectionBalanced(Population * population, Population * childPopulation); //TODO Unit
 
 #endif
