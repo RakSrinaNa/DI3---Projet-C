@@ -175,7 +175,7 @@ void metaheuristicGenetic_selectParents(Population * population, Solution * pare
 	switch(style)
 	{
 		case 0:
-			metaheuristicGenetic_selectParentsFight(population, parent1, parent2);
+			metaheuristicGenetic_selectParentsFight(population, &parent1, &parent2);
 			break;
 
 		case 1:
@@ -187,7 +187,7 @@ void metaheuristicGenetic_selectParents(Population * population, Solution * pare
 	}
 }
 
-void metaheuristicGenetic_selectParentsFight(Population * population, Solution * parent1, Solution * parent2)
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2)
 {
 	int fighter1 = -1;
 	int fighter2 = -1;
@@ -209,14 +209,14 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 	}
 
 	if(solution_evaluate(population->persons[fighter1]) > solution_evaluate(population->persons[fighter2]))
-		parent1 = population->persons[fighter1];
+		*parent1 = population->persons[fighter1];
 	else
-		parent1 = population->persons[fighter2];
+		*parent1 = population->persons[fighter2];
 
-	if(solution_evaluate(population->persons[fighter3]) > solution_evaluate(population->persons[fighter4))
-		parent2 = population->persons[fighter3];
+	if(solution_evaluate(population->persons[fighter3]) > solution_evaluate(population->persons[fighter4]))
+		*parent2 = population->persons[fighter3];
 	else
-		parent2 = population->persons[fighter4];
+		*parent2 = population->persons[fighter4];
 
 }
 

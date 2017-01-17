@@ -87,11 +87,19 @@ void population_replace(Population * population, Solution * toReplace, Solution 
  */
 void population_remove(Population * population, Solution * solution);
 
+/**
+ * Calculate the sum of the score of the people in the Population.
+ *
+ * @param population A pointer to the population to get the score from.
+ * @return The score.
+ */
+long population_evaluate(Population * population);
+
 //TODO Doc
 void metaheuristicGenetic_selectParents(Population * population, Solution * parent1, Solution * parent2, int style); //TODO Unit
 
 //TODO Doc
-void metaheuristicGenetic_selectParentsFight(Population * population, Solution * parent1, Solution * parent2); //TODO Unit
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2); //TODO Unit
 
 //TODO Doc
 void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution * parent1, Solution * parent2); //TODO Unit

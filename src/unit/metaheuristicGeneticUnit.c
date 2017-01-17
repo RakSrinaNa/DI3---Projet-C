@@ -23,6 +23,9 @@ void metaheuristicGeneticTests() //TODO
 	population_append(population, solution2);
 	population_append(population, solution3);
 	
+	if(population_evaluate(population) != 312)
+		unit_error("ASSERT GENETIC 0");
+	
 	Solution * solution = population_getBest(population);
 	if(solution != solution1)
 		unit_error("ASSERT GENETIC 1");
