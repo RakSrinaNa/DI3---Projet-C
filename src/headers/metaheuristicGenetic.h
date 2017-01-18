@@ -5,7 +5,7 @@
 
 typedef struct
 {
-	Solution ** persons;
+	Solution ** people;
 	int maxSize;
 	int size;
 } Population;

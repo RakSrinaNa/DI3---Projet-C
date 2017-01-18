@@ -43,15 +43,15 @@ void metaheuristicGeneticTests() //TODO
 		unit_error("ASSERT GENETIC 3");
 	
 	population_remove(population, solution2);
-	if(population->size != 2 || population->maxSize != 3 || solution_evaluate(population->persons[0]) != solution_evaluate(solution1) || solution_evaluate(population->persons[1]) != solution_evaluate(solution3))
+	if(population->size != 2 || population->maxSize != 3 || solution_evaluate(population->people[0]) != solution_evaluate(solution1) || solution_evaluate(population->people[1]) != solution_evaluate(solution3))
 		unit_error("ASSERT GENETIC 4");
 
 	population_append(population, solution4);
-	if(population->size != 3 || population->maxSize != 3 || solution_evaluate(population->persons[0]) != solution_evaluate(solution1) || solution_evaluate(population->persons[1]) != solution_evaluate(solution3) || solution_evaluate(population->persons[2]) != solution_evaluate(solution4))
+	if(population->size != 3 || population->maxSize != 3 || solution_evaluate(population->people[0]) != solution_evaluate(solution1) || solution_evaluate(population->people[1]) != solution_evaluate(solution3) || solution_evaluate(population->people[2]) != solution_evaluate(solution4))
 		unit_error("ASSERT GENETIC 5");
 
 	population_replace(population, solution4, solution5);
-	if(population->size != 3 || population->maxSize != 3 || solution_evaluate(population->persons[0]) != solution_evaluate(solution1) || solution_evaluate(population->persons[1]) != solution_evaluate(solution3) || solution_evaluate(population->persons[2]) != solution_evaluate(solution5))
+	if(population->size != 3 || population->maxSize != 3 || solution_evaluate(population->people[0]) != solution_evaluate(solution1) || solution_evaluate(population->people[1]) != solution_evaluate(solution3) || solution_evaluate(population->people[2]) != solution_evaluate(solution5))
 		unit_error("ASSERT GENETIC 6");
 
 	population_destroy(populationDup);
@@ -62,17 +62,17 @@ void metaheuristicGeneticTests() //TODO
 void populationTests(Instance * instance)
 {
 	Population * population = population_create(2);
-	if(population == NULL || population->size != 0 || population->maxSize != 2 || population->persons != NULL)
+	if(population == NULL || population->size != 0 || population->maxSize != 2 || population->people != NULL)
 		unit_error("ASSERT POPULATION 1");
 
 	Solution * solution = heuristic(instance, INDIRECT, 5);
 	int result = population_append(population, solution);
-	if(result != 1 || population->size != 1 || population->persons == NULL || population->persons[0] != solution)
+	if(result != 1 || population->size != 1 || population->people == NULL || population->people[0] != solution)
 		unit_error("ASSERT POPULATION 2");
 
 	Solution * solution2 = heuristic(instance, INDIRECT, 4);
 	result = population_append(population, solution2);
-	if(result != 1 || population->size != 2 || population->persons[1] != solution2)
+	if(result != 1 || population->size != 2 || population->people[1] != solution2)
 		unit_error("ASSERT POPULATION 3");
 
 	Solution * solution3 = heuristic(instance, INDIRECT, 3);
