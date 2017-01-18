@@ -96,13 +96,13 @@ Population * population_duplicate(Population * population)
 	return newPopulation;
 }
 
-int population_append(Population * population, Solution * people)
+int population_append(Population * population, Solution * person)
 {
 	if(population->size >= population->maxSize)
 		return 0;
 	population->size++;
 	RREALLOC(population->people, Solution *, population->size, "population_destroy");
-	population->people[population->size - 1] = people;
+	population->people[population->size - 1] = person;
 	return 1;
 }
 

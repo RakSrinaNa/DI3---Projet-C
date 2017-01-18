@@ -35,10 +35,10 @@ Population * population_create(int populationMaxSize);
  * Add a solution to the population.
  *
  * @param population A pointer to the population to add into.
- * @param people A pointer to the solution to add.
+ * @param person A pointer to the solution to add.
  * @return 1 if the solution was added, 0 otherwise.
  */
-int population_append(Population * population, Solution * people);
+int population_append(Population * population, Solution * person);
 
 /**
  * Destroys a population.
