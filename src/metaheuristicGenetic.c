@@ -130,7 +130,7 @@ Solution * population_getBest(Population * population)
 		if(tempScore > bestScore)
 		{
 			bestScore = tempScore;
-			free(bestSolution);
+			solution_destroy(bestSolution);
 			bestSolution = solution_duplicate(population->persons[i]);
 		}
 	}
@@ -148,7 +148,7 @@ Solution * population_getWorst(Population * population)
 		if(tempScore < worstScore)
 		{
 			worstScore = tempScore;
-			free(worstSolution);
+			solution_destroy(worstSolution);
 			worstSolution = solution_duplicate(population->persons[i]);
 		}
 	}
