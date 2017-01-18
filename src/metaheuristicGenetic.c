@@ -278,32 +278,25 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
     *child1 = solution_fromIndirect(solutionIndirect_create(parent1->solutions.indirect->instance));
     *child2 = solution_fromIndirect(solutionIndirect_create(parent2->solutions.indirect->instance));
 
-    for(int i = 0; i < cut1; i++)
-	{
-        (*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
-        (*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
-	}
-
+	for(int i = 0; i < parent1->instance->itemsCount; i++)
+		if(i < cut1 || i >= cut2)
+		{
+			(*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
+			(*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
+		}
+	
 	for(int i = cut1; i < cut2; i++)
 	{
 		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
 		while(solutionIndirect_getIndexItem((*child1)->solutions.indirect, item) != -1)
 			item = solutionIndirect_getItemIndex(parent1->solutions.indirect, solutionIndirect_getIndexItem(parent2->solutions.indirect, item));
 		(*child1)->solutions.indirect->itemsOrder[i] = item;
-
-		int item2 = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
-		while(solutionIndirect_getIndexItem((*child2)->solutions.indirect, item2) != -1)
-			item2 = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, item2));
-		(*child2)->solutions.indirect->itemsOrder[i] = item2;
+		
+		item = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
+		while(solutionIndirect_getIndexItem((*child2)->solutions.indirect, item) != -1)
+			item = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, item));
+		(*child2)->solutions.indirect->itemsOrder[i] = item;
 	}
-
-
-	for(int i = cut2; i < parent1->solutions.indirect->instance->itemsCount; i++)
-	{
-        (*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
-        (*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
-	}
-
 }
 
 void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
