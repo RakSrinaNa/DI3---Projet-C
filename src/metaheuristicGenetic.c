@@ -8,6 +8,7 @@
 #include "headers/metaheuristicGenetic.h"
 #include "headers/utils.h"
 #include "headers/heuristic.h"
+#include "headers/instance.h"
 
 Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationMaxSize, float mutationProbability, int maxIterations, int styleNaturalSelection)
 {
@@ -261,6 +262,8 @@ void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, 
 
 	case INDIRECT:
 		metaheuristicGenetic_breedChildrenPMX(parent1, parent2, child1, child2);
+		    solutionIndirect_decode((*child1)->solutions.indirect);
+		    solutionIndirect_decode((*child2)->solutions.indirect);
 		break;
     }
 }
@@ -285,12 +288,12 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 	{
 		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
 		while(solutionIndirect_getIndexItem((*child1)->solutions.indirect, item) != -1)
-			item = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, solutionIndirect_getIndexItem((*child1)->solutions.indirect, item)));
+			item = solutionIndirect_getItemIndex(parent1->solutions.indirect, solutionIndirect_getIndexItem(parent2->solutions.indirect, item));
 		(*child1)->solutions.indirect->itemsOrder[i] = item;
 
 		int item2 = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
 		while(solutionIndirect_getIndexItem((*child2)->solutions.indirect, item2) != -1)
-			item2 = solutionIndirect_getItemIndex(parent1->solutions.indirect, solutionIndirect_getIndexItem(parent2->solutions.indirect, solutionIndirect_getIndexItem((*child2)->solutions.indirect, item2)));
+			item2 = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, item2));
 		(*child2)->solutions.indirect->itemsOrder[i] = item2;
 	}
 
