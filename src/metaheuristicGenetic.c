@@ -301,10 +301,10 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 
 void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
 {
-	int cut = (rand() % (parent1->solutions.indirect->instance->itemsCount-2))+1;
+	int cut = (rand() % (parent1->instance->itemsCount-2))+1;
 
-    *child1 = solution_fromIndirect(solutionIndirect_create(parent1->solutions.indirect->instance));
-    *child2 = solution_fromIndirect(solutionIndirect_create(parent2->solutions.indirect->instance));
+    *child1 = solution_fromDirect(solutionDirect_create(parent1->instance));
+    *child2 = solution_fromDirect(solutionDirect_create(parent2->instance));
 
     for(int i = 0; i < cut; i++)
 	{
@@ -312,7 +312,7 @@ void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * par
         (*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
 	}
 
-	for(int i = cut; i < parent1->solutions.indirect->instance->itemsCount; i++)
+	for(int i = cut; i < parent1->instance->itemsCount; i++)
 	{
         (*child1)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
         (*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent2->solutions.direct, i);
@@ -323,7 +323,7 @@ void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * par
 			(*child2)->solutions.direct->itemsTaken[i] = 0;
 	}
 
-	for(int i = parent1->solutions.indirect->instance->itemsCount-1; i >= 0; i--)
+	for(int i = parent1->instance->itemsCount-1; i >= 0; i--)
 	{
         if(!solutionDirect_isItemTaken((*child1)->solutions.direct, i))
         {

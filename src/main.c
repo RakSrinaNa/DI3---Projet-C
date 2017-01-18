@@ -31,8 +31,11 @@ int main(int argc, char * argv[])
 			Instance * instance;
 			while((instance = parser_getNextInstance(parser)) != NULL)
 			{
-				Solution * solution = metaheuristicGenetic_search(instance, INDIRECT, 200, 0.1, 500, 2);
-				solutionIndirect_print(solution->solutions.indirect);
+				Solution * solution = metaheuristicGenetic_search(instance, DIRECT, 100, 0.3, 300, 2);
+				if(solution->type == INDIRECT)
+					solutionIndirect_print(solution->solutions.indirect);
+				else
+					solutionDirect_print(solution->solutions.direct);
 				solution_destroy(solution);
 				instance_destroy(instance);
 			}
