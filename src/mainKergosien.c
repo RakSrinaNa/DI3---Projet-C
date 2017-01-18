@@ -8,6 +8,7 @@
 #include "headers/heuristic.h"
 #include "headers/metaheuristicLocal.h"
 #include "headers/metaheuristicTabou.h"
+#include "headers/metaheuristicGenetic.h"
 
 void mainKergosien()
 {
@@ -31,6 +32,9 @@ void mainKergosien()
 
 		i++;
 
+		if(i > 1)
+            continue;
+
 		sprintf(filePath, "%s/%s", dirName, file->d_name);
 		printf("Processing file: %s\n", filePath);
 		Parser * parser = parser_create(filePath);
@@ -38,32 +42,28 @@ void mainKergosien()
 		Instance * instance;
 		while((instance = parser_getNextInstance(parser)) != NULL)
 		{
-			for(int j = 0; j < 6; j++)
-			{
-				if(j < 5)
-					continue;
-				char outputFile[100];
-				Solution * solution;
-				if(0)
-				{
-					solution = metaheuristicTabou_search(instance, DIRECT, 10, 20, 1);
-					sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
-					solution_saveToFile(outputFile, solution);
-					printf("Solution written into %s\n", outputFile);
-					solution_destroy(solution);
-				}
+            char outputFile[100];
+            Solution * solution;
+            if(0)
+            {
+                solution = metaheuristicGenetic_search(instance, DIRECT, 50, 0.1, 100, 1);
+                sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
+                solution_saveToFile(outputFile, solution);
+                printf("Solution written into %s\n", outputFile);
+                solution_destroy(solution);
+            }
 
-				if(1)
-				{
-					if(j < 5)
-						continue;
-					solution = metaheuristicLocal_search(instance, INDIRECT, 0, j);
-					sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, j);
-					solution_saveToFile(outputFile, solution);
-					printf("Solution written into %s\n", outputFile);
-					solution_destroy(solution);
-				}
-			}
+            if(1)
+            {
+                solution = metaheuristicGenetic_search(instance, INDIRECT, 5, 0.1, 10, 0);
+                solutionIndirect_print(solution->solutions.indirect);
+                sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
+                solution_saveToFile(outputFile, solution);
+                printf("Solution written into %s\n", outputFile);
+                solution_destroy(solution);
+            }
+
+
 			instance_destroy(instance);
 		}
 		parser_destroy(parser);

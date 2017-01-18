@@ -30,7 +30,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 		{
 			Solution * parent1 = NULL;
 			Solution * parent2 = NULL;
-			metaheuristicGenetic_selectParents(population, &parent1, &parent2, 0);
+			metaheuristicGenetic_selectParents(population, &parent1, &parent2, 1);
 
 			Solution * child1 = NULL;
 			Solution * child2 = NULL;
@@ -43,7 +43,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 		for(int j = 0; j < childPopulation->size; j++)
 		{
 			int tempScore = solution_evaluate(childPopulation->people[j]);
-			if(tempScore > scoreBest)
+			if(tempScore > scoreBest && solution_doable(childPopulation->people[j]))
 			{
 				scoreBest = tempScore;
 				solution_destroy(bestSolution);
@@ -53,7 +53,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 			{
 				metaheuristicGenetic_mutation(childPopulation->people[j]);
 				tempScore = solution_evaluate(childPopulation->people[j]);
-				if(tempScore > scoreBest)
+				if(tempScore > scoreBest && solution_doable(childPopulation->people[j]))
 				{
 					scoreBest = tempScore;
 					solution_destroy(bestSolution);
@@ -114,7 +114,7 @@ void population_remove(Population * population, Solution * solution)
 		i++;
 	if(i < population->size)
 	{
-		solution_destroy(solution);
+		solution_destroy(population->people[i]);
 		for(int j = i; j < population->size - 1; j++)
 			population->people[j] = population->people[j + 1];
 	}
@@ -149,8 +149,7 @@ Solution * population_getWorst(Population * population)
 		if(tempScore < worstScore)
 		{
 			worstScore = tempScore;
-			solution_destroy(worstSolution);
-			worstSolution = solution_duplicate(population->people[i]);
+			worstSolution = population->people[i];
 		}
 	}
 
@@ -196,8 +195,8 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 	int fighter4 = -1;
 	while(fighter4 == -1)
 	{
-		int fighter = rand() % population->maxSize;
-		if(fighter == fighter1 || fighter == fighter2 || fighter == fighter3 || fighter == fighter4)
+		int fighter = rand() % population->size;
+		if(fighter == fighter1 || fighter == fighter2 || fighter == fighter3 || fighter == fighter4) //Si le nouveau fighter est deja selectionne alors on ne le prend pas
 			continue;
 		else if(fighter1 == -1)
 			fighter1 = fighter;
@@ -229,9 +228,12 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 	while(*parent1 == NULL)
 	{
 		int score = solution_evaluate(population->people[i]);
-		if((float) rand() / RAND_MAX < (float) score / populationScore)
+		if((float) rand() / RAND_MAX <= (float) score / populationScore) //Compare avec le ratio de la solution courrante sur le score de la population restante
+		{
 			*parent1 = population->people[i];
-		populationScore -= score;
+			break;
+        }
+		populationScore -= score; //populationScore est egal au score de la population restante
 		i++;
 	}
 
@@ -239,8 +241,11 @@ void metaheuristicGenetic_selectParentsRoulette(Population * population, Solutio
 	while(*parent2 == NULL || *parent1 == *parent2)
 	{
 		int score = solution_evaluate(population->people[i]);
-		if((float) rand() / RAND_MAX < (float) score / populationScore)
+		if((float) rand() / RAND_MAX <= (float) score / populationScore)
+		{
 			*parent2 = population->people[i];
+			break;
+        }
 		populationScore -= score;
 		i++;
 	}
@@ -284,14 +289,14 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 			(*child1)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
 			(*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
 		}
-	
+
 	for(int i = cut1; i < cut2; i++)
 	{
 		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
 		while(solutionIndirect_getIndexItem((*child1)->solutions.indirect, item) != -1)
 			item = solutionIndirect_getItemIndex(parent1->solutions.indirect, solutionIndirect_getIndexItem(parent2->solutions.indirect, item));
 		(*child1)->solutions.indirect->itemsOrder[i] = item;
-		
+
 		item = solutionIndirect_getItemIndex(parent1->solutions.indirect, i);
 		while(solutionIndirect_getIndexItem((*child2)->solutions.indirect, item) != -1)
 			item = solutionIndirect_getItemIndex(parent2->solutions.indirect, solutionIndirect_getIndexItem(parent1->solutions.indirect, item));
@@ -408,11 +413,11 @@ Population * metaheuristicGenetic_naturalSelectionElitist(Population * populatio
 	Solution * worst = population_getWorst(newPopulation);
 
 	int i = 0;
-	while(i < childPopulation->maxSize)
+	while(i < childPopulation->size)
 	{
 		if(solution_evaluate(childPopulation->people[i]) > solution_evaluate(worst))
 		{
-			population_replace(newPopulation, worst, childPopulation->people[i]);
+			population_replace(newPopulation, worst, solution_duplicate(childPopulation->people[i]));
 			worst = population_getWorst(newPopulation);
 		}
 		i++;
