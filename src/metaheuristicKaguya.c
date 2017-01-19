@@ -10,136 +10,141 @@
 
 Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solutionType)
 {
-    Clan * clan = clan_createAncestor(instance, solutionType);
+    Clan * clan = clan_create(instance, solutionType);
+    Clan * descendants = clan_create(instance, solutionType);
+
+    clan_append(clan, clanMember_ancestor());
 
     while(clan->size > 0)
     {
         clan_generation(clan);
-        clan_sacrament(clan);
-        clan_crowning(clan);
+        clan_dispertion(clan, descendants);
     }
 
     return clan_extinction(clan);
 }
 
-Clan * clan_createAncestor(Instance * instance, SolutionType solutionType)
+Clan * clan_create(Instance * instance, SolutionType solutionType)
 {
     Clan * clan;
     MMALLOC(clan, Clan, 1, "clan_createAncestor");
 
     clan->type = solutionType;
-    clan->size = 1;
-    MMALLOC(clan->people, Solution*, clan->size, "clan_createAncestor");
-    clan->people[0] = solution_full(instance, clan->type);
+    clan->instance = instance;
 
-    if(solution_doable(clan->people[0]))
-    {
-        MMALLOC(clan->heirs, Solution*, clan->size, "clan_createAncestor");
-        clan->heirs[0] = solution_duplicate(clan->people[0]);
-        clan->descendants = 1;
-    }
-    else
-    {
-        clan->heirs = NULL;
-        clan->descendants = 0;
-    }
+    clan->people = NULL;
+    clan->size = 0;
 
     return clan;
 }
 
+void clan_append(Clan * clan, ClanMember * clanMember)
+{
+    clan->size++;
+    RREALLOC(clan->people, ClanMember*, clan->size, "clan_append");
+    clan->people[clan->size-1] = clanMember;
+}
+
+void clan_remove(Clan * clan, int index)
+{
+	clanMember_destroy(clan->people[index]);
+	clan->size--;
+	if(clan->size == 0)
+		clan->people = NULL;
+	else
+	{
+		clan->people[index] = clan->people[clan->size];
+		RREALLOC(clan->people, ClanMember*, clan->size, "clan_remove");
+	}
+}
+
+ClanMember * clanMember_ancestor()
+{
+    ClanMember * ancestor;
+    MMALLOC(ancestor, ClanMember, 1, "clanMember_ancestor");
+    ancestor->DNA = NULL;
+    ancestor->dilution = 0;
+    return ancestor;
+}
+
+void clanMember_destroy(ClanMember * clanMember)
+{
+	free(clanMember->DNA);
+	free(clanMember);
+}
+
+ClanMember * clanMember_generation(ClanMember * clanMember, int index)
+{
+    ClanMember * heir = clanMember_duplicate(clanMember);
+    heir->dilution++;
+    heir->DNA[heir->dilution-1] = index;
+    return heir;
+}
+
+ClanMember * clanMember_duplicate(ClanMember * clanMember)
+{
+    ClanMember * newMember;
+    MMALLOC(newMember, ClanMember, 1, "clanMember_duplicate");
+    newMember->dilution = clanMember->dilution;
+    newMember->DNA = clanMember->DNA;
+    return newMember;
+}
+
+int clanMember_doable(Clan * clan, int index)
+{
+	Solution * solution = clanMember_createSolution(clan, index);
+	int result = solution_doable(solution);
+	solution_destroy(solution);
+
+	return result;
+}
+
+int clanMember_evaluate(Clan * clan, int index)
+{
+
+}
+
 void clan_generation(Clan * clan)
 {
-    Solution ** children = NULL;
-    int childrenNumber = 0;
-
-    for(int i = 0; i < clan->size; i++)
+	int initialSize = clan->size;
+    for(int i = 0; i < initialSize; i++)
     {
         switch(clan->type)
         {
         case DIRECT:
-            for(int j = 0; j < clan->people[i]->instance->itemsCount; j++)
-            {
-                if(solutionDirect_isItemTaken(clan->people[i]->solutions.direct, j))
-                {
-                    Solution * solution = solution_duplicate(clan->people[i]);
-                    solution->solutions.direct->itemsTaken[j] = 0;
-                    childrenNumber++;
-                    RREALLOC(children, Solution *, childrenNumber, "clan_generation");
-                    children[childrenNumber - 1] = solution;
-                }
-            }
+			for(int j = 0; j < clan->instance->itemsCount; j++)
+			{
+				if(!clanMember_isInDNA(clan->people[i], j))
+				{
+                    ClanMember * heir = clanMember_generation(clan->people[i], j);
+                    clan_append(clan, heir);
+				}
+			}
             break;
+
         case INDIRECT:
             break;
         }
     }
-    clan_replaceGeneration(clan, children, childrenNumber);
+    for(int j = 0; j < initialSize; j++)
+		clan_remove(clan, 0);
+
 }
 
-void clan_replaceGeneration(Clan * clan, Solution ** children, int childrenNumber)
+void clan_dispertion(Clan * clan, Clan * descendants)
 {
-    for(int i = 0; i < clan->size; i++)
-        solution_destroy(clan->people[i]);
-    free(clan->people);
-
-    clan->people = children;
-    clan->size = childrenNumber;
-}
-
-void clan_sacrament(Clan * clan)
-{
-    for(int i = 0; i < clan->size; i++)
-        if(solution_doable(clan->people[i]))
-        {
-            clan_isolate(clan, i);
-            i--;
-        }
-}
-
-void clan_isolate(Clan * clan, int index)
-{
-    clan->descendants++;
-    RREALLOC(clan->heirs, Solution *, clan->descendants, "clan_isolate");
-    clan->heirs[clan->descendants - 1] = clan->people[index];
-
-    clan->size--;
-    if(clan->size == 0)
-        clan->people = NULL;
-    else
-    {
-        clan->people[index] = clan->people[clan->size];
-        RREALLOC(clan->people, Solution *, clan->size, "clan_isolate");
-    }
-}
-
-void clan_crowning(Clan * clan)
-{
-    for(int i = 0; i < clan->descendants; i++)
-    {
-        if(solution_evaluate(clan->leader) < solution_evaluate(clan->heirs[i]))
-        {
-            solution_destroy(clan->leader);
-            clan->leader = solution_duplicate(clan->heirs[i]);
-        }
-        solution_destroy(clan->heirs[i]);
-    }
-    free(clan->heirs);
-    clan->descendants = 0;
+	for(int i = 0; i < clan->size; i++)
+	{
+		if(clanMember_doable(clan, i))
+		{
+			clan_append(descendants, clanMember_duplicate(clan->people[i]));
+			clan_remove(clan, i);
+			i--;
+		}
+	}
 }
 
 Solution * clan_extinction(Clan * clan)
 {
-    for(int i = 0; i < clan->size; i++)
-		solution_destroy(clan->people[i]);
-	free(clan->people);
-
-    for(int i = 0; i < clan->descendants; i++)
-		solution_destroy(clan->heirs[i]);
-	free(clan->heirs);
-
-    Solution * last = solution_duplicate(clan->leader);
-    solution_destroy(clan->leader);
-    free(clan);
-
-    return last;
+    return ;
 }

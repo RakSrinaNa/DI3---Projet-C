@@ -5,36 +5,47 @@
 
 typedef struct
 {
-	Solution ** people;
-	int size;
+	int * DNA;
+	int dilution;
+} ClanMember;
+
+typedef struct
+{
+	Instance * instance;
 	SolutionType type;
-	Solution ** heirs;
-	int descendants;
-	Solution * leader;
+
+	ClanMember ** people;
+	int size;
 } Clan;
 
+
 //TODO
+
 Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solutionType);
 
-//TODO
-Clan * clan_createAncestor(Instance * instance, SolutionType solutionType);
+Clan * clan_create(Instance * instance, SolutionType solutionType);
 
-//TODO
+void clan_append(Clan * clan, ClanMember * clanMember);
+
+void clan_remove(Clan * clan, int index);
+
+ClanMember * clanMember_ancestor();
+
+void clanMember_destroy(ClanMember * clanMember);
+
+ClanMember * clanMember_generation(ClanMember * clanMember, int index);
+
+ClanMember * clanMember_duplicate(ClanMember * clanMember);
+
+int clanMember_doable(Clan * clan, int index);
+
+int clanMember_evaluate(Clan * clan, int index);
+
 void clan_generation(Clan * clan);
 
-//TODO
-void clan_replaceGeneration(Clan * clan, Solution ** children, int childrenNumber);
+void clan_dispertion(Clan * clan, Clan * descendants);
 
-//TODO
-void clan_sacrament(Clan * clan);
-
-//TODO
-void clan_isolate(Clan * clan, int index);
-
-//TODO
-void clan_crowning(Clan * clan);
-
-//TODO
 Solution * clan_extinction(Clan * clan);
+
 
 #endif

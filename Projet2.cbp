@@ -52,6 +52,7 @@
 		<Unit filename="src/headers/item.h" />
 		<Unit filename="src/headers/mainKergosien.h" />
 		<Unit filename="src/headers/metaheuristicGenetic.h" />
+		<Unit filename="src/headers/metaheuristicKaguya.h" />
 		<Unit filename="src/headers/metaheuristicLocal.h" />
 		<Unit filename="src/headers/metaheuristicTabou.h" />
 		<Unit filename="src/headers/parser.h" />
@@ -76,6 +77,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/metaheuristicGenetic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/metaheuristicKaguya.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/metaheuristicLocal.c">

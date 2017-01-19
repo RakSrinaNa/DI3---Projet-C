@@ -5,6 +5,7 @@
 #include "headers/parser.h"
 #include "headers/solution.h"
 #include "headers/metaheuristicGenetic.h"
+#include "headers/metaheuristicKaguya.h"
 
 int main(int argc, char * argv[])
 {
@@ -31,7 +32,7 @@ int main(int argc, char * argv[])
 			Instance * instance;
 			while((instance = parser_getNextInstance(parser)) != NULL)
 			{
-				Solution * solution = metaheuristicGenetic_search(instance, DIRECT, 50, 0.1, 50, 1);
+				Solution * solution = metaheuristicKaguya_search(instance, DIRECT);
 				if(solution->type == INDIRECT)
 					solutionIndirect_print(solution->solutions.indirect);
 				else
@@ -40,8 +41,6 @@ int main(int argc, char * argv[])
 				instance_destroy(instance);
 			}
 			parser_destroy(parser);
-
-
 		}
 	}
 
