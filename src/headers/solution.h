@@ -86,4 +86,6 @@ Solution * solution_fromIndirect(SolutionIndirect * solutionIndirect);
 */
 Solution * solution_fromDirect(SolutionDirect * solutionDirect);
 
+//TODO
+Solution * solution_full(Instance * instance, SolutionType solutionType);
 #endif

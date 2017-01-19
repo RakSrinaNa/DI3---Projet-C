@@ -22,6 +22,8 @@ long double solution_getTimeDiff(struct timeb start, struct timeb end)
 
 int solution_evaluate(Solution * solution)
 {
+	if(solution == NULL)
+		return 0;
 	switch(solution->type)
 	{
 		case DIRECT:
@@ -56,11 +58,11 @@ Solution * solution_duplicate(Solution * solution)
 		case DIRECT:
 			newSolution->solutions.direct = solutionDirect_duplicate(solution->solutions.direct);
 			break;
-		
+
 		case INDIRECT:
 			newSolution->solutions.indirect = solutionIndirect_duplicate(solution->solutions.indirect);
 			break;
-		
+
 		default:
 			perror("Unknown solutionType solution_duplicate");
 			exit(EXIT_FAILURE);
@@ -104,4 +106,23 @@ Solution * solution_fromDirect(SolutionDirect * solutionDirect)
 	solution->solutions.direct = solutionDirect;
 	solution->instance = solutionDirect->instance;
 	return solution;
+}
+
+Solution * solution_full(Instance * instance, SolutionType solutionType)
+{
+	Solution * solution = NULL;
+    switch(solutionType)
+    {
+	case DIRECT:
+		solution = solution_fromDirect(solutionDirect_create(instance));
+		for(int i = 0; i < solution->instance->itemsCount; i++)
+			solution->solutions.direct->itemsTaken[i] = 1;
+		break;
+	case INDIRECT:
+		solution = solution_fromIndirect(solutionIndirect_create(instance));
+		for(int i = 0; i < solution->instance->itemsCount; i++)
+			bag_appendItem(instance, solution->solutions.indirect->bag, i);
+		break;
+    }
+    return solution;
 }
