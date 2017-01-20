@@ -69,6 +69,9 @@
 		\caption{\label{#4}#3}
 	\end{wrapfigure}
 }
+\newcommand{\comp}[5]{
+	\section[#1]{#1 - {\small Codé à #2\%, Testé à #3\%, Fonctionne: #4, Valgrind: #5}}
+}
 \makeindex
 
 \title[Projet sac à dos]{Projet tutoré 2: Sac à dos}
@@ -124,10 +127,13 @@ D'un point de vu mathématique, on peut modéliser ceci simplement:
 Les contraintes sont: $\forall j\in [0...m], \sum_{i=0}^nx_iw_{i,j}\leq W_j$\\
 On appellera la fonction objectif $z(X)$ la fonction donnant la valeur d'un sac: $z(X)=\sum_{i=0}^mx_iv_i$
 
-\chapter{Structure du projet}
+\chapter{Information générales sur le projet}
+\section{Outils utilisés}
+Afin de réaliser notre projet nous avons utilisé différents outils. Concernant les Systèmes d'exploitations nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
+
+\section{Structure du projet}
 Le C ayant un langage rassemblant tous les fichiers en un lors de la compilation, il est nécessaire de choisir judicieusement ses noms de fonctions afin d'éviter les duplicatas. Dans notre cas nous avons choisi un formatage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions du type \textit{population\_create(...)} ou bien \textit{metaheuristicGenetic\_search(...)}.
 
-\section{Fichiers}
 Concernant l'organisation des fichiers en eux même, chaque type d'entre eux est localisé à un endroit différent. En effet nous avions commencé par mettre tous nos .c et .h dans un même dossier. Cependant, le projet grandissant assez vite, il a rapidement arrivé un stade où l'on se perd. Pour cela nous avons décidé de séparer les .h des .c puisque nous travaillons principalement sur les .c. Cela permet de s'y retrouver plus aisément. Ainsi la structure de notre dossier source est la suivante:
 \begin{itemize}
 	\item src $\longrightarrow$ Le dossier racine contenant nos .c pour le programme
@@ -140,46 +146,95 @@ Concernant l'organisation des fichiers en eux même, chaque type d'entre eux est
 	\end{itemize}
 \end{itemize}
 
-Intéressons-nous au dossier src. Nous avons décider de créer des fichiers spécifiques pour certaines structures ainsi que leurs fonctions. Celles-ci sont:
+Intéressons-nous au dossier src, son contenu est:
 \begin{itemize}
+	\item Parser $\longrightarrow$ Regroupant les différentes fonctions afin de lire un fichier.
+	\item Instance $\longrightarrow$ Représentant une instance.
+	\item Item $\longrightarrow$ Représentant un élément de l'instance.
 	\item Bag $\longrightarrow$ Représentant le contenu du sac pour une solution indirecte.
 	\item SolutionDirect $\longrightarrow$ Représentant une solution directe.
 	\item SolutionIndirect $\longrightarrow$ Représentant une solution indirecte.
 	\item Solution $\longrightarrow$ Représentant l'union d'une solution directe et indirecte.
-	\item Instance $\longrightarrow$ Représentant une instance.
-	\item Item $\longrightarrow$ Représentant un élément du sac.\\
-\end{itemize}
-
-A coté de cela, nous avons plusieurs fichiers n'étant que de simples regroupements de fonctions selon leur utilisation:
-\begin{itemize}
-	\item Parser $\longrightarrow$ Regroupant les différentes fonctions afin de lire un fichier.
 	\item Heuristic $\longrightarrow$ Regroupant les fonctions liées à la résolution grâce à une heuristique.
 	\item Scheduler $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour l'heuristique.
 	\item MetaheuristiqueLocal $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique locale.
 	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique tabou et contenant la structure Tabou.
 	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique génétique et contenant la structure Population.
+	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre metaheuristique personalisée (contenant les structures Clan, ClanMember et DNA).
 \end{itemize}
 
-\section{Structures}
-\subsection{Parser}
-Cette structure permet la lecture pas à pas d'un fichier. Celle-ci contient le chemin du fichier concerné, l'offset actuel de lecture, le nombre d'instances à lire et le nombre d'instances déjà lues.
-
-Les fonctions suivantes lui sont associées:
-\begin{itemize}
-	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
-	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
-	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.
-\end{itemize}
-
-\chapter{Parser}
+\chapter{Fichiers}
+\comp{Parser}{100}{99.9}{Oui}{OK}
 L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons-nous toutes les instances d'un fichier d'un seul coup ou lisons les nous une par une?
 
 Nous avions initialement décidé de les lire toutes à la suite. En effet, ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir avancer sans attendre sur les autres tâches à faire. Puis rapidement nous avons implémenté la seconde méthode. Celle-ci nous paru plus adéquate pour nos utilisations car elle permet d'éviter une utilisation importante de la mémoire pour pas grand chose. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous paru être le meilleur.
 
-Ainsi, vous trouverez dans notre code les deux méthodes de lecture:
+Afin de satisfaire la seconde methode, une structure Parser a été créee et a ces fonction associées:
 \begin{itemize}
-	\item parser\_readAllFile $\longrightarrow$ qui renvoi toutes les instances d'un fichier
-	\item parser\_create $\longrightarrow$ Permet l'utilisation de parser\_getNextInstance qui renvoi uniquement la prochaine Instance.
+	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
+	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
+	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.\\
+\end{itemize}
+
+A coté de cela des fonction génériques sont présentes:
+\begin{itemize}
+	\item parser\_readAllFile $\longrightarrow$ Renvoi toutes les instances d'un fichier.
+	\item parser\_readInstance $\longrightarrow$ Renvoi une instance à partir d'un fichier ouvert à la bonne position. 
+	\item parser\_readLine $\longrightarrow$ Lis la prochaine ligne non vide, ou renvoi NULL si on a atteint la fin du fichier.
+	\item parser\_lineToIntArray $\longrightarrow$ Convertis un string composé de nombres séparés par tabulation en un tableau d'entiers.
+	\item getLine $\longrightarrow$ Lis la prochaine ligne du ficher.
+\end{itemize}
+
+\comp{Instance}{100}{99.9}{Oui}{OK}
+Le fichier Instance comporte une structure nomée Instance qui contient ces propripétées suivantes:
+\begin{itemize}
+	\item itemsCount $\longrightarrow$ Représentant le nombre d'items dans l'instance.
+	\item dimensionsNumber $\longrightarrow$ Représentant le nombre de dimensions dans l'instance.
+	\item items $\longrightarrow$ Un tableau d'Item (section \ref{sec:Item}) étant les éléments de l'instance.
+	\item maxWeights $\longrightarrow$ Un tableau d'entier représentant le poids maximum pour chaque dimension.\\
+\end{itemize}
+
+Les fonctions suivantes agissent toutes à partir d'une instance:
+\begin{itemize}
+	\item instance\_initialize $\longrightarrow$ Permettant de créer une instance sur le tas. La fonction instance\_setMaxWeights devra par la suite être appelé. Le tableau d'item est créé mais chaque item devra être initialisé grâce à item\_setWeight.
+	\item instance\_getItem $\longrightarrow$ Permet de récupérer une item à un index précis dans l'instance.
+	\item instance\_setMaxWeights $\longrightarrow$ Permet de définir le tableau des poids maximums de l'instance. Le tableau doit être alloué sur le tas.
+	\item instance\_getMaxWeight $\longrightarrow$ Permet de récupérer le poids maximum sur une dimension précise.
+	\item instance\_destroy $\longrightarrow$ Détruit une instance précédemment créée par instance\_initialize.
+	\item instance\_item\_getWeight $\longrightarrow$ Récupère le poids de l'item à un certain index dans l'instance.
+	\item instance\_item\_getValue $\longrightarrow$ Récupère la valeur de l'item à un certain index dans l'instance.
+\end{itemize}
+
+\comp{Item \label{sec:Item}}{100}{99.9}{Oui}{OK}
+Le fichier Item contient une structure Item ayant pour propriétées:
+\begin{itemize}
+	\item value $\longrightarrow$ La valeur d'un item.
+	\item weights $\longrightarrow$ Un tableau de ses différents poids sur chaque dimension.\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure Item:
+\begin{itemize}
+	\item item\_initialize $\longrightarrow$ Afin de créer un Item sur le tas.
+	\item item\_setWeight $\longrightarrow$ Pour définir le poid d'un item dans la dimension souhaitée.
+	\item item\_getWeight $\longrightarrow$ Pour obtenir le poid d'un item dans la dimension souhaitée.
+	\item item\_destroy $\longrightarrow$ Afin de détruire un Item précédemment créé par item\_initialize.
+\end{itemize}
+
+\comp{Bag}{100}{99.9}{Oui}{OK}
+Le fichier Bag contient une structure Bag permettant de stocker les indices des items pris dans notre sac. Ses propriétées sont:
+\begin{itemize}
+	\item bag\_create $\longrightarrow$ Permet de créer un bag sur le tas à partir d'une instance.
+	\item bag\_destroy $\longrightarrow$ Permet de détruire un bag précédemment créé par bag\_create.
+	\item bag\_appendItem $\longrightarrow$ Ajoute un item dans le sac.
+	\item bag\_canContain $\longrightarrow$ Permet de savoir si un item va pouvoir rentrer dans le sac.
+	\item bag\_getItemIndex $\longrightarrow$ Permet de récupérer l'indice de l'item à un idex donné dans le sac.
+	\item bag\_getWeight $\longrightarrow$ Récupère le poids actuel du sac dans la dimension demandé.
+	\item bag\_addWeight $\longrightarrow$ Ajoute du poids dans le sac dans la dimension donnée.
+	\item bag\_saveItems $\longleftarrow$ Ecris le bag dans  un fichier.
+	\item bag\_print $\longrightarrow$ Affiche le bag dans la console.
+	\item bag\_getCriticDimension $\longrightarrow$ Renvoi l'index de la dimension critique.
+	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \label{sec:solutionDirect}).
+	\item bag\_duplicate $\longrightarrow$ Permet de dupliquer un bag sur le tas.
 \end{itemize}
 
 \chapter{Heuristique}
