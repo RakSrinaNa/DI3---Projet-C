@@ -9,6 +9,7 @@
 #include "headers/metaheuristicLocal.h"
 #include "headers/metaheuristicTabou.h"
 #include "headers/metaheuristicGenetic.h"
+#include "headers/metaheuristicKaguya.h"
 
 void mainKergosien()
 {
@@ -32,7 +33,7 @@ void mainKergosien()
 
 		i++;
 
-		if(i != 2)
+		if(i != 1)
             continue;
 
 		sprintf(filePath, "%s/%s", dirName, file->d_name);
@@ -46,7 +47,7 @@ void mainKergosien()
             Solution * solution;
             if(1)
             {
-                solution = metaheuristicGenetic_search(instance, DIRECT, 100, 0.1, 250, 1);
+                solution = metaheuristicKaguya_search(instance, DIRECT);
                 sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
                 solution_saveToFile(outputFile, solution);
                 printf("Solution written into %s\n", outputFile);

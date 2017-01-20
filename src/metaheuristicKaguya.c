@@ -77,6 +77,7 @@ ClanMember * clanMember_generation(ClanMember * clanMember, int index)
 {
     ClanMember * heir = clanMember_duplicate(clanMember);
     heir->dilution++;
+    RREALLOC(heir->DNA, int, heir->dilution, "clanMember_generation");
     heir->DNA[heir->dilution-1] = index;
     return heir;
 }

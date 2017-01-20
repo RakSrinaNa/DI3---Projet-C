@@ -129,7 +129,7 @@ On appellera la fonction objectif $z(X)$ la fonction donnant la valeur d'un sac:
 
 \chapter{Information générales sur le projet}
 \section{Outils utilisés}
-Afin de réaliser notre projet nous avons utilisé différents outils. Concernant les Systèmes d'exploitations nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
+Afin de réaliser notre projet, nous avons utilisé différents outils. Concernant les Systèmes d'exploitations, nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
 
 \section{Structure du projet}
 Le C ayant un langage rassemblant tous les fichiers en un lors de la compilation, il est nécessaire de choisir judicieusement ses noms de fonctions afin d'éviter les duplicatas. Dans notre cas nous avons choisi un formatage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions du type \textit{population\_create(...)} ou bien \textit{metaheuristicGenetic\_search(...)}.
@@ -169,24 +169,24 @@ L'une des premières parties que nous devions réaliser est le parser. Lors de c
 
 Nous avions initialement décidé de les lire toutes à la suite. En effet, ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir avancer sans attendre sur les autres tâches à faire. Puis rapidement nous avons implémenté la seconde méthode. Celle-ci nous paru plus adéquate pour nos utilisations car elle permet d'éviter une utilisation importante de la mémoire pour pas grand chose. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous paru être le meilleur.
 
-Afin de satisfaire la seconde methode, une structure Parser a été créee et a ces fonction associées:
+Afin de satisfaire la seconde methode, une structure Parser a été créee ainsi que ces fonctions associées:
 \begin{itemize}
 	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
 	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
 	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.\\
 \end{itemize}
 
-A coté de cela des fonction génériques sont présentes:
+A coté de cela, des fonction génériques sont présentes:
 \begin{itemize}
 	\item parser\_readAllFile $\longrightarrow$ Renvoi toutes les instances d'un fichier.
 	\item parser\_readInstance $\longrightarrow$ Renvoi une instance à partir d'un fichier ouvert à la bonne position. 
 	\item parser\_readLine $\longrightarrow$ Lis la prochaine ligne non vide, ou renvoi NULL si on a atteint la fin du fichier.
 	\item parser\_lineToIntArray $\longrightarrow$ Convertis un string composé de nombres séparés par tabulation en un tableau d'entiers.
-	\item getLine $\longrightarrow$ Lis la prochaine ligne du ficher.
+	\item getLine $\longrightarrow$ Lit la prochaine ligne du ficher.
 \end{itemize}
 
 \comp{Instance}{100}{99.9}{Oui}{OK}
-Le fichier Instance comporte une structure nomée Instance qui contient ces propripétées suivantes:
+Le fichier Instance comporte une structure nommée Instance qui contient ces propriétés suivantes:
 \begin{itemize}
 	\item itemsCount $\longrightarrow$ Représentant le nombre d'items dans l'instance.
 	\item dimensionsNumber $\longrightarrow$ Représentant le nombre de dimensions dans l'instance.
@@ -206,7 +206,7 @@ Les fonctions suivantes agissent toutes à partir d'une instance:
 \end{itemize}
 
 \comp{Item \label{sec:Item}}{100}{99.9}{Oui}{OK}
-Le fichier Item contient une structure Item ayant pour propriétées:
+Le fichier Item contient une structure Item ayant pour propriétés:
 \begin{itemize}
 	\item value $\longrightarrow$ La valeur d'un item.
 	\item weights $\longrightarrow$ Un tableau de ses différents poids sur chaque dimension.\\
@@ -215,22 +215,22 @@ Le fichier Item contient une structure Item ayant pour propriétées:
 Les fonctions suivantes s'appliquent à partir d'une structure Item:
 \begin{itemize}
 	\item item\_initialize $\longrightarrow$ Afin de créer un Item sur le tas.
-	\item item\_setWeight $\longrightarrow$ Pour définir le poid d'un item dans la dimension souhaitée.
-	\item item\_getWeight $\longrightarrow$ Pour obtenir le poid d'un item dans la dimension souhaitée.
+	\item item\_setWeight $\longrightarrow$ Pour définir le poids d'un item dans la dimension souhaitée.
+	\item item\_getWeight $\longrightarrow$ Pour obtenir le poids d'un item dans la dimension souhaitée.
 	\item item\_destroy $\longrightarrow$ Afin de détruire un Item précédemment créé par item\_initialize.
 \end{itemize}
 
 \comp{Bag}{100}{99.9}{Oui}{OK}
-Le fichier Bag contient une structure Bag permettant de stocker les indices des items pris dans notre sac. Ses propriétées sont:
+Le fichier Bag contient une structure Bag permettant de stocker les indices des items pris dans notre sac. Ses propriétés sont:
 \begin{itemize}
 	\item bag\_create $\longrightarrow$ Permet de créer un bag sur le tas à partir d'une instance.
 	\item bag\_destroy $\longrightarrow$ Permet de détruire un bag précédemment créé par bag\_create.
 	\item bag\_appendItem $\longrightarrow$ Ajoute un item dans le sac.
 	\item bag\_canContain $\longrightarrow$ Permet de savoir si un item va pouvoir rentrer dans le sac.
-	\item bag\_getItemIndex $\longrightarrow$ Permet de récupérer l'indice de l'item à un idex donné dans le sac.
-	\item bag\_getWeight $\longrightarrow$ Récupère le poids actuel du sac dans la dimension demandé.
+	\item bag\_getItemIndex $\longrightarrow$ Permet de récupérer l'indice de l'item à un index donné dans le sac.
+	\item bag\_getWeight $\longrightarrow$ Récupère le poids actuel du sac dans la dimension demandée.
 	\item bag\_addWeight $\longrightarrow$ Ajoute du poids dans le sac dans la dimension donnée.
-	\item bag\_saveItems $\longleftarrow$ Ecris le bag dans  un fichier.
+	\item bag\_saveItems $\longleftarrow$ Ecrit le bag dans  un fichier.
 	\item bag\_print $\longrightarrow$ Affiche le bag dans la console.
 	\item bag\_getCriticDimension $\longrightarrow$ Renvoi l'index de la dimension critique.
 	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \label{sec:solutionDirect}).
