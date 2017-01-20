@@ -32,7 +32,7 @@ void mainKergosien()
 
 		i++;
 
-		if(i > 1)
+		if(i != 2)
             continue;
 
 		sprintf(filePath, "%s/%s", dirName, file->d_name);
@@ -44,25 +44,24 @@ void mainKergosien()
 		{
             char outputFile[100];
             Solution * solution;
-            if(0)
+            if(1)
             {
-                solution = metaheuristicGenetic_search(instance, DIRECT, 50, 0.1, 100, 1);
+                solution = metaheuristicGenetic_search(instance, DIRECT, 100, 0.1, 250, 1);
                 sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
                 solution_saveToFile(outputFile, solution);
                 printf("Solution written into %s\n", outputFile);
                 solution_destroy(solution);
             }
 
-            if(1)
+            if(0)
             {
-                solution = metaheuristicGenetic_search(instance, INDIRECT, 5, 0.1, 10, 0);
+                solution = metaheuristicGenetic_search(instance, INDIRECT, 100, 0.1, 250, 0);
                 solutionIndirect_print(solution->solutions.indirect);
                 sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
                 solution_saveToFile(outputFile, solution);
                 printf("Solution written into %s\n", outputFile);
                 solution_destroy(solution);
             }
-
 
 			instance_destroy(instance);
 		}

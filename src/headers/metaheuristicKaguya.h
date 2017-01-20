@@ -39,6 +39,8 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember);
 
 int clanMember_doable(Clan * clan, int index);
 
+Solution * clanMember_toSolution(Clan * clan, int index);
+
 int clanMember_evaluate(Clan * clan, int index);
 
 void clan_generation(Clan * clan);

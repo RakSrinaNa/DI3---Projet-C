@@ -92,16 +92,48 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember)
 
 int clanMember_doable(Clan * clan, int index)
 {
-	Solution * solution = clanMember_createSolution(clan, index);
+	Solution * solution = clanMember_toSolution(clan, index);
 	int result = solution_doable(solution);
 	solution_destroy(solution);
 
 	return result;
 }
 
+Solution * clanMember_toSolution(Clan * clan, int index)
+{
+    Solution * solution = NULL;
+    switch(clan->type)
+    {
+	case DIRECT:
+		solution = solution_full(clan->instance, clan->type);
+		for(int i = 0; i < clan->people[index]->dilution; i++)
+		{
+            solution->solutions.direct->itemsTaken[clan->people[index]->DNA[i]] = 0;
+		}
+		break;
+
+	case INDIRECT:
+		break;
+    }
+
+    return solution;
+}
+
+int clanMember_isInDNA(ClanMember * clanMember, int index)
+{
+	for(int i = 0; i < clanMember->dilution; i++)
+		if(index == clanMember->DNA[i])
+			return 1;
+	return 0;
+}
+
 int clanMember_evaluate(Clan * clan, int index)
 {
+	Solution * solution = clanMember_toSolution(clan, index);
+	int score = solution_evaluate(solution);
+	solution_destroy(solution);
 
+	return score;
 }
 
 void clan_generation(Clan * clan)
@@ -144,7 +176,29 @@ void clan_dispertion(Clan * clan, Clan * descendants)
 	}
 }
 
+void clan_destroy(Clan * clan)
+{
+	int initialSize = clan->size;
+    for(int i = 0; i < initialSize; i++)
+		clan_remove(clan, 0);
+	free(clan);
+}
+
 Solution * clan_extinction(Clan * clan)
 {
-    return ;
+	Solution * bestSolution = NULL;
+	for(int i = 0; i < clan->size; i++)
+	{
+		Solution * solution = clanMember_toSolution(clan, i);
+		if(solution_evaluate(bestSolution) < solution_evaluate(solution))
+		{
+            solution_destroy(bestSolution);
+            bestSolution = solution;
+		}
+		else
+			solution_destroy(solution);
+	}
+	clan_destroy(clan);
+
+    return bestSolution;
 }
