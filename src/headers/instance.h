@@ -14,7 +14,7 @@ typedef struct
 /**
  * Initialize an instance depending on its values objectsNumber and dimensionsNumber.
  *
- * This method should be called only once.
+ * This method should be called only once. instance_setMaxWeights Should be called to set the maximum weights.
  *
  * @param instance A pointer to the instance to initialize.
  * @param itemsCount The numbers of items in the instance. Should be greater than 0.
