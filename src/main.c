@@ -4,6 +4,7 @@
 #include "headers/mainKergosien.h"
 #include "headers/parser.h"
 #include "headers/solution.h"
+#include "headers/metaheuristicLocal.h"
 #include "headers/metaheuristicGenetic.h"
 #include "headers/metaheuristicKaguya.h"
 
@@ -32,7 +33,7 @@ int main(int argc, char * argv[])
 			Instance * instance;
 			while((instance = parser_getNextInstance(parser)) != NULL)
 			{
-				Solution * solution = metaheuristicKaguya_search(instance, DIRECT);
+				Solution * solution = metaheuristicLocal_search(instance, DIRECT, 0, 5);
 				if(solution->type == INDIRECT)
 					solutionIndirect_print(solution->solutions.indirect);
 				else

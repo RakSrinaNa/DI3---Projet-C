@@ -31,13 +31,22 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 			Solution * parent1 = NULL;
 			Solution * parent2 = NULL;
 			metaheuristicGenetic_selectParents(population, &parent1, &parent2, 1);
+			parent1 = solution_duplicate(parent1);
+			parent2 = solution_duplicate(parent2);
 
 			Solution * child1 = NULL;
 			Solution * child2 = NULL;
 			metaheuristicGenetic_breedChildren(parent1, parent2, &child1, &child2);
+			child1 = solution_duplicate(child1);
+			child2 = solution_duplicate(child2);
 
 			population_append(childPopulation, child1);
 			population_append(childPopulation, child2);
+
+			solution_destroy(parent1);
+			solution_destroy(parent2);
+			solution_destroy(child1);
+			solution_destroy(child2);
 		}
 
 		for(int j = 0; j < childPopulation->size; j++)
