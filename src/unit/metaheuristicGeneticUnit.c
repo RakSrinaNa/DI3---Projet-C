@@ -59,17 +59,17 @@ void metaheuristicGeneticTests() //TODO
 	
 	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
 	instance = parser_getNextInstance(parser);
-	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 0));
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 5, 0));
 	printf("~");
-	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 0));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 5, 0));
 	printf("~");
-	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 1));
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 5, 1));
 	printf("~");
-	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 1));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 5, 1));
 	printf("~");
-	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 2));
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 5, 2));
 	printf("~");
-	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 2));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 5, 2));
 	printf("~");
 	instance_destroy(instance);
 	parser_destroy(parser);
