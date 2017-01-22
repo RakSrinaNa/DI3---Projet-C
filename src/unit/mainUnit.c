@@ -15,6 +15,7 @@
 
 int mainUnit()
 {
+	setbuf(stdout, NULL);
 	printf("Executing item tests...");
 	itemTests();
 	printf("OK\n");
