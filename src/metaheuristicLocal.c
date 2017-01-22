@@ -38,8 +38,6 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 			}
 		}
 		
-		solution_destroy(currentSolution);
-		
 		for(int i = 0; i < neighboursCount; i++)
 			solution_destroy(allNeighbours[i]);
 		free(allNeighbours);
