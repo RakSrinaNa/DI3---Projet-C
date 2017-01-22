@@ -8,12 +8,12 @@
 #include "headers/solution.h"
 #include "headers/instance.h"
 
-Solution * heuristic(Instance * instance, SolutionType solutionType, int schedulerType)
+Solution * heuristic_search(Instance * instance, SolutionType solutionType, int schedulerType)
 {
 	Bag * bag = bag_create(instance);
 	int listCount = instance->itemsCount;
 	int * itemOrder;
-	MMALLOC(itemOrder, int, instance->itemsCount, "heuristic");
+	MMALLOC(itemOrder, int, instance->itemsCount, "heuristic_search");
 
 	struct timeb timeStart, timeEnd;
 	ftime(&timeStart);
@@ -60,7 +60,7 @@ Solution * heuristic(Instance * instance, SolutionType solutionType, int schedul
 			break;
 
 		default:
-			perror("Unknown solutionType heuristic");
+			perror("Unknown solutionType heuristic_search");
 			exit(EXIT_FAILURE);
 	}
 	solution->solveTime = solution_getTimeDiff(timeStart, timeEnd);

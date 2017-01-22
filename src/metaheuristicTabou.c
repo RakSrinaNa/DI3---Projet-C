@@ -28,7 +28,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 	struct timeb timeStart, timeEnd;
 	ftime(&timeStart);
 
-	Solution * currentSolution = heuristic(instance, solutionType, 5);
+	Solution * currentSolution = heuristic_search(instance, solutionType, 5);
 	Solution * bestSolution = solution_duplicate(currentSolution);
 
 	int scoreBest = solution_evaluate(bestSolution);

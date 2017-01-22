@@ -29,43 +29,43 @@ void heuristicTests()
 	free(list);
 	bag_destroy(bag);
 	
-	Solution * solution = heuristic(instance, INDIRECT, 0);
+	Solution * solution = heuristic_search(instance, INDIRECT, 0);
 	if(solution->type != INDIRECT || solution->instance != instance)
 		unit_error("ASSERT HEURISTIC 4");
 	solution_destroy(solution);
-	solution = heuristic(instance, DIRECT, 0);
+	solution = heuristic_search(instance, DIRECT, 0);
 	if(solution->type != DIRECT)
 		unit_error("ASSERT HEURISTIC 5");
 	solution_destroy(solution);
 	
 	int correctTaken[15] = {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0};
 	int correctBag[2] = {12, 6};
-	solution = heuristic(instance, INDIRECT, 1);
+	solution = heuristic_search(instance, INDIRECT, 1);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
 		unit_error("ASSERT HEURISTIC 6");
 	solution_destroy(solution);
 	
-	solution = heuristic(instance, DIRECT, 1);
+	solution = heuristic_search(instance, DIRECT, 1);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT HEURISTIC 7");
 	solution_destroy(solution);
 	
-	solution = heuristic(instance, INDIRECT, 2);
+	solution = heuristic_search(instance, INDIRECT, 2);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
 		unit_error("ASSERT HEURISTIC 8");
 	solution_destroy(solution);
 	
-	solution = heuristic(instance, DIRECT, 2);
+	solution = heuristic_search(instance, DIRECT, 2);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT HEURISTIC 9");
 	solution_destroy(solution);
 	
-	solution = heuristic(instance, INDIRECT, 3);
+	solution = heuristic_search(instance, INDIRECT, 3);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctBag, solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount))
 		unit_error("ASSERT HEURISTIC 10");
 	solution_destroy(solution);
 	
-	solution = heuristic(instance, DIRECT, 3);
+	solution = heuristic_search(instance, DIRECT, 3);
 	if(solution_evaluate(solution) != 167 || !unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT HEURISTIC 11");
 	solution_destroy(solution);

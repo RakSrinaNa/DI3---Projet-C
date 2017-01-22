@@ -17,7 +17,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 
 	Population * population = population_create(populationMaxSize);
 	for(int i = 0; i < population->maxSize; i++)
-		population_append(population, heuristic(instance, solutionType, 0));
+		population_append(population, heuristic_search(instance, solutionType, 0));
 
 	Solution * bestSolution = population_getBest(population);
 	int scoreBest = solution_evaluate(bestSolution);

@@ -10,7 +10,7 @@ void metaheuristicGeneticTests() //TODO
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	populationTests(instance);
 
-	Solution * solution1 = heuristic(instance, INDIRECT, 5);
+	Solution * solution1 = heuristic_search(instance, INDIRECT, 5);
 	Solution * solution2 = solution_duplicate(solution1);
 	solution2->solutions.indirect->itemsOrder[0] = 1;
 	solution2->solutions.indirect->itemsOrder[1] = 0;
@@ -65,17 +65,17 @@ void populationTests(Instance * instance)
 	if(population == NULL || population->size != 0 || population->maxSize != 2 || population->people != NULL)
 		unit_error("ASSERT POPULATION 1");
 
-	Solution * solution = heuristic(instance, INDIRECT, 5);
+	Solution * solution = heuristic_search(instance, INDIRECT, 5);
 	int result = population_append(population, solution);
 	if(result != 1 || population->size != 1 || population->people == NULL || population->people[0] != solution)
 		unit_error("ASSERT POPULATION 2");
 
-	Solution * solution2 = heuristic(instance, INDIRECT, 4);
+	Solution * solution2 = heuristic_search(instance, INDIRECT, 4);
 	result = population_append(population, solution2);
 	if(result != 1 || population->size != 2 || population->people[1] != solution2)
 		unit_error("ASSERT POPULATION 3");
 
-	Solution * solution3 = heuristic(instance, INDIRECT, 3);
+	Solution * solution3 = heuristic_search(instance, INDIRECT, 3);
 	result = population_append(population, solution3);
 	if(result != 0 || population->size != 2)
 		unit_error("ASSERT POPULATION 4");

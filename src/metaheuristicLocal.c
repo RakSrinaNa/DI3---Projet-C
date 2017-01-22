@@ -9,7 +9,7 @@
 
 Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionType, int searchOperator, int schedulerType)
 {
-	Solution * currentSolution = heuristic(instance, solutionType, schedulerType);
+	Solution * currentSolution = heuristic_search(instance, solutionType, schedulerType);
 	Solution * bestSolution = solution_duplicate(currentSolution);
 	
 	int scoreBest = solution_evaluate(bestSolution);
