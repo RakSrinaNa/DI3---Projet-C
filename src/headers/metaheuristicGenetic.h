@@ -51,7 +51,7 @@ void population_destroy(Population * population);
  * Get the best solution in a population based on its score.
  *
  * @param population A pointer to the population in which to find the solution.
- * @return A pointer to the best solution. If several solutions have the same score, only the first one encountered will be kept.
+ * @return A pointer to a duplicate of the best solution. If several solutions have the same score, only the first one encountered will be kept.
  */
 Solution * population_getBest(Population * population);
 

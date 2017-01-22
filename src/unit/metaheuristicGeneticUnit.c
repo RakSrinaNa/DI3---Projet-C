@@ -36,7 +36,6 @@ void metaheuristicGeneticTests() //TODO
 	solution = population_getWorst(population);
 	if(solution_evaluate(solution) != solution_evaluate(solution2))
 		unit_error("ASSERT GENETIC 2");
-	solution_destroy(solution);
 
 	Population * populationDup = population_duplicate(population);
 	if(populationDup == NULL || population->size != populationDup->size || population->maxSize != populationDup->maxSize)
