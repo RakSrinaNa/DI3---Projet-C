@@ -193,7 +193,7 @@ void metaheuristicTabouSearchTests()
 	int correctTaken[3] = {1, 0, 1};
 	
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
-	Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 10, 5, 1);
+	Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 50, 10, 1);
 	
 	if(solution == NULL || solution->instance != instance || solution->type != INDIRECT)
 		unit_error("ASSERT metaheuristicTabouSearchTests 1");
@@ -201,13 +201,15 @@ void metaheuristicTabouSearchTests()
 		unit_error("ASSERT metaheuristicTabouSearchTests 2");
 	
 	solution_destroy(solution);
+	free(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 0));
 	
-	solution = metaheuristicTabou_search(instance, DIRECT, 10, 5, 1);
+	solution = metaheuristicTabou_search(instance, DIRECT, 50, 10, 1);
 	if(solution == NULL || solution->instance != instance || solution->type != DIRECT)
 		unit_error("ASSERT metaheuristicTabouSearchTests 3");
 	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
 		unit_error("ASSERT metaheuristicTabouSearchTests 4");
 	
 	solution_destroy(solution);
+	free(metaheuristicTabou_search(instance, DIRECT, 50, 10, 0));
 	instance_destroy(instance);
 }
