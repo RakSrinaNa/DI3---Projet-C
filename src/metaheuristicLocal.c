@@ -53,7 +53,7 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 		}
 		else
 		{
-			if(scoreCurrent < scorePrevious)
+			if(scoreCurrent <= scorePrevious)
 				stop = 1;
 		}
 
