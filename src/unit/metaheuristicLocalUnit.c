@@ -127,7 +127,9 @@ void metaheuristicLocalSearchTests()
 	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
 	Instance * instance = parser_getNextInstance(parser);
 	solution_destroy(metaheuristicLocal_search(instance, DIRECT, 0, 1));
+	printf("~");
 	solution_destroy(metaheuristicLocal_search(instance, INDIRECT, 0, 1));
+	printf("~");
 	instance_destroy(instance);
 	parser_destroy(parser);
 }
