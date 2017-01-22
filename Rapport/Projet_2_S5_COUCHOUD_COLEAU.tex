@@ -70,7 +70,7 @@
 	\end{wrapfigure}
 }
 \newcommand{\comp}[5]{
-	\section[#1]{#1 - {\small Codé à #2\%, Testé à #3\%, Fonctionne: #4, Valgrind: #5}}
+	\section[#1]{#1 {\small - Codé à #2\%, Testé à #3\%, Fonctionne: #4, Valgrind: #5}}
 }
 \makeindex
 
@@ -164,6 +164,8 @@ Intéressons-nous au dossier src, son contenu est:
 \end{itemize}
 
 \chapter{Fichiers}
+Nous allons maintenant décrire brièvement les différentes fonctions contenus dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
+
 \comp{Parser}{100}{99.9}{Oui}{OK}
 L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons-nous toutes les instances d'un fichier d'un seul coup ou lisons les nous une par une?
 
@@ -233,23 +235,113 @@ Le fichier Bag contient une structure Bag permettant de stocker les indices des 
 	\item bag\_saveItems $\longleftarrow$ Ecrit le bag dans  un fichier.
 	\item bag\_print $\longrightarrow$ Affiche le bag dans la console.
 	\item bag\_getCriticDimension $\longrightarrow$ Renvoi l'index de la dimension critique.
-	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \label{sec:solutionDirect}).
+	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \ref{sec:solutionDirect}).
 	\item bag\_duplicate $\longrightarrow$ Permet de dupliquer un bag sur le tas.
 \end{itemize}
 
-\chapter{Heuristique}
-Dans le cadre des heuristiques, nous avons du implémenter nos propres critères de sélection. Nous allons ici vous en présenter deux.
+\comp{SolutionDirect \label{sec:solutionDirect}}{100}{99.9}{Oui}{OK}
+Le fichier SolutionDirect contient une structure SolutionDirect ayant pour propriétées:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item itemsTaken $\longrightarrow$ Un tableau de booleans représentant l'était de chaque item (pris ou non).\\
+\end{itemize}
 
-Le premier se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus l'item remplira le sac, plus le diviseur sera important et par conséquent, l'item aura un score faible.
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionDirect:
+\begin{itemize}
+	\item solutionDirect\_create $\longrightarrow$ Afin de créer une SolutionDirecte sur le tas (par default aucun item n'est pris).
+	\item isolutionDirect\_destroy $\longrightarrow$ Afin de détruire une SolutionDirecte précédemment créé par solutionDirect\_create.
+	\item solutionDirect\_evaluate $\longrightarrow$ Fonction score pour une solution directe.
+	\item solutionDirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution directe.
+	\item solutionDirect\_print $\longrightarrow$ Affiche une solution directe dans la console.
+	\item solutionDirect\_saveToFile $\longrightarrow$ Enregistre une solution directe dans un fichier.
+	\item solutionDirect\_takeItem $\longrightarrow$ Marque un item comme pris dans la solution directe.
+	\item solutionDirect\_duplicate $\longrightarrow$ Duplique une solution directe sur le tas.
+	\item solutionDirect\_isItemTaken $\longrightarrow$ Indique si un item est pris dans la solution directe.
+\end{itemize}
 
-Le s
+\comp{SolutionIndirect}{100}{99.9}{Oui}{OK}
+Le fichier SolutionIndirect contient une structure SolutionIndirect ayant pour propriétées:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item itemsOrder $\longrightarrow$ L'ordre dans lequel les items seront ajoutés au sac.
+	\item bag $\longrightarrow$ Un pointeur vers un sac associé à la solution indirecte.\\
+\end{itemize}
 
-\chapter{Metaheuristiques}
-\section{Local}
-\section{Tabou}
-\section{Genetique}
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
+\begin{itemize}
+	\item solutionIndirect\_create $\longrightarrow$ Afin de créer une SolutionIndirecte sur le tas (par default item order ne contient que des '-1').
+	\item solutionIndirect\_destroy $\longrightarrow$ Afin de détruire une SolutionIndirecte précédemment créé par solutionIndirect\_create.
+	\item solutionIndirect\_decode $\longrightarrow$ Decode une solution indirecte, permettant de créer le sac associé.
+	\item solutionIndirect\_evaluate $\longrightarrow$ Fonction score pour une solution indirecte.
+	\item solutionIndirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution indirecte.
+	\item solutionIndirect\_print $\longrightarrow$ Affiche une solution indirecte dans la console.
+	\item solutionIndirect\_saveToFile $\longrightarrow$ Enregistre une solution indirecte dans un fichier.
+	\item solutionIndirect\_getItemIndex $\longrightarrow$ Renvoi l'indice de l'item à la position demandé de la liste de remplissage du sac.
+	\item solutionIndirect\_getIndexItem $\longrightarrow$ Renvoi l'indice dans la liste de remplissage d'un item donné.
+	\item solutionIndirect\_duplicate $\longrightarrow$ Duplique une solution indirecte sur le tas.
+\end{itemize}
 
-\chapter{Autres}
+\comp{Solution}{100}{99.9}{Oui}{OK}
+Le fichier Solution contient une structure Solution permettant de rassembler une solution directe ou indirecte afin d'avoir une manipulation plus généraliste de celles-ci. Cette structure a pour propriétées:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item type $\longrightarrow$ Une énumeration pouvant prende les valeurs DIRECT ou INDIRECT, représentant le type de la solution contenue.
+	\item solutions $\longrightarrow$ La solution en elle même, dépendant du type. Union de SolutionDirect et SolutionIndirect.
+	\item solveTime $\longrightarrow$ Un entier représentant le temps de calcul pour obtenir la solution.\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
+\begin{itemize}
+	\item solution\_saveToFile $\longrightarrow$ Enregistre une solution dans un fichier.
+	\item solution\_getTimeDiff $\longrightarrow$ Renvoi la différence en secondes entre deux structures timeb.
+	\item solution\_evaluate $\longrightarrow$ Fonction score pour une solution.
+	\item solution\_doable $\longrightarrow$ Indique la faisabilité d'une solution.
+	\item solution\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
+	\item solution\_destroy $\longrightarrow$ Afin de détruire une Solution.
+	\item solution\_fromIndirect $\longrightarrow$ Créé une solution à partir d'une solution indirecte.
+	\item solution\_fromDirect $\longrightarrow$ Créé une solution à partir d'une solution directe.
+	\item solution\_full $\longrightarrow$ Renvoi une solution contenant tout les items de l'instance.
+\end{itemize}
+
+\comp{Heuristic \label{sec:Heuristic}}{100}{99.9}{Oui}{OK}
+Dans le cadre des heuristiques, nous avons du implémenter nos propres critères de sélection. Nous allons ici vous en présenter deux. Les application de ces fonctions sont présentes dans le ficher scheduler que nous verrons à la section \ref{sec:Scheduler}.
+
+Le premier ("allDimensionsWeighted") se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus l'item remplira le sac, plus le diviseur sera important et par conséquent, l'item aura un score faible.
+
+Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension j. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de repidement élever le diviseur si l'item prend trop de place et "efface" les différence entre les poids de chaque items afin de priélégier les items qui remplissent peu le sac.
+
+Les fonctions contenues dans Heuristic sont:
+\begin{itemize}
+	\item heuristic\_search $\longrightarrow$ Lance la recherche heuristique.
+	\item heuristic\_getList $\longrightarrow$ Renvoi la liste des items ordonées en fonction du scheduler choisi.
+\end{itemize}
+
+\comp{Scheduler \label{sec:Scheduler}}{100}{99.9}{Oui}{OK}
+Les fonctions générales de ce fichier sont:
+\begin{itemize}
+	\item scheduler\_removeFromList $\longrightarrow$ Pour retirer un indice d'item d'une liste tout en le retournant.
+	\item scheduler\_appendToList $\longrightarrow$ Pour ajouter un indice d'item à une liste.
+	\item scheduler\_sortArray $\longrightarrow$ Pour trier une liste d'index d'items à partir d'une liste de score.\\
+\end{itemize}
+
+Les fonctions restantes représentes les différentes méthodes de tri pour l'heuristique, celles-ci sont de la forme: scheduler\_[Name] étant la fonction renvoyant la liste d'index d'items ordonnée, scheduler\_[Name]\_score calculant le score d'un item.
+Les différents noms sont:
+\begin{itemize}
+	\item random $\longrightarrow$ Créant une liste aléatoirement ordonnée.
+	\item value $\longrightarrow$ Créant une liste ordonée selon la valeur des items.
+	\item allDimensions $\longrightarrow$ Créant une liste grace au ratio $\frac{v_i}{\sum_{j=0}^mw_{i,j}}$.
+	\item forDimension $\longrightarrow$ Créant une liste à partir du ratio valeur / poids dans une dimention donnée (utilisé principalement pour la dimension critique).
+	\item allDimentionsWeighted  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
+	\item exponential  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
+\end{itemize}
+
+\comp{MetaheuristicLocal}{100}{99.5}{Oui}{OK}
+
+\comp{MetaheuristicTabou}{100}{99.5}{Oui}{OK}
+
+\comp{MetaheuristicGenetic}{100}{50}{?}{?}
+
+\comp{MetaheuristicLocal}{100}{0}{?}{?}
 
 %--------------------------------------------------------------------------------
 \chapter*{Conclusion}
