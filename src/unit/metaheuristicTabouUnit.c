@@ -191,13 +191,13 @@ void metaheuristicTabouSearchTests()
 {
 	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
 	Instance * instance = parser_getNextInstance(parser);
-	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 1));
+	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 15, 10, 1));
 	printf("~");
-	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 0));
+	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 15, 10, 0));
 	printf("~");
-	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 50, 10, 1));
+	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 15, 10, 1));
 	printf("~");
-	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 50, 10, 0));
+	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 15, 10, 0));
 	printf("~");
 	instance_destroy(instance);
 	parser_destroy(parser);
