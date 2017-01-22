@@ -86,6 +86,12 @@ Solution * solution_fromIndirect(SolutionIndirect * solutionIndirect);
 */
 Solution * solution_fromDirect(SolutionDirect * solutionDirect);
 
-//TODO
+/**
+ * Create a solution with all the items of the instance taken.
+ *
+ * @paran instance A pointer to the instance associated to the solution.
+ * @param solutionType The type of the solution.
+ * @return A pointer to the created solution.
+*/
 Solution * solution_full(Instance * instance, SolutionType solutionType);
 #endif
