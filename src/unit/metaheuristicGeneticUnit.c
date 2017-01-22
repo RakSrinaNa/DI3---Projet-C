@@ -56,6 +56,17 @@ void metaheuristicGeneticTests() //TODO
 	population_destroy(populationDup);
 	population_destroy(population);
 	instance_destroy(instance);
+	
+	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
+	instance = parser_getNextInstance(parser);
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 0));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 0));
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 1));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 1));
+	solution_destroy(metaheuristicGenetic_search(instance, DIRECT, 10, 0.5, 50, 2));
+	solution_destroy(metaheuristicGenetic_search(instance, INDIRECT, 10, 0.5, 50, 2));
+	instance_destroy(instance);
+	parser_destroy(parser);
 }
 
 void populationTests(Instance * instance)

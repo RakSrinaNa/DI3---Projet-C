@@ -189,27 +189,12 @@ void metaheuristicTabouGetMovementsTests()
 
 void metaheuristicTabouSearchTests()
 {
-	int correctItems[2][2] = {{0, 2}, {2, 0}};
-	int correctTaken[3] = {1, 0, 1};
-	
-	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
-	Solution * solution = metaheuristicTabou_search(instance, INDIRECT, 50, 10, 1);
-	
-	if(solution == NULL || solution->instance != instance || solution->type != INDIRECT)
-		unit_error("ASSERT metaheuristicTabouSearchTests 1");
-	if(solution->solutions.indirect->bag->itemsCount != 2 || !(unit_arrayEquals(correctItems[0], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount) || unit_arrayEquals(correctItems[1], solution->solutions.indirect->bag->items, solution->solutions.indirect->bag->itemsCount)))
-		unit_error("ASSERT metaheuristicTabouSearchTests 2");
-	
-	solution_destroy(solution);
-	free(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 0));
-	
-	solution = metaheuristicTabou_search(instance, DIRECT, 50, 10, 1);
-	if(solution == NULL || solution->instance != instance || solution->type != DIRECT)
-		unit_error("ASSERT metaheuristicTabouSearchTests 3");
-	if(!unit_arrayEquals(correctTaken, solution->solutions.direct->itemsTaken, instance->itemsCount))
-		unit_error("ASSERT metaheuristicTabouSearchTests 4");
-	
-	solution_destroy(solution);
-	free(metaheuristicTabou_search(instance, DIRECT, 50, 10, 0));
+	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
+	Instance * instance = parser_getNextInstance(parser);
+	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 1));
+	solution_destroy(metaheuristicTabou_search(instance, INDIRECT, 50, 10, 0));
+	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 50, 10, 1));
+	solution_destroy(metaheuristicTabou_search(instance, DIRECT, 50, 10, 0));
 	instance_destroy(instance);
+	parser_destroy(parser);
 }
