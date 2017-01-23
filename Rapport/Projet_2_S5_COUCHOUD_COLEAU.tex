@@ -70,11 +70,11 @@
 	\end{wrapfigure}
 }
 \newcommand{\comp}[5]{
-	\section[#1]{#1 {\small - Codé à #2\%, Testé à #3\%, Fonctionne: #4, Valgrind: #5}}
+	\section[#1]{#1 {\small - Codé à #2\% $\vert$ Testé à #3\% $\vert$ Fonctionne: #4 $\vert$ Valgrind: #5}}
 }
 \makeindex
 
-\title[Projet sac à dos]{Projet tutoré 2: Sac à dos}
+\title[Projet sac à dos]{Projet tutoré 2 : Sac à dos}
 
 \projet{S4}
 
@@ -127,7 +127,7 @@ D'un point de vu mathématique, on peut modéliser ceci simplement:
 Les contraintes sont: $\forall j\in [0...m], \sum_{i=0}^nx_iw_{i,j}\leq W_j$\\
 On appellera la fonction objectif $z(X)$ la fonction donnant la valeur d'un sac: $z(X)=\sum_{i=0}^mx_iv_i$
 
-\chapter{Information générales sur le projet}
+\chapter{Informations générales sur le projet}
 \section{Outils utilisés}
 Afin de réaliser notre projet, nous avons utilisé différents outils. Concernant les Systèmes d'exploitations, nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
 
@@ -335,13 +335,26 @@ Les différents noms sont:
 	\item exponential  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
 \end{itemize}
 
-\comp{MetaheuristicLocal}{100}{99.5}{Oui}{OK}
+\comp{MetaheuristicLocal}{100}{99.9}{Oui}{OK}
+Ce fichier comporte toutes les fonctions associées à la recherche locale:
+\begin{itemize}
+	\item metaheuristicLocal\_search $\longrightarrow$ Permet de lancer la recherche locale. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (sirecte ou indirecte).
+		\item operatorSearch $\longrightarrow$ L'opérateur de recherche. Pour le moment seulement 0 est utilisé dans le cas du direct et de l'indirect. Cela correcpond à la ajouter et inverser pour le directe et inverser pour l'indirecte.
+	\end{itemize}
+	\item metaheuristicLocal\_getNeighbours $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche choisi.
+	\item metaheuristicLocal\_swapItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'inversion (indirecte).
+	\item metaheuristicLocal\_addItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'ajout (directe).
+	\item metaheuristicLocal\_invertItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'inversion (directe).
+	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur la concaténation des opérateurs de recherche d'ajour et d'inversion (directe).
+\end{itemize}
 
-\comp{MetaheuristicTabou}{100}{99.5}{Oui}{OK}
+\comp{MetaheuristicTabou}{100}{99.9}{Oui}{OK}
 
-\comp{MetaheuristicGenetic}{100}{50}{?}{?}
+\comp{MetaheuristicGenetic}{100}{99.9}{?}{OK}
 
-\comp{MetaheuristicLocal}{100}{0}{?}{?}
+\comp{MetaheuristicKaguya}{100}{0}{?}{?}
 
 %--------------------------------------------------------------------------------
 \chapter*{Conclusion}
