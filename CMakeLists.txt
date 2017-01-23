@@ -49,5 +49,6 @@ set(SOURCE_FILES
         src/unit/metaheuristicGeneticUnit.c src/unit/headers/metaheuristicGeneticUnit.h
 
         src/metaheuristicKaguya.c src/headers/metaheuristicKaguya.h
+        src/unit/metaheuristicKaguyaUnit.c src/unit/headers/metaheuristicKaguyaUnit.h
         )
 add_executable(ex_projet2 ${SOURCE_FILES})

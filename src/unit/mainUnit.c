@@ -12,6 +12,7 @@
 #include "headers/solutionUnit.h"
 #include "headers/metaheuristicTabouUnit.h"
 #include "headers/metaheuristicGeneticUnit.h"
+#include "headers/metaheuristicKaguyaUnit.h"
 
 int mainUnit()
 {
@@ -51,6 +52,9 @@ int mainUnit()
 	printf("OK\n");
 	printf("Executing metaheuristicGenetic tests...");
 	metaheuristicGeneticTests();
+	printf("OK\n");
+	printf("Executing metaheuristicKaguya tests...");
+	metaheuristicKaguyaTests();
 	printf("OK\n");
 	return 0;
 }
