@@ -84,7 +84,9 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember)
 	ClanMember * newMember;
 	MMALLOC(newMember, ClanMember, 1, "clanMember_duplicate");
 	newMember->dilution = clanMember->dilution;
-	newMember->DNA = clanMember->DNA;
+	MMALLOC(newMember->DNA, int , newMember->dilution, "clanMember_duplicate");
+	for(int i = 0; i < newMember->dilution; i ++)
+		newMember->DNA[i] = clanMember->DNA[i];
 	return newMember;
 }
 
