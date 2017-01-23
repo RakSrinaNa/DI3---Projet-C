@@ -94,4 +94,5 @@ Solution * solution_fromDirect(SolutionDirect * solutionDirect);
  * @return A pointer to the created solution.
 */
 Solution * solution_full(Instance * instance, SolutionType solutionType);
+
 #endif

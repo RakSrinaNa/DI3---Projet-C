@@ -5,8 +5,6 @@
 #include "headers/parser.h"
 #include "headers/solution.h"
 #include "headers/metaheuristicLocal.h"
-#include "headers/metaheuristicGenetic.h"
-#include "headers/metaheuristicKaguya.h"
 
 int main(int argc, char * argv[])
 {
@@ -44,6 +42,6 @@ int main(int argc, char * argv[])
 			parser_destroy(parser);
 		}
 	}
-
+	
 	return 0;
 }

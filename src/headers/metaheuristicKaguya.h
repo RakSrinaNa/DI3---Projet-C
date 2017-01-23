@@ -13,7 +13,7 @@ typedef struct
 {
 	Instance * instance;
 	SolutionType type;
-
+	
 	ClanMember ** people;
 	int size;
 } Clan;
@@ -48,6 +48,5 @@ void clan_generation(Clan * clan);
 void clan_dispertion(Clan * clan, Clan * descendants);
 
 Solution * clan_extinction(Clan * clan);
-
 
 #endif

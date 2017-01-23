@@ -19,9 +19,15 @@ typedef struct
  * @param mutationProbability The probability between 0 and 1 of a child mutating.
  * @param maxIterations The maximum number of generation to create.
  * @param styleNaturalSelection The style of the natural selection.
+ *  - 0:
+ *  - 1:
+ *  - 2:
+ * @param styleParentSelection The style to select the parents:
+ *  - 0:
+ *  - 1:
  * @return A pointer to the best solution the metaheuristic found.
  */
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations, int styleNaturalSelection); //TODO Unit
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations, int styleNaturalSelection, int styleParentSelection); //TODO Unit
 
 /**
  * Creates a population structure.
