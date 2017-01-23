@@ -102,37 +102,93 @@ void population_remove(Population * population, Solution * solution);
  */
 long population_evaluate(Population * population);
 
-//TODO Doc
-void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style); //TODO Unit
+/**
+ *
+ * @param population
+ * @param parent1
+ * @param parent2
+ * @param style
+ */
+void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style);
 
-//TODO Doc
-void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2); //TODO Unit
+/**
+ *
+ * @param population
+ * @param parent1
+ * @param parent2
+ */
+void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2);
 
-//TODO Doc
-void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2); //TODO Unit
+/**
+ *
+ * @param population
+ * @param parent1
+ * @param parent2
+ */
+void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2);
 
-//TODO Doc
+/**
+ *
+ * @param parent1
+ * @param parent2
+ * @param child1
+ * @param child2
+ */
 void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
-//TODO Doc
+/**
+ *
+ * @param parent1
+ * @param parent2
+ * @param child1
+ * @param child2
+ */
 void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
-//TODO Doc
+/**
+ *
+ * @param parent1
+ * @param parent2
+ * @param child1
+ * @param child2
+ */
 void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
-//TODO Doc
-void metaheuristicGenetic_mutation(Solution * child); //TODO Unit
+/**
+ *
+ * @param child
+ */
+void metaheuristicGenetic_mutation(Solution * child);
 
-//TODO Doc
-void metaheuristicGenetic_naturalSelection(Population ** population, Population * childPopulation, int style); //TODO Unit
+/**
+ *
+ * @param population
+ * @param childPopulation
+ * @param style
+ */
+void metaheuristicGenetic_naturalSelection(Population ** population, Population * childPopulation, int style);
 
-//TODO Doc
-Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population); //TODO Unit
+/**
+ *
+ * @param population
+ * @return
+ */
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population);
 
-//TODO Doc
-Population * metaheuristicGenetic_naturalSelectionElitist(Population * population, Population * childPopulation); //TODO Unit
+/**
+ *
+ * @param population
+ * @param childPopulation
+ * @return
+ */
+Population * metaheuristicGenetic_naturalSelectionElitist(Population * population, Population * childPopulation);
 
-//TODO Doc
-Population * metaheuristicGenetic_naturalSelectionBalanced(Population * population, Population * childPopulation); //TODO Unit
+/**
+ *
+ * @param population
+ * @param childPopulation
+ * @return
+ */
+Population * metaheuristicGenetic_naturalSelectionBalanced(Population * population, Population * childPopulation);
 
 #endif
