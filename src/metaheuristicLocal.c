@@ -42,8 +42,8 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 			solution_destroy(allNeighbours[i]);
 		free(allNeighbours);
 
-		free(currentSolution);
-		
+		solution_destroy(currentSolution);
+
 		scoreCurrent = scoreBestNeighbour;
 		currentSolution = solution_duplicate(bestNeighbourSolution);
 
@@ -63,7 +63,7 @@ Solution * metaheuristicLocal_search(Instance * instance, SolutionType solutionT
 
 		solution_destroy(bestNeighbourSolution);
 	}
-	free(currentSolution);
+	solution_destroy(currentSolution);
 
 	return bestSolution;
 }
