@@ -308,7 +308,7 @@ Dans le cadre des heuristiques, nous avons du implémenter nos propres critères
 
 Le premier ("allDimensionsWeighted") se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus l'item remplira le sac, plus le diviseur sera important et par conséquent, l'item aura un score faible.
 
-Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension j. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de repidement élever le diviseur si l'item prend trop de place et "efface" les différence entre les poids de chaque items afin de priélégier les items qui remplissent peu le sac.
+Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension $j$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de repidement élever le diviseur si l'item prend trop de place et "efface" les différence entre les poids de chaque items afin de priélégier les items qui remplissent peu le sac.
 
 Les fonctions contenues dans Heuristic sont:
 \begin{itemize}
@@ -351,6 +351,47 @@ Ce fichier comporte toutes les fonctions associées à la recherche locale:
 \end{itemize}
 
 \comp{MetaheuristicTabou}{100}{99.9}{Oui}{OK}
+Ce fichier comporte une première structure Movement permettant d'identifier un movement $a\Leftrightarrow b$. Ses propriétées sont:
+\begin{itemize}
+	\item a $\longrightarrow$ L'index du premier élément à inverser.
+	\item b $\longrightarrow$ L'index du second élément à inverser.\\
+\end{itemize}
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item movement\_equals $\longrightarrow$ Permet de vérifier si deux mouvements sont les mêmes.
+	\item movement\_applyMovement $\longrightarrow$ Applique le mouvement sur une solution.
+	\item movement\_duplicate $\longrightarrow$ Duplique un mouvement sur le tas.\\
+\end{itemize}
+
+Une deuxième structure Tabou représente la liste des movements interdits et à pour propriétées:
+\begin{itemize}
+	\item movements $\longrightarrow$ Une liste de pointeurs de mouvements.
+	\item size $\longrightarrow$ La taille actuelle de la liste.
+	\item changes $\longrightarrow$ Le nombre d'ajouts à la structure (pour pouvoir écrire de manière "continue" dans la liste).
+	\item max $\longrightarrow$ La taille maximum de la liste.\\
+\end{itemize}
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item tabou\_create $\longrightarrow$ Permet de créer une structure Tabou sur le tas.
+	\item tabou\_appendMovement $\longrightarrow$ Permet d'ajouter un movement à la liste tabou.
+	\item tabou\_isMovementTabou $\longrightarrow$ Indique si un movement est présent dans la liste tabou.
+	\item tabou\_destroy $\longrightarrow$ Détruit une structure tabou précédemment créée par tabou\_create.\\
+\end{itemize}
+
+Les fonctions suivantes concernent la recherche tabou:
+\begin{itemize}
+	\item metaheuristicTabou\_search $\longrightarrow$ Permet de lancer la recherche tabou. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).`
+		\item iterationMax $\longrightarrow$ Le nombre maximum d'itérations à effectuer lorsque nous trouvons la même solution.
+		\item tabouMax $\longrightarrow$ La taille maximum de la liste tabou.
+		\item aspiration $\longrightarrow$ Un boléen représentant l'utilisation ou non de l'aspiration.
+	\end{itemize}
+	\item metaheuristicTabou\_getNeighbourFromMovement $\longrightarrow$ Duplique une solution puis lui applique un mouvement.
+	\item metaheuristicTabou\_getMovements $\longrightarrow$ Renvoi la liste de toutes les permutations possibles.
+\end{itemize}
 
 \comp{MetaheuristicGenetic}{100}{99.9}{?}{OK}
 
