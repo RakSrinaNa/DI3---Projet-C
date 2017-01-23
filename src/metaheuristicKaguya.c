@@ -37,6 +37,12 @@ Clan * clan_create(Instance * instance, SolutionType solutionType)
 
 void clan_append(Clan * clan, ClanMember * clanMember)
 {
+	for(int i = 0; i < clan->size; i++)
+		if(cleanMember_equals(clan->people[i], clanMember))
+		{
+			clanMember_destroy(clanMember);
+			return;
+		}
 	clan->size++;
 	RREALLOC(clan->people, ClanMember*, clan->size, "clan_append");
 	clan->people[clan->size - 1] = clanMember;
@@ -53,6 +59,16 @@ void clan_remove(Clan * clan, int index)
 		clan->people[index] = clan->people[clan->size];
 		RREALLOC(clan->people, ClanMember*, clan->size, "clan_remove");
 	}
+}
+
+int cleanMember_equals(ClanMember * m1, ClanMember * m2)
+{
+	if(m1->dilution != m2->dilution)
+		return 0;
+	for(int i = 0; i < m1->dilution; i++)
+		if(m1->DNA[i] != m2->DNA[i])
+			return 0;
+	return 1;
 }
 
 ClanMember * clanMember_ancestor()

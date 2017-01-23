@@ -133,4 +133,13 @@ void clan_dispertion(Clan * clan, Clan * descendants);
  */
 Solution * clan_extinction(Clan * clan);
 
+/**
+ * Verify if two clan members are the same.
+ *
+ * @param m1 A pointer to the first member.
+ * @param m2 A pointer to the second member.
+ * @return 1 if they are the same, 0 else.
+ */
+int cleanMember_equals(ClanMember * m1, ClanMember * m2);
+
 #endif
