@@ -35,9 +35,11 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 			Solution * child1 = NULL;
 			Solution * child2 = NULL;
 			metaheuristicGenetic_breedChildren(parent1, parent2, &child1, &child2);
-
-			population_append(childPopulation, solution_duplicate(child1));
-			population_append(childPopulation, solution_duplicate(child2));
+			
+			if(!population_append(childPopulation, child1))
+				solution_destroy(child1);
+			if(!population_append(childPopulation, child2))
+				solution_destroy(child2);
 		}
 
 		for(int j = 0; j < childPopulation->size; j++)
