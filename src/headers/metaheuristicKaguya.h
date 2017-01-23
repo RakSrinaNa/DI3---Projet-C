@@ -118,7 +118,7 @@ int clanMember_evaluate(Clan * clan, int index);
 void clan_generation(Clan * clan);
 
 /**
- * If some ClanMember of the Clan are doable, they go to the clan named descendants.
+ * If some ClanMembers of the Clan are doable, they go to the clan named descendants.
  *
  * @param clan A pointer to the Clan to verify.
  * @param descendants A pointer to the clan of doable ClanMembers.
