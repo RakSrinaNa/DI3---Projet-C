@@ -271,7 +271,7 @@ Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
 \begin{itemize}
 	\item solutionIndirect\_create $\longrightarrow$ Afin de créer une SolutionIndirecte sur le tas (par default item order ne contient que des '-1').
 	\item solutionIndirect\_destroy $\longrightarrow$ Afin de détruire une SolutionIndirecte précédemment créé par solutionIndirect\_create.
-	\item solutionIndirect\_decode $\longrightarrow$ Decode une solution indirecte, permettant de créer le sac associé.
+	\item solutionIndirect\_decode $\longrightarrow$ Décode une solution indirecte, permettant de créer le sac associé.
 	\item solutionIndirect\_evaluate $\longrightarrow$ Fonction score pour une solution indirecte.
 	\item solutionIndirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution indirecte.
 	\item solutionIndirect\_print $\longrightarrow$ Affiche une solution indirecte dans la console.
@@ -282,11 +282,11 @@ Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
 \end{itemize}
 
 \comp{Solution}{100}{99.9}{Oui}{OK}
-Le fichier Solution contient une structure Solution permettant de rassembler une solution directe ou indirecte afin d'avoir une manipulation plus généraliste de celles-ci. Cette structure a pour propriétées:
+Le fichier Solution contient une structure Solution permettant de rassembler une solution directe ou indirecte afin d'avoir une manipulation plus générale de celles-ci. Cette structure a pour propriétés:
 \begin{itemize}
 	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
-	\item type $\longrightarrow$ Une énumeration pouvant prende les valeurs DIRECT ou INDIRECT, représentant le type de la solution contenue.
-	\item solutions $\longrightarrow$ La solution en elle même, dépendant du type. Union de SolutionDirect et SolutionIndirect.
+	\item type $\longrightarrow$ Une énumération pouvant prendre les valeurs DIRECT ou INDIRECT, représentant le type de la solution contenue.
+	\item solutions $\longrightarrow$ La solution en elle-même, dépendant du type. Union de SolutionDirect et SolutionIndirect.
 	\item solveTime $\longrightarrow$ Un entier représentant le temps de calcul pour obtenir la solution.\\
 \end{itemize}
 
@@ -297,23 +297,23 @@ Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
 	\item solution\_evaluate $\longrightarrow$ Fonction score pour une solution.
 	\item solution\_doable $\longrightarrow$ Indique la faisabilité d'une solution.
 	\item solution\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
-	\item solution\_destroy $\longrightarrow$ Afin de détruire une Solution.
+	\item solution\_destroy $\longrightarrow$ Détruit une Solution.
 	\item solution\_fromIndirect $\longrightarrow$ Créé une solution à partir d'une solution indirecte.
 	\item solution\_fromDirect $\longrightarrow$ Créé une solution à partir d'une solution directe.
-	\item solution\_full $\longrightarrow$ Renvoi une solution contenant tout les items de l'instance.
+	\item solution\_full $\longrightarrow$ Renvoi une solution contenant tous les items de l'instance.
 \end{itemize}
 
 \comp{Heuristic \label{sec:Heuristic}}{100}{99.9}{Oui}{OK}
-Dans le cadre des heuristiques, nous avons du implémenter nos propres critères de sélection. Nous allons ici vous en présenter deux. Les application de ces fonctions sont présentes dans le ficher scheduler que nous verrons à la section \ref{sec:Scheduler}.
+Dans le cadre des heuristiques, nous avons du implémenter nos propres critères de sélection. Nous allons ici vous en présenter deux. Les applications de ces fonctions sont présentes dans le ficher scheduler que nous verrons à la section \ref{sec:Scheduler}.
 
 Le premier ("allDimensionsWeighted") se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus l'item remplira le sac, plus le diviseur sera important et par conséquent, l'item aura un score faible.
 
-Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension $j$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de repidement élever le diviseur si l'item prend trop de place et "efface" les différence entre les poids de chaque items afin de priélégier les items qui remplissent peu le sac.
+Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension $j$. Ce ratio est un score temporaire afin par la suite d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de rapidement élever le diviseur si l'item en question prend beaucoup trop de place et "efface" les différences entre les poids de chaque items afin de privilégier les items qui remplissent peu le sac.
 
 Les fonctions contenues dans Heuristic sont:
 \begin{itemize}
 	\item heuristic\_search $\longrightarrow$ Lance la recherche heuristique.
-	\item heuristic\_getList $\longrightarrow$ Renvoi la liste des items ordonées en fonction du scheduler choisi.
+	\item heuristic\_getList $\longrightarrow$ Renvoi la liste des items ordonnées en fonction du scheduler choisi.
 \end{itemize}
 
 \comp{Scheduler \label{sec:Scheduler}}{100}{99.9}{Oui}{OK}
@@ -327,10 +327,10 @@ Les fonctions générales de ce fichier sont:
 Les fonctions restantes représentes les différentes méthodes de tri pour l'heuristique, celles-ci sont de la forme: scheduler\_[Name] étant la fonction renvoyant la liste d'index d'items ordonnée, scheduler\_[Name]\_score calculant le score d'un item.
 Les différents noms sont:
 \begin{itemize}
-	\item random $\longrightarrow$ Créant une liste aléatoirement ordonnée.
-	\item value $\longrightarrow$ Créant une liste ordonée selon la valeur des items.
-	\item allDimensions $\longrightarrow$ Créant une liste grace au ratio $\frac{v_i}{\sum_{j=0}^mw_{i,j}}$.
-	\item forDimension $\longrightarrow$ Créant une liste à partir du ratio valeur / poids dans une dimention donnée (utilisé principalement pour la dimension critique).
+	\item random $\longrightarrow$ Créant une liste ordonnée aléatoirement.
+	\item value $\longrightarrow$ Créant une liste ordonnée selon la valeur des items.
+	\item allDimensions $\longrightarrow$ Créant une liste grâce au ratio $\frac{v_i}{\sum_{j=0}^mw_{i,j}}$.
+	\item forDimension $\longrightarrow$ Créant une liste à partir du ratio valeur / poids dans une dimension donnée (utilisé principalement pour la dimension critique).
 	\item allDimentionsWeighted  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
 	\item exponential  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
 \end{itemize}
@@ -340,18 +340,18 @@ Ce fichier comporte toutes les fonctions associées à la recherche locale:
 \begin{itemize}
 	\item metaheuristicLocal\_search $\longrightarrow$ Permet de lancer la recherche locale. Les paramètres ajoutés sont:
 	\begin{itemize}
-		\item solutionType $\longrightarrow$ Le type de la solution à créer (sirecte ou indirecte).
-		\item operatorSearch $\longrightarrow$ L'opérateur de recherche. Pour le moment seulement 0 est utilisé dans le cas du direct et de l'indirect. Cela correcpond à la ajouter et inverser pour le directe et inverser pour l'indirecte.
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).
+		\item operatorSearch $\longrightarrow$ L'opérateur de recherche. Pour le moment seul 0 est utilisé dans le cas du direct et de l'indirect. Cela correspond à ajouter puis inverser pour le type direct et inverser pour l'indirect.
 	\end{itemize}
-	\item metaheuristicLocal\_getNeighbours $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche choisi.
-	\item metaheuristicLocal\_swapItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'inversion (indirecte).
-	\item metaheuristicLocal\_addItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'ajout (directe).
-	\item metaheuristicLocal\_invertItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur l'opérateur de recherche d'inversion (directe).
-	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution basé sur la concaténation des opérateurs de recherche d'ajour et d'inversion (directe).
+	\item metaheuristicLocal\_getNeighbours $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche choisi.
+	\item metaheuristicLocal\_swapItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (indirecte).
+	\item metaheuristicLocal\_addItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'ajout (directe).
+	\item metaheuristicLocal\_invertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (directe).
+	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur la concaténation des opérateurs de recherche d'ajour et d'inversion (directe).
 \end{itemize}
 
 \comp{MetaheuristicTabou}{100}{99.9}{Oui}{OK}
-Ce fichier comporte une première structure Movement permettant d'identifier un movement $a\Leftrightarrow b$. Ses propriétées sont:
+Ce fichier comporte une première structure Movement permettant d'identifier un mouvement $a\Leftrightarrow b$. Ses propriétés sont:
 \begin{itemize}
 	\item a $\longrightarrow$ L'index du premier élément à inverser.
 	\item b $\longrightarrow$ L'index du second élément à inverser.\\
@@ -364,7 +364,7 @@ Les fonctions suivantes lui sont associées:
 	\item movement\_duplicate $\longrightarrow$ Duplique un mouvement sur le tas.\\
 \end{itemize}
 
-Une deuxième structure Tabou représente la liste des movements interdits et à pour propriétées:
+Une deuxième structure Tabou représente la liste des mouvements interdits et à pour propriétés:
 \begin{itemize}
 	\item movements $\longrightarrow$ Une liste de pointeurs de mouvements.
 	\item size $\longrightarrow$ La taille actuelle de la liste.
@@ -380,14 +380,14 @@ Les fonctions suivantes lui sont associées:
 	\item tabou\_destroy $\longrightarrow$ Détruit une structure tabou précédemment créée par tabou\_create.\\
 \end{itemize}
 
-Les fonctions suivantes concernent la recherche tabou:
+Les fonctions suivantes concernent la recherche taboue:
 \begin{itemize}
 	\item metaheuristicTabou\_search $\longrightarrow$ Permet de lancer la recherche tabou. Les paramètres ajoutés sont:
 	\begin{itemize}
 		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).`
 		\item iterationMax $\longrightarrow$ Le nombre maximum d'itérations à effectuer lorsque nous trouvons la même solution.
-		\item tabouMax $\longrightarrow$ La taille maximum de la liste tabou.
-		\item aspiration $\longrightarrow$ Un boléen représentant l'utilisation ou non de l'aspiration.
+		\item tabouMax $\longrightarrow$ La taille maximum de la liste taboue.
+		\item aspiration $\longrightarrow$ Un booléen représentant l'utilisation ou non de l'aspiration.
 	\end{itemize}
 	\item metaheuristicTabou\_getNeighbourFromMovement $\longrightarrow$ Duplique une solution puis lui applique un mouvement.
 	\item metaheuristicTabou\_getMovements $\longrightarrow$ Renvoi la liste de toutes les permutations possibles.
