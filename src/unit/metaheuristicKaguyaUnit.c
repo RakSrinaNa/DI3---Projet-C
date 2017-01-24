@@ -6,6 +6,11 @@
 
 void metaheuristicKaguyaTests()
 {
+	if(1)
+	{
+		printf("SKIPEPD-");
+		return;
+	}
 	Parser * parser = parser_create("MKP-Instances/_mknapcb1_res.txt");
 	Instance * instance = parser_getNextInstance(parser);
 	solution_destroy(metaheuristicKaguya_search(instance, DIRECT));
