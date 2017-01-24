@@ -1,21 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "bag.h"
+#include "headers/utils.h"
+#include "headers/bag.h"
 
 Bag * bag_create(Instance * instance)
 {
 	Bag * bag;
-	if((bag = (Bag *) malloc(sizeof(Bag))) == NULL)
-	{
-		perror("MALLOC ERROR bag_create");
-		exit(EXIT_FAILURE);
-	}
-	if((bag->weights = (int *) malloc(sizeof(int) * instance->dimensionsNumber)) == NULL)
-	{
-		perror("MALLOC ERROR bag_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(bag, Bag, 1, "bag_create");
+	MMALLOC(bag->weights, int, instance->dimensionsNumber, "bag_create");
+	
 	bag->items = NULL;
 	bag->itemsCount = 0;
 	
@@ -27,6 +21,8 @@ Bag * bag_create(Instance * instance)
 
 void bag_destroy(Bag * bag)
 {
+	if(bag == NULL)
+		return;
 	free(bag->items);
 	free(bag->weights);
 	free(bag);
@@ -35,11 +31,7 @@ void bag_destroy(Bag * bag)
 void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 {
 	(bag->itemsCount)++;
-	if((bag->items = (int *) realloc(bag->items, sizeof(int) * bag->itemsCount)) == NULL)
-	{
-		perror("REALLOC ERROR bag_appendItem");
-		exit(EXIT_FAILURE);
-	}
+	RREALLOC(bag->items, int, bag->itemsCount, "bag_appendItem");
 	bag->items[bag->itemsCount - 1] = itemIndex;
 	
 	for(int i = 0; i < instance->dimensionsNumber; i++)
@@ -106,4 +98,12 @@ SolutionDirect * bag_toSolutionDirect(Instance * instance, Bag * bag)
 	for(int i = 0; i < bag->itemsCount; i++)
 		solutionDirect_takeItem(solution, bag_getItemIndex(bag, i));
 	return solution;
+}
+
+Bag * bag_duplicate(Instance * instance, Bag * bag)
+{
+	Bag * newBag = bag_create(instance);
+	for(int i = 0; i < bag->itemsCount; i++)
+		bag_appendItem(instance, newBag, bag_getItemIndex(bag, i));
+	return newBag;
 }

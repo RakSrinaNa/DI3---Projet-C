@@ -2,17 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "instance.h"
-#include "parser.h"
+#include "headers/instance.h"
+#include "headers/parser.h"
+#include "headers/utils.h"
 
 Parser * parser_create(char * filename)
 {
 	Parser * parser;
-	if((parser = (Parser *) malloc(sizeof(Parser))) == NULL)
-	{
-		perror("ERROR MALLOC parser_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(parser, Parser, 1, "parser_create");
 	parser->filename = filename;
 	parser->instanceRead = 0;
 	FILE * file;
@@ -21,13 +18,15 @@ Parser * parser_create(char * filename)
 		perror("ERROR FOPEN parser_create");
 		exit(EXIT_FAILURE);
 	}
-
-	parser->instanceCount = atoi(parser_readLine(file)); // Read number of instances
+	
+	char * line = parser_readLine(file);
+	parser->instanceCount = atoi(line); // Read number of instances
+	free(line);
 	if(fgetpos(file, &(parser->offset)) != 0)
-    {
-        perror("ERROR FGETPOS parser_create");
-        exit(EXIT_FAILURE);
-    }
+	{
+		perror("ERROR FGETPOS parser_create");
+		exit(EXIT_FAILURE);
+	}
 	fclose(file);
 	
 	return parser;
@@ -43,11 +42,7 @@ Instance * parser_getNextInstance(Parser * parser)
 	if(parser->instanceRead >= parser->instanceCount)
 		return NULL;
 	Instance * instance;
-	if((instance = (Instance *) malloc(sizeof(Instance))) == NULL) // Create instance
-	{
-		perror("ERROR MALLOC parser_getNextInstance");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instance, Instance, 1, "parser_getNextInstance");
 	
 	FILE * file;
 	if((file = fopen(parser->filename, "rb")) == NULL)
@@ -57,11 +52,11 @@ Instance * parser_getNextInstance(Parser * parser)
 	}
 	fsetpos(file, &(parser->offset));
 	parser_readInstance(file, instance);
-    if(fgetpos(file, &(parser->offset)) != 0)
-    {
-        perror("ERROR FGETPOS parser_getNextInstance");
-        exit(EXIT_FAILURE);
-    }
+	if(fgetpos(file, &(parser->offset)) != 0)
+	{
+		perror("ERROR FGETPOS parser_getNextInstance");
+		exit(EXIT_FAILURE);
+	}
 	fclose(file);
 	parser->instanceRead++;
 	return instance;
@@ -76,13 +71,11 @@ Instance * parser_readAllFile(char * fileName)
 		exit(EXIT_FAILURE);
 	}
 	
-	int instancesNumber = atoi(parser_readLine(file)); // Read number of instances
+	char * line = parser_readLine(file);
+	int instancesNumber = atoi(line); // Read number of instances
+	free(line);
 	Instance * instances;
-	if((instances = (Instance *) malloc(instancesNumber * sizeof(Instance))) == NULL) // Create instances
-	{
-		perror("ERROR MALLOC parser_readAllFile");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instances, Instance, 1, "parser_readAllFiles");
 	
 	for(int instanceIndex = 0; instanceIndex < instancesNumber; instanceIndex++) // Read every instance
 		parser_readInstance(file, instances + instanceIndex);
@@ -99,7 +92,7 @@ void parser_readInstance(FILE * file, Instance * instance)
 	instance_initialize(instance, lineNumbers[0], lineNumbers[1]); // Initialize the instance with the number of items and dimensions
 	free(lineNumbers);
 	
-	parser_readLine(file); // Read line to skip it, we don't use it for now
+	free(parser_readLine(file)); // Read line to skip it, we don't use it for now
 	
 	line = parser_readLine(file); // Read line of values
 	lineNumbers = parser_lineToIntArray(line, instance->itemsCount);
@@ -138,18 +131,14 @@ char * parser_readLine(FILE * file)
 		}
 		if(getLine(&lineRead, &size, file) == -1) // Read a line, and return NULL if end of file
 			return NULL;
-	} while(*lineRead == '\n'); // While we have a non empty line
+	} while(*lineRead == '\n' || (*lineRead == '\r' && lineRead[1] == '\n')); // While we have a non empty line
 	return lineRead;
 }
 
 int * parser_lineToIntArray(char * line, int valuesNumber)
 {
 	int * values;
-	if((values = (int *) malloc(sizeof(int) * valuesNumber)) == NULL) // Creating the array for the integers
-	{
-		perror("ERROR MALLOC parser_lineToIntArray parser.c");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(values, int, valuesNumber, "parser_lineToIntArray");
 	
 	int valuesLength = 0; // Number of values actually put in the array
 	
@@ -170,7 +159,7 @@ int * parser_lineToIntArray(char * line, int valuesNumber)
 				valuesLength++;
 				
 				char buffer[10] = {0};
-				memcpy(buffer, start, (unsigned int)length);
+				memcpy(buffer, start, (unsigned int) length);
 				buffer[length] = '\0';
 				values[valuesLength - 1] = atoi(buffer);
 				
@@ -197,7 +186,6 @@ int * parser_lineToIntArray(char * line, int valuesNumber)
 	return values;
 }
 
-
 int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 {
 	char * bufferPtr = NULL; // Buffer string
@@ -215,9 +203,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 		return -1;
 	if(bufferPtr == NULL) // If the string passed as parameter is NULL, initialize it
 	{
-		bufferPtr = (char *) malloc(50 * sizeof(char));
-		if(bufferPtr == NULL)
-			return -1;
+		MMALLOC(bufferPtr, char, 50, NULL);
 		size = 50;
 	}
 	while(charRead != EOF) // While we didn't reach the end of the file
@@ -225,15 +211,7 @@ int getLine(char ** linePtr, size_t * lineSize, FILE * file)
 		if(writingHead > size - 1U) // If we went over the buffer size (letting space for \0), make it bigger
 		{
 			size += 50;
-			char * newBufferPtr = realloc(bufferPtr, size);
-			if(newBufferPtr == NULL) // If realloc fails
-			{
-				bufferPtr[writingHead] = '\0';
-				*linePtr = bufferPtr;
-				*lineSize = size;
-				return -1;
-			}
-			bufferPtr = newBufferPtr;
+			RREALLOC(bufferPtr, char, size, NULL);
 		}
 		bufferPtr[writingHead++] = (char) charRead; // Write the char read into out buffer
 		if(charRead == '\n') // If it's the end of the line, get out of the while

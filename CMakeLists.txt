@@ -7,31 +7,48 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         src/main.c
-        src/mainKergosien.c src/mainKergosien.h
-        src/mainUnit.c src/mainUnit.h
-        src/unit.c src/unit.h
+        src/mainKergosien.c src/headers/mainKergosien.h
+        src/unit/mainUnit.c src/unit/headers/mainUnit.h
+        src/unit/unit.c src/unit/headers/unit.h
+        src/headers/utils.h
 
-        src/instance.c src/instance.h
-        src/instanceUnit.c src/instanceUnit.h
+        src/instance.c src/headers/instance.h
+        src/unit/instanceUnit.c src/unit/headers/instanceUnit.h
 
-        src/item.c src/item.h
-        src/itemUnit.c src/itemUnit.h
+        src/item.c src/headers/item.h
+        src/unit/itemUnit.c src/unit/headers/itemUnit.h
 
-        src/parser.c src/parser.h
-        src/parserUnit.c  src/parserUnit.h
+        src/parser.c src/headers/parser.h
+        src/unit/parserUnit.c src/unit/headers/parserUnit.h
 
-        src/solutionDirect.c src/solutionDirect.h
-        src/solutionDirectUnit.c src/solutionDirectUnit.h
+        src/solutionDirect.c src/headers/solutionDirect.h
+        src/unit/solutionDirectUnit.c src/unit/headers/solutionDirectUnit.h
 
-        src/bag.c src/bag.h
-        src/bagUnit.c src/bagUnit.h
+        src/bag.c src/headers/bag.h
+        src/unit/bagUnit.c src/unit/headers/bagUnit.h
 
-        src/solutionIndirect.c src/solutionIndirect.h
-        src/solutionIndirectUnit.c src/solutionIndirectUnit.h
+        src/solutionIndirect.c src/headers/solutionIndirect.h
+        src/unit/solutionIndirectUnit.c src/unit/headers/solutionIndirectUnit.h
 
-        src/heuristic.c src/heuristic.h
-        src/heuristicUnit.c src/heuristicUnit.h
+        src/solution.c src/headers/solution.h
+        src/unit/solutionUnit.c src/unit/headers/solutionUnit.h
 
-        src/scheduler.c src/scheduler.h
-        src/schedulerUnit.c src/schedulerUnit.h)
+        src/heuristic.c src/headers/heuristic.h
+        src/unit/heuristicUnit.c src/unit/headers/heuristicUnit.h
+
+        src/scheduler.c src/headers/scheduler.h
+        src/unit/schedulerUnit.c src/unit/headers/schedulerUnit.h
+
+        src/metaheuristicLocal.c src/headers/metaheuristicLocal.h
+        src/unit/metaheuristicLocalUnit.c src/unit/headers/metaheuristicLocalUnit.h
+
+        src/metaheuristicTabou.c src/headers/metaheuristicTabou.h
+        src/unit/metaheuristicTabouUnit.c src/unit/headers/metaheuristicTabouUnit.h
+
+        src/metaheuristicGenetic.c src/headers/metaheuristicGenetic.h
+        src/unit/metaheuristicGeneticUnit.c src/unit/headers/metaheuristicGeneticUnit.h
+
+        src/metaheuristicKaguya.c src/headers/metaheuristicKaguya.h
+        src/unit/metaheuristicKaguyaUnit.c src/unit/headers/metaheuristicKaguyaUnit.h
+        )
 add_executable(ex_projet2 ${SOURCE_FILES})

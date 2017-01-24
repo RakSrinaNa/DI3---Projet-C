@@ -1,8 +1,10 @@
 #include <string.h>
 
-#include "mainUnit.h"
-#include "mainKergosien.h"
-#include "parser.h"
+#include "unit/headers/mainUnit.h"
+#include "headers/mainKergosien.h"
+#include "headers/parser.h"
+#include "headers/solution.h"
+#include "headers/metaheuristicLocal.h"
 
 int main(int argc, char * argv[])
 {
@@ -23,10 +25,22 @@ int main(int argc, char * argv[])
 		{
 			mainKergosien();
 		}
-	}
-	else
-	{
-		parser_readAllFile("MKP-Instances/_mknapcb1_res.txt");
+		else if(strcmp(argv[1], "temp") == 0)
+		{
+			Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
+			Instance * instance;
+			while((instance = parser_getNextInstance(parser)) != NULL)
+			{
+				Solution * solution = metaheuristicLocal_search(instance, DIRECT, 0, 5);
+				if(solution->type == INDIRECT)
+					solutionIndirect_print(solution->solutions.indirect);
+				else
+					solutionDirect_print(solution->solutions.direct);
+				solution_destroy(solution);
+				instance_destroy(instance);
+			}
+			parser_destroy(parser);
+		}
 	}
 	
 	return 0;

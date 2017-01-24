@@ -1,53 +1,71 @@
 #include <stdlib.h>
 #include <memory.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
-#include "instance.h"
-#include "parser.h"
-#include "heuristic.h"
+#include "headers/instance.h"
+#include "headers/parser.h"
+#include "headers/heuristic.h"
+#include "headers/metaheuristicGenetic.h"
+#include "headers/metaheuristicKaguya.h"
 
 void mainKergosien()
 {
-	Parser * parser = parser_create("./MKP-Instances/_mknapcb1_res.txt");
+#if defined(_WIN32)
+	_mkdir("Solutions");
+#else
+	mkdir("Solutions", S_IRWXU | S_IRWXG | S_IRWXO);
+#endif
 	
-	Instance * instance;
-	while((instance = parser_getNextInstance(parser)) != NULL)
+	char dirName[] = "./MKP-Instances";
+	char filePath[200];
+	DIR * dir = opendir(dirName);
+	
+	int i = 0;
+	
+	struct dirent * file;
+	while((file = readdir(dir)) != NULL)
 	{
-		for(int j = 0; j < 4; j++)
+		if(strstr(file->d_name, "mknap") == NULL)
+			continue;
+		
+		i++;
+		
+		if(i != 1)
+			continue;
+		
+		sprintf(filePath, "%s/%s", dirName, file->d_name);
+		printf("Processing file: %s\n", filePath);
+		Parser * parser = parser_create(filePath);
+		
+		Instance * instance;
+		while((instance = parser_getNextInstance(parser)) != NULL)
 		{
-			Solution * solution = heuristic(instance, 1, j);
-			char str[50];
-			sprintf(str, "test1_direct_scheduler_%d.txt", j);
-			heuristic_saveSolutionToFile(str, instance, solution);
-			heuristic_solutionDestroy(solution);
+			char outputFile[100];
+			Solution * solution;
+			if(1)
+			{
+				solution = metaheuristicKaguya_search(instance, DIRECT);
+				sprintf(outputFile, "Solutions/type_direct_instance_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
+				solution_saveToFile(outputFile, solution);
+				printf("Solution written into %s\n", outputFile);
+				solution_destroy(solution);
+			}
+			
+			if(0)
+			{
+				solution = metaheuristicGenetic_search(instance, INDIRECT, 100, 0.1, 250, 0, 0);
+				solutionIndirect_print(solution->solutions.indirect);
+				sprintf(outputFile, "Solutions/test1_indirect_file_%d_%d_scheduler_%d.txt", i, parser->instanceRead, 5);
+				solution_saveToFile(outputFile, solution);
+				printf("Solution written into %s\n", outputFile);
+				solution_destroy(solution);
+			}
+			
+			instance_destroy(instance);
 		}
-		instance_destroy(instance);
+		parser_destroy(parser);
 	}
 	
-	parser_destroy(parser);
-}
-
-char * stringConcat(char * s1, char * s2)
-{
-	char * string = (char *) malloc((strlen(s1) + strlen(s2) + 1) * sizeof(char));
-	int i = 0;
-	int j = 0;
-	for(i = 0; i < (int) strlen(s1); i++)
-		string[i + j] = s1[i];
-	for(j = 0; j < (int) strlen(s2); j++)
-		string[i + j] = s2[j];
-	string[i + j] = '\0';
-	
-	free(s1);
-	free(s2);
-	
-	return string;
-}
-
-char * stringCopy(char * string)
-{
-	char * str = (char *) malloc(strlen(string) * sizeof(char));
-	for(int i = 0; i < (int) strlen(string); i++)
-		str[i] = string[i];
-	
-	return str;
+	closedir(dir);
 }

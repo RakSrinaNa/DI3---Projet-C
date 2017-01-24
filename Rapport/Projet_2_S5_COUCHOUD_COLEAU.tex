@@ -1,0 +1,432 @@
+\documentclass{EPUProjetPeiP}
+\usepackage{tcolorbox}
+\newtcbox{\hl}[1][yellow]{on line, arc=7pt,colback=#1!10!white,colframe=#1!50!black,
+  before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt, boxsep=0pt,left=6pt,
+  right=6pt,top=2pt,bottom=2pt}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[justification=centering]{caption}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+  language=XML,
+  morekeywords={element,category,encoding,
+    xs:schema,xs:element,xs:complexType,xs:sequence,xs:attribute}
+}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1
+}
+\newcommand{\pic}[3]{
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=#2]{doc/#1}
+		\end{center}
+		\caption{#3}
+	\end{figure}
+}
+\newcommand{\piclab}[4]{
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=#2]{doc/#1}
+		\end{center}
+		\caption{\label{#4}#3}
+	\end{figure}
+}
+\newcommand{\picsidelab}[6]{
+	\begin{wrapfigure}{#5}{#6}
+		\includegraphics[scale=#2]{doc/#1}
+		\caption{\label{#4}#3}
+	\end{wrapfigure}
+}
+\newcommand{\comp}[5]{
+	\section[#1]{#1 {\small - Codé à #2\% $\vert$ Testé à #3\% $\vert$ Fonctionne: #4 $\vert$ Valgrind: #5}}
+}
+\makeindex
+
+\title[Projet sac à dos]{Projet tutoré 2 : Sac à dos}
+
+\projet{S4}
+
+\author{Thomas Couchoud\\
+\noindent[\url{thomas.couchoud@etu.univ-tours.fr}]\\
+Victor Coleau\\
+\noindent[\url{victor.coleau@etu.univ-tours.fr}]}
+
+\encadrant{Yannick Kergosien\\ %
+\noindent[\url{yannick.kergosien@univ-tours.fr}]~\\
+Polytech Tours\\
+Département DI\\~ %
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\setcounter{page}{0}
+{
+\setlength{\parskip}{0em}
+
+\tableofcontents
+
+%\listoffigures
+%rq1 : si vous n'avez pratiquement pas de figures, laissez la ligne précédente en commentaire
+
+%\listoftables
+%rq1 : si vous n'avez pratiquement pas de tables, laissez la ligne précédente en commentaire
+}
+
+
+\start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Introduction}
+Le projet que nous avons choisi est celui portant sur le problème du sac à dos (\textit{Knapsack problem}). Celui-ci se généralise très simplement et donne lieu à de nombreux problèmes analogues.
+
+Dans notre cas, nous devons remplir un sac à dos d'objets. Chaque objet a une certaine valeur prédéfinie ainsi que des "poids" dans différentes dimensions. On peut imaginer le cas où l'on tenterait de remplir sa valise pour partir en voyage. Chaque objet a une valeur selon l'importance qu'on lui donne ainsi que des "poids" qui pourraient être la place qu'il occupe, son poids réel etc.. L'idée ici est d'essayer de maximiser la valeur que nous emportons avec nous sachant que notre valise est limitée en poids et taille.
+
+D'un point de vu mathématique, on peut modéliser ceci simplement:
+\begin{itemize}
+	\item $X$ Un vecteur définissant quels items sont dans le sac ou pas (ex: $(0; 0; 1)$ définira un sac avec seulement le 3ème item de pris).
+	\item $W_j$ Le poids maximum que le sac peut supporter dans la dimension $i$.
+	\item $w_{i,j}$ Le poids du $i$ème item dans la $j$ème dimension.
+	\item $v_i$ La valeur du $i$ème item.\\
+\end{itemize}
+Les contraintes sont: $\forall j\in [0...m], \sum_{i=0}^nx_iw_{i,j}\leq W_j$\\
+On appellera la fonction objectif $z(X)$ la fonction donnant la valeur d'un sac: $z(X)=\sum_{i=0}^mx_iv_i$
+
+\chapter{Informations générales sur le projet}
+\section{Outils utilisés}
+Afin de réaliser notre projet, nous avons utilisé différents outils. Concernant les Systèmes d'exploitations, nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
+
+\section{Structure du projet}
+Le C ayant un langage rassemblant tous les fichiers en un lors de la compilation, il est nécessaire de choisir judicieusement ses noms de fonctions afin d'éviter les duplicatas. Dans notre cas nous avons choisi un formatage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions du type \textit{population\_create(...)} ou bien \textit{metaheuristicGenetic\_search(...)}.
+
+Concernant l'organisation des fichiers en eux même, chaque type d'entre eux est localisé à un endroit différent. En effet nous avions commencé par mettre tous nos .c et .h dans un même dossier. Cependant, le projet grandissant assez vite, il a rapidement arrivé un stade où l'on se perd. Pour cela nous avons décidé de séparer les .h des .c puisque nous travaillons principalement sur les .c. Cela permet de s'y retrouver plus aisément. Ainsi la structure de notre dossier source est la suivante:
+\begin{itemize}
+	\item src $\longrightarrow$ Le dossier racine contenant nos .c pour le programme
+	\begin{itemize}
+		\item headers $\longrightarrow$ Le dossier contenant nos headers pour le programme
+		\item unit $\longrightarrow$ Le dossier contenant nos .c pour les tests unitaires
+		\begin{itemize}
+			\item headers $\longrightarrow$ Le dossier contenant nos headers pour les tests unitaires\\
+		\end{itemize}	
+	\end{itemize}
+\end{itemize}
+
+Intéressons-nous au dossier src, son contenu est:
+\begin{itemize}
+	\item Parser $\longrightarrow$ Regroupant les différentes fonctions afin de lire un fichier.
+	\item Instance $\longrightarrow$ Représentant une instance.
+	\item Item $\longrightarrow$ Représentant un élément de l'instance.
+	\item Bag $\longrightarrow$ Représentant le contenu du sac pour une solution indirecte.
+	\item SolutionDirect $\longrightarrow$ Représentant une solution directe.
+	\item SolutionIndirect $\longrightarrow$ Représentant une solution indirecte.
+	\item Solution $\longrightarrow$ Représentant l'union d'une solution directe et indirecte.
+	\item Heuristic $\longrightarrow$ Regroupant les fonctions liées à la résolution grâce à une heuristique.
+	\item Scheduler $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour l'heuristique.
+	\item MetaheuristiqueLocal $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique locale.
+	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique tabou et contenant la structure Tabou.
+	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique génétique et contenant la structure Population.
+	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre metaheuristique personalisée (contenant les structures Clan, ClanMember et DNA).
+\end{itemize}
+
+\chapter{Fichiers}
+Nous allons maintenant décrire brièvement les différentes fonctions contenus dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
+
+\comp{Parser}{100}{99.9}{Oui}{OK}
+L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons-nous toutes les instances d'un fichier d'un seul coup ou lisons les nous une par une?
+
+Nous avions initialement décidé de les lire toutes à la suite. En effet, ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir avancer sans attendre sur les autres tâches à faire. Puis rapidement nous avons implémenté la seconde méthode. Celle-ci nous paru plus adéquate pour nos utilisations car elle permet d'éviter une utilisation importante de la mémoire pour pas grand chose. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous paru être le meilleur.
+
+Afin de satisfaire la seconde methode, une structure Parser a été créee ainsi que ces fonctions associées:
+\begin{itemize}
+	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
+	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
+	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.\\
+\end{itemize}
+
+A coté de cela, des fonction génériques sont présentes:
+\begin{itemize}
+	\item parser\_readAllFile $\longrightarrow$ Renvoi toutes les instances d'un fichier.
+	\item parser\_readInstance $\longrightarrow$ Renvoi une instance à partir d'un fichier ouvert à la bonne position. 
+	\item parser\_readLine $\longrightarrow$ Lis la prochaine ligne non vide, ou renvoi NULL si on a atteint la fin du fichier.
+	\item parser\_lineToIntArray $\longrightarrow$ Convertis un string composé de nombres séparés par tabulation en un tableau d'entiers.
+	\item getLine $\longrightarrow$ Lit la prochaine ligne du ficher.
+\end{itemize}
+
+\comp{Instance}{100}{99.9}{Oui}{OK}
+Le fichier Instance comporte une structure nommée Instance qui contient ces propriétés suivantes:
+\begin{itemize}
+	\item itemsCount $\longrightarrow$ Représentant le nombre d'items dans l'instance.
+	\item dimensionsNumber $\longrightarrow$ Représentant le nombre de dimensions dans l'instance.
+	\item items $\longrightarrow$ Un tableau d'Item (section \ref{sec:Item}) étant les éléments de l'instance.
+	\item maxWeights $\longrightarrow$ Un tableau d'entier représentant le poids maximum pour chaque dimension.\\
+\end{itemize}
+
+Les fonctions suivantes agissent toutes à partir d'une instance:
+\begin{itemize}
+	\item instance\_initialize $\longrightarrow$ Permettant de créer une instance sur le tas. La fonction instance\_setMaxWeights devra par la suite être appelé. Le tableau d'item est créé mais chaque item devra être initialisé grâce à item\_setWeight.
+	\item instance\_getItem $\longrightarrow$ Permet de récupérer une item à un index précis dans l'instance.
+	\item instance\_setMaxWeights $\longrightarrow$ Permet de définir le tableau des poids maximums de l'instance. Le tableau doit être alloué sur le tas.
+	\item instance\_getMaxWeight $\longrightarrow$ Permet de récupérer le poids maximum sur une dimension précise.
+	\item instance\_destroy $\longrightarrow$ Détruit une instance précédemment créée par instance\_initialize.
+	\item instance\_item\_getWeight $\longrightarrow$ Récupère le poids de l'item à un certain index dans l'instance.
+	\item instance\_item\_getValue $\longrightarrow$ Récupère la valeur de l'item à un certain index dans l'instance.
+\end{itemize}
+
+\comp{Item \label{sec:Item}}{100}{99.9}{Oui}{OK}
+Le fichier Item contient une structure Item ayant pour propriétés:
+\begin{itemize}
+	\item value $\longrightarrow$ La valeur d'un item.
+	\item weights $\longrightarrow$ Un tableau de ses différents poids sur chaque dimension.\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure Item:
+\begin{itemize}
+	\item item\_initialize $\longrightarrow$ Afin de créer un Item sur le tas.
+	\item item\_setWeight $\longrightarrow$ Pour définir le poids d'un item dans la dimension souhaitée.
+	\item item\_getWeight $\longrightarrow$ Pour obtenir le poids d'un item dans la dimension souhaitée.
+	\item item\_destroy $\longrightarrow$ Afin de détruire un Item précédemment créé par item\_initialize.
+\end{itemize}
+
+\comp{Bag}{100}{99.9}{Oui}{OK}
+Le fichier Bag contient une structure Bag permettant de stocker les indices des items pris dans notre sac. Ses propriétés sont:
+\begin{itemize}
+	\item bag\_create $\longrightarrow$ Permet de créer un bag sur le tas à partir d'une instance.
+	\item bag\_destroy $\longrightarrow$ Permet de détruire un bag précédemment créé par bag\_create.
+	\item bag\_appendItem $\longrightarrow$ Ajoute un item dans le sac.
+	\item bag\_canContain $\longrightarrow$ Permet de savoir si un item va pouvoir rentrer dans le sac.
+	\item bag\_getItemIndex $\longrightarrow$ Permet de récupérer l'indice de l'item à un index donné dans le sac.
+	\item bag\_getWeight $\longrightarrow$ Récupère le poids actuel du sac dans la dimension demandée.
+	\item bag\_addWeight $\longrightarrow$ Ajoute du poids dans le sac dans la dimension donnée.
+	\item bag\_saveItems $\longleftarrow$ Ecrit le bag dans  un fichier.
+	\item bag\_print $\longrightarrow$ Affiche le bag dans la console.
+	\item bag\_getCriticDimension $\longrightarrow$ Renvoi l'index de la dimension critique.
+	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \ref{sec:solutionDirect}).
+	\item bag\_duplicate $\longrightarrow$ Permet de dupliquer un bag sur le tas.
+\end{itemize}
+
+\comp{SolutionDirect \label{sec:solutionDirect}}{100}{99.9}{Oui}{OK}
+Le fichier SolutionDirect contient une structure SolutionDirect ayant pour propriétées:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item itemsTaken $\longrightarrow$ Un tableau de booleans représentant l'était de chaque item (pris ou non).\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionDirect:
+\begin{itemize}
+	\item solutionDirect\_create $\longrightarrow$ Afin de créer une SolutionDirecte sur le tas (par default aucun item n'est pris).
+	\item isolutionDirect\_destroy $\longrightarrow$ Afin de détruire une SolutionDirecte précédemment créé par solutionDirect\_create.
+	\item solutionDirect\_evaluate $\longrightarrow$ Fonction score pour une solution directe.
+	\item solutionDirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution directe.
+	\item solutionDirect\_print $\longrightarrow$ Affiche une solution directe dans la console.
+	\item solutionDirect\_saveToFile $\longrightarrow$ Enregistre une solution directe dans un fichier.
+	\item solutionDirect\_takeItem $\longrightarrow$ Marque un item comme pris dans la solution directe.
+	\item solutionDirect\_duplicate $\longrightarrow$ Duplique une solution directe sur le tas.
+	\item solutionDirect\_isItemTaken $\longrightarrow$ Indique si un item est pris dans la solution directe.
+\end{itemize}
+
+\comp{SolutionIndirect}{100}{99.9}{Oui}{OK}
+Le fichier SolutionIndirect contient une structure SolutionIndirect ayant pour propriétées:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item itemsOrder $\longrightarrow$ L'ordre dans lequel les items seront ajoutés au sac.
+	\item bag $\longrightarrow$ Un pointeur vers un sac associé à la solution indirecte.\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
+\begin{itemize}
+	\item solutionIndirect\_create $\longrightarrow$ Afin de créer une SolutionIndirecte sur le tas (par default item order ne contient que des '-1').
+	\item solutionIndirect\_destroy $\longrightarrow$ Afin de détruire une SolutionIndirecte précédemment créé par solutionIndirect\_create.
+	\item solutionIndirect\_decode $\longrightarrow$ Décode une solution indirecte, permettant de créer le sac associé.
+	\item solutionIndirect\_evaluate $\longrightarrow$ Fonction score pour une solution indirecte.
+	\item solutionIndirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution indirecte.
+	\item solutionIndirect\_print $\longrightarrow$ Affiche une solution indirecte dans la console.
+	\item solutionIndirect\_saveToFile $\longrightarrow$ Enregistre une solution indirecte dans un fichier.
+	\item solutionIndirect\_getItemIndex $\longrightarrow$ Renvoi l'indice de l'item à la position demandé de la liste de remplissage du sac.
+	\item solutionIndirect\_getIndexItem $\longrightarrow$ Renvoi l'indice dans la liste de remplissage d'un item donné.
+	\item solutionIndirect\_duplicate $\longrightarrow$ Duplique une solution indirecte sur le tas.
+\end{itemize}
+
+\comp{Solution}{100}{99.9}{Oui}{OK}
+Le fichier Solution contient une structure Solution permettant de rassembler une solution directe ou indirecte afin d'avoir une manipulation plus générale de celles-ci. Cette structure a pour propriétés:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
+	\item type $\longrightarrow$ Une énumération pouvant prendre les valeurs DIRECT ou INDIRECT, représentant le type de la solution contenue.
+	\item solutions $\longrightarrow$ La solution en elle-même, dépendant du type. Union de SolutionDirect et SolutionIndirect.
+	\item solveTime $\longrightarrow$ Un entier représentant le temps de calcul pour obtenir la solution.\\
+\end{itemize}
+
+Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
+\begin{itemize}
+	\item solution\_saveToFile $\longrightarrow$ Enregistre une solution dans un fichier.
+	\item solution\_getTimeDiff $\longrightarrow$ Renvoi la différence en secondes entre deux structures timeb.
+	\item solution\_evaluate $\longrightarrow$ Fonction score pour une solution.
+	\item solution\_doable $\longrightarrow$ Indique la faisabilité d'une solution.
+	\item solution\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
+	\item solution\_destroy $\longrightarrow$ Détruit une Solution.
+	\item solution\_fromIndirect $\longrightarrow$ Créé une solution à partir d'une solution indirecte.
+	\item solution\_fromDirect $\longrightarrow$ Créé une solution à partir d'une solution directe.
+	\item solution\_full $\longrightarrow$ Renvoi une solution contenant tous les items de l'instance.
+\end{itemize}
+
+\comp{Heuristic \label{sec:Heuristic}}{100}{99.9}{Oui}{OK}
+Dans le cadre des heuristiques, nous avons du implémenter nos propres critères de sélection. Nous allons ici vous en présenter deux. Les applications de ces fonctions sont présentes dans le ficher scheduler que nous verrons à la section \ref{sec:Scheduler}.
+
+Le premier ("allDimensionsWeighted") se base sur l'algorithme de la dimension critique mais prend cette fois-ci en compte toutes les dimensions. Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^m\frac{w_j}{W_j}$. Ce ratio sert par la suite à calculer un score temporaire afin d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus l'item remplira le sac, plus le diviseur sera important et par conséquent, l'item aura un score faible.
+
+Le second ("exponential") se base sur le taux de complétion des différentes dimensions ainsi que le poids de l'item. Pour cela, Pour cela nous calculons pour l'item à l'index $i$ un ratio qui est $r_i=\sum_{j=0}^mw_j\times\exp{\frac{20\times Bw_j}{W_j}}$ avec $Bw_j$ le poid actuel du sac dans la dimension $j$. Ce ratio est un score temporaire afin par la suite d'appliquer l'heuristique $score_i=\frac{v_i}{r_i}$. De cette manière, plus une dimension est pleine, plus elle impliquera un diviseur élevé. De plus, plus un item prend une place importante dans l'une des dimensions, plus le diviseur sera élevé. L'exponentielle permet de rapidement élever le diviseur si l'item en question prend beaucoup trop de place et "efface" les différences entre les poids de chaque items afin de privilégier les items qui remplissent peu le sac.
+
+Les fonctions contenues dans Heuristic sont:
+\begin{itemize}
+	\item heuristic\_search $\longrightarrow$ Lance la recherche heuristique.
+	\item heuristic\_getList $\longrightarrow$ Renvoi la liste des items ordonnées en fonction du scheduler choisi.
+\end{itemize}
+
+\comp{Scheduler \label{sec:Scheduler}}{100}{99.9}{Oui}{OK}
+Les fonctions générales de ce fichier sont:
+\begin{itemize}
+	\item scheduler\_removeFromList $\longrightarrow$ Pour retirer un indice d'item d'une liste tout en le retournant.
+	\item scheduler\_appendToList $\longrightarrow$ Pour ajouter un indice d'item à une liste.
+	\item scheduler\_sortArray $\longrightarrow$ Pour trier une liste d'index d'items à partir d'une liste de score.\\
+\end{itemize}
+
+Les fonctions restantes représentes les différentes méthodes de tri pour l'heuristique, celles-ci sont de la forme: scheduler\_[Name] étant la fonction renvoyant la liste d'index d'items ordonnée, scheduler\_[Name]\_score calculant le score d'un item.
+Les différents noms sont:
+\begin{itemize}
+	\item random $\longrightarrow$ Créant une liste ordonnée aléatoirement.
+	\item value $\longrightarrow$ Créant une liste ordonnée selon la valeur des items.
+	\item allDimensions $\longrightarrow$ Créant une liste grâce au ratio $\frac{v_i}{\sum_{j=0}^mw_{i,j}}$.
+	\item forDimension $\longrightarrow$ Créant une liste à partir du ratio valeur / poids dans une dimension donnée (utilisé principalement pour la dimension critique).
+	\item allDimentionsWeighted  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
+	\item exponential  $\longrightarrow$ Expliqué à la section \ref{sec:Heuristic}.
+\end{itemize}
+
+\comp{MetaheuristicLocal}{100}{99.9}{Oui}{OK}
+Ce fichier comporte toutes les fonctions associées à la recherche locale:
+\begin{itemize}
+	\item metaheuristicLocal\_search $\longrightarrow$ Permet de lancer la recherche locale. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).
+		\item operatorSearch $\longrightarrow$ L'opérateur de recherche. Pour le moment seul 0 est utilisé dans le cas du direct et de l'indirect. Cela correspond à ajouter puis inverser pour le type direct et inverser pour l'indirect.
+	\end{itemize}
+	\item metaheuristicLocal\_getNeighbours $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche choisi.
+	\item metaheuristicLocal\_swapItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (indirecte).
+	\item metaheuristicLocal\_addItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'ajout (directe).
+	\item metaheuristicLocal\_invertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (directe).
+	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur la concaténation des opérateurs de recherche d'ajour et d'inversion (directe).
+\end{itemize}
+
+\comp{MetaheuristicTabou}{100}{99.9}{Oui}{OK}
+Ce fichier comporte une première structure Movement permettant d'identifier un mouvement $a\Leftrightarrow b$. Ses propriétés sont:
+\begin{itemize}
+	\item a $\longrightarrow$ L'index du premier élément à inverser.
+	\item b $\longrightarrow$ L'index du second élément à inverser.\\
+\end{itemize}
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item movement\_equals $\longrightarrow$ Permet de vérifier si deux mouvements sont les mêmes.
+	\item movement\_applyMovement $\longrightarrow$ Applique le mouvement sur une solution.
+	\item movement\_duplicate $\longrightarrow$ Duplique un mouvement sur le tas.\\
+\end{itemize}
+
+Une deuxième structure Tabou représente la liste des mouvements interdits et à pour propriétés:
+\begin{itemize}
+	\item movements $\longrightarrow$ Une liste de pointeurs de mouvements.
+	\item size $\longrightarrow$ La taille actuelle de la liste.
+	\item changes $\longrightarrow$ Le nombre d'ajouts à la structure (pour pouvoir écrire de manière "continue" dans la liste).
+	\item max $\longrightarrow$ La taille maximum de la liste.\\
+\end{itemize}
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item tabou\_create $\longrightarrow$ Permet de créer une structure Tabou sur le tas.
+	\item tabou\_appendMovement $\longrightarrow$ Permet d'ajouter un movement à la liste tabou.
+	\item tabou\_isMovementTabou $\longrightarrow$ Indique si un movement est présent dans la liste tabou.
+	\item tabou\_destroy $\longrightarrow$ Détruit une structure tabou précédemment créée par tabou\_create.\\
+\end{itemize}
+
+Les fonctions suivantes concernent la recherche taboue:
+\begin{itemize}
+	\item metaheuristicTabou\_search $\longrightarrow$ Permet de lancer la recherche tabou. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).`
+		\item iterationMax $\longrightarrow$ Le nombre maximum d'itérations à effectuer lorsque nous trouvons la même solution.
+		\item tabouMax $\longrightarrow$ La taille maximum de la liste taboue.
+		\item aspiration $\longrightarrow$ Un booléen représentant l'utilisation ou non de l'aspiration.
+	\end{itemize}
+	\item metaheuristicTabou\_getNeighbourFromMovement $\longrightarrow$ Duplique une solution puis lui applique un mouvement.
+	\item metaheuristicTabou\_getMovements $\longrightarrow$ Renvoi la liste de toutes les permutations possibles.
+\end{itemize}
+
+\comp{MetaheuristicGenetic}{100}{99.9}{?}{OK}
+
+\comp{MetaheuristicKaguya}{100}{0}{?}{?}
+
+%--------------------------------------------------------------------------------
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{\numberline{}Conclusion}
+\markboth{Conclusion}{}
+
+\label{sec:conclusion}
+
+
+
+
+%--------------------------------------------------------------------------------
+%si on donne des annexes :
+\appendix
+\addcontentsline{toc}{part}{\numberline{}Annexes}
+
+%--------------------------------------------------------------------------------
+%index : attention, le fichier dindex .ind doit avoir le même nom que le fichier .tex
+%\printindex
+
+%--------------------------------------------------------------------------------
+%page du dos de couverture :
+
+\resume{Projet ayant pour objectif la réalisation d'un algorithme cherchant des solutions au problème du sac à dos multidimentionel.}
+
+\motcles{sac à dos, algorithme, C, heuristique, metaheuristique, parser, directe, indirecte}
+
+\abstract{Project which objective is to find solutions for the multidimentional Knapsack problem.}
+
+\keywords{backpack, Knapsack, algorithm, C, heurictic, metaheuristic, parser, direct, indirect}
+
+\makedernierepage
+
+\end{document}

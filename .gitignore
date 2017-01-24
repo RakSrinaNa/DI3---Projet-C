@@ -2,10 +2,20 @@
 bin
 make-build-debug
 obj
+__MACOSX
+*~
+.DS_Store
 
 *.orig
 ex_projet2
 cmake-build-debug
 Projet2.depend
 Projet2.layout
-test?_direct_scheduler_?.txt
+type_*_instance_?_?_scheduler_?.txt
+Solutions/*.txt
+*.o
+Rapport/Projet_2_S5_COUCHOUD_COLEAU.aux
+Rapport/Projet_2_S5_COUCHOUD_COLEAU.log
+Rapport/Projet_2_S5_COUCHOUD_COLEAU.out
+Rapport/Projet_2_S5_COUCHOUD_COLEAU.synctex.gz
+Rapport/Projet_2_S5_COUCHOUD_COLEAU.toc

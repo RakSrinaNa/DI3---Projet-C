@@ -1,33 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "instance.h"
-#include "solutionIndirect.h"
+#include "headers/instance.h"
+#include "headers/solutionIndirect.h"
+#include "headers/utils.h"
 
 SolutionIndirect * solutionIndirect_create(Instance * instance)
 {
 	SolutionIndirect * solution;
-	if((solution = (SolutionIndirect *) malloc(sizeof(SolutionIndirect))) == NULL)
-	{
-		perror("ERROR MALLOC solutionIndirect_create");
-		exit(EXIT_FAILURE);
-	}
-	
-	if((solution->itemsOrder = (int *) malloc(sizeof(int) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC solutionIndirect_create");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(solution, SolutionIndirect, 1, "solutionIndirect_create");
+	MMALLOC(solution->itemsOrder, int, instance->itemsCount, "solutionIndirect_create");
 	for(int i = 0; i < instance->itemsCount; i++)
-		solution->itemsOrder[i] = 0;
+		solution->itemsOrder[i] = -1;
 	
 	solution->bag = NULL;
 	solution->instance = instance;
-	
-	solution->evaluate = solutionIndirect_evaluate;
-	solution->doable = solutionIndirect_doable;
-	solution->print = solutionIndirect_print;
-	solution->saveToFile = solutionIndirect_saveToFile;
 	
 	return solution;
 }
@@ -77,6 +64,14 @@ int solutionIndirect_getItemIndex(SolutionIndirect * solution, int index)
 	return solution->itemsOrder[index];
 }
 
+int solutionIndirect_getIndexItem(SolutionIndirect * solution, int item)
+{
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		if(solution->itemsOrder[i] == item)
+			return i;
+	return -1;
+}
+
 void solutionIndirect_print(SolutionIndirect * solution)
 {
 	printf("Total value in the bag : %d\n", solutionIndirect_evaluate(solution));
@@ -104,4 +99,15 @@ void solutionIndirect_saveToFile(char * fileName, SolutionIndirect * solution)
 	bag_saveItems(solution->bag, file);
 	
 	fclose(file);
+}
+
+SolutionIndirect * solutionIndirect_duplicate(SolutionIndirect * solution)
+{
+	SolutionIndirect * newSolution = solutionIndirect_create(solution->instance);
+	for(int i = 0; i < solution->instance->itemsCount; i++)
+		newSolution->itemsOrder[i] = solution->itemsOrder[i];
+	if(solution->bag == NULL)
+		solutionIndirect_decode(solution);
+	newSolution->bag = bag_duplicate(solution->instance, solution->bag);
+	return newSolution;
 }

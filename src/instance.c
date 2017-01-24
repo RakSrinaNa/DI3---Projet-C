@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "instance.h"
+#include "headers/instance.h"
+#include "headers/utils.h"
 
 void instance_initialize(Instance * instance, int itemsCount, int dimensionsCount)
 {
@@ -11,11 +12,7 @@ void instance_initialize(Instance * instance, int itemsCount, int dimensionsCoun
 	instance->maxWeights = NULL;
 	if(instance->dimensionsNumber <= 0 || instance->itemsCount <= 0)
 		return;
-	if((instance->items = (Item *) malloc(sizeof(Item) * instance->itemsCount)) == NULL)
-	{
-		perror("ERROR MALLOC instance_initialize");
-		exit(EXIT_FAILURE);
-	}
+	MMALLOC(instance->items, Item, instance->itemsCount, "instance_initialize");
 	for(int i = 0; i < instance->itemsCount; i++)
 		item_initialize((instance->items) + i, instance->dimensionsNumber);
 }
@@ -46,6 +43,7 @@ void instance_destroy(Instance * instance)
 	
 	free(instance->maxWeights);
 	free(instance->items);
+	free(instance);
 }
 
 int instance_item_getWeight(Instance * instance, int index, int dimension)
