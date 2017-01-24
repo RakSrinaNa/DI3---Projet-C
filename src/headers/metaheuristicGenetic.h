@@ -103,91 +103,102 @@ void population_remove(Population * population, Solution * solution);
 long population_evaluate(Population * population);
 
 /**
+ * Choose two parents from a population depending of the style.
  *
- * @param population
- * @param parent1
- * @param parent2
- * @param style
+ * @param population A pointer to the population.
+ * @param parent1 An empty pointer to the first parent.
+ * @param parent2 An empty pointer to the second parent.
+ * @param style The style of the election.
  */
 void metaheuristicGenetic_selectParents(Population * population, Solution ** parent1, Solution ** parent2, int style);
 
 /**
+ * Choose two parents with the Fighting method.
  *
- * @param population
- * @param parent1
- * @param parent2
+ * @param population A pointer to the population.
+ * @param parent1 An empty pointer to the first parent.
+ * @param parent2 An empty pointer to the second parent.
  */
 void metaheuristicGenetic_selectParentsFight(Population * population, Solution ** parent1, Solution ** parent2);
 
 /**
+ * Choose two parents with the random Roulette method.
  *
- * @param population
- * @param parent1
- * @param parent2
+ * @param population A pointer to the population.
+ * @param parent1 An empty pointer to the first parent.
+ * @param parent2 An empty pointer to the second parent.
  */
 void metaheuristicGenetic_selectParentsRoulette(Population * population, Solution ** parent1, Solution ** parent2);
 
 /**
+ * Create two children from the parents depending of the solution's type (direct or indirect).
  *
- * @param parent1
- * @param parent2
- * @param child1
- * @param child2
+ * @param parent1 A pointer to the first parent.
+ * @param parent2 A pointer to the second parent.
+ * @param child1 An empty pointer to the first child.
+ * @param child2 An empty pointer to the second child.
  */
 void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
 /**
+ * Create two children from the parents with the PMX method.
  *
- * @param parent1
- * @param parent2
- * @param child1
- * @param child2
+ * @param parent1 A pointer to the first parent.
+ * @param parent2 A pointer to the second parent.
+ * @param child1 An empty pointer to the first child.
+ * @param child2 An empty pointer to the second child.
  */
 void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
 /**
+ * Create two children from the parents with the 1-Point method.
  *
- * @param parent1
- * @param parent2
- * @param child1
- * @param child2
+ * @param parent1 A pointer to the first parent.
+ * @param parent2 A pointer to the second parent.
+ * @param child1 An empty pointer to the first child.
+ * @param child2 An empty pointer to the second child.
  */
 void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2);
 
 /**
+ * Create a random mutation in the given child.
  *
- * @param child
+ * @param child The child susceptible to get a mutation.
  */
 void metaheuristicGenetic_mutation(Solution * child);
 
 /**
+ * Choose a way to replace the old generation by the new one.
  *
- * @param population
- * @param childPopulation
- * @param style
+ * @param population A pointer to the old population.
+ * @param childPopulation A pointer to the new population.
+ * @param style Style of the selection.
  */
 void metaheuristicGenetic_naturalSelection(Population ** population, Population * childPopulation, int style);
 
 /**
+ * Just replace the old generation by all the new generation.
  *
- * @param population
- * @return
+ * @param childPopulation A pointer to the new population.
+ * @return A pointer to a copy of the new population.
  */
-Population * metaheuristicGenetic_naturalSelectionGeneration(Population * population);
+Population * metaheuristicGenetic_naturalSelectionGeneration(Population * childPopulation);
 
 /**
+ * Select the best solutions from the old and the new population.
  *
- * @param population
- * @param childPopulation
- * @return
+ * @param population A pointer to the old population.
+ * @param childPopulation A pointer to the new population.
+ * @return A pointer to a generation containing the best solution of the old and the new population.
  */
 Population * metaheuristicGenetic_naturalSelectionElitist(Population * population, Population * childPopulation);
 
 /**
+ * Select the best solutions from the best half of the old population and the best half of the new population.
  *
- * @param population
- * @param childPopulation
- * @return
+ * @param population A pointer to the old population.
+ * @param childPopulation A pointer to the new population.
+ * @return A pointer to a generation containing the best half of the old population and the best half of the new population.
  */
 Population * metaheuristicGenetic_naturalSelectionBalanced(Population * population, Population * childPopulation);
 
