@@ -1,1 +1,3 @@
 src/*.h linguist-language=C
+src/headers/*.h linguist-language=C
+src/unit/headers/*.h linguist-language=C
