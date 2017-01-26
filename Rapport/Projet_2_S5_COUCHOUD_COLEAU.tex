@@ -161,9 +161,10 @@ Intéressons-nous au dossier src, son contenu est:
 	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique tabou et contenant la structure Tabou.
 	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique génétique et contenant la structure Population.
 	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre metaheuristique personalisée (contenant les structures Clan, ClanMember et DNA).
+	\item \item MetaheuristicKaguyaTemp $\longrightarrow$ Regroupant les fonctions liées à notre metaheuristique personalisée (contenant les structures Clan, ClanMember et DNA) en phase de reconception.
 \end{itemize}
 
-\chapter{Fichiers}
+\chapter{Explication des fichiers}
 Nous allons maintenant décrire brièvement les différentes fonctions contenus dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
 
 \comp{Parser}{100}{99.9}{Oui}{OK}
@@ -491,7 +492,9 @@ La seule fonction de la metaheuristique pour le moment est metaheuristicKaguya\_
 
 \label{sec:conclusion}
 
-Ce projet à été
+Ce projet fut une bonne expérience et très intéressant. Le problème en lui même est assez concret et permet de se familiariser avec celui-ci rapidement.
+
+Nous avons eu un départ assez rapide et avons trouvé une heuristique qui avait d'assez bon résultats. Cependant nous avons ralenti sur la fin ce qui nous a empêché de faire tourner l'algorithme sur de vrai données afin d'interpréter les résultats. De plus la metaheuristique inventée est probablement à revoir car elle explore beaucoup trop de résultats et prend par conséquent un temps important.
 
 
 %--------------------------------------------------------------------------------
