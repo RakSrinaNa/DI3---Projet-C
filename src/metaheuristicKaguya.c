@@ -9,15 +9,17 @@ Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solution
 {
 	Clan * clan = clan_create(instance, solutionType);
 	Clan * descendants = clan_create(instance, solutionType);
-	
+
 	clan_append(clan, clanMember_ancestor());
-	
+
 	while(clan->size > 0)
 	{
+		// Génération de tous les enfants
 		clan_generation(clan);
+		// Séparation des solutions réalisables de celles devant encore évoluer
 		clan_dispertion(clan, descendants);
 	}
-	
+
 	return clan_extinction(clan);
 }
 
@@ -25,13 +27,13 @@ Clan * clan_create(Instance * instance, SolutionType solutionType)
 {
 	Clan * clan;
 	MMALLOC(clan, Clan, 1, "clan_createAncestor");
-	
+
 	clan->type = solutionType;
 	clan->instance = instance;
-	
+
 	clan->people = NULL;
 	clan->size = 0;
-	
+
 	return clan;
 }
 
@@ -111,7 +113,7 @@ int clanMember_doable(Clan * clan, int index)
 	Solution * solution = clanMember_toSolution(clan, index);
 	int result = solution_doable(solution);
 	solution_destroy(solution);
-	
+
 	return result;
 }
 
@@ -127,11 +129,11 @@ Solution * clanMember_toSolution(Clan * clan, int index)
 				solution->solutions.direct->itemsTaken[clan->people[index]->DNA[i]] = 0;
 			}
 			break;
-		
+
 		case INDIRECT:
 			break;
 	}
-	
+
 	return solution;
 }
 
@@ -148,13 +150,14 @@ int clanMember_evaluate(Clan * clan, int index)
 	Solution * solution = clanMember_toSolution(clan, index);
 	int score = solution_evaluate(solution);
 	solution_destroy(solution);
-	
+
 	return score;
 }
 
 void clan_generation(Clan * clan)
 {
 	int initialSize = clan->size;
+	// Pour chaque membre d'un clan
 	for(int i = 0; i < initialSize; i++)
 	{
 		switch(clan->type)
@@ -162,6 +165,7 @@ void clan_generation(Clan * clan)
 			case DIRECT:
 				for(int j = 0; j < clan->instance->itemsCount; j++)
 				{
+					// Si l'indice courrant n'est pas dans l'ADN du membre, on le rajoute
 					if(!clanMember_isInDNA(clan->people[i], j))
 					{
 						ClanMember * heir = clanMember_generation(clan->people[i], j);
@@ -169,7 +173,7 @@ void clan_generation(Clan * clan)
 					}
 				}
 				break;
-			
+
 			case INDIRECT:
 				break;
 		}
@@ -214,6 +218,6 @@ Solution * clan_extinction(Clan * clan)
 			solution_destroy(solution);
 	}
 	clan_destroy(clan);
-	
+
 	return bestSolution;
 }
