@@ -1,0 +1,278 @@
+#include <stdlib.h>
+
+#include "headers/solutionIndirect.h"
+#include "headers/solution.h"
+#include "headers/utils.h"
+#include "headers/metaheuristicKaguya.h"
+
+Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solutionType)
+{
+	Clan * clan = clan_create(instance, solutionType);
+	Clan * descendants = clan_create(instance, solutionType);
+	
+	clan_append(clan, clanMember_ancestor());
+	
+	while(clan->size > 0)
+	{
+		clan_generation(clan);
+		clan_dispertion(clan, descendants);
+	}
+	
+	return clan_extinction(clan);
+}
+
+Clan * clan_create(Instance * instance, SolutionType solutionType)
+{
+	Clan * clan;
+	MMALLOC(clan, Clan, 1, "clan_createAncestor");
+	
+	clan->type = solutionType;
+	clan->instance = instance;
+	
+	clan->hashTable = hashed_create(instance->itemsCount);
+	clan->size = 0;
+	
+	return clan;
+}
+
+void clan_append(Clan * clan, ClanMember * clanMember)
+{
+	if(hashed_contains(clan->hashTable, clanMember))
+	{
+		clanMember_destroy(clanMember);
+		return;
+	}
+	clan->size++;
+	hashed_append(clan->hashTable, clanMember);
+}
+
+void hashed_remove(HashTable * table, ClanMember * member)
+{
+	int index = hashed_getIndex(table, member);
+	table->hashed[index][member->index] = table->hashed[index][table->sizes[index] - 1];
+	clanMember_destroy(member);
+	(table->sizes[index])--;
+	if(table->sizes[index] == 0)
+	{
+		free(table->hashed[index]);
+		table->hashed[index] = NULL;
+	}
+	else
+		RREALLOC(table->hashed[index], ClanMember *, table->sizes[index], "hashed_remove");
+}
+
+int cleanMember_equals(ClanMember * m1, ClanMember * m2)
+{
+	if(m1->dilution != m2->dilution)
+		return 0;
+	for(int i = 0; i < m1->dilution; i++)
+		if(m1->DNA[i] != m2->DNA[i])
+			return 0;
+	return 1;
+}
+
+ClanMember * clanMember_ancestor()
+{
+	ClanMember * ancestor;
+	MMALLOC(ancestor, ClanMember, 1, "clanMember_ancestor");
+	ancestor->DNA = NULL;
+	ancestor->dilution = 0;
+	ancestor->index = -1;
+	return ancestor;
+}
+
+void clanMember_destroy(ClanMember * clanMember)
+{
+	free(clanMember->DNA);
+	free(clanMember);
+}
+
+ClanMember * clanMember_generation(ClanMember * clanMember, int index)
+{
+	ClanMember * heir = clanMember_duplicate(clanMember);
+	heir->dilution++;
+	RREALLOC(heir->DNA, int, heir->dilution, "clanMember_generation");
+	heir->DNA[heir->dilution - 1] = index;
+	return heir;
+}
+
+ClanMember * clanMember_duplicate(ClanMember * clanMember)
+{
+	ClanMember * newMember;
+	MMALLOC(newMember, ClanMember, 1, "clanMember_duplicate");
+	newMember->dilution = clanMember->dilution;
+	MMALLOC(newMember->DNA, int , newMember->dilution, "clanMember_duplicate");
+	for(int i = 0; i < newMember->dilution; i ++)
+		newMember->DNA[i] = clanMember->DNA[i];
+	return newMember;
+}
+
+int clanMember_doable(Clan * clan, ClanMember * member)
+{
+	Solution * solution = clanMember_toSolution(clan, member);
+	int result = solution_doable(solution);
+	solution_destroy(solution);
+	return result;
+}
+
+Solution * clanMember_toSolution(Clan * clan, ClanMember * member)
+{
+	Solution * solution = NULL;
+	switch(clan->type)
+	{
+		case DIRECT:
+			solution = solution_full(clan->instance, clan->type);
+			for(int i = 0; i < member->dilution; i++)
+			{
+				solution->solutions.direct->itemsTaken[member->DNA[i]] = 0;
+			}
+			break;
+		
+		case INDIRECT:
+			break;
+	}
+	
+	return solution;
+}
+
+int clanMember_isInDNA(ClanMember * clanMember, int index)
+{
+	for(int i = 0; i < clanMember->dilution; i++)
+		if(index == clanMember->DNA[i])
+			return 1;
+	return 0;
+}
+
+int clanMember_evaluate(Clan * clan, ClanMember * member)
+{
+	Solution * solution = clanMember_toSolution(clan, member);
+	int score = solution_evaluate(solution);
+	solution_destroy(solution);
+	
+	return score;
+}
+
+void clan_generation(Clan * clan)
+{
+	int initialSize = clan->size;
+	for(int i = 0; i < clan->hashTable->nbLists; i++)
+	{
+		for(int j = 0; j < clan->hashTable->sizes[i]; j ++)
+		{
+			switch(clan->type)
+			{
+				case DIRECT:
+					for(int k = 0; k < clan->instance->itemsCount; k++)
+					{
+						if(!clanMember_isInDNA(clan->hashTable->hashed[i][j], k))
+						{
+							ClanMember * heir = clanMember_generation(clan->hashTable->hashed[i][j], k);
+							clan_append(clan, heir);
+						}
+					}
+					break;
+				
+				case INDIRECT:
+					break;
+			}
+		}
+	}
+	for(int j = 0; j < initialSize; j++)
+		hashed_remove(clan, 0);
+}
+
+void clan_dispertion(Clan * clan, Clan * descendants)
+{
+	for(int i = 0; i < clan->hashTable->nbLists; i++)
+	{
+		for(int j = 0; j < clan->hashTable->sizes[i]; i++)
+		{
+			ClanMember * member = clan->hashTable->hashed[i][j];
+			if(clanMember_doable(member, i))
+			{
+				hashed_append(descendants->hashTable, clanMember_duplicate(member));
+				hashed_remove(clan, member);
+				i--;
+			}
+		}
+	}
+}
+
+void clan_destroy(Clan * clan)
+{
+	int initialSize = clan->size;
+	for(int i = 0; i < initialSize; i++)
+		hashed_remove(clan, 0);
+	free(clan);
+}
+
+Solution * clan_extinction(Clan * clan)
+{
+	Solution * bestSolution = NULL;
+	for(int i = 0; i < clan->size; i++)
+	{
+		Solution * solution = clanMember_toSolution(clan, i);
+		if(solution_evaluate(bestSolution) < solution_evaluate(solution))
+		{
+			solution_destroy(bestSolution);
+			bestSolution = solution;
+		}
+		else
+			solution_destroy(solution);
+	}
+	clan_destroy(clan);
+	
+	return bestSolution;
+}
+
+HashTable * hashed_create(int maxSize)
+{
+	HashTable * table;
+	MMALLOC(table, HashTable, 1, "hashed_create");
+	MMALLOC(table->hashed, ClanMember **, maxSize, "hashed_create");
+	for(int i = 0; i < maxSize; i++)
+		table->hashed[i] = NULL;
+	MMALLOC(table->sizes, int, maxSize, "hashed_create");
+	for(int i = 0; i < maxSize; i++)
+		table->sizes[i] = 0;
+	table->nbLists = maxSize;
+	return table;
+}
+
+int hashed_getIndex(HashTable * table, ClanMember * member)
+{
+	int score = 0;
+	for(int i = 0; i < member->dilution; i++)
+		score += member->DNA[i];
+	return score % table->nbLists;
+}
+
+int hashed_contains(HashTable * table, ClanMember * member)
+{
+	int index = hashed_getIndex(table, member);
+	for(int i = 0; i < table->sizes[index]; i++)
+	{
+		int found = 1;
+		ClanMember * member2 = table->hashed[index][i];
+		if(member->dilution != member2->dilution)
+			continue;
+		for(int j = 0; j < member->dilution; j++)
+			if(member->DNA[j] != member2->DNA[j])
+			{
+				found = 0;
+				j = 999999;
+			}
+		if(found)
+			return 1;
+	}
+	return 0;
+}
+
+void hashed_append(HashTable * table, ClanMember * member)
+{
+	int index = hashed_getIndex(table, member);
+	(table->sizes[index])++;
+	RREALLOC(table->hashed[index], int , table->sizes[index], "hashed_append");
+	table->hashed[index][table->sizes[index] - 1] = member;
+	member->index = table->sizes[index] - 1;
+}
