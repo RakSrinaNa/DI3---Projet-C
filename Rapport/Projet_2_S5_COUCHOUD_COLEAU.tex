@@ -394,8 +394,95 @@ Les fonctions suivantes concernent la recherche taboue:
 \end{itemize}
 
 \comp{MetaheuristicGenetic}{100}{99.9}{?}{OK}
+Ce fichier comporte une structure Population permettant de regrouper plusieurs solution en tant que "génération". Celle-ci contient les propriétées suivantes:
+\begin{itemize}
+	\item people $\longrightarrow$ Une liste de pointeur sur les membres de cette population.
+	\item maxSize $\longrightarrow$ La taille maximum de la population.
+	\item size $\longrightarrow$ La taille actuelle de la population.\\
+\end{itemize}
+
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item population\_create $\longrightarrow$ Permet de créer une population sur le tas.
+	\item population\_destroy $\longrightarrow$ Détruit une population pécédemment créée par population\_create.
+	\item population\_append $\longrightarrow$ Ajoute une solution dans la population si il reste de la place.
+	\item population\_getBest $\longrightarrow$ Renvoi la meilleure solution de la population.
+	\item population\_getWorst $\longrightarrow$ Renvoi la pire solution de la population.
+	\item population\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
+	\item population\_replace $\longrightarrow$ Remplace une solution par une autre dans une population.
+	\item population\_remove $\longrightarrow$ Retire une solution d'une population.
+	\item population\_evaluate $\longrightarrow$ Calcule le score de la population (somme des scores des solutions).\\
+\end{itemize}
+
+Les fonctions de la metaheuristique sont:
+\begin{itemize}
+	\item metaheuristicGenetic\_search $\longrightarrow$ Permet de lancer la recherche génétique. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).`
+		\item populationSize $\longrightarrow$ La taille des populations.
+		\item mutationProbability $\longrightarrow$ La Probabilité de mutation.
+		\item maxIterations $\longrightarrow$ Le nombre de générations à créer.
+		\item styleNaturalSelection $\longrightarrow$ Le style de sélection naturelle à utiliser.
+		\item styleParentSelection $\longrightarrow$ Le style de selection des parents à utiliser.
+	\end{itemize}
+	\item metaheuristicGenetic\_selectParents $\longrightarrow$ Sélectionne deux parents dans une population selon le style.
+	\item metaheuristicGenetic\_selectParentsFight $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_selectParentsRoulette $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_breedChildren $\longrightarrow$ Créé deux enfants à partir de deux parents.
+	\item metaheuristicGenetic\_breedChildrenPMX $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_breedChildren1Point $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_mutation $\longrightarrow$ Permet de faire muter une solution.
+	\item metaheuristicGenetic\_naturalSelection $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_naturalSelectionGeneration $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_naturalSelectionElitist $\longrightarrow$ %TODO
+	\item metaheuristicGenetic\_naturalSelectionBalanced $\longrightarrow$ %TODO
+\end{itemize}
 
 \comp{MetaheuristicKaguya}{100}{0}{?}{?}
+Nous avons pensé à implémenter notre propre metaheuristique, metaheuristicKaguya. Celle-ci part d'une solution où tout les items sont présents, puis tente de retirer les items de celle-ci. Nous tentons tout les cas possibles. Dès q'une solution est réalisable, nous la gardons et n'essonys plus de retirer des items à partir de celle-ci.
+
+Cette solution peut être intéressante pour les sacs qui contiennent beaucoup d'items dans leur solution optimale, mais s'avère dangereuse si ce n'est pas le cas. Nous avons tenté des tests cependant le temps de résolution est beaucoup trop long et la place pris en mémoire aussi. Cela est principalement dû au grand nombre de solutions qui sont explorées puisque les duplicatas ne sont pas retirés (Retirer 2 puis 3 et retirer 3 puis 2 revient à la même chose). [Un début a été ajouté concernant ce problème mais ralenti fortement le temps de résolution à cause du parcours de la l'immense liste]
+
+Afin de palier à ce problème de duplicata, nous avons pensé à créer une table de hashage qui permettrai de chercher les duplicatas de manière plus éfficasse (parcourir une liste de 900000 solutions est toujours mieux qu'une de 90000000). Cependant ce travail n'est pas fini mais peut tout de même être aperçu dans les fichiers metaheuristiqueKaguyaTemp.
+
+Parlons maintenant du metaheuristiqueKaguya en lui-même, deux structures sont présentes. La première est ClanMember et représente une séquence d'items à retirer afin d'effectuer une solution. Ses propriétées sont:
+\begin{itemize}
+	\item DNA $\longrightarrow$ Un tableau d'int représentant les items à retirer.
+	\item dilution $\longrightarrow$ Le nombre d'items à retirer (faisant aussi office d'indicateur de la génération du membre).\\
+\end{itemize}
+
+Les fonctions lui étant associées sont:
+\begin{itemize}
+	\item clanMember\_ancestor $\longrightarrow$ %TODO
+	\item clanMember\_destroy $\longrightarrow$ Permet de détruire un membre.
+	\item clanMember\_generation $\longrightarrow$ %TODO
+	\item clanMember\_duplicate $\longrightarrow$ Permet de dupliquer un membre sur le tas.
+	\item clanMember\_doable $\longrightarrow$ Permet de vérifier si un membre va donner une solution réalisable.
+	\item clanMember\_toSolution $\longrightarrow$ Permet de créer une solution à partir d'un membre.
+	\item clanMember\_evaluate $\longrightarrow$ %TODO
+	\item cleanMember\_equals $\longrightarrow$ Permet de vérifier l'égalité de deux membres (Retirer 2 puis 3 et retirer 3 puis 2 revient à la même chose).\\
+\end{itemize}
+
+
+La deuxième est Clan et représente une génération de plusieurs membres. Ses propriétées sont:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur sur l'instance concernée.
+	\item type $\longrightarrow$ Le type de solution à créer (seulement DIRECT est possible pour le moment).
+	\item size $\longrightarrow$ Le nombre de membres dans le clan.
+	\item people $\longrightarrow$ Une liste de pointeurs sur les différents membres.\\
+\end{itemize}
+
+Les fonctions lui étant associées sont:\begin{itemize}
+	\item clan\_create $\longrightarrow$ Permet de créer un clan sur le tas.
+	\item clan\_append $\longrightarrow$ Permet d'ajouter un membre à un clan.
+	\item clan\_remove $\longrightarrow$ Permet de retirer un membre d'un clan.
+	\item clan\_generation $\longrightarrow$ %TODO
+	\item clan\_dispertion $\longrightarrow$ %TODO
+	\item clan\_extinction $\longrightarrow$ %TODO
+	\\
+\end{itemize}
+
+La seule fonction de la metaheuristique pour le moment est metaheuristicKaguya\_search et permet de lancer la recherche. Le seul paramètre pour le moment est le type de solution à créer (Seul DIRECT est supporté pour le moment).
 
 %--------------------------------------------------------------------------------
 \chapter*{Conclusion}
@@ -404,7 +491,7 @@ Les fonctions suivantes concernent la recherche taboue:
 
 \label{sec:conclusion}
 
-
+Ce projet à été
 
 
 %--------------------------------------------------------------------------------
