@@ -21,7 +21,7 @@ typedef struct
 {
 	Instance * instance;
 	SolutionType type;
-
+	
 	HashTable * hashTable;
 	int size;
 } Clan;

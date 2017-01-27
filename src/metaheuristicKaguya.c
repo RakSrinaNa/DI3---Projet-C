@@ -9,9 +9,9 @@ Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solution
 {
 	Clan * clan = clan_create(instance, solutionType);
 	Clan * descendants = clan_create(instance, solutionType);
-
+	
 	clan_append(clan, clanMember_ancestor());
-
+	
 	while(clan->size > 0)
 	{
 		// Génération de tous les enfants
@@ -19,7 +19,7 @@ Solution * metaheuristicKaguya_search(Instance * instance, SolutionType solution
 		// Séparation des solutions réalisables de celles devant encore évoluer
 		clan_dispertion(clan, descendants);
 	}
-
+	
 	return clan_extinction(clan);
 }
 
@@ -27,13 +27,13 @@ Clan * clan_create(Instance * instance, SolutionType solutionType)
 {
 	Clan * clan;
 	MMALLOC(clan, Clan, 1, "clan_createAncestor");
-
+	
 	clan->type = solutionType;
 	clan->instance = instance;
-
+	
 	clan->people = NULL;
 	clan->size = 0;
-
+	
 	return clan;
 }
 
@@ -102,8 +102,8 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember)
 	ClanMember * newMember;
 	MMALLOC(newMember, ClanMember, 1, "clanMember_duplicate");
 	newMember->dilution = clanMember->dilution;
-	MMALLOC(newMember->DNA, int , newMember->dilution, "clanMember_duplicate");
-	for(int i = 0; i < newMember->dilution; i ++)
+	MMALLOC(newMember->DNA, int, newMember->dilution, "clanMember_duplicate");
+	for(int i = 0; i < newMember->dilution; i++)
 		newMember->DNA[i] = clanMember->DNA[i];
 	return newMember;
 }
@@ -113,7 +113,7 @@ int clanMember_doable(Clan * clan, int index)
 	Solution * solution = clanMember_toSolution(clan, index);
 	int result = solution_doable(solution);
 	solution_destroy(solution);
-
+	
 	return result;
 }
 
@@ -127,11 +127,11 @@ Solution * clanMember_toSolution(Clan * clan, int index)
 			for(int i = 0; i < clan->people[index]->dilution; i++)
 				solution->solutions.direct->itemsTaken[clan->people[index]->DNA[i]] = 0;
 			break;
-
+		
 		case INDIRECT:
 			break;
 	}
-
+	
 	return solution;
 }
 
@@ -148,7 +148,7 @@ int clanMember_evaluate(Clan * clan, int index)
 	Solution * solution = clanMember_toSolution(clan, index);
 	int score = solution_evaluate(solution);
 	solution_destroy(solution);
-
+	
 	return score;
 }
 
@@ -169,7 +169,7 @@ void clan_generation(Clan * clan)
 						clan_append(clan, heir);
 					}
 				break;
-
+			
 			case INDIRECT:
 				break;
 		}
@@ -212,6 +212,6 @@ Solution * clan_extinction(Clan * clan)
 			solution_destroy(solution);
 	}
 	clan_destroy(clan);
-
+	
 	return bestSolution;
 }

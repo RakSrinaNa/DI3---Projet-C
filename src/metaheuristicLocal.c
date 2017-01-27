@@ -174,7 +174,7 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 						solution_destroy(neighbourSolution);
 				}
 			}
-	}
+		}
 	return neighbourSolutions;
 }
 

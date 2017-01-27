@@ -58,7 +58,7 @@ void hashed_remove(HashTable * table, ClanMember * member)
 		table->hashed[index] = NULL;
 	}
 	else
-		RREALLOC(table->hashed[index], ClanMember *, table->sizes[index], "hashed_remove");
+	RREALLOC(table->hashed[index], ClanMember *, table->sizes[index], "hashed_remove");
 }
 
 int cleanMember_equals(ClanMember * m1, ClanMember * m2)
@@ -101,8 +101,8 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember)
 	ClanMember * newMember;
 	MMALLOC(newMember, ClanMember, 1, "clanMember_duplicate");
 	newMember->dilution = clanMember->dilution;
-	MMALLOC(newMember->DNA, int , newMember->dilution, "clanMember_duplicate");
-	for(int i = 0; i < newMember->dilution; i ++)
+	MMALLOC(newMember->DNA, int, newMember->dilution, "clanMember_duplicate");
+	for(int i = 0; i < newMember->dilution; i++)
 		newMember->DNA[i] = clanMember->DNA[i];
 	return newMember;
 }
@@ -157,7 +157,7 @@ void clan_generation(Clan * clan)
 	int initialSize = clan->size;
 	for(int i = 0; i < clan->hashTable->nbLists; i++)
 	{
-		for(int j = 0; j < clan->hashTable->sizes[i]; j ++)
+		for(int j = 0; j < clan->hashTable->sizes[i]; j++)
 		{
 			switch(clan->type)
 			{
@@ -272,7 +272,7 @@ void hashed_append(HashTable * table, ClanMember * member)
 {
 	int index = hashed_getIndex(table, member);
 	(table->sizes[index])++;
-	RREALLOC(table->hashed[index], int , table->sizes[index], "hashed_append");
+	RREALLOC(table->hashed[index], int, table->sizes[index], "hashed_append");
 	table->hashed[index][table->sizes[index] - 1] = member;
 	member->index = table->sizes[index] - 1;
 }

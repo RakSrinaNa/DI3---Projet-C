@@ -13,7 +13,7 @@ typedef struct
 {
 	Instance * instance;
 	SolutionType type;
-
+	
 	ClanMember ** people;
 	int size;
 } Clan;
