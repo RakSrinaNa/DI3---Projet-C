@@ -12,6 +12,7 @@
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
+\everymath{\displaystyle}
 \lstset{
   language=XML,
   morekeywords={element,category,encoding,
@@ -115,7 +116,7 @@ Département DI\\~ %
 \chapter*{Introduction}
 Le projet que nous avons choisi est celui portant sur le problème du sac à dos (\textit{Knapsack problem}). Celui-ci se généralise très simplement et donne lieu à de nombreux problèmes analogues.
 
-Dans notre cas, nous devons remplir un sac à dos d'objets. Chaque objet a une certaine valeur prédéfinie ainsi que des "poids" dans différentes dimensions. On peut imaginer le cas où l'on tenterait de remplir sa valise pour partir en voyage. Chaque objet a une valeur selon l'importance qu'on lui donne ainsi que des "poids" qui pourraient être la place qu'il occupe, son poids réel etc.. L'idée ici est d'essayer de maximiser la valeur que nous emportons avec nous sachant que notre valise est limitée en poids et taille.
+Dans notre cas, nous devons remplir un sac à dos d'objets. Chaque objet a une certaine valeur prédéfinie ainsi que des "poids" dans différentes dimensions. On peut imaginer le cas où l'on tenterait de remplir sa valise pour partir en voyage. Chaque objet a une valeur selon l'importance qu'on lui donne ainsi que des "poids" qui pourraient être la place qu'il occupe, son poids réel etc.. L'idée ici est d'essayer de maximiser la valeur que nous emportons avec nous, sachant que notre valise est limitée en poids et taille.
 
 D'un point de vu mathématique, on peut modéliser ceci simplement:
 \begin{itemize}
@@ -132,9 +133,9 @@ On appellera la fonction objectif $z(X)$ la fonction donnant la valeur d'un sac:
 Afin de réaliser notre projet, nous avons utilisé différents outils. Concernant les Systèmes d'exploitations, nous avons utilisé Windows (Victor), OSX (Thomas) et Ubuntu (Travis CI). Les IDEs sont: CodeBlocks, CLion, Atom, Notepad++. Le compilateur utilisé est gcc, un Makefile est disponible pour la compilation.
 
 \section{Structure du projet}
-Le C ayant un langage rassemblant tous les fichiers en un lors de la compilation, il est nécessaire de choisir judicieusement ses noms de fonctions afin d'éviter les duplicatas. Dans notre cas nous avons choisi un formatage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions du type \textit{population\_create(...)} ou bien \textit{metaheuristicGenetic\_search(...)}.
+Le C ayant un langage rassemblant tous les fichiers en un lors de la compilation, il est nécessaire de choisir judicieusement ses noms de fonctions afin d'éviter les doublons. Dans notre cas, nous avons choisi un formatage simple: [Nom du .c / Nom de la structure]\_[Nom de la fonction]. Nous aurons donc des fonctions nommées \textit{population\_create(...)} ou encore \textit{metaheuristicGenetic\_search(...)}.
 
-Concernant l'organisation des fichiers en eux même, chaque type d'entre eux est localisé à un endroit différent. En effet nous avions commencé par mettre tous nos .c et .h dans un même dossier. Cependant, le projet grandissant assez vite, il a rapidement arrivé un stade où l'on se perd. Pour cela nous avons décidé de séparer les .h des .c puisque nous travaillons principalement sur les .c. Cela permet de s'y retrouver plus aisément. Ainsi la structure de notre dossier source est la suivante:
+Concernant l'organisation des fichiers en eux-mêmes, ils sont regroupés par types localisés à des endroits différents. En effet, nous avions commencé par mettre tous nos .c et .h dans un même dossier. Cependant, le projet grandissant assez vite, il est rapidement arrivé un stade où l'on se perd. Pour éviter cela, nous avons séparé les .h des .c puisque nous travaillons principalement sur les .c. Cela permet de s'y retrouver plus aisément. Ainsi la structure de notre dossier source est la suivante:
 \begin{itemize}
 	\item src $\longrightarrow$ Le dossier racine contenant nos .c pour le programme
 	\begin{itemize}
@@ -157,48 +158,58 @@ Intéressons-nous au dossier src, son contenu est:
 	\item Solution $\longrightarrow$ Représentant l'union d'une solution directe et indirecte.
 	\item Heuristic $\longrightarrow$ Regroupant les fonctions liées à la résolution grâce à une heuristique.
 	\item Scheduler $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour l'heuristique.
-	\item MetaheuristiqueLocal $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique locale.
-	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique tabou et contenant la structure Tabou.
-	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la metaheuristique génétique et contenant la structure Population.
-	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre metaheuristique personalisée (contenant les structures Clan, ClanMember et DNA).
+	\item MetaheuristiqueLocal $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la méta-heuristique locale.
+	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la méta-heuristique tabou et contenant la structure Tabou.
+	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la méta-heuristique génétique et contenant la structure Population.
+	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre méta-heuristique personnelle (contenant les structures Clan, ClanMember et DNA).
+	\item MetaheuristicKaguyaTemp $\longrightarrow$ Regroupant les fonctions liées à notre méta-heuristique personnelle (contenant les structures Clan, ClanMember et DNA) en phase de reconception.
 \end{itemize}
 
-\chapter{Fichiers}
-Nous allons maintenant décrire brièvement les différentes fonctions contenus dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
+\section{Macros}
+Vous pourrez trouver tout au long du projet des macros MMALLOC et RREALLOC. Celles-ci permettent l'allocation (ou réallocation) sur le tas d'une variable puis de vérifier cette allocation. La définition de cette macro est présente dans utils.h. Les paramètres sont:
+	\begin{itemize}
+		\item Le pointer à malloc/realloc.
+		\item Le type à allouer.
+		\item La quantité de ce type à allouer.
+		\item Un message d'erreur en cas d'échec.
+	\end{itemize}
+
+\chapter{Explication des fichiers}
+Nous allons maintenant décrire brièvement les différentes fonctions contenues dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
 
 \comp{Parser}{100}{99.9}{Oui}{OK}
-L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons-nous toutes les instances d'un fichier d'un seul coup ou lisons les nous une par une?
+L'une des premières parties que nous devions réaliser est le parser. Lors de cette dernière, un choix important a du se faire: lisons-nous toutes les instances d'un fichier d'un seul coup ou lisons-les nous une par une?
 
-Nous avions initialement décidé de les lire toutes à la suite. En effet, ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir avancer sans attendre sur les autres tâches à faire. Puis rapidement nous avons implémenté la seconde méthode. Celle-ci nous paru plus adéquate pour nos utilisations car elle permet d'éviter une utilisation importante de la mémoire pour pas grand chose. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous paru être le meilleur.
+Nous avions initialement décidé de les lire toutes à la suite. En effet, ce choix était celui de la simplicité. Nous avons voulu commencer simple afin de pouvoir avancer sans attendre sur les autres tâches à réaliser. Puis, rapidement, nous avons implémenté la seconde méthode. Celle-ci nous parut plus adéquate pour nos utilisations car elle permet d'éviter une consommation importante de mémoire inutilement. Certes nous avons du créer une structure Parser qui sert principalement à conserver les informations de la dernière lecture, mais ce choix nous parut être le meilleur.
 
-Afin de satisfaire la seconde methode, une structure Parser a été créee ainsi que ces fonctions associées:
+Afin de satisfaire la seconde méthode, une structure Parser a été créée ainsi que ses fonctions associées:
 \begin{itemize}
 	\item parser\_create $\longrightarrow$ Permet de créer cette structure à partir du chemin d'un fichier.
 	\item parser\_destroy $\longrightarrow$ Pour détruire la structure.
-	\item parser\_getNextInstance $\longrightarrow$ Renvoi la prochaine instance du fichier ou NULL si l'on a atteint la fin.\\
+	\item parser\_getNextInstance $\longrightarrow$ Renvoie la prochaine instance du fichier ou NULL si l'on a atteint la fin.\\
 \end{itemize}
 
-A coté de cela, des fonction génériques sont présentes:
+A coté de cela, des fonctions génériques sont présentes:
 \begin{itemize}
-	\item parser\_readAllFile $\longrightarrow$ Renvoi toutes les instances d'un fichier.
-	\item parser\_readInstance $\longrightarrow$ Renvoi une instance à partir d'un fichier ouvert à la bonne position. 
-	\item parser\_readLine $\longrightarrow$ Lis la prochaine ligne non vide, ou renvoi NULL si on a atteint la fin du fichier.
-	\item parser\_lineToIntArray $\longrightarrow$ Convertis un string composé de nombres séparés par tabulation en un tableau d'entiers.
+	\item parser\_readAllFile $\longrightarrow$ Renvoie toutes les instances d'un fichier.
+	\item parser\_readInstance $\longrightarrow$ Renvoie une instance à partir d'un fichier ouvert à la bonne position. 
+	\item parser\_readLine $\longrightarrow$ Lit la prochaine ligne non vide, ou renvoie NULL si on a atteint la fin du fichier.
+	\item parser\_lineToIntArray $\longrightarrow$ Convertit un string composé de nombres séparés par tabulation en un tableau d'entiers.
 	\item getLine $\longrightarrow$ Lit la prochaine ligne du ficher.
 \end{itemize}
 
 \comp{Instance}{100}{99.9}{Oui}{OK}
-Le fichier Instance comporte une structure nommée Instance qui contient ces propriétés suivantes:
+Le fichier Instance comporte une structure nommée Instance qui contient les propriétés suivantes:
 \begin{itemize}
 	\item itemsCount $\longrightarrow$ Représentant le nombre d'items dans l'instance.
 	\item dimensionsNumber $\longrightarrow$ Représentant le nombre de dimensions dans l'instance.
 	\item items $\longrightarrow$ Un tableau d'Item (section \ref{sec:Item}) étant les éléments de l'instance.
-	\item maxWeights $\longrightarrow$ Un tableau d'entier représentant le poids maximum pour chaque dimension.\\
+	\item maxWeights $\longrightarrow$ Un tableau d'entiers représentant le poids maximum pour chaque dimension.\\
 \end{itemize}
 
 Les fonctions suivantes agissent toutes à partir d'une instance:
 \begin{itemize}
-	\item instance\_initialize $\longrightarrow$ Permettant de créer une instance sur le tas. La fonction instance\_setMaxWeights devra par la suite être appelé. Le tableau d'item est créé mais chaque item devra être initialisé grâce à item\_setWeight.
+	\item instance\_initialize $\longrightarrow$ Permettant de créer une instance sur le tas. La fonction instance\_setMaxWeights devra par la suite être appelée. Le tableau d'items est créé mais chaque item devra être initialisé grâce à item\_setWeight.
 	\item instance\_getItem $\longrightarrow$ Permet de récupérer une item à un index précis dans l'instance.
 	\item instance\_setMaxWeights $\longrightarrow$ Permet de définir le tableau des poids maximums de l'instance. Le tableau doit être alloué sur le tas.
 	\item instance\_getMaxWeight $\longrightarrow$ Permet de récupérer le poids maximum sur une dimension précise.
@@ -234,22 +245,22 @@ Le fichier Bag contient une structure Bag permettant de stocker les indices des 
 	\item bag\_addWeight $\longrightarrow$ Ajoute du poids dans le sac dans la dimension donnée.
 	\item bag\_saveItems $\longleftarrow$ Ecrit le bag dans  un fichier.
 	\item bag\_print $\longrightarrow$ Affiche le bag dans la console.
-	\item bag\_getCriticDimension $\longrightarrow$ Renvoi l'index de la dimension critique.
+	\item bag\_getCriticDimension $\longrightarrow$ Renvoie l'index de la dimension critique.
 	\item bag\_toSolutionDirect $\longrightarrow$ Permet de convertir un bag en une solutionDirect (section \ref{sec:solutionDirect}).
 	\item bag\_duplicate $\longrightarrow$ Permet de dupliquer un bag sur le tas.
 \end{itemize}
 
 \comp{SolutionDirect \label{sec:solutionDirect}}{100}{99.9}{Oui}{OK}
-Le fichier SolutionDirect contient une structure SolutionDirect ayant pour propriétées:
+Le fichier SolutionDirect contient une structure SolutionDirect ayant pour propriétés:
 \begin{itemize}
 	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
-	\item itemsTaken $\longrightarrow$ Un tableau de booleans représentant l'était de chaque item (pris ou non).\\
+	\item itemsTaken $\longrightarrow$ Un tableau de booléens représentant l'état de chaque item (pris ou non).\\
 \end{itemize}
 
 Les fonctions suivantes s'appliquent à partir d'une structure SolutionDirect:
 \begin{itemize}
-	\item solutionDirect\_create $\longrightarrow$ Afin de créer une SolutionDirecte sur le tas (par default aucun item n'est pris).
-	\item isolutionDirect\_destroy $\longrightarrow$ Afin de détruire une SolutionDirecte précédemment créé par solutionDirect\_create.
+	\item solutionDirect\_create $\longrightarrow$ Afin de créer une SolutionDirecte sur le tas (par défaut aucun item n'est pris).
+	\item isolutionDirect\_destroy $\longrightarrow$ Afin de détruire une SolutionDirecte précédemment créée par solutionDirect\_create.
 	\item solutionDirect\_evaluate $\longrightarrow$ Fonction score pour une solution directe.
 	\item solutionDirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution directe.
 	\item solutionDirect\_print $\longrightarrow$ Affiche une solution directe dans la console.
@@ -260,7 +271,7 @@ Les fonctions suivantes s'appliquent à partir d'une structure SolutionDirect:
 \end{itemize}
 
 \comp{SolutionIndirect}{100}{99.9}{Oui}{OK}
-Le fichier SolutionIndirect contient une structure SolutionIndirect ayant pour propriétées:
+Le fichier SolutionIndirect contient une structure SolutionIndirect ayant pour propriétés:
 \begin{itemize}
 	\item instance $\longrightarrow$ Un pointeur vers l'instance associée.
 	\item itemsOrder $\longrightarrow$ L'ordre dans lequel les items seront ajoutés au sac.
@@ -276,8 +287,8 @@ Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
 	\item solutionIndirect\_doable $\longrightarrow$ Indique la faisabilité d'une solution indirecte.
 	\item solutionIndirect\_print $\longrightarrow$ Affiche une solution indirecte dans la console.
 	\item solutionIndirect\_saveToFile $\longrightarrow$ Enregistre une solution indirecte dans un fichier.
-	\item solutionIndirect\_getItemIndex $\longrightarrow$ Renvoi l'indice de l'item à la position demandé de la liste de remplissage du sac.
-	\item solutionIndirect\_getIndexItem $\longrightarrow$ Renvoi l'indice dans la liste de remplissage d'un item donné.
+	\item solutionIndirect\_getItemIndex $\longrightarrow$ Renvoie l'indice de l'item à la position demandée de la liste de remplissage du sac.
+	\item solutionIndirect\_getIndexItem $\longrightarrow$ Renvoie l'indice dans la liste de remplissage d'un item donné.
 	\item solutionIndirect\_duplicate $\longrightarrow$ Duplique une solution indirecte sur le tas.
 \end{itemize}
 
@@ -293,14 +304,14 @@ Le fichier Solution contient une structure Solution permettant de rassembler une
 Les fonctions suivantes s'appliquent à partir d'une structure SolutionIndirect:
 \begin{itemize}
 	\item solution\_saveToFile $\longrightarrow$ Enregistre une solution dans un fichier.
-	\item solution\_getTimeDiff $\longrightarrow$ Renvoi la différence en secondes entre deux structures timeb.
+	\item solution\_getTimeDiff $\longrightarrow$ Renvoie la différence en secondes entre deux structures timeb.
 	\item solution\_evaluate $\longrightarrow$ Fonction score pour une solution.
 	\item solution\_doable $\longrightarrow$ Indique la faisabilité d'une solution.
 	\item solution\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
 	\item solution\_destroy $\longrightarrow$ Détruit une Solution.
 	\item solution\_fromIndirect $\longrightarrow$ Créé une solution à partir d'une solution indirecte.
 	\item solution\_fromDirect $\longrightarrow$ Créé une solution à partir d'une solution directe.
-	\item solution\_full $\longrightarrow$ Renvoi une solution contenant tous les items de l'instance.
+	\item solution\_full $\longrightarrow$ Renvoie une solution contenant tous les items de l'instance.
 \end{itemize}
 
 \comp{Heuristic \label{sec:Heuristic}}{100}{99.9}{Oui}{OK}
@@ -313,7 +324,7 @@ Le second ("exponential") se base sur le taux de complétion des différentes di
 Les fonctions contenues dans Heuristic sont:
 \begin{itemize}
 	\item heuristic\_search $\longrightarrow$ Lance la recherche heuristique.
-	\item heuristic\_getList $\longrightarrow$ Renvoi la liste des items ordonnées en fonction du scheduler choisi.
+	\item heuristic\_getList $\longrightarrow$ Renvoie la liste des items ordonnées en fonction du scheduler choisi.
 \end{itemize}
 
 \comp{Scheduler \label{sec:Scheduler}}{100}{99.9}{Oui}{OK}
@@ -347,7 +358,7 @@ Ce fichier comporte toutes les fonctions associées à la recherche locale:
 	\item metaheuristicLocal\_swapItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (indirecte).
 	\item metaheuristicLocal\_addItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'ajout (directe).
 	\item metaheuristicLocal\_invertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur l'opérateur de recherche d'inversion (directe).
-	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur la concaténation des opérateurs de recherche d'ajour et d'inversion (directe).
+	\item metaheuristicLocal\_addAndInvertItem $\longrightarrow$ Créé une liste de voisins d'une solution, basé sur la concaténation des opérateurs de recherche d'ajout et d'inversion (directe).
 \end{itemize}
 
 \comp{MetaheuristicTabou}{100}{99.9}{Oui}{OK}
@@ -390,12 +401,100 @@ Les fonctions suivantes concernent la recherche taboue:
 		\item aspiration $\longrightarrow$ Un booléen représentant l'utilisation ou non de l'aspiration.
 	\end{itemize}
 	\item metaheuristicTabou\_getNeighbourFromMovement $\longrightarrow$ Duplique une solution puis lui applique un mouvement.
-	\item metaheuristicTabou\_getMovements $\longrightarrow$ Renvoi la liste de toutes les permutations possibles.
+	\item metaheuristicTabou\_getMovements $\longrightarrow$ Renvoie la liste de toutes les permutations possibles.
 \end{itemize}
 
 \comp{MetaheuristicGenetic}{100}{99.9}{?}{OK}
+Ce fichier comporte une structure Population permettant de regrouper plusieurs solution en tant que "génération". Celle-ci contient les propriétées suivantes:
+\begin{itemize}
+	\item people $\longrightarrow$ Une liste de pointeur sur les membres de cette population.
+	\item maxSize $\longrightarrow$ La taille maximum de la population.
+	\item size $\longrightarrow$ La taille actuelle de la population.\\
+\end{itemize}
 
-\comp{MetaheuristicKaguya}{100}{0}{?}{?}
+Les fonctions suivantes lui sont associées:
+\begin{itemize}
+	\item population\_create $\longrightarrow$ Permet de créer une population sur le tas.
+	\item population\_destroy $\longrightarrow$ Détruit une population pécédemment créée par population\_create.
+	\item population\_append $\longrightarrow$ Ajoute une solution dans la population si il reste de la place.
+	\item population\_getBest $\longrightarrow$ Renvoie la meilleure solution de la population.
+	\item population\_getWorst $\longrightarrow$ Renvoie la pire solution de la population.
+	\item population\_duplicate $\longrightarrow$ Duplique une solution sur le tas.
+	\item population\_replace $\longrightarrow$ Remplace une solution par une autre dans une population.
+	\item population\_remove $\longrightarrow$ Retire une solution d'une population.
+	\item population\_evaluate $\longrightarrow$ Calcule le score de la population (somme des scores des solutions).\\
+\end{itemize}
+
+Les fonctions de la méta-heuristique sont:
+\begin{itemize}
+	\item metaheuristicGenetic\_search $\longrightarrow$ Permet de lancer la recherche génétique. Les paramètres ajoutés sont:
+	\begin{itemize}
+		\item solutionType $\longrightarrow$ Le type de la solution à créer (directe ou indirecte).`
+		\item populationSize $\longrightarrow$ La taille des populations.
+		\item mutationProbability $\longrightarrow$ La Probabilité de mutation.
+		\item maxIterations $\longrightarrow$ Le nombre de générations à créer.
+		\item styleNaturalSelection $\longrightarrow$ Le style de sélection naturelle à utiliser.
+		\item styleParentSelection $\longrightarrow$ Le style de selection des parents à utiliser.
+	\end{itemize}
+	\item metaheuristicGenetic\_selectParents $\longrightarrow$ Sélectionne le mode d'élection des parents parmi les méthodes "selectParents" suivantes.
+	\item metaheuristicGenetic\_selectParentsFight $\longrightarrow$ Sélectionne les deux parents selon une méthode de combat. Deux paires de combattants sont choisis aléatoirement dans la population. Les meilleurs de chaque paire sont désignés comme parents.
+	\item metaheuristicGenetic\_selectParentsRoulette $\longrightarrow$ Sélectionne les deux parents selon une méthode totalement aléatoire. Chaque individu a une probabilité d'être sélectionné égal au pourcentage de sa valeur parmi la valeur totale de la population.
+	\item metaheuristicGenetic\_breedChildren $\longrightarrow$ Sélectionne le mode de création des enfants parmi les méthodes breedChildren" suivantes.
+	\item metaheuristicGenetic\_breedChildrenPMX $\longrightarrow$ Créé deux enfants à partir des deux parents selon la méthode PMX (uniquement pour les solutions indirectes).
+	\item metaheuristicGenetic\_breedChildren1Point $\longrightarrow$ Créé deux enfants à partir des deux parents selon la méthode de croisement en 1 point (uniquement pour les solutions directes).
+	\item metaheuristicGenetic\_mutation $\longrightarrow$ Permet de faire muter une solution.
+	\item metaheuristicGenetic\_naturalSelection $\longrightarrow$ Sélectionne le mode de remplacement de l'ancienne génération par la nouvelle parmi les méthodes "naturalSelection" suivantes.
+	\item metaheuristicGenetic\_naturalSelectionGeneration $\longrightarrow$ Remplace simplement la totalité de l'ancienne génération par la nouvelle.
+	\item metaheuristicGenetic\_naturalSelectionElitist $\longrightarrow$ Remplace l'ancienne génération par les meilleurs individus des ancienne et nouvelle populations réunies.
+	\item metaheuristicGenetic\_naturalSelectionBalanced $\longrightarrow$ Remplace l'ancienne génération par les 50\% meilleurs individus de l'ancienne génération les 50\% meilleurs de la nouvelle.
+\end{itemize}
+
+\comp{MetaheuristicKaguya}{100}{30}{?}{?}
+A la suite des méta-heuristiques présentées lors des TDs, il nous a été demandé de proposer notre propre méta-heuristiques. Nous avons nommé celle-ci Kague (metaheuristicKaguya), du plus ancien conte japonnais retrouvé. Celle-ci part d'une solution où tous les items sont présents, puis tente d'en retirer certain.
+Nous essayons de traiter tous les cas possibles mais cela demande énormément de ressource. Pour palier à cette contrainte, deux optimisations sont apportées : une nouvelle structure ClanMember représente un solution de manière simplifiée, économisant de l'espace mémoire, et nous stoppons le processus de génération pour une solution dès que celle-ci est réalisable.
+
+Cette méta-heuristique peut être intéressante pour les sacs contenant beaucoup d'items dans leur solution optimale, mais s'avère dangereuse si ce n'est pas le cas. Nous avons tenté plusieurs tests cependant, le temps de résolution et la place prise en mémoire excessivement importants du au grand nombre de cas explorés nous ont empêché d'avancer plus loin avec cette méta-heuristique telle qu'elle. [Un début de résolution de ce problème a été ajouté mais, bien qu'optimisant l'espace mémoire, ne diminue pas le temps d'exécution]
+
+La cause des soucis précédemment évoqués est la présence de doublons parmi nos solutions. En effet, un sac plein auquel on enlèverait les items 2 et 3 est identique à un sac privé des items 3 et 2. Afin de palier à ce problème de duplicatas, nous avons pensé à créer une table de hashage qui permettrait de chercher et d'éliminer les duplicatas de manière plus efficace (parcourir une liste de 900 000 solutions est toujours mieux qu'une de 90 000 000). Malheureusement, ce système ne put être achevé dans le temps imparti bien qu'une ébauche puisse être trouvée dans les fichiers metaheuristiqueKaguyaTemp.
+
+Parlons maintenant du fichier metaheuristiqueKaguya en lui-même : deux structures sont présentes. La première est ClanMember et représente une séquence d'items à retirer afin d'effectuer une solution. Ses propriétés sont:
+\begin{itemize}
+	\item DNA $\longrightarrow$ Un tableau d'int représentant les items à retirer.
+	\item dilution $\longrightarrow$ Le nombre d'items à retirer (indiquant dans le même temps de la génération du membre).\\
+\end{itemize}
+
+Les fonctions lui étant associées sont:
+\begin{itemize}
+	\item clanMember\_ancestor $\longrightarrow$ Créé un "membre originel" dont l'ADN est vide, représentant donc une solution où tous les items de l'instance seraient pris dans le sac. 
+	\item clanMember\_destroy $\longrightarrow$ Détruit un membre.
+	\item clanMember\_generation $\longrightarrow$ Créé tous leurs enfants du membre en ajoutant à l'ADN de celui-ci un des items encore non enlevés.
+	\item clanMember\_duplicate $\longrightarrow$ Duplique un membre sur le tas.
+	\item clanMember\_doable $\longrightarrow$ Vérifie si un membre représente une solution réalisable.
+	\item clanMember\_toSolution $\longrightarrow$ Crée une solution à partir d'un membre.
+	\item clanMember\_evaluate $\longrightarrow$ Fonction objectif appliqué à un membre. En réalité, celle-ci commence par créer la solution associée, l'évalue puis la détruit.
+	\item cleanMember\_equals $\longrightarrow$ Vérifie l'égalité de deux membres (Retirer les objets 2 et 3 revient au même que de retirer les objets 3 et 2).\\
+\end{itemize}
+
+
+La deuxième est Clan et représente un ensemble de plusieurs membres. Ses propriétés sont:
+\begin{itemize}
+	\item instance $\longrightarrow$ Un pointeur sur l'instance concernée.
+	\item type $\longrightarrow$ Le type de solution à créer (seul DIRECT est possible pour le moment).
+	\item size $\longrightarrow$ Le nombre de membres dans le clan.
+	\item people $\longrightarrow$ Une liste de pointeurs sur les différents membres.\\
+\end{itemize}
+
+Les fonctions lui étant associées sont:\begin{itemize}
+	\item clan\_create $\longrightarrow$ Crée un clan sur le tas.
+	\item clan\_append $\longrightarrow$ Ajoute un membre à un clan.
+	\item clan\_remove $\longrightarrow$ Retire un membre d'un clan.
+	\item clan\_generation $\longrightarrow$ Génère les enfants de chacun des membres du clan.
+	\item clan\_dispertion $\longrightarrow$ Trouve les membres représentant des solutions réalisables et les envoie dans le clan réservé aux solutions faisables afin de ne pas générer d'enfants moins bons que le parent.
+	\item clan\_extinction $\longrightarrow$ Détruit un clan et renvoie le meilleur des membres.
+	\\
+\end{itemize}
+
+La seule fonction de la méta-heuristique pour le moment est metaheuristicKaguya\_search et permet de lancer la recherche. Le seul paramètre pour le moment est le type de solution à créer (seul DIRECT est supporté pour le moment).
 
 %--------------------------------------------------------------------------------
 \chapter*{Conclusion}
@@ -404,7 +503,9 @@ Les fonctions suivantes concernent la recherche taboue:
 
 \label{sec:conclusion}
 
+Ce projet fut une bonne et très intéressante expérience. Le problème en lui-même est assez concret, ce qui permet d'en assimiler les enjeux et difficultés rapidement.
 
+Nous avons eu un départ assez rapide et avons trouvé une heuristique qui avait d'assez bons résultats. Cependant nous avons ralenti sur la fin ce qui nous a empêché de faire tourner l'algorithme sur de vrai données afin d'interpréter les résultats. De plus la méta-heuristique inventée est probablement à revoir car elle explore énormément de résultats et prend par conséquent un temps d'exécution trop important.
 
 
 %--------------------------------------------------------------------------------
@@ -419,7 +520,7 @@ Les fonctions suivantes concernent la recherche taboue:
 %--------------------------------------------------------------------------------
 %page du dos de couverture :
 
-\resume{Projet ayant pour objectif la réalisation d'un algorithme cherchant des solutions au problème du sac à dos multidimentionel.}
+\resume{Projet ayant pour objectif la réalisation d'un algorithme cherchant des solutions au problème du sac à dos multidimensionnel.}
 
 \motcles{sac à dos, algorithme, C, heuristique, metaheuristique, parser, directe, indirecte}
 

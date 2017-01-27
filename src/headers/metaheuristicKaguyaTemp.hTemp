@@ -7,14 +7,22 @@ typedef struct
 {
 	int * DNA;
 	int dilution;
+	int index;
 } ClanMember;
+
+typedef struct
+{
+	int nbLists;
+	int * sizes;
+	ClanMember *** hashed;
+} HashTable;
 
 typedef struct
 {
 	Instance * instance;
 	SolutionType type;
 	
-	ClanMember ** people;
+	HashTable * hashTable;
 	int size;
 } Clan;
 
@@ -48,9 +56,9 @@ void clan_append(Clan * clan, ClanMember * clanMember);
  * Remove the ClanMember at the given index.
  *
  * @param clan A pointer to the clan.
- * @param index The index of the ClanMember to remove.
+ * @param member A pointer to the ClanMember to remove.
  */
-void clan_remove(Clan * clan, int index);
+void hashed_remove(HashTable * table, ClanMember * member);
 
 /**
  * Create the default ClanMember.
@@ -90,25 +98,25 @@ ClanMember * clanMember_duplicate(ClanMember * clanMember);
  * @param index The index of the ClanMember to test.
  * @return 1 if doable, 0 else.
  */
-int clanMember_doable(Clan * clan, int index);
+int clanMember_doable(Clan * clan, ClanMember * member);
 
 /**
  * Turn a ClanMember into a solution.
  *
  * @param clan A pointer to the Clan.
- * @param index The index of the ClanMember to transform.
+ * @param member A pointer to the ClanMember to transform.
  * @return A pointer to the solution corresponding.
  */
-Solution * clanMember_toSolution(Clan * clan, int index);
+Solution * clanMember_toSolution(Clan * clan, ClanMember * member);
 
 /**
  * Evaluate a ClanMember.
  *
  * @param clan A pointer to the Clan.
- * @param index The index of the ClanMember to evaluate.
+ * @param member A pointer to the ClanMember to evaluate.
  * @return The score for the ClanMember.
  */
-int clanMember_evaluate(Clan * clan, int index);
+int clanMember_evaluate(Clan * clan, ClanMember * member);
 
 /**
  * Create a new generation for the clan.
@@ -141,5 +149,13 @@ Solution * clan_extinction(Clan * clan);
  * @return 1 if they are the same, 0 else.
  */
 int cleanMember_equals(ClanMember * m1, ClanMember * m2);
+
+HashTable * hashed_create(int maxSize);
+
+int hashed_getIndex(HashTable * table, ClanMember * member);
+
+int hashed_contains(HashTable * table, ClanMember * member);
+
+void hashed_append(HashTable * table, ClanMember * member);
 
 #endif

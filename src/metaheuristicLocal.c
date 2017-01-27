@@ -99,15 +99,15 @@ Solution ** metaheuristicLocal_swapItem(Solution * currentSolution, int * neighb
 {
 	Solution ** neighbourSolutions = NULL;
 	
+	//TODO Comment
 	for(int i = 0; i < currentSolution->solutions.indirect->instance->itemsCount; i++)
-	{
 		for(int j = i + 1; j < currentSolution->solutions.indirect->instance->itemsCount; j++)
 		{
 			Solution * neighbourSolution = solution_duplicate(currentSolution);
 			
-			int tempo = solutionIndirect_getItemIndex(neighbourSolution->solutions.indirect, i);
+			int indexSwap = solutionIndirect_getItemIndex(neighbourSolution->solutions.indirect, i);
 			neighbourSolution->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(neighbourSolution->solutions.indirect, j);
-			neighbourSolution->solutions.indirect->itemsOrder[j] = tempo;
+			neighbourSolution->solutions.indirect->itemsOrder[j] = indexSwap;
 			
 			solutionIndirect_decode(neighbourSolution->solutions.indirect);
 			if(solution_doable(neighbourSolution))
@@ -119,7 +119,6 @@ Solution ** metaheuristicLocal_swapItem(Solution * currentSolution, int * neighb
 			else
 				solution_destroy(neighbourSolution);
 		}
-	}
 	
 	return neighbourSolutions;
 }
@@ -128,8 +127,8 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 {
 	Solution ** neighbourSolutions = NULL;
 	
+	//TODO Comment
 	for(int i = 0; i < currentSolution->instance->itemsCount; i++)
-	{
 		if(currentSolution->solutions.direct->itemsTaken[i] == 0)
 		{
 			Solution * neighbourSolution = solution_duplicate(currentSolution);
@@ -144,7 +143,6 @@ Solution ** metaheuristicLocal_addItem(Solution * currentSolution, int * neighbo
 			else
 				solution_destroy(neighbourSolution);
 		}
-	}
 	return neighbourSolutions;
 }
 
@@ -152,8 +150,8 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 {
 	Solution ** neighbourSolutions = NULL;
 	
+	//TODO Comment
 	for(int i = 0; i < currentSolution->solutions.direct->instance->itemsCount; i++)
-	{
 		if(currentSolution->solutions.direct->itemsTaken[i])
 		{
 			for(int j = 0; j < currentSolution->solutions.direct->instance->itemsCount; j++)
@@ -177,7 +175,6 @@ Solution ** metaheuristicLocal_invertItem(Solution * currentSolution, int * neig
 				}
 			}
 		}
-	}
 	return neighbourSolutions;
 }
 

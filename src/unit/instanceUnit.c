@@ -17,11 +17,6 @@ void instanceTests()
 	
 	Instance * instance;
 	MMALLOC(instance, Instance, 1, NULL);
-	instance_initialize(instance, 0, 0);
-	if(instance->items != NULL || instance->maxWeights != NULL)
-		unit_error("ASSERT INSTANCE 2");
-	if(instance_getItem(instance, 2) != NULL)
-		unit_error("ASSERT INSTANCE 3");
 	instance_initialize(instance, 3, 3);
 	instance_setMaxWeights(instance, weights);
 	if(instance->items == NULL || instance_item_getValue(instance, 2) != 0)

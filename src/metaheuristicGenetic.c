@@ -24,6 +24,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 	while(i < maxIterations)
 	{
 		Population * childPopulation = population_create(populationMaxSize);
+		// Génération de tous les enfants
 		for(int j = 0; j < populationMaxSize / 2; j++)
 		{
 			Solution * parent1 = NULL;
@@ -49,6 +50,7 @@ Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutio
 				solution_destroy(bestSolution);
 				bestSolution = solution_duplicate(childPopulation->people[j]);
 			}
+			// Si la mutation se produit
 			if(mutationProbability > (float) (rand()) / RAND_MAX)
 			{
 				metaheuristicGenetic_mutation(childPopulation->people[j]);
@@ -208,11 +210,13 @@ void metaheuristicGenetic_selectParentsFight(Population * population, Solution *
 			fighter4 = fighter;
 	}
 	
+	//TODO Comment
 	if(solution_evaluate(population->people[fighter1]) > solution_evaluate(population->people[fighter2]))
 		*parent1 = population->people[fighter1];
 	else
 		*parent1 = population->people[fighter2];
 	
+	//TODO Comment
 	if(solution_evaluate(population->people[fighter3]) > solution_evaluate(population->people[fighter4]))
 		*parent2 = population->people[fighter3];
 	else
@@ -275,13 +279,14 @@ void metaheuristicGenetic_breedChildren(Solution * parent1, Solution * parent2, 
 void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent2, Solution ** child1, Solution ** child2)
 {
 	int cut1 = (rand() % (parent1->solutions.indirect->instance->itemsCount - 2)) + 1;
-	int cut2 = rand() % parent2->solutions.indirect->instance->itemsCount;
+	int cut2 = -1;
 	while(cut2 <= cut1)
 		cut2 = rand() % parent2->solutions.indirect->instance->itemsCount;
 	
 	*child1 = solution_fromIndirect(solutionIndirect_create(parent1->solutions.indirect->instance));
 	*child2 = solution_fromIndirect(solutionIndirect_create(parent2->solutions.indirect->instance));
 	
+	// Au dessus de la première coupure et au dessous de la deuxième, on recopie l'ordre des items
 	for(int i = 0; i < parent1->instance->itemsCount; i++)
 		if(i < cut1 || i >= cut2)
 		{
@@ -289,6 +294,7 @@ void metaheuristicGenetic_breedChildrenPMX(Solution * parent1, Solution * parent
 			(*child2)->solutions.indirect->itemsOrder[i] = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
 		}
 	
+	// Entre les coupures, on prend l'item du parent inversé. Si l'item est déjà dans l'enfant, on regarde l'item au même index dans le parent d'origine ( et ainsi de suite si ce nouvel item est lui aussi déjà pris).
 	for(int i = cut1; i < cut2; i++)
 	{
 		int item = solutionIndirect_getItemIndex(parent2->solutions.indirect, i);
@@ -310,23 +316,27 @@ void metaheuristicGenetic_breedChildren1Point(Solution * parent1, Solution * par
 	*child1 = solution_fromDirect(solutionDirect_create(parent1->instance));
 	*child2 = solution_fromDirect(solutionDirect_create(parent2->instance));
 	
+	// On recopie les items (pris ou non) tels quels au dessus de la coupure
 	for(int i = 0; i < cut; i++)
 	{
 		(*child1)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent2->solutions.direct, i);
 		(*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
 	}
 	
+	// On recopie les items (pris ou non) du parent inversé au dessous de la coupure
 	for(int i = cut; i < parent1->instance->itemsCount; i++)
 	{
 		(*child1)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent1->solutions.direct, i);
 		(*child2)->solutions.direct->itemsTaken[i] = solutionDirect_isItemTaken(parent2->solutions.direct, i);
 		
+		// Si l'enfant n'est pas faisable, on ne prend pas l'objet courrant quelle que soit sa situation dans le parent
 		if(!solution_doable(*child1))
 			(*child1)->solutions.direct->itemsTaken[i] = 0;
 		if(!solution_doable(*child2))
 			(*child2)->solutions.direct->itemsTaken[i] = 0;
 	}
 	
+	// En rementant l'enfant, on essaie de placer les items qui pourraient potentiellement rentrer
 	for(int i = parent1->instance->itemsCount - 1; i >= 0; i--)
 	{
 		if(!solutionDirect_isItemTaken((*child1)->solutions.direct, i))
@@ -352,14 +362,18 @@ void metaheuristicGenetic_mutation(Solution * child)
 	{
 		case DIRECT:
 			index = rand() % child->instance->itemsCount;
+			//On change un 1 en 0 ou l'inverse
 			child->solutions.direct->itemsTaken[index] = abs(child->solutions.direct->itemsTaken[index] - 1);
 			break;
 		
 		case INDIRECT:
+			// On prend un index aléatoirement
 			index = rand() % child->instance->itemsCount;
+			// On prend un index aléatoirement mais plus grand que le premier
 			int indexEnd = index + rand() % (child->instance->itemsCount - index);
 			
 			int object = -1;
+			// Place l'objet à sa nouvelle place et décale les autres si nécessaire
 			for(int i = 0; i < child->instance->itemsCount; i++)
 			{
 				if(i == index)
@@ -409,6 +423,7 @@ Population * metaheuristicGenetic_naturalSelectionElitist(Population * populatio
 	Solution * worst = population_getWorst(newPopulation);
 	
 	int i = 0;
+	//Pour chaque enfant, on le compare à la pire solution de la nouvelle population et le substitue à celle-ci s'il lui supérieur
 	while(i < childPopulation->size)
 	{
 		if(solution_evaluate(childPopulation->people[i]) > solution_evaluate(worst))
@@ -427,9 +442,11 @@ Population * metaheuristicGenetic_naturalSelectionBalanced(Population * populati
 	Population * newPopulation = population_duplicate(population);
 	Population * newPopulationChild = population_duplicate(childPopulation);
 	
+	//Pour un nombre d'itérations égal à la moitier de la taille de la population, on enleve la pire solution
 	while(newPopulation->size > newPopulation->maxSize / 2)
 		population_remove(newPopulation, population_getWorst(newPopulation));
 	
+	//Pour un nombre d'itérations égal à la moitier de la taille de la population, on enleve la pire solution
 	while(newPopulationChild->size > newPopulationChild->maxSize / 2)
 		population_remove(newPopulationChild, population_getWorst(newPopulationChild));
 	
