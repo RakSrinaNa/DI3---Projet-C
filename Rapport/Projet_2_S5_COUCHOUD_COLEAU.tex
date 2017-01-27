@@ -12,6 +12,7 @@
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
+\everymath{\displaystyle}
 \lstset{
   language=XML,
   morekeywords={element,category,encoding,
@@ -161,8 +162,17 @@ Intéressons-nous au dossier src, son contenu est:
 	\item MetaheuristiqueTabou $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la méta-heuristique tabou et contenant la structure Tabou.
 	\item MetaheuristiqueGenetic $\longrightarrow$ Regroupant les fonctions liées aux différents algorithmes pour la méta-heuristique génétique et contenant la structure Population.
 	\item MetaheuristicKaguya $\longrightarrow$ Regroupant les fonctions liées à notre méta-heuristique personnelle (contenant les structures Clan, ClanMember et DNA).
-	\item \item MetaheuristicKaguyaTemp $\longrightarrow$ Regroupant les fonctions liées à notre méta-heuristique personnelle (contenant les structures Clan, ClanMember et DNA) en phase de reconception.
+	\item MetaheuristicKaguyaTemp $\longrightarrow$ Regroupant les fonctions liées à notre méta-heuristique personnelle (contenant les structures Clan, ClanMember et DNA) en phase de reconception.
 \end{itemize}
+
+\section{Macros}
+Vous pourrez trouver tout au long du projet des macros MMALLOC et RREALLOC. Celles-ci permettent l'allocation (ou réallocation) sur le tas d'une variable puis de vérifier cette allocation. La définition de cette macro est présente dans utils.h. Les paramètres sont:
+	\begin{itemize}
+		\item Le pointer à malloc/realloc.
+		\item Le type à allouer.
+		\item La quantité de ce type à allouer.
+		\item Un message d'erreur en cas d'échec.
+	\end{itemize}
 
 \chapter{Explication des fichiers}
 Nous allons maintenant décrire brièvement les différentes fonctions contenues dans chaque fichier. Plus d'informations sont disponibles dans la doc des headers, notamment concernant les retours spéciaux (comme '-1' si un index n'est pas trouvé ou autres).
