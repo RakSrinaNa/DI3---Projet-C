@@ -9,7 +9,7 @@
 #include "headers/metaheuristicTabou.h"
 #include "headers/metaheuristicGenetic.h"
 
-int main(int argc, char * argv[]) //TODO Comment
+int main(int argc, char * argv[])
 {
 	if(argc >= 4)
 	{
@@ -155,6 +155,6 @@ int main(int argc, char * argv[]) //TODO Comment
 			parser_destroy(parser);
 		}
 	}
-	
+
 	return 0;
 }

@@ -9,13 +9,13 @@ Bag * bag_create(Instance * instance)
 	Bag * bag;
 	MMALLOC(bag, Bag, 1, "bag_create");
 	MMALLOC(bag->weights, int, instance->dimensionsNumber, "bag_create");
-	
+
 	bag->items = NULL;
 	bag->itemsCount = 0;
-	
+
 	for(int i = 0; i < instance->dimensionsNumber; i++)
 		bag->weights[i] = 0;
-	
+
 	return bag;
 }
 
@@ -33,17 +33,17 @@ void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 	(bag->itemsCount)++;
 	RREALLOC(bag->items, int, bag->itemsCount, "bag_appendItem");
 	bag->items[bag->itemsCount - 1] = itemIndex;
-	
-	for(int i = 0; i < instance->dimensionsNumber; i++) //TODO Comment
+
+	for(int i = 0; i < instance->dimensionsNumber; i++) //Ajoute dans le sac l'item et donc ses poids dans chaque dimension
 		bag_addWeight(bag, i, instance_item_getWeight(instance, itemIndex, i));
 }
 
 int bag_canContain(Instance * instance, Bag * bag, int itemIndex)
 {
 	for(int i = 0; i < instance->dimensionsNumber; i++)
-		if(bag_getWeight(bag, i) + instance_item_getWeight(instance, itemIndex, i) > instance_getMaxWeight(instance, i))  //TODO Comment
+		if(bag_getWeight(bag, i) + instance_item_getWeight(instance, itemIndex, i) > instance_getMaxWeight(instance, i))  //Vérifie pour chaque dimension si le poids déjà dans le sac plus celui du noouvel item ne dépassent pas la limite du sac
 			return 0;
-	
+
 	return 1;
 }
 
