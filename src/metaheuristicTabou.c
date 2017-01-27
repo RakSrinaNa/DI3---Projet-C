@@ -27,32 +27,32 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 {
 	struct timeb timeStart, timeEnd;
 	ftime(&timeStart);
-	
+
 	Solution * currentSolution = heuristic_search(instance, solutionType, 5);
 	Solution * bestSolution = solution_duplicate(currentSolution);
-	
+
 	int scoreBest = solution_evaluate(bestSolution);
-	
+
 	Tabou * tabou = tabou_create(tabouMax);
-	
+
 	int i = 0;
-	
+
 	while(i < iterationMax)
 	{
 		int scoreBestNeighbour = 0;
 		int movementsCount = 0;
-		
+
 		Movement ** movementsPossible = metaheuristicTabou_getMovements(currentSolution, &movementsCount);
-		
+
 		Solution * bestNeighbourSolution = NULL;
-		
+
 		Movement * usefulMovement = NULL;
-		
+
 		for(int j = 0; j < movementsCount; j++)
 			if(!tabou_isMovementTabou(tabou, movementsPossible[j]) || aspiration)
 			{
 				Solution * neighbourSolution = metaheuristicTabou_getNeighbourFromMovement(currentSolution, movementsPossible[j]);
-				
+
 				if(!tabou_isMovementTabou(tabou, movementsPossible[j]))
 				{
 					int tempScore = solution_evaluate(neighbourSolution);
@@ -60,7 +60,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
-						
+
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = tempScore;
 						usefulMovement = movement_duplicate(movementsPossible[j]);
@@ -74,7 +74,7 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					{
 						solution_destroy(bestNeighbourSolution);
 						free(usefulMovement);
-						
+
 						bestNeighbourSolution = solution_duplicate(neighbourSolution);
 						scoreBestNeighbour = tempScore;
 						usefulMovement = movement_duplicate(movementsPossible[j]);
@@ -82,9 +82,9 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					solution_destroy(neighbourSolution);
 				}
 			}
-		
+
 		int scoreCurrent = scoreBestNeighbour;
-		
+
 		if(bestNeighbourSolution != NULL)
 		{
 			solution_destroy(currentSolution);
@@ -93,27 +93,27 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 		solution_destroy(bestNeighbourSolution);
 		if(usefulMovement != NULL)
 			tabou_appendMovement(tabou, usefulMovement);
-		
+
 		if(scoreCurrent > scoreBest)
 		{
 			scoreBest = scoreCurrent;
 			solution_destroy(bestSolution);
 			bestSolution = solution_duplicate(currentSolution);
-			
+
 			i = 0;
 		}
 		i++;
-		
+
 		for(int k = 0; k < movementsCount; k++)
 			free(movementsPossible[k]);
 		free(movementsPossible);
 	}
 	solution_destroy(currentSolution);
 	tabou_destroy(tabou);
-	
+
 	ftime(&timeEnd);
 	bestSolution->solveTime = solution_getTimeDiff(timeStart, timeEnd);
-	
+
 	return bestSolution;
 }
 
@@ -121,12 +121,12 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 {
 	Movement ** movements = NULL;
 	int pos = 0;
-	
+
 	switch(solution->type)
 	{
 		case DIRECT:
-			
-			//TODO Comment
+
+			//Génére tous les mouvements possibles par double boucle
 			for(int i = 0; i < solution->instance->itemsCount; i++)
 				for(int j = 0; j < solution->instance->itemsCount; j++)
 				{
@@ -140,10 +140,10 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 				}
 			*movementCount = pos;
 			break;
-		
+
 		case INDIRECT:
-			
-			//TODO Comment
+
+			//Génére tous les mouvements possibles par double boucle
 			for(int i = 0; i < solution->instance->itemsCount; i++)
 				for(int j = i + 1; j < solution->instance->itemsCount; j++)
 				{
@@ -158,7 +158,7 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 			*movementCount = pos;
 			break;
 	}
-	
+
 	return movements;
 }
 
@@ -188,7 +188,7 @@ void tabou_appendMovement(Tabou * tabou, Movement * movement)
 	}
 	else
 		free(tabou->movements[tabou->changes % tabou->size]);
-	
+
 	tabou->movements[tabou->changes % tabou->max] = movement;
 	tabou->changes++;
 }
@@ -202,11 +202,11 @@ void movement_applyMovement(Solution * solution, Movement * movement)
 			tempo = solution->solutions.direct->itemsTaken[movement->a];
 			solution->solutions.direct->itemsTaken[movement->a] = solution->solutions.direct->itemsTaken[movement->b];
 			solution->solutions.direct->itemsTaken[movement->b] = tempo;
-			
+
 			break;
-		
+
 		case INDIRECT:
-			
+
 			for(int i = 0; i < solution->instance->itemsCount; i++)
 			{
 				if(solution->solutions.indirect->itemsOrder[i] == movement->a)
@@ -231,9 +231,9 @@ Movement * movement_duplicate(Movement * movement)
 {
 	Movement * newMovement;
 	MMALLOC(newMovement, Movement, 1, "movement_duplicate");
-	
+
 	newMovement->a = movement->a;
 	newMovement->b = movement->b;
-	
+
 	return newMovement;
 }
