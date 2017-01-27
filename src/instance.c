@@ -11,7 +11,10 @@ void instance_initialize(Instance * instance, int itemsCount, int dimensionsCoun
 	instance->items = NULL;
 	instance->maxWeights = NULL;
 	if(instance->dimensionsNumber <= 0 || instance->itemsCount <= 0)
-		return;
+	{
+		perror("Instance with no dimensions or items");
+		exit(EXIT_FAILURE);
+	}
 	MMALLOC(instance->items, Item, instance->itemsCount, "instance_initialize");
 	for(int i = 0; i < instance->itemsCount; i++)
 		item_initialize((instance->items) + i, instance->dimensionsNumber);

@@ -29,7 +29,7 @@ Solution * heuristic_search(Instance * instance, SolutionType solutionType, int 
 		{
 			
 			bag_appendItem(instance, bag, itemIndex);
-			if(list != NULL && (schedulerType == 3 || schedulerType == 5) && listCount > 0)
+			if(list != NULL && (schedulerType == 3 || schedulerType == 5) && listCount > 0) //TODO Comment
 			{
 				int * listToFree = list;
 				list = heuristic_getList(instance, bag, schedulerType, list, listCount);

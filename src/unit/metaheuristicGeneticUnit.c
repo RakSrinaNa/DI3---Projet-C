@@ -4,7 +4,7 @@
 #include "../headers/metaheuristicTabou.h"
 #include "../headers/parser.h"
 
-void metaheuristicGeneticTests() //TODO
+void metaheuristicGeneticTests()
 {
 	Instance * instance = parser_readAllFile("MKP-Instances/theBestBag2.txt");
 	populationTests(instance);

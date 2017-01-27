@@ -49,7 +49,6 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 		Movement * usefulMovement = NULL;
 		
 		for(int j = 0; j < movementsCount; j++)
-		{
 			if(!tabou_isMovementTabou(tabou, movementsPossible[j]) || aspiration)
 			{
 				Solution * neighbourSolution = metaheuristicTabou_getNeighbourFromMovement(currentSolution, movementsPossible[j]);
@@ -83,7 +82,6 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 					solution_destroy(neighbourSolution);
 				}
 			}
-		}
 		
 		int scoreCurrent = scoreBestNeighbour;
 		
@@ -106,13 +104,11 @@ Solution * metaheuristicTabou_search(Instance * instance, SolutionType solutionT
 		}
 		i++;
 		
-		//Clean the house
 		for(int k = 0; k < movementsCount; k++)
 			free(movementsPossible[k]);
 		free(movementsPossible);
 	}
 	solution_destroy(currentSolution);
-	//Clean the house
 	tabou_destroy(tabou);
 	
 	ftime(&timeEnd);
@@ -130,6 +126,7 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 	{
 		case DIRECT:
 			
+			//TODO Comment
 			for(int i = 0; i < solution->instance->itemsCount; i++)
 				for(int j = 0; j < solution->instance->itemsCount; j++)
 				{
@@ -146,6 +143,7 @@ Movement ** metaheuristicTabou_getMovements(Solution * solution, int * movementC
 		
 		case INDIRECT:
 			
+			//TODO Comment
 			for(int i = 0; i < solution->instance->itemsCount; i++)
 				for(int j = i + 1; j < solution->instance->itemsCount; j++)
 				{

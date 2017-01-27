@@ -125,9 +125,7 @@ Solution * clanMember_toSolution(Clan * clan, int index)
 		case DIRECT:
 			solution = solution_full(clan->instance, clan->type);
 			for(int i = 0; i < clan->people[index]->dilution; i++)
-			{
 				solution->solutions.direct->itemsTaken[clan->people[index]->DNA[i]] = 0;
-			}
 			break;
 
 		case INDIRECT:
@@ -164,14 +162,12 @@ void clan_generation(Clan * clan)
 		{
 			case DIRECT:
 				for(int j = 0; j < clan->instance->itemsCount; j++)
-				{
 					// Si l'indice courrant n'est pas dans l'ADN du membre, on le rajoute
 					if(!clanMember_isInDNA(clan->people[i], j))
 					{
 						ClanMember * heir = clanMember_generation(clan->people[i], j);
 						clan_append(clan, heir);
 					}
-				}
 				break;
 
 			case INDIRECT:
@@ -185,14 +181,12 @@ void clan_generation(Clan * clan)
 void clan_dispertion(Clan * clan, Clan * descendants)
 {
 	for(int i = 0; i < clan->size; i++)
-	{
 		if(clanMember_doable(clan, i))
 		{
 			clan_append(descendants, clanMember_duplicate(clan->people[i]));
 			clan_remove(clan, i);
 			i--;
 		}
-	}
 }
 
 void clan_destroy(Clan * clan)

@@ -27,7 +27,7 @@ typedef struct
  *  - 1: Selection by quality of parents
  * @return A pointer to the best solution the metaheuristic found.
  */
-Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations, int styleNaturalSelection, int styleParentSelection); //TODO Unit
+Solution * metaheuristicGenetic_search(Instance * instance, SolutionType solutionType, int populationSize, float mutationProbability, int maxIterations, int styleNaturalSelection, int styleParentSelection);
 
 /**
  * Creates a population structure.

@@ -34,14 +34,14 @@ void bag_appendItem(Instance * instance, Bag * bag, int itemIndex)
 	RREALLOC(bag->items, int, bag->itemsCount, "bag_appendItem");
 	bag->items[bag->itemsCount - 1] = itemIndex;
 	
-	for(int i = 0; i < instance->dimensionsNumber; i++)
+	for(int i = 0; i < instance->dimensionsNumber; i++) //TODO Comment
 		bag_addWeight(bag, i, instance_item_getWeight(instance, itemIndex, i));
 }
 
 int bag_canContain(Instance * instance, Bag * bag, int itemIndex)
 {
 	for(int i = 0; i < instance->dimensionsNumber; i++)
-		if(bag_getWeight(bag, i) + instance_item_getWeight(instance, itemIndex, i) > instance_getMaxWeight(instance, i))
+		if(bag_getWeight(bag, i) + instance_item_getWeight(instance, itemIndex, i) > instance_getMaxWeight(instance, i))  //TODO Comment
 			return 0;
 	
 	return 1;
